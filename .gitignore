@@ -1,9 +1,20 @@
-# OS
+# Environment variables & secrets
+.env
+.env.local
+.env.production
+*.env
+
+# Node modules
+node_modules/
+package-lock.json
+
+# OS files
 .DS_Store
 Thumbs.db
 
 # IDE
 .vscode/
+.idea/
 .cursor/
 .cursorignore
 .cursorrules
@@ -11,18 +22,18 @@ Thumbs.db
 # Claude
 .claude/
 
-# Node
-node_modules/
-package-lock.json
-
 # Python
 __pycache__/
 *.pyc
 .venv/
 
-# Environment
-.env
-.env.local
+# Logs
+*.log
+
+# Build outputs
+dist/
+build/
+.next/
 
 # Legacy
 openclaw-immo/
