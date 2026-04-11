@@ -1,0 +1,250 @@
+{
+  "name": "Adjointe IA — SMS Entrant",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Webhook Twilio SMS",
+      "type": "n8n-nodes-base.webhook",
+      "position": [250, 300],
+      "parameters": {
+        "path": "sms-entrant",
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      },
+      "notes": "Twilio envoie: From, To, Body, MessageSid"
+    },
+    {
+      "id": "2",
+      "name": "Chercher Client",
+      "type": "n8n-nodes-base.supabase",
+      "position": [450, 300],
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "clients",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telephone",
+              "condition": "eq",
+              "keyValue": "={{$json.From}}"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "notes": "Cherche le client par numero de telephone"
+    },
+    {
+      "id": "3",
+      "name": "Client Existe?",
+      "type": "n8n-nodes-base.if",
+      "position": [650, 300],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json.length > 0}}",
+              "value2": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4a",
+      "name": "Charger Historique",
+      "type": "n8n-nodes-base.supabase",
+      "position": [850, 200],
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "conversations",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "client_id",
+              "condition": "eq",
+              "keyValue": "={{$json[0].id}}"
+            }
+          ]
+        },
+        "sort": { "field": "created_at", "direction": "asc" },
+        "limit": 20
+      },
+      "notes": "Route: client existe"
+    },
+    {
+      "id": "4b",
+      "name": "Creer Client",
+      "type": "n8n-nodes-base.supabase",
+      "position": [850, 400],
+      "parameters": {
+        "operation": "create",
+        "tableId": "clients",
+        "fieldsUi": {
+          "fieldValues": [
+            { "fieldName": "nom_complet", "fieldValue": "Nouveau prospect" },
+            { "fieldName": "telephone", "fieldValue": "={{$json.From}}" },
+            { "fieldName": "canal_contact", "fieldValue": "sms" },
+            { "fieldName": "statut", "fieldValue": "nouveau" }
+          ]
+        }
+      },
+      "notes": "Route: nouveau client"
+    },
+    {
+      "id": "5",
+      "name": "Sauvegarder Message Entrant",
+      "type": "n8n-nodes-base.supabase",
+      "position": [1050, 300],
+      "parameters": {
+        "operation": "create",
+        "tableId": "conversations",
+        "fieldsUi": {
+          "fieldValues": [
+            { "fieldName": "client_id", "fieldValue": "={{$json.client_id}}" },
+            { "fieldName": "canal", "fieldValue": "sms" },
+            { "fieldName": "direction", "fieldValue": "entrant" },
+            { "fieldName": "message", "fieldValue": "={{$json.Body}}" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "6",
+      "name": "Appeler Claude API",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1250, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key", "value": "={{$env.ANTHROPIC_API_KEY}}" },
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "model", "value": "claude-sonnet-4-6" },
+            { "name": "max_tokens", "value": 1024 },
+            { "name": "system", "value": "={{$json.system_prompt}}" },
+            { "name": "messages", "value": "={{$json.messages}}" }
+          ]
+        }
+      },
+      "notes": "Envoie le message au cerveau IA"
+    },
+    {
+      "id": "7",
+      "name": "Parser Reponse",
+      "type": "n8n-nodes-base.code",
+      "position": [1450, 300],
+      "parameters": {
+        "jsCode": "const responseText = $input.first().json.content[0].text;\n\nconst result = { clientMessage: responseText, action: null };\nconst jsonMatch = responseText.match(/```json\\n([\\s\\S]*?)\\n```/);\nif (jsonMatch) {\n  try {\n    result.action = JSON.parse(jsonMatch[1]);\n    result.clientMessage = responseText.replace(/```json\\n[\\s\\S]*?\\n```/, '').trim();\n  } catch (e) {}\n}\n\nreturn [{ json: result }];"
+      }
+    },
+    {
+      "id": "8",
+      "name": "Envoyer SMS Reponse",
+      "type": "n8n-nodes-base.twilio",
+      "position": [1650, 300],
+      "parameters": {
+        "operation": "send",
+        "from": "={{$env.TWILIO_PHONE_NUMBER}}",
+        "to": "={{$json.client_telephone}}",
+        "message": "={{$json.clientMessage}}"
+      }
+    },
+    {
+      "id": "9",
+      "name": "Sauvegarder Reponse",
+      "type": "n8n-nodes-base.supabase",
+      "position": [1850, 300],
+      "parameters": {
+        "operation": "create",
+        "tableId": "conversations",
+        "fieldsUi": {
+          "fieldValues": [
+            { "fieldName": "client_id", "fieldValue": "={{$json.client_id}}" },
+            { "fieldName": "canal", "fieldValue": "sms" },
+            { "fieldName": "direction", "fieldValue": "sortant" },
+            { "fieldName": "message", "fieldValue": "={{$json.clientMessage}}" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "10",
+      "name": "Action Detectee?",
+      "type": "n8n-nodes-base.if",
+      "position": [2050, 300],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json.action !== null}}",
+              "value2": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "11",
+      "name": "Mettre a jour Fiche + Notifier",
+      "type": "n8n-nodes-base.code",
+      "position": [2250, 200],
+      "parameters": {
+        "jsCode": "// Mettre a jour le client dans Supabase\n// Envoyer notification au courtier\n// Planifier relances\n// (voir sms_handler.js pour la logique detaillee)"
+      },
+      "notes": "Route: action creer_fiche detectee"
+    },
+    {
+      "id": "12",
+      "name": "Repondre Twilio OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [2250, 400],
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "<Response></Response>",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              { "name": "Content-Type", "value": "text/xml" }
+            ]
+          }
+        }
+      },
+      "notes": "Twilio attend une reponse TwiML vide"
+    }
+  ],
+  "connections": {
+    "1": { "main": [[{ "node": "2", "type": "main", "index": 0 }]] },
+    "2": { "main": [[{ "node": "3", "type": "main", "index": 0 }]] },
+    "3": {
+      "main": [
+        [{ "node": "4a", "type": "main", "index": 0 }],
+        [{ "node": "4b", "type": "main", "index": 0 }]
+      ]
+    },
+    "4a": { "main": [[{ "node": "5", "type": "main", "index": 0 }]] },
+    "4b": { "main": [[{ "node": "5", "type": "main", "index": 0 }]] },
+    "5": { "main": [[{ "node": "6", "type": "main", "index": 0 }]] },
+    "6": { "main": [[{ "node": "7", "type": "main", "index": 0 }]] },
+    "7": { "main": [[{ "node": "8", "type": "main", "index": 0 }]] },
+    "8": { "main": [[{ "node": "9", "type": "main", "index": 0 }]] },
+    "9": { "main": [[{ "node": "10", "type": "main", "index": 0 }]] },
+    "10": {
+      "main": [
+        [{ "node": "11", "type": "main", "index": 0 }],
+        [{ "node": "12", "type": "main", "index": 0 }]
+      ]
+    },
+    "11": { "main": [[{ "node": "12", "type": "main", "index": 0 }]] }
+  }
+}
