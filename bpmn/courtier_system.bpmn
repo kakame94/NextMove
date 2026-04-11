@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+             xmlns:dr="http://www.omg.org/spec/DD/20050524/DI" 
+             xmlns:dc="http://www.omg.org/spec/DD/20050524/DC" 
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             targetNamespace="http://bpmn.io/schema/bpmn" 
+             id="Definition_1">
+  
+  <collaboration id="Collaboration_1" name="Collaboration - Mise à jour Courtier">
+    <participant id="Participant_CRM" name="CRM (Système de gestion)" processRef="Process_CRM" />
+    <participant id="Participant_CoverGo" name="CoverGo (Plateforme collective)" processRef="Process_CoverGo" />
+    <participant id="Participant_PYSI" name="Party Service Interface (PYSI)" processRef="Process_PYSI" />
+    <participant id="Participant_EventHub" name="Azure Event Hub" processRef="Process_EventHub" />
+    <participant id="Participant_BL" name="Business Logic" processRef="Process_BL" />
+    <participant id="Participant_AzureB2C" name="Azure B2C (Authentification)" processRef="Process_B2C" />
+    <participant id="Participant_ZEN" name="ZEN (Calcul des commissions)" processRef="Process_ZEN" />
+    <participant id="Participant_EDLA" name="EDLA (Data Lake)" processRef="Process_EDLA" />
+    
+    <!-- Message flows between participants -->
+    <messageFlow id="MF_CRM_to_PYSI" sourceRef="Task_SendToPYSI_CRM" targetRef="PYSI_Start_FromCRM" name="Requête de mise à jour courtier (CRM → PYSI)" messageRef="Message_UpdateRequest" />
+    <messageFlow id="MF_PYSI_to_EH" sourceRef="Evt_Throw_BrokerChanged" targetRef="EH_Start_FromPYSI" name="Événement courtier changé" messageRef="Message_BrokerChanged" />
+    <messageFlow id="MF_EH_to_BL" sourceRef="Task_SendToBL" targetRef="BL_Start_FromEH" name="Événement courtier changé" messageRef="Message_BrokerChanged" />
+    <messageFlow id="MF_BL_to_EH" sourceRef="BL_End_PublishUpdate" targetRef="EH_Start_FromBL" name="Événement courtier mis à jour" messageRef="Message_BrokerUpdated" />
+    <messageFlow id="MF_EH_to_CRM" sourceRef="Task_SendToCRM" targetRef="CRM_Start_ReceiveUpdate" name="Événement courtier mis à jour" messageRef="Message_BrokerUpdated" />
+    <messageFlow id="MF_EH_to_CoverGo" sourceRef="Task_SendToCoverGo" targetRef="CG_Start_FromEH" name="Événement courtier mis à jour" messageRef="Message_BrokerUpdated" />
+    <messageFlow id="MF_EH_to_B2C" sourceRef="Task_SendToB2C" targetRef="B2C_Start_FromEH" name="Événement courtier mis à jour" messageRef="Message_BrokerUpdated" />
+    <messageFlow id="MF_EH_to_ZEN" sourceRef="Task_SendToZEN" targetRef="ZEN_Start_FromEH" name="Événement courtier mis à jour" messageRef="Message_BrokerUpdated" />
+    <messageFlow id="MF_EH_to_PYSI" sourceRef="Task_SendToPYSI" targetRef="PYSI_Start_FromBL" name="Événement courtier mis à jour" messageRef="Message_BrokerUpdated" />
+    <messageFlow id="MF_EH_to_EDLA" sourceRef="Task_SendToEDLA" targetRef="EDLA_Start_FromEH" name="Événement courtier mis à jour" messageRef="Message_BrokerUpdated" />
+  </collaboration>
+  
+  <message id="Message_UpdateRequest" name="Requête de mise à jour courtier" />
+  <message id="Message_BrokerChanged" name="Événement courtier changé" />
+  <message id="Message_BrokerUpdated" name="Événement courtier mis à jour" />
+  
+  <process id="Process_CRM" name="Processus CRM" isExecutable="false">
+    <laneSet id="LaneSet_CRM" name="CRM Lanes">
+      <lane id="Lane_CRM_User" name="Utilisateur CRM">
+        <flowNodeRef>CRM_Start_Modification</flowNodeRef>
+        <flowNodeRef>Task_EnterChanges_CRM</flowNodeRef>
+      </lane>
+      <lane id="Lane_CRM_System" name="CRM (Système)">
+        <flowNodeRef>Task_SendToPYSI_CRM</flowNodeRef>
+        <flowNodeRef>CRM_End_AfterSend</flowNodeRef>
+        <flowNodeRef>CRM_Start_ReceiveUpdate</flowNodeRef>
+        <flowNodeRef>Task_updateCRM_Data</flowNodeRef>
+        <flowNodeRef>CRM_End_AfterReceive</flowNodeRef>
+      </lane>
+    </laneSet>
+    
+    <startEvent id="CRM_Start_Modification" name="Début - Courtier modifié dans CRM" />
+    <userTask id="Task_EnterChanges_CRM" name="Saisir les modifications du courtier (CRM)" />
+    <sendTask id="Task_SendToPYSI_CRM" name="Appeler API PYSI (mise à jour courtier)" messageRef="Message_UpdateRequest" />
+    <endEvent id="CRM_End_AfterSend" name="Fin mise à jour (CRM participant)" />
+    <startEvent id="CRM_Start_ReceiveUpdate" name="Début - Événement de mise à jour reçu">
+      <messageEventDefinition messageRef="Message_BrokerUpdated" />
+    </startEvent>
+    <serviceTask id="Task_updateCRM_Data" name="Mettre à jour le courtier dans CRM (Dataverse)" />
+    <endEvent id="CRM_End_AfterReceive" name="Fin réception mise à jour CRM" />
+    
+    <!-- Sequence flows -->
+    <sequenceFlow id="Flow_CRM_1" sourceRef="CRM_Start_Modification" targetRef="Task_EnterChanges_CRM" />
+    <sequenceFlow id="Flow_CRM_2" sourceRef="Task_EnterChanges_CRM" targetRef="Task_SendToPYSI_CRM" />
+    <sequenceFlow id="Flow_CRM_3" sourceRef="Task_SendToPYSI_CRM" targetRef="CRM_End_AfterSend" />
+    <sequenceFlow id="Flow_CRM_4" sourceRef="CRM_Start_ReceiveUpdate" targetRef="Task_updateCRM_Data" />
+    <sequenceFlow id="Flow_CRM_5" sourceRef="Task_updateCRM_Data" targetRef="CRM_End_AfterReceive" />
+  </process>
+  
+  <process id="Process_CoverGo" name="Processus CoverGo" isExecutable="false">
+    <startEvent id="CG_Start_FromEH" name="Début - Événement courtier mis à jour reçu" />
+    <serviceTask id="Task_Update_CG" name="Mettre à jour le courtier dans CoverGo" />
+    <endEvent id="CG_End" name="Fin mise à jour CoverGo" />
+    
+    <sequenceFlow id="Flow_CG_1" sourceRef="CG_Start_FromEH" targetRef="Task_Update_CG" />
+    <sequenceFlow id="Flow_CG_2" sourceRef="Task_Update_CG" targetRef="CG_End" />
+  </process>
+  
+  <process id="Process_PYSI" name="Processus PYSI" isExecutable="false">
+    <startEvent id="PYSI_Start_FromCRM" name="Début - Reçu requête MAJ (CRM)">
+      <messageEventDefinition messageRef="Message_UpdateRequest" />
+    </startEvent>
+    <serviceTask id="Task_updateDB_PYSI" name="Mettre à jour le courtier dans PYSI (BD MongoDB)" />
+    <intermediateThrowEvent id="Evt_Throw_BrokerChanged" name="Événement courtier changé">
+      <messageEventDefinition messageRef="Message_BrokerChanged" />
+    </intermediateThrowEvent>
+    <endEvent id="PYSI_End_AfterPublish" name="Fin après publication événement" />
+    <startEvent id="PYSI_Start_FromBL" name="Début - Événement de mise à jour reçu (BL)">
+      <messageEventDefinition messageRef="Message_BrokerUpdated" />
+    </startEvent>
+    <serviceTask id="Task_UpdateDB_PYSI_Again" name="Mettre à jour le courtier dans PYSI (après règles BL)" />
+    <endEvent id="PYSI_End_AfterUpdate" name="Fin mise à jour PYSI" />
+    
+    <sequenceFlow id="Flow_PYSI_1" sourceRef="PYSI_Start_FromCRM" targetRef="Task_updateDB_PYSI" />
+    <sequenceFlow id="Flow_PYSI_2" sourceRef="Task_updateDB_PYSI" targetRef="Evt_Throw_BrokerChanged" />
+    <sequenceFlow id="Flow_PYSI_3" sourceRef="Evt_Throw_BrokerChanged" targetRef="PYSI_End_AfterPublish" />
+    <sequenceFlow id="Flow_PYSI_4" sourceRef="PYSI_Start_FromBL" targetRef="Task_UpdateDB_PYSI_Again" />
+    <sequenceFlow id="Flow_PYSI_5" sourceRef="Task_UpdateDB_PYSI_Again" targetRef="PYSI_End_AfterUpdate" />
+  </process>
+  
+  <process id="Process_EventHub" name="Process Event Hub" isExecutable="false">
+    <startEvent id="EH_Start_FromPYSI" name="Début - Événement courtier changé reçu" />
+    <sendTask id="Task_SendToBL" name="Transmettre l'événement à Business Logic" messageRef="Message_BrokerChanged" />
+    <endEvent id="EH_End_ToBL" name="Fin acheminement BL" />
+    <startEvent id="EH_Start_FromBL" name="Début - Événement courtier mis à jour reçu">
+      <messageEventDefinition messageRef="Message_BrokerUpdated" />
+    </startEvent>
+    <parallelGateway id="Gateway_EH_Fork" />
+    <sendTask id="Task_SendToCRM" name="Diffuser l'événement vers CRM" messageRef="Message_BrokerUpdated" />
+    <sendTask id="Task_SendToCoverGo" name="Diffuser l'événement vers CoverGo" messageRef="Message_BrokerUpdated" />
+    <sendTask id="Task_SendToB2C" name="Diffuser l'événement vers Azure B2C" messageRef="Message_BrokerUpdated" />
+    <sendTask id="Task_SendToZEN" name="Diffuser l'événement vers ZEN" messageRef="Message_BrokerUpdated" />
+    <sendTask id="Task_SendToPYSI" name="Diffuser l'événement vers PYSI" messageRef="Message_BrokerUpdated" />
+    <sendTask id="Task_SendToEDLA" name="Diffuser l'événement vers EDLA" messageRef="Message_BrokerUpdated" />
+    <parallelGateway id="Gateway_EH_Join" />
+    <endEvent id="EH_End_AfterBroadcast" name="Fin diffusion événement" />
+    
+    <sequenceFlow id="Flow_EH_1" sourceRef="EH_Start_FromPYSI" targetRef="Task_SendToBL" />
+    <sequenceFlow id="Flow_EH_2" sourceRef="Task_SendToBL" targetRef="EH_End_ToBL" />
+    <sequenceFlow id="Flow_EH_3" sourceRef="EH_Start_FromBL" targetRef="Gateway_EH_Fork" />
+    <sequenceFlow id="Flow_EH_4" sourceRef="Gateway_EH_Fork" targetRef="Task_SendToCRM" />
+    <sequenceFlow id="Flow_EH_5" sourceRef="Gateway_EH_Fork" targetRef="Task_SendToCoverGo" />
+    <sequenceFlow id="Flow_EH_6" sourceRef="Gateway_EH_Fork" targetRef="Task_SendToB2C" />
+    <sequenceFlow id="Flow_EH_7" sourceRef="Gateway_EH_Fork" targetRef="Task_SendToZEN" />
+    <sequenceFlow id="Flow_EH_8" sourceRef="Gateway_EH_Fork" targetRef="Task_SendToPYSI" />
+    <sequenceFlow id="Flow_EH_9" sourceRef="Gateway_EH_Fork" targetRef="Task_SendToEDLA" />
+    <sequenceFlow id="Flow_EH_10" sourceRef="Task_SendToCRM" targetRef="Gateway_EH_Join" />
+    <sequenceFlow id="Flow_EH_11" sourceRef="Task_SendToCoverGo" targetRef="Gateway_EH_Join" />
+    <sequenceFlow id="Flow_EH_12" sourceRef="Task_SendToB2C" targetRef="Gateway_EH_Join" />
+    <sequenceFlow id="Flow_EH_13" sourceRef="Task_SendToZEN" targetRef="Gateway_EH_Join" />
+    <sequenceFlow id="Flow_EH_14" sourceRef="Task_SendToPYSI" targetRef="Gateway_EH_Join" />
+    <sequenceFlow id="Flow_EH_15" sourceRef="Task_SendToEDLA" targetRef="Gateway_EH_Join" />
+    <sequenceFlow id="Flow_EH_16" sourceRef="Gateway_EH_Join" targetRef="EH_End_AfterBroadcast" />
+  </process>
+  
+  <process id="Process_BL" name="Process Business Logic" isExecutable="false">
+    <startEvent id="BL_Start_FromEH" name="Début - Événement courtier changé" />
+    <serviceTask id="Task_ApplyRules_BL" name="Appliquer les règles d'affaires" />
+    <endEvent id="BL_End_PublishUpdate" name="Fin - Événement courtier mis à jour envoyé" />
+    
+    <sequenceFlow id="Flow_BL_1" sourceRef="BL_Start_FromEH" targetRef="Task_ApplyRules_BL" />
+    <sequenceFlow id="Flow_BL_2" sourceRef="Task_ApplyRules_BL" targetRef="BL_End_PublishUpdate" />
+  </process>
+  
+  <process id="Process_B2C" name="Processus Azure B2C" isExecutable="false">
+    <startEvent id="B2C_Start_FromEH" name="Début - Événement courtier mis à jour reçu" />
+    <serviceTask id="Task_Update_B2C" name="Mettre à jour les informations d'authentification" />
+    <endEvent id="B2C_End" name="Fin mise à jour B2C" />
+    
+    <sequenceFlow id="Flow_B2C_1" sourceRef="B2C_Start_FromEH" targetRef="Task_Update_B2C" />
+    <sequenceFlow id="Flow_B2C_2" sourceRef="Task_Update_B2C" targetRef="B2C_End" />
+  </process>
+  
+  <process id="Process_ZEN" name="Processus ZEN" isExecutable="false">
+    <startEvent id="ZEN_Start_FromEH" name="Début - Événement courtier mis à jour reçu" />
+    <serviceTask id="Task_Update_ZEN" name="Recalculer les commissions" />
+    <endEvent id="ZEN_End" name="Fin mise à jour ZEN" />
+    
+    <sequenceFlow id="Flow_ZEN_1" sourceRef="ZEN_Start_FromEH" targetRef="Task_Update_ZEN" />
+    <sequenceFlow id="Flow_ZEN_2" sourceRef="Task_Update_ZEN" targetRef="ZEN_End" />
+  </process>
+  
+  <process id="Process_EDLA" name="Processus EDLA" isExecutable="false">
+    <startEvent id="EDLA_Start_FromEH" name="Début - Événement courtier mis à jour reçu" />
+    <serviceTask id="Task_Update_EDLA" name="Archiver les données dans le Data Lake" />
+    <endEvent id="EDLA_End" name="Fin archivage EDLA" />
+    
+    <sequenceFlow id="Flow_EDLA_1" sourceRef="EDLA_Start_FromEH" targetRef="Task_Update_EDLA" />
+    <sequenceFlow id="Flow_EDLA_2" sourceRef="Task_Update_EDLA" targetRef="EDLA_End" />
+  </process>
+</definitions>
