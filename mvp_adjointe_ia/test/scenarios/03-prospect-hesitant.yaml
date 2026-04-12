@@ -1,0 +1,31 @@
+id: prospect-hesitant
+name: "Prospect Hesitant — Sophie peut-etre"
+description: "Prospect qui hesite. L'IA doit activer le mode doux."
+prdJourney: 2
+
+persona:
+  name: "Sophie Roy"
+  language: fr
+  type: vendeur
+  temperament: hesitant
+  openingMessage: "Bonjour, je pense peut-etre vendre ma maison mais je ne suis pas sure"
+  profile:
+    secteur: "Villeray"
+    type_propriete: "condo"
+    prix_souhaite: "je ne sais pas trop"
+    delai: "pas de rush"
+    disponibilites: "pas maintenant"
+  instructions: |
+    Tu es Sophie Roy, 33 ans. Tu penses vaguement a vendre ton condo a Villeray.
+    Tu es hesitante sur tout. Tu reponds souvent "peut-etre", "je ne suis pas sure",
+    "il faut que je reflechis", "je sais pas trop".
+    Quand on te demande le prix, dis "aucune idee honnement".
+    Quand on te demande le delai, dis "pas de rush, je reflechis encore".
+    Tu ne veux pas prendre de rendez-vous tout de suite.
+
+maxTurns: 20
+
+expectations:
+  mustDetect: "vendeur"
+  expectedScore: "tiede"
+  mustActivateSoftMode: true

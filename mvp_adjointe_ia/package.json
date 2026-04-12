@@ -1,0 +1,15 @@
+{
+  "name": "adjointe-ia-courtier-tests",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Conversation quality tests for Adjointe IA du Courtier Immobilier",
+  "scripts": {
+    "test": "node test/run.js",
+    "test:scenario": "node test/run.js --scenario",
+    "test:quick": "node test/run.js --scenario 01-happy-path-acheteur"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "js-yaml": "^4.1.0"
+  }
+}

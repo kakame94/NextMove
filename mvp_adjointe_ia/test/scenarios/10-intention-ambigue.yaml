@@ -1,0 +1,25 @@
+id: intention-ambigue
+name: "Intention Ambigue — ni acheteur ni vendeur clair"
+description: "Prospect avec intention floue. L'IA doit poser la question explicitement."
+prdJourney: 10
+
+persona:
+  name: "Alex Morin"
+  language: fr
+  type: inconnu
+  temperament: vague
+  openingMessage: "Salut, je m'interesse a l'immobilier dans le coin de Montreal"
+  profile:
+    secteur: "Montreal"
+  instructions: |
+    Tu es Alex Morin, 30 ans. Tu t'interesses vaguement a l'immobilier.
+    Tu ne dis PAS si tu veux acheter ou vendre.
+    Si on te demande directement "acheter ou vendre?", reponds "acheter".
+    Avant ca, reste vague: "je regarde ce qui se fait", "je m'informe".
+    Apres avoir dit acheter, coopere normalement.
+
+maxTurns: 20
+
+expectations:
+  mustAskExplicitly: true
+  mustDetect: "acheteur"

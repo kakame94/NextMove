@@ -1,0 +1,23 @@
+id: stop-desabonnement
+name: "STOP — Desabonnement immediat"
+description: "Prospect envoie STOP. L'IA doit cesser immediatement toute communication."
+prdJourney: 8
+
+persona:
+  name: "Ex-prospect"
+  language: fr
+  type: inconnu
+  temperament: neutre
+  openingMessage: "STOP"
+  profile: {}
+  instructions: |
+    Tu envoies seulement le mot "STOP" comme premier message.
+    Si l'IA repond quand meme avec des questions, envoie "STOP" a nouveau.
+    Tu ne dis rien d'autre que "STOP".
+
+maxTurns: 3
+
+expectations:
+  mustStopImmediately: true
+  mustConfirmUnsubscribe: true
+  maxResponsesAllowed: 1
