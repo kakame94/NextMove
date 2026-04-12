@@ -1,0 +1,591 @@
+{
+  "name": "next_move_intake_agent_v2",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "com.twilio.messaging.inbound-message.received"
+        ]
+      },
+      "id": "e189af10-316c-402b-ae09-c5a4940d8cb9",
+      "name": "Wait for Text Response",
+      "type": "n8n-nodes-base.twilioTrigger",
+      "position": [
+        -3344,
+        1568
+      ],
+      "webhookId": "128ba8ce-d358-4c25-9094-760619c97a9e",
+      "typeVersion": 1,
+      "credentials": {
+        "twilioApi": {
+          "id": "mgpqsMa0wm6Pq6XS",
+          "name": "Twilio Eliot account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "4dffd5d2-f53d-4b19-b386-efb1eb3dd8df",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "position": [
+        -2672,
+        1664
+      ],
+      "webhookId": "789f5ae5-c8b6-4dac-ae55-363b23cc2d9a",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.data.body }}",
+        "options": {
+          "systemMessage": "Tu es l'adjointe administrative virtuelle de Joanel, courtier immobilier specialise en plex dans le Grand Montreal.\n\nREGLE DE LANGUE ABSOLUE:\n- Detecte la langue du PREMIER message du client dans l'historique\n- Une fois la langue detectee, MAINTIENS cette meme langue pour TOUTE la conversation\n- Ne change JAMAIS de langue en cours de conversation meme si le client melange\n- Si premier message en anglais -> tout en anglais\n- Si premier message en francais -> tout en francais\n- En cas de doute au premier message -> francais par defaut\n\nAdaptation au rythme du client:\n- Si le client semble HESITANT (mots: peut-etre, je ne suis pas sure, je reflechis) utilise le mode doux: une seule question a la fois, ton rassurant, pas de pression\n- Si le client semble URGENT (mots: vite, urgent, divorce, demenagement, delai < 1 mois) utilise le mode raccourci: regroupe 2-3 questions par message, va a l'essentiel, skip les questions exploratoires\n\nTon role:\n- Accueillir chaleureusement les prospects par SMS\n- Detecter s'ils sont ACHETEUR ou VENDEUR\n- Collecter leurs informations de facon naturelle et conversationnelle\n- Qualifier le prospect (budget, financement, delai, zone)\n\nPour un ACHETEUR, tu dois collecter progressivement:\n1. Prenom et nom\n2. Type de bien recherche (plex, condo, maison)\n3. Zone geographique souhaitee\n4. Budget approximatif\n5. Statut de pre-qualification bancaire\n6. Mise de fonds disponible\n7. Proprietaire occupant ou investisseur\n8. Premier acheteur ou non\n9. Delai du projet\n10. Disponibilites pour les visites\n\nPour un VENDEUR, tu dois collecter:\n1. Prenom et nom\n2. Adresse du bien\n3. Type de bien\n4. Prix souhaite\n5. Raison et delai de vente\n6. Occupation actuelle\n\nTon ton:\n- Francais quebecois naturel et chaleureux ou anglais selon la langue detectee\n- Professionnel mais accessible\n- Tu tutois apres le premier echange en francais et reste au you en anglais\n- Tu poses UNE question a la fois. Ne pose pas une question dont la reponse est deja dans les messages precedents du prospect\n- Reponses courtes max 2-3 phrases par SMS\n- ABSOLUMENT ZERO emoji dans tes reponses. Pas de 😊 👍 🔥 🏠 ou autre. C'est une regle stricte.\n- PAS d'accents dans tes reponses\n- Ne commente JAMAIS la qualite du budget, du projet ou de la strategie du prospect. Pas de phrases comme \"c'est un excellent choix\", \"belle strategie\", \"bon budget\". Reste neutre et collecte les infos.\n- Ne re-demande JAMAIS une information que le prospect a deja donnee dans un message precedent. Si le prospect dit \"je cherche un triplex a Verdun\", tu sais deja le type de bien et la zone.\n\nSi le prospect pose une question complexe, dis-lui que Joanel va le rappeler personnellement.\n\nQuand tu as collecte TOUTES les informations necessaires (minimum 6 champs remplis pour un acheteur, 4 pour un vendeur), termine la conversation en disant que Joanel va prendre contact sous peu.\n\nRegles absolues:\n- Tu ne donnes JAMAIS de conseil sur les prix du marche, le financement,\n  les taux hypothecaires, ou les clauses contractuelles\n- Tu ne te presentes JAMAIS comme courtier ou professionnel reglemente\n- Tu es l'assistante administrative, pas une experte immobiliere\n- Tu ne fais JAMAIS de promesse sur les delais ou les resultats\n- Si on te demande un avis sur un prix ou un taux, reponds:\n  \"C'est le genre de question ou Joanel pourra mieux vous guider.\n  Je lui transmets!\"\n\nIMPORTANT: Quand tu as collecte toutes les infos, ton DERNIER message doit se terminer EXACTEMENT par le mot QUALIFIED sur une ligne separee. Ce mot est un signal technique, ne l'explique pas au client. Exemple:\n\nParfait, Joanel va te contacter dans les prochaines heures!\nQUALIFIED"
+        }
+      },
+      "id": "53ecc0f7-43a7-4570-b1ce-3b50ad365828",
+      "name": "Real Estate Qualifier",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        -2448,
+        1664
+      ],
+      "typeVersion": 1.6
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-sonnet-4-6",
+          "mode": "list",
+          "cachedResultName": "Claude Sonnet 4.6"
+        },
+        "options": {
+          "maxTokensToSample": 500
+        }
+      },
+      "id": "anthropic_model_1",
+      "name": "Anthropic Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "position": [
+        -2448,
+        1888
+      ],
+      "typeVersion": 1.3,
+      "credentials": {
+        "anthropicApi": {
+          "id": "A3nrWWi6DBLCLA61",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Wait for Text Response').item.json.data.from }}"
+      },
+      "id": "879f41da-4a3d-492a-8b09-f5f8e5bc9a68",
+      "name": "Postgres Chat Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "position": [
+        -2320,
+        1888
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "717941a7-5fbd-4256-9983-e766ef34b8bb",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              },
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "QUALIFIED"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2aa67f37-6e9f-4a30-91ce-ae9338413a1b",
+      "name": "Check if Conversation Completed",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        -2096,
+        1664
+      ],
+      "typeVersion": 2.3
+    },
+    {
+      "parameters": {
+        "from": "+12722825614",
+        "to": "={{ $('Wait for Text Response').item.json.data.from }}",
+        "message": "Merci beaucoup! Joanel va te contacter sous peu.",
+        "options": {}
+      },
+      "id": "c1d78c94-e4ac-44be-ac8f-957b338b89cb",
+      "name": "Thank Your Text",
+      "type": "n8n-nodes-base.twilio",
+      "position": [
+        -1872,
+        1472
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "twilioApi": {
+          "id": "mgpqsMa0wm6Pq6XS",
+          "name": "Twilio Eliot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "from": "+12722825614",
+        "to": "={{ $('Wait for Text Response').item.json.data.from }}",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "id": "b01e4aec-ce25-465d-97f0-e1b35e076249",
+      "name": "Response Text from Agent",
+      "type": "n8n-nodes-base.twilio",
+      "position": [
+        -1872,
+        1856
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "twilioApi": {
+          "id": "mgpqsMa0wm6Pq6XS",
+          "name": "Twilio Eliot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM n8n_chat_histories\nWHERE session_id = '{{ $('Wait for Text Response').item.json.data.from }}';\n",
+        "options": {}
+      },
+      "id": "b232d078-8780-490a-9389-e30eca969ec8",
+      "name": "Query Supabase for conversation history",
+      "type": "n8n-nodes-base.postgres",
+      "position": [
+        -1872,
+        1664
+      ],
+      "typeVersion": 2.6,
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "c18d8a47-f4df-419c-a904-c86b5418925c",
+      "name": "Combine Rows",
+      "type": "n8n-nodes-base.aggregate",
+      "position": [
+        -1648,
+        1664
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.data }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Genere deux champs: un transcript propre de la conversation et un resume des informations collectees sur le prospect (type de projet, zone, budget, delai, etc). Reponds en francais."
+        }
+      },
+      "id": "8cbed657-22f6-4c4a-bc62-c7e2bfe383de",
+      "name": "Summarize Transcript",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        -1424,
+        1664
+      ],
+      "typeVersion": 1.6
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "claude-sonnet-4-20250514"
+        },
+        "options": {
+          "maxTokensToSample": 1000
+        }
+      },
+      "id": "anthropic_model_2",
+      "name": "Anthropic Summarizer",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "position": [
+        -1424,
+        1888
+      ],
+      "typeVersion": 1.3,
+      "credentials": {
+        "anthropicApi": {
+          "id": "A3nrWWi6DBLCLA61",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"transcript\": \"transcript\",\n\t\"summary\": \"summary\"\n}"
+      },
+      "id": "7c2d3782-03d8-4f92-8b3f-9ad4bb080594",
+      "name": "Structured Output Parser1",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        -1296,
+        1888
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "from": "+12722825614",
+        "to": "+14506260481",
+        "message": "=Nouveau lead qualifie! Tel: {{ $('Wait for Text Response').item.json.From }}\n\nResume: {{ $json.output.summary }}",
+        "options": {}
+      },
+      "id": "50dbd5e4-3b38-4448-aa58-2e44974d9875",
+      "name": "Send Lead to owner",
+      "type": "n8n-nodes-base.twilio",
+      "position": [
+        -848,
+        1664
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "twilioApi": {
+          "id": "mgpqsMa0wm6Pq6XS",
+          "name": "Twilio Eliot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "or",
+          "conditions": [
+            {
+              "id": "stop1",
+              "leftValue": "={{ $json.data.body.trim().toLowerCase() }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "stop"
+            },
+            {
+              "id": "stop2",
+              "leftValue": "={{ $json.data.body.trim().toLowerCase() }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "arret"
+            },
+            {
+              "id": "stop3",
+              "leftValue": "={{ $json.data.body.trim().toLowerCase() }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "unsubscribe"
+            }
+          ],
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          }
+        },
+        "options": {}
+      },
+      "id": "07cdadc1-3450-4d7d-8856-ff145677a842",
+      "name": "Filtre STOP",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -3120,
+        1568
+      ]
+    },
+    {
+      "parameters": {
+        "from": "+12722825614",
+        "to": "={{ $('Wait for Text Response').item.json.data.from }}",
+        "message": "Vous avez ete desabonne. Vous ne recevrez plus de messages. Pour vous reabonner, ecrivez START.",
+        "options": {}
+      },
+      "id": "f9a7d6ba-d0a1-46f5-abe9-52a856506e0b",
+      "name": "Confirmer Desabonnement",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        -2896,
+        1472
+      ],
+      "credentials": {
+        "twilioApi": {
+          "id": "mgpqsMa0wm6Pq6XS",
+          "name": "Twilio Eliot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Dedup: check if this messageSid was already processed\nconst sid = $input.first().json?.data?.messageSid;\nif (!sid) return []; // no sid = skip\n\n// Pass through - the Wait node debounce handles timing\n// This node ensures we only process unique message IDs\nconst seen = $getWorkflowStaticData('global');\nif (seen[sid]) {\n  return []; // Already processed, skip\n}\nseen[sid] = Date.now();\n\n// Cleanup old entries (keep last 100)\nconst keys = Object.keys(seen);\nif (keys.length > 100) {\n  const oldest = keys.slice(0, keys.length - 100);\n  oldest.forEach(k => delete seen[k]);\n}\n\nreturn [$input.first()];"
+      },
+      "id": "dedup_check_1",
+      "name": "Dedup by messageSid",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2896,
+        1664
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO prospects (\n  canal_source,\n  statut,\n  telephone,\n  courtier_id,\n  type_projet,\n  score_chaleur,\n  nom,\n  prenom,\n  langue_preferee,\n  created_at,\n  updated_at\n)\nVALUES (\n  'sms',\n  'qualifie',\n  '={{ $(\\'Wait for Text Response\\').item.json.data.from }}',\n  (SELECT id FROM courtiers LIMIT 1),\n  CASE\n    WHEN LOWER('={{ $(\\'Summarize Transcript\\').item.json.output.summary }}') LIKE '%vendeur%' THEN 'vente'\n    ELSE 'achat'\n  END,\n  70,\n  'Prospect',\n  'SMS',\n  'fr',\n  NOW(),\n  NOW()\n)\nON CONFLICT (telephone)\nDO UPDATE SET\n  statut = 'qualifie',\n  score_chaleur = 70,\n  updated_at = NOW()\nRETURNING id, telephone, statut, created_at;",
+        "options": {}
+      },
+      "id": "upsert_prospect_1",
+      "name": "Upsert Prospect Supabase",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1072,
+        1664
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Real Estate Qualifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Real Estate Qualifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Real Estate Qualifier",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Real Estate Qualifier": {
+      "main": [
+        [
+          {
+            "node": "Check if Conversation Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if Conversation Completed": {
+      "main": [
+        [
+          {
+            "node": "Query Supabase for conversation history",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Thank Your Text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Response Text from Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Supabase for conversation history": {
+      "main": [
+        [
+          {
+            "node": "Combine Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Rows": {
+      "main": [
+        [
+          {
+            "node": "Summarize Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Summarizer": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarize Transcript",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Summarize Transcript",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Transcript": {
+      "main": [
+        [
+          {
+            "node": "Upsert Prospect Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Text Response": {
+      "main": [
+        [
+          {
+            "node": "Filtre STOP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtre STOP": {
+      "main": [
+        [
+          {
+            "node": "Confirmer Desabonnement",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Dedup by messageSid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dedup by messageSid": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsert Prospect Supabase": {
+      "main": [
+        [
+          {
+            "node": "Send Lead to owner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "4jPCKbGJ2Z55gNjF"
+  },
+  "versionId": "0d022ba1-8deb-4489-b6a4-9139f718ede7",
+  "meta": {
+    "instanceId": "fbdc46f6967bcea5c978441b9adadd69248126c91b779fcb090d3f9be9c21564"
+  },
+  "id": "nmmmJu6HRwq0nqyI",
+  "tags": []
+}
