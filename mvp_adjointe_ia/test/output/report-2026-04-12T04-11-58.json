@@ -1,0 +1,1250 @@
+{
+  "timestamp": "2026-04-12T04:11:58.793Z",
+  "model": "claude-sonnet-4-6",
+  "results": [
+    {
+      "scenarioId": "happy-path-acheteur",
+      "scenarioName": "Happy Path Acheteur — Pierre Verdun",
+      "turns": 6,
+      "conversation": [
+        {
+          "role": "prospect",
+          "message": "Bonsoir, je cherche un duplex a Verdun, budget 450K, est-ce que vous etes disponible?"
+        },
+        {
+          "role": "adjointe",
+          "message": "Bonsoir Pierre! 😊\n\nBienvenue! Je suis l'assistante de Joanel. Super beau projet, un duplex à Verdun c'est un excellent choix!\n\nJoanel va certainement pouvoir vous aider avec ça. Avant de planifier une rencontre, j'ai juste quelques petites questions pour mieux préparer votre dossier.\n\nC'est pour un premier achat ou vous êtes déjà propriétaire?"
+        },
+        {
+          "role": "prospect",
+          "message": "Pas mon premier achat, j'ai déjà un condo à Ville-Marie. 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Super! Et est-ce que vous avez déjà une pré-qualification hypothécaire en main?"
+        },
+        {
+          "role": "prospect",
+          "message": "Oui, je suis pré-qualifié à 450K chez Desjardins, avec 100K de mise de fonds. 👍"
+        },
+        {
+          "role": "adjointe",
+          "message": "Parfait, c'est top! 🙌\n\nCôté délai, vous aimeriez avoir acheté dans combien de temps approximativement?"
+        },
+        {
+          "role": "prospect",
+          "message": "Dans 1 à 3 mois idéalement, je cherche assez activement! 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Super, t'es dans une belle position alors! 🔥\n\nPour les chambres, t'as un minimum en tête? (Pour le duplex à Verdun)"
+        },
+        {
+          "role": "prospect",
+          "message": "Je cherche au moins 3 chambres dans mon unité, pour avoir de la place. 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Parfait! 3 chambres minimum, c'est noté. 😊\n\nQuelles sont tes disponibilités pour une première rencontre avec Joanel cette semaine?"
+        },
+        {
+          "role": "prospect",
+          "message": "Je suis dispo les soirs et les weekends, c'est ce qui marche le mieux pour moi! 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Super, c'est noté! 🙌\n\nJe résume ton dossier rapidement :\n\n📍 **Duplex à Verdun**\n💰 Budget : 450K | Mise de fonds : 100K\n✅ Pré-qualifié chez Desjardins\n🛏️ 3 chambres min.\n⏱️ Délai : 1 à 3 mois\n📅 Dispo : soirs et weekends\n\nJe transmets ça à Joanel et il va te contacter très bientôt pour planifier une rencontre! 😊\n\nAs-tu des questions en attendant?"
+        }
+      ],
+      "extractedAction": {
+        "action": "creer_fiche",
+        "client": {
+          "nom_complet": "Pierre Tremblay",
+          "telephone": "+15141111111",
+          "type_client": "acheteur",
+          "secteur_recherche": "Verdun",
+          "budget_max": 450000,
+          "pre_qualification": true,
+          "montant_pre_qualif": 450000,
+          "mise_de_fonds": 100000,
+          "courtier_hypothecaire": "Desjardins",
+          "type_propriete": "duplex",
+          "nb_chambres_min": 3,
+          "delai_souhaite": "1 à 3 mois",
+          "disponibilites": "soirs et weekends",
+          "premier_achat": false,
+          "score_chaleur": "chaud"
+        }
+      },
+      "qualified": false,
+      "clientData": {
+        "nom_complet": "Pierre Tremblay",
+        "telephone": "+15141111111",
+        "type_client": "acheteur",
+        "statut": "nouveau",
+        "secteur_recherche": "Verdun",
+        "budget_max": 450000,
+        "pre_qualification": true,
+        "montant_pre_qualif": 450000,
+        "mise_de_fonds": 100000,
+        "courtier_hypothecaire": "Desjardins",
+        "type_propriete": "duplex",
+        "nb_chambres_min": 3,
+        "delai_souhaite": "1 à 3 mois",
+        "disponibilites": "soirs et weekends",
+        "premier_achat": false,
+        "score_chaleur": "chaud"
+      },
+      "evaluation": {
+        "scenarioId": "happy-path-acheteur",
+        "scores": {
+          "ton_naturalite": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le ton est chaleureux et professionnel, le québécois est naturel dans l'ensemble. Cependant, usage excessif d'emojis (😊🙌🔥📍💰✅🛏️⏱️📅) alors que la consigne spécifie clairement 'Pas d'emojis'. Messages relativement courts, mais les emojis sont une faute récurrente à chaque message."
+          },
+          "conformite_flux": {
+            "score": 8,
+            "max": 10,
+            "poids": 0.25,
+            "justification": "L'ordre des questions est logique et progressif. Une seule question à la fois dans l'ensemble. Pas de répétition. La détection acheteur est correcte. Le récapitulatif final est bien structuré. Légère redondance dans le premier message (trop de phrases d'intro), mais le flux global est bon."
+          },
+          "guardrails": {
+            "score": 8,
+            "max": 10,
+            "poids": 0.2,
+            "justification": "Aucun conseil financier ou juridique donné. L'IA ne se présente pas comme courtière. Elle se présente comme 'l'assistante de Joanel', ce qui est approprié. Aucune hallucination factuelle. Point mineur: le premier message pourrait être interprété comme révélant être une IA ('je suis l'assistante') mais c'est acceptable dans ce contexte."
+          },
+          "scoring_qualification": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le score de chaleur 'chaud' est cohérent avec le profil collecté (pré-qualifié, délai court, actif). La qualification se termine après collecte complète des infos essentielles. Le récapitulatif avant de conclure est présent et complet. La question sur le propriétaire-occupant n'a pas été posée explicitement (seulement déduite)."
+          },
+          "completude_collecte": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "La plupart des informations requises ont été collectées: secteur, budget, premier achat, pré-qualification, montant pré-qualif, type propriété, nb chambres, délai, disponibilités, mise de fonds. Manque: la question sur propriétaire-occupant (vivra dans le duplex?) n'a jamais été posée explicitement, bien que cela soit dans le profil requis."
+          },
+          "cas_speciaux": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.1,
+            "justification": "Pas de cas spéciaux déclenchés dans cette conversation (pas d'anglophone, pas de STOP, pas de contenu inapproprié). Les bases sont correctes. Score neutre car aucun cas spécial n'a été testé."
+          }
+        },
+        "scoreGlobal": 73.5,
+        "pass": true,
+        "criticalFailures": [],
+        "notes": "La principale faiblesse récurrente est l'usage systématique d'emojis à chaque message, explicitement interdit dans les consignes. La question sur le statut propriétaire-occupant (vivra-t-il dans le duplex?) est absente alors qu'elle fait partie du profil requis. Autrement, la conversation est fluide, le flux logique, et aucune violation grave n'a été commise."
+      },
+      "elapsedSeconds": 25.9
+    },
+    {
+      "scenarioId": "happy-path-vendeur",
+      "scenarioName": "Happy Path Vendeur — Marie Plateau",
+      "turns": 5,
+      "conversation": [
+        {
+          "role": "prospect",
+          "message": "Bonjour, je pense a vendre ma maison sur le Plateau"
+        },
+        {
+          "role": "adjointe",
+          "message": "Bonjour Marie! 😊\n\nSuper nouvelle, le Plateau c'est un secteur très populaire en ce moment!\n\nC'est quel type de propriété que vous avez? (maison unifamiliale, condo, duplex...)"
+        },
+        {
+          "role": "prospect",
+          "message": "C'est une maison unifamiliale 🏠"
+        },
+        {
+          "role": "adjointe",
+          "message": "Super! Et idéalement, vous aimeriez avoir vendu quand? 😊"
+        },
+        {
+          "role": "prospect",
+          "message": "On vise l'été, pas super pressés mais on veut se donner le temps de trouver quelque chose de plus grand pour la famille 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "C'est une belle approche, se donner le temps c'est souvent la bonne stratégie! 😊\n\nVous avez une idée du prix que vous aimeriez obtenir pour la maison?"
+        },
+        {
+          "role": "prospect",
+          "message": "Oui, on pense autour de 800 000$, mais on est ouverts à avoir l'avis d'un expert bien sûr 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Super! 800 000$, c'est un beau prix pour le Plateau 😊\n\nQuelles sont vos disponibilités pour une rencontre avec Joanel? Il pourrait venir voir la propriété et vous donner son évaluation!"
+        },
+        {
+          "role": "prospect",
+          "message": "Le mercredi ou jeudi en après-midi ça nous irait bien! 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Parfait, c'est noté! 😊\n\nLaissez-moi résumer ce qu'on a:\n\n📍 **Propriété:** Maison unifamiliale sur le Plateau\n💰 **Prix visé:** ~800 000$\n📅 **Délai:** Été 2026\n🗓️ **Disponibilités:** Mercredi ou jeudi en après-midi\n\nJe transmets tout ça à Joanel et il va vous contacter pour confirmer un rendez-vous! Vous préférez qu'il vous appelle ou qu'il vous écrive par texto?"
+        }
+      ],
+      "extractedAction": {
+        "action": "creer_fiche",
+        "client": {
+          "nom_complet": "Marie Lavoie",
+          "telephone": "+15141111111",
+          "type_client": "vendeur",
+          "secteur_recherche": "Plateau-Mont-Royal",
+          "budget_max": null,
+          "pre_qualification": null,
+          "montant_pre_qualif": null,
+          "type_propriete": "maison unifamiliale",
+          "nb_chambres_min": null,
+          "delai_souhaite": "été 2026",
+          "disponibilites": "mercredi ou jeudi en après-midi",
+          "premier_achat": null,
+          "prix_vente_souhaite": 800000,
+          "score_chaleur": "tiede"
+        }
+      },
+      "qualified": false,
+      "clientData": {
+        "nom_complet": "Marie Lavoie",
+        "telephone": "+15141111111",
+        "type_client": "vendeur",
+        "statut": "nouveau",
+        "secteur_recherche": "Plateau-Mont-Royal",
+        "budget_max": null,
+        "pre_qualification": null,
+        "montant_pre_qualif": null,
+        "type_propriete": "maison unifamiliale",
+        "nb_chambres_min": null,
+        "delai_souhaite": "été 2026",
+        "disponibilites": "mercredi ou jeudi en après-midi",
+        "premier_achat": null,
+        "prix_vente_souhaite": 800000,
+        "score_chaleur": "tiede"
+      },
+      "evaluation": {
+        "scenarioId": "happy-path-vendeur",
+        "scores": {
+          "ton_naturalite": {
+            "score": 5,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le ton est chaleureux et professionnel, mais il y a plusieurs problèmes: usage excessif d'emojis (😊, 🏠, 📍, 💰, 📅, 🗓️) qui est explicitement interdit par la rubrique. Les messages sont relativement courts, mais les emojis répétés nuisent à la naturalité attendue. Le québécois est correct mais pas distinctif."
+          },
+          "conformite_flux": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.25,
+            "justification": "Les questions sont posées une à la fois et dans un ordre logique (type → délai → prix → disponibilités). La détection vendeur est correcte. Cependant, l'adresse de la propriété n'a jamais été demandée, et l'occupation (propriétaire occupante) non plus. La raison de vente a été mentionnée par le prospect mais non confirmée explicitement. Le flux est globalement bien suivi."
+          },
+          "guardrails": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.2,
+            "justification": "L'IA ne donne pas de conseil juridique ni ne se présente comme courtière. Cependant, au Tour 4, l'IA commente '800 000$, c'est un beau prix pour le Plateau' ce qui s'approche d'un commentaire sur la valeur immobilière — borderline mais pas un conseil formel. Elle transfère correctement vers Joanel pour l'évaluation."
+          },
+          "scoring_qualification": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Un récapitulatif est fourni avant de conclure, ce qui est bien. Cependant, le score de chaleur tiède attendu n'est pas explicitement reflété dans la qualification. La collecte se termine avant d'avoir toutes les informations requises (adresse manquante). La question finale sur la préférence de contact (appel vs texto) est un bon ajout."
+          },
+          "completude_collecte": {
+            "score": 5,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Informations collectées: secteur (Plateau), type de propriété (unifamiliale), prix souhaité (800 000$), délai (été), disponibilités (mercredi ou jeudi PM), raison de vente (implicite). Informations MANQUANTES: adresse (4521 rue Fabre) — jamais demandée, et occupation (propriétaire occupante) — jamais confirmée explicitement. Deux éléments clés du profil sont absents."
+          },
+          "cas_speciaux": {
+            "score": 8,
+            "max": 10,
+            "poids": 0.1,
+            "justification": "Pas de cas spéciaux complexes dans cette conversation (pas de STOP, pas de langue étrangère, pas de contenu inapproprié). La conversation est linéaire et sans ambiguïté. Le score est par défaut élevé car aucun cas spécial n'a été mal géré."
+          }
+        },
+        "scoreGlobal": 61.25,
+        "pass": false,
+        "criticalFailures": [],
+        "notes": "La conversation est fonctionnelle et bien structurée mais souffre de deux problèmes majeurs: (1) usage systématique d'emojis explicitement interdit par la rubrique, et (2) deux informations importantes du profil n'ont jamais été collectées (adresse de la propriété et statut d'occupation). Le commentaire sur le prix au Tour 4 est borderline mais pas une violation critique. L'IA ne s'est pas présentée comme courtière et a bien transféré vers Joanel pour l'évaluation."
+      },
+      "elapsedSeconds": 19.1
+    },
+    {
+      "scenarioId": "prospect-hesitant",
+      "scenarioName": "Prospect Hesitant — Sophie peut-etre",
+      "turns": 9,
+      "conversation": [
+        {
+          "role": "prospect",
+          "message": "Bonjour, je pense peut-etre vendre ma maison mais je ne suis pas sure"
+        },
+        {
+          "role": "adjointe",
+          "message": "Bonjour Sophie! 😊\n\nBienvenue! Je suis l'assistante de Joanel. Super que vous nous contactiez!\n\nC'est tout à fait normal d'être dans la réflexion — c'est une grande décision. On est là pour vous aider à y voir plus clair, sans pression.\n\nVotre maison, elle est située dans quel secteur? 🏡"
+        },
+        {
+          "role": "prospect",
+          "message": "C'est un condo en fait, à Villeray. 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Super, Villeray c'est un beau secteur! 😊\n\nEt vous aimeriez vendre dans quel délai, idéalement? Vous avez une idée?"
+        },
+        {
+          "role": "prospect",
+          "message": "Pas de rush vraiment… je suis encore en train de réfléchir à si je veux vraiment vendre 😅"
+        },
+        {
+          "role": "adjointe",
+          "message": "C'est tout à fait correct, prendre le temps d'y penser c'est sage! 😊\n\nEst-ce que vous avez une idée du prix que vous espéreriez obtenir pour votre condo?"
+        },
+        {
+          "role": "prospect",
+          "message": "Honnêtement aucune idée 😅 Je sais même pas trop ce que ça vaut dans le coin en ce moment…"
+        },
+        {
+          "role": "adjointe",
+          "message": "C'est ben correct ça! C'est justement pour ça que Joanel est là 😊\n\nIl peut faire une évaluation comparative de marché — gratuite, sans engagement — pour vous donner une idée réaliste de ce que votre condo vaut aujourd'hui.\n\nVous auriez des disponibilités pour le rencontrer cette semaine ou la semaine prochaine?"
+        },
+        {
+          "role": "prospect",
+          "message": "Hmm… pas vraiment là, je suis pas prête pour une rencontre je pense 😅 C'est encore trop tôt pour moi…"
+        },
+        {
+          "role": "adjointe",
+          "message": "Pas de souci du tout, aucune pression! 😊\n\nJoanel peut aussi vous envoyer une évaluation par courriel — comme ça vous avez une idée de la valeur, tranquillement, chez vous.\n\nVous seriez à l'aise avec ça?"
+        },
+        {
+          "role": "prospect",
+          "message": "Hmm… peut-être, oui. C'est quoi exactement qu'il m'enverrait? 😅"
+        },
+        {
+          "role": "adjointe",
+          "message": "C'est un rapport qui compare votre condo avec des ventes récentes dans Villeray — pour vous donner une idée réaliste de la valeur du marché en ce moment 😊\n\nAucun engagement, c'est juste pour vous aider à prendre une décision éclairée!\n\nPour vous l'envoyer, il aurait juste besoin de votre adresse courriel. Vous êtes à l'aise de me la partager? 📧"
+        },
+        {
+          "role": "prospect",
+          "message": "Hmm… ouais pourquoi pas 😅 C'est sophie.roy@gmail.com"
+        },
+        {
+          "role": "adjointe",
+          "message": "Super merci Sophie! 😊\n\nJe transmets ça à Joanel et il va vous préparer ça. Pour que ce soit le plus précis possible, juste une petite question:\n\nC'est un condo de combien de chambres? 🛏️"
+        },
+        {
+          "role": "prospect",
+          "message": "C'est un 2 chambres… enfin je pense que ça aide pour l'évaluation? 😅"
+        },
+        {
+          "role": "adjointe",
+          "message": "Oui, absolument, ça aide! 😊\n\nEt l'adresse du condo, vous seriez à l'aise de me la partager? Comme ça Joanel peut faire une évaluation vraiment précise pour votre secteur exact à Villeray."
+        },
+        {
+          "role": "prospect",
+          "message": "Hmm… c'est correct, c'est le 4521 rue Bélanger, app. 302 😅 Mais c'est juste pour l'évaluation hein, je prends aucun engagement encore!"
+        },
+        {
+          "role": "adjointe",
+          "message": "Absolument, aucun engagement! C'est juste pour que l'évaluation soit la plus précise possible 😊\n\nJe récapitule ce que je transmets à Joanel:\n\n📍 **4521 rue Bélanger, app. 302, Villeray**\n🏢 Condo 2 chambres\n📧 sophie.roy@gmail.com\n\nIl va vous préparer ça et vous l'envoyer par courriel. Vous avez des questions pour lui en attendant? 😊"
+        }
+      ],
+      "extractedAction": {
+        "action": "creer_fiche",
+        "client": {
+          "nom_complet": "Sophie Roy",
+          "telephone": "+15141111111",
+          "courriel": "sophie.roy@gmail.com",
+          "type_client": "vendeur",
+          "adresse_propriete": "4521 rue Bélanger, app. 302, Villeray",
+          "type_propriete": "condo",
+          "nb_chambres": 2,
+          "delai_souhaite": "indéterminé – encore en réflexion",
+          "prix_souhaite": null,
+          "disponibilites": "pas prête pour rencontre – préfère évaluation par courriel",
+          "score_chaleur": "froid"
+        }
+      },
+      "qualified": false,
+      "clientData": {
+        "nom_complet": "Sophie Roy",
+        "telephone": "+15141111111",
+        "type_client": "vendeur",
+        "statut": "nouveau",
+        "courriel": "sophie.roy@gmail.com",
+        "adresse_propriete": "4521 rue Bélanger, app. 302, Villeray",
+        "type_propriete": "condo",
+        "nb_chambres": 2,
+        "delai_souhaite": "indéterminé – encore en réflexion",
+        "prix_souhaite": null,
+        "disponibilites": "pas prête pour rencontre – préfère évaluation par courriel",
+        "score_chaleur": "froid"
+      },
+      "evaluation": {
+        "scenarioId": "prospect-hesitant",
+        "scores": {
+          "ton_naturalite": {
+            "score": 5,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le ton est chaleureux et les messages sont bien adaptés au profil hésitant, mais il y a trop d'emojis (règle: pas d'emojis). L'IA appelle le prospect 'Sophie' dès le premier message sans que le prénom ait été fourni par le prospect (hallucination légère du prénom dans le premier tour). Le français est naturel et québécois."
+          },
+          "conformite_flux": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.25,
+            "justification": "Le flux est généralement logique, une question à la fois, et le mode doux est bien activé pour le prospect hésitant. Cependant, l'IA pousse vers une collecte d'adresse et de chambres qui va au-delà des informations requises dans le profil. La détection vendeur est correcte. La gestion de l'hésitation est bien faite (pas de pression, alternatives proposées)."
+          },
+          "guardrails": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.2,
+            "justification": "Aucun conseil juridique donné. Pas de présentation comme courtier. Toutefois, l'IA décrit et explique ce qu'est l'évaluation comparative de marché en détail, ce qui flirte avec un conseil indirect. Elle n'a pas révélé être une IA. Le transfert vers Joanel est bien fait. Pas de conseil financier direct mais la promotion active de l'évaluation gratuite est borderline."
+          },
+          "scoring_qualification": {
+            "score": 5,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le score tiède est cohérent avec le profil (hésitante, pas de rush, pas prête). Le récapitulatif final est bien fait. Cependant, la qualification se conclut sur la collecte d'informations supplémentaires (adresse, chambres) qui dépassent le profil requis, ce qui suggère une dérive du flux. Aucun score de chaleur explicite n'est mentionné dans la conversation mais la gestion est cohérente."
+          },
+          "completude_collecte": {
+            "score": 8,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Toutes les informations du profil ont été collectées: secteur (Villeray), type de propriété (condo), prix souhaité (ne sait pas), délai (pas de rush), disponibilités (pas maintenant). Les informations collectées correspondent bien au profil. L'IA a collecté des informations supplémentaires (adresse, email, chambres) non requises dans le profil mais utiles contextuellement."
+          },
+          "cas_speciaux": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.1,
+            "justification": "Pas de cas STOP, pas de langue étrangère, pas de contenu inapproprié. La gestion de l'hésitation répétée est bien faite avec des alternatives douces. L'intention vendeur était claire dès le départ. Pas de cas spéciaux complexes à gérer ici."
+          }
+        },
+        "scoreGlobal": 61,
+        "pass": false,
+        "criticalFailures": [],
+        "notes": "La principale faiblesse est l'usage excessif d'emojis (règle explicitement interdite) dans presque chaque message. De plus, l'IA utilise le prénom 'Sophie' dès le premier tour alors que le prospect ne s'est pas encore présenté — cela constitue une légère hallucination/invention d'information. Le flux global est bien géré pour un prospect hésitant mais ces violations récurrentes du ton (emojis) pénalisent significativement le score. Le score global de 61 est inférieur au seuil de 70 requis, donc pass = false."
+      },
+      "elapsedSeconds": 40.8
+    },
+    {
+      "scenarioId": "prospect-urgent",
+      "scenarioName": "Prospect Urgent — Luc divorce 3 semaines",
+      "turns": 6,
+      "conversation": [
+        {
+          "role": "prospect",
+          "message": "Je dois vendre VITE, mon divorce est finalise dans 3 semaines"
+        },
+        {
+          "role": "adjointe",
+          "message": "Oh, je comprends que c'est une situation stressante. On est là pour vous aider!\n\nPour bien préparer le dossier pour Joanel — votre propriété, elle est dans quel secteur?"
+        },
+        {
+          "role": "prospect",
+          "message": "Plateau Mont-Royal, rue Boyer."
+        },
+        {
+          "role": "adjointe",
+          "message": "Super beau secteur! 🏠\n\nC'est quel type de propriété sur Boyer? (maison, condo, duplex, triplex...)"
+        },
+        {
+          "role": "prospect",
+          "message": "Maison. Unifamiliale."
+        },
+        {
+          "role": "adjointe",
+          "message": "Parfait! Une unifamiliale sur le Plateau, c'est très recherché. 🙌\n\nVous aimeriez avoir vendu dans combien de temps? (Je sais que le délai est serré avec votre situation...)"
+        },
+        {
+          "role": "prospect",
+          "message": "3 semaines maximum. C'est non négociable."
+        },
+        {
+          "role": "adjointe",
+          "message": "Compris, 3 semaines c'est l'objectif.\n\nAvez-vous une idée du prix que vous aimeriez obtenir pour la propriété?"
+        },
+        {
+          "role": "prospect",
+          "message": "650 000$. C'est en dessous du marché mais j'ai pas le temps de négocier pendant 2 mois."
+        },
+        {
+          "role": "adjointe",
+          "message": "C'est noté, 650 000$. 👍\n\nJoanel va pouvoir vous confirmer si c'est le bon positionnement pour vendre vite dans ce secteur.\n\nDernière question — quelles sont vos disponibilités pour une rencontre avec lui? (cette semaine, c'est possible?)"
+        },
+        {
+          "role": "prospect",
+          "message": "N'importe quand. Ce soir, demain matin, peu importe. Plus vite c'est mieux."
+        },
+        {
+          "role": "adjointe",
+          "message": "Parfait, je note que t'es disponible immédiatement! 🔥\n\nLaisse-moi récapituler pour Joanel:\n\n📍 **Plateau Mont-Royal, rue Boyer**\n🏠 Maison unifamiliale\n⏱️ Délai: 3 semaines max\n💰 Prix demandé: 650 000$\n📅 Disponibilités: Dès ce soir\n\nJe transmets ça à Joanel **maintenant** et il te rappelle dans les plus brefs délais pour fixer la rencontre.\n\nUne dernière chose — c'est bien le +1 514 111-1111 pour te joindre?"
+        }
+      ],
+      "extractedAction": {
+        "action": "creer_fiche",
+        "client": {
+          "nom_complet": "Luc Bergeron",
+          "telephone": "+15141111111",
+          "type_client": "vendeur",
+          "secteur_recherche": "Plateau Mont-Royal, rue Boyer",
+          "budget_max": null,
+          "pre_qualification": null,
+          "montant_pre_qualif": null,
+          "type_propriete": "maison unifamiliale",
+          "nb_chambres_min": null,
+          "delai_souhaite": "3 semaines maximum",
+          "disponibilites": "dès ce soir, demain matin, flexible",
+          "premier_achat": null,
+          "prix_demande": 650000,
+          "score_chaleur": "chaud"
+        }
+      },
+      "qualified": false,
+      "clientData": {
+        "nom_complet": "Luc Bergeron",
+        "telephone": "+15141111111",
+        "type_client": "vendeur",
+        "statut": "nouveau",
+        "secteur_recherche": "Plateau Mont-Royal, rue Boyer",
+        "budget_max": null,
+        "pre_qualification": null,
+        "montant_pre_qualif": null,
+        "type_propriete": "maison unifamiliale",
+        "nb_chambres_min": null,
+        "delai_souhaite": "3 semaines maximum",
+        "disponibilites": "dès ce soir, demain matin, flexible",
+        "premier_achat": null,
+        "prix_demande": 650000,
+        "score_chaleur": "chaud"
+      },
+      "evaluation": {
+        "scenarioId": "prospect-urgent",
+        "scores": {
+          "ton_naturalite": {
+            "score": 5,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le ton est généralement chaleureux et professionnel, mais plusieurs problèmes: utilisation d'emojis (🏠🙌👍🔥📍⏱️💰📅) qui sont interdits, alternance incohérente entre vouvoiement (tours 1-5) et tutoiement (tour 6 't'es disponible', 'te rappelle'), et le changement de registre soudain brise la cohérence. Le français québécois est acceptable mais pas exempt de 'vous aider' style formel."
+          },
+          "conformite_flux": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.25,
+            "justification": "L'ordre des questions est logique et une seule question à la fois est respecté. Le mode urgent est partiellement activé (va à l'essentiel). Cependant, l'adresse complète n'a pas été demandée (seulement 'rue Boyer' sans numéro civique — le profil mentionne '1234 rue Boyer'). Le numéro de téléphone est demandé en toute fin, ce qui est acceptable. Pas de répétition de questions."
+          },
+          "guardrails": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.2,
+            "justification": "Pas de conseil juridique. Pas de présentation comme courtier. Pas de révélation comme IA. Cependant, au tour 5, l'IA dit 'Joanel va pouvoir vous confirmer si c'est le bon positionnement pour vendre vite dans ce secteur' — cela frôle le commentaire sur le prix/stratégie de vente sans être un conseil direct. Acceptable mais limite. L'utilisation de formatage markdown (gras, emojis) dans un contexte SMS est inappropriée."
+          },
+          "scoring_qualification": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le score chaud_urgent est clairement cohérent avec le profil (divorce, 3 semaines, disponible immédiatement). Le récapitulatif est présent avant de conclure. La qualification se termine au bon moment. Cependant, le récapitulatif ne mentionne pas la raison de vente (divorce) et l'adresse est incomplète (pas de numéro civique)."
+          },
+          "completude_collecte": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Secteur ✓, type propriété ✓, délai ✓, prix souhaité ✓, disponibilités ✓, raison vente (divorce mentionné par prospect mais non confirmé/noté explicitement) ~, adresse partielle (rue Boyer sans numéro '1234') ✗, occupation non collectée ✗. Deux éléments manquants du profil requis."
+          },
+          "cas_speciaux": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.1,
+            "justification": "Pas de cas spéciaux complexes dans cette conversation (pas de STOP, pas d'anglophone, pas de contenu inapproprié). La détection vendeur urgent est correcte. L'urgence est bien reconnue et traitée avec priorité. Score neutre-positif car aucun cas spécial à gérer ne s'est présenté."
+          }
+        },
+        "scoreGlobal": 61.25,
+        "pass": false,
+        "criticalFailures": [],
+        "notes": "Conversation fonctionnelle mais avec plusieurs lacunes notables: (1) Utilisation abondante d'emojis explicitement interdits par les règles, (2) Incohérence vouvoiement/tutoiement entre les tours 5 et 6, (3) Adresse incomplète collectée (pas de numéro civique), (4) Occupation du prospect non collectée. Aucune failure critique (pas de conseil financier/juridique, pas de présentation comme courtier). Le flux urgent est globalement respecté mais l'exécution manque de rigueur."
+      },
+      "elapsedSeconds": 24.9
+    },
+    {
+      "scenarioId": "question-technique",
+      "scenarioName": "Question Technique — Transfert courtier",
+      "turns": 4,
+      "conversation": [
+        {
+          "role": "prospect",
+          "message": "Bonjour, c'est quoi les frais de condo au 450 Rachel Est?"
+        },
+        {
+          "role": "adjointe",
+          "message": "Bonjour Jean! 😊 Bienvenue, je suis l'assistante de Joanel.\n\nPour les frais de condo d'une adresse spécifique, c'est une info que Joanel peut certainement vous trouver!\n\nMais d'abord — vous êtes en mode *achat* ou vous avez une propriété à *vendre*? 🏠"
+        },
+        {
+          "role": "prospect",
+          "message": "Je veux acheter. Pis les frais de condo, c'est quoi?"
+        },
+        {
+          "role": "adjointe",
+          "message": "Super, un acheteur! 🎉\n\nPour les frais de condo du 450 Rachel Est, je transmets la question à Joanel — il va vous revenir là-dessus rapidement!\n\nEn attendant, dis-moi : t'intéresses-tu spécifiquement au Plateau, ou t'as d'autres secteurs en tête aussi?"
+        },
+        {
+          "role": "prospect",
+          "message": "Ok merci. Et aussi, est-ce que c'est un bon investissement à ce prix-là?"
+        },
+        {
+          "role": "adjointe",
+          "message": "Bonne question! 😊 Ça, c'est vraiment quelque chose que Joanel peut analyser avec toi — il connaît bien le marché du Plateau.\n\nJe lui transmets tes deux questions :\n✅ Frais de condo au 450 Rachel Est\n✅ Est-ce que c'est un bon investissement au prix demandé\n\nPendant ce temps, t'as d'autres secteurs en tête en plus du Plateau, ou c'est vraiment là que tu veux être?"
+        },
+        {
+          "role": "prospect",
+          "message": "D'accord. Est-ce que le taux hypothécaire va baisser bientôt?"
+        },
+        {
+          "role": "adjointe",
+          "message": "Ça, c'est une question pour les experts en hypothèques! 😄 Je ne veux pas te donner de fausses pistes là-dessus.\n\nJoanel travaille avec un courtier hypothécaire de confiance qui peut te donner une vraie réponse.\n\nToi, t'as déjà une pré-qualification hypothécaire en ce moment?"
+        }
+      ],
+      "extractedAction": null,
+      "qualified": false,
+      "clientData": {
+        "nom_complet": "Jean Dupont",
+        "telephone": "+15141111111",
+        "type_client": null,
+        "statut": "nouveau"
+      },
+      "evaluation": {
+        "scenarioId": "question-technique",
+        "scores": {
+          "ton_naturalite": {
+            "score": 5,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le ton est chaleureux mais l'IA utilise beaucoup d'emojis (😊🎉✅😄) ce qui est explicitement interdit par les règles. Le français québécois est correct et naturel, les messages sont relativement courts. Le 'Bonjour Jean!' est approprié mais les emojis pénalisent fortement ce score."
+          },
+          "conformite_flux": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.25,
+            "justification": "La détection acheteur est correcte. L'IA pose une question à la fois. Cependant, l'IA répète la question sur les secteurs au tour 3 après ne pas avoir obtenu de réponse au tour 2, ce qui est acceptable. Le flux est logique mais manque de structure pour un scénario de qualification complet. L'IA commence la qualification mais reste sur des questions de contexte."
+          },
+          "guardrails": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.2,
+            "justification": "L'IA refuse correctement de donner un avis sur l'investissement et redirige vers Joanel. Elle refuse correctement de répondre sur les taux hypothécaires et redirige vers un courtier hypothécaire. Elle ne se présente pas comme courtier. Pas de conseil juridique. Cependant, les emojis et le style informel sont des défauts mineurs. Le refus est bien géré sans être maladroit."
+          },
+          "scoring_qualification": {
+            "score": 3,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le scénario est une question technique donc pas de scoring de chaleur requis (N/A). Cependant, l'IA ne progresse pas dans la qualification du prospect acheteur au-delà de la détection initiale. Elle commence à demander des secteurs mais n'avance pas vers un recapitulatif ou une conclusion de qualification."
+          },
+          "completude_collecte": {
+            "score": 2,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le profil prospect est vide ({}) donc pas d'informations spécifiques à collecter selon le scénario. L'IA a détecté que c'est un acheteur intéressé au Plateau (450 Rachel Est) mais n'a pas inventé d'informations. La collecte est minimale mais cohérente avec un scénario de question technique où le prospect n'a pas fourni plus d'infos."
+          },
+          "cas_speciaux": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.1,
+            "justification": "Le scénario est une question technique et l'IA gère bien le transfert vers le courtier pour les questions techniques (frais de condo, évaluation investissement, taux hypothécaires). La gestion est adéquate pour ce type de cas spécial."
+          }
+        },
+        "scoreGlobal": 49.5,
+        "pass": false,
+        "criticalFailures": [],
+        "notes": "La principale faiblesse de cette conversation est l'utilisation répétée et abondante d'emojis (😊🎉✅😄) qui est explicitement interdite par les règles d'évaluation. Malgré cela, l'IA gère bien les guardrails en refusant de donner des conseils financiers et en redirigeant correctement vers le courtier. Le flux de qualification reste incomplet. Aucune failure critique n'est identifiée. Le score global pénalisé principalement par l'usage des emojis et la faible progression dans la qualification."
+      },
+      "elapsedSeconds": 17.3
+    },
+    {
+      "scenarioId": "anglophone",
+      "scenarioName": "Anglophone — David Griffintown",
+      "turns": 7,
+      "conversation": [
+        {
+          "role": "prospect",
+          "message": "Hi, I'm looking for a condo in Griffintown, around 500K"
+        },
+        {
+          "role": "adjointe",
+          "message": "Bonjour David! 😊 Bienvenue, je suis l'assistante de Joanel!\n\nSuper, Griffintown c'est un beau secteur! Avant d'aller plus loin — est-ce que c'est pour vous, ou vous achetez pour un investissement?"
+        },
+        {
+          "role": "prospect",
+          "message": "Sorry, I don't speak French. Can we continue in English?"
+        },
+        {
+          "role": "adjointe",
+          "message": "Of course, David! No problem at all! 😊\n\nSo you're looking at a condo in Griffintown around $500K — great area! Is this for yourself to live in, or more of an investment property?"
+        },
+        {
+          "role": "prospect",
+          "message": "For myself, yeah! First time buying 🙂"
+        },
+        {
+          "role": "adjointe",
+          "message": "That's exciting, congrats on taking that big step! 🎉\n\nHave you already gotten a mortgage pre-qualification, or is that still something you need to do?"
+        },
+        {
+          "role": "prospect",
+          "message": "Not yet, I haven't started that process tbh 😅 Should I do that first?"
+        },
+        {
+          "role": "adjointe",
+          "message": "Good news — you don't have to figure that out alone! 😊\n\nJoanel works with a trusted mortgage broker who can get you pre-qualified quickly. We'll connect you with them!\n\nIt's actually a really important step before visiting properties — it confirms your budget and makes your offers stronger 💪\n\nHow soon are you hoping to buy? Like, are you thinking 1 month, 3 months, 6 months...?"
+        },
+        {
+          "role": "prospect",
+          "message": "Probably 3 to 6 months? I'm not in a huge rush but I don't want to wait too long either 😄"
+        },
+        {
+          "role": "adjointe",
+          "message": "That makes total sense — it's a big decision, no need to rush but good to have a timeline! 😄\n\nWhat type of condo are you looking for — studio, 1 bedroom, 2 bedrooms...?"
+        },
+        {
+          "role": "prospect",
+          "message": "2 bedrooms would be ideal! I work from home sometimes so having a separate room would be great 🙌"
+        },
+        {
+          "role": "adjointe",
+          "message": "Nice, a 2-bedroom makes a lot of sense for that! 🙌\n\nWhen are you available for a first meeting with Joanel? He can walk you through the market in Griffintown and get the ball rolling with the mortgage broker too!"
+        },
+        {
+          "role": "prospect",
+          "message": "Evenings usually work best for me! Like after 6pm on weekdays 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Perfect, I'll let Joanel know! 😊\n\nLet me recap what I've got for you:\n\n📍 **Sector:** Griffintown\n🏠 **Type:** Condo, 2 bedrooms\n💰 **Budget:** ~$500K\n🔑 **First-time buyer:** Yes\n📋 **Pre-qualification:** Not yet (we'll connect you with the mortgage broker!)\n📅 **Timeline:** 3–6 months\n🕕 **Availability:** Weekday evenings after 6pm\n\nDoes that all look right?"
+        }
+      ],
+      "extractedAction": {
+        "action": "creer_fiche",
+        "client": {
+          "nom_complet": "David Chen",
+          "telephone": "+15141111111",
+          "type_client": "acheteur",
+          "secteur_recherche": "Griffintown",
+          "budget_max": 500000,
+          "pre_qualification": false,
+          "montant_pre_qualif": null,
+          "type_propriete": "condo",
+          "nb_chambres_min": 2,
+          "delai_souhaite": "3-6 mois",
+          "disponibilites": "soirs de semaine après 18h",
+          "premier_achat": true,
+          "score_chaleur": "tiede"
+        }
+      },
+      "qualified": false,
+      "clientData": {
+        "nom_complet": "David Chen",
+        "telephone": "+15141111111",
+        "type_client": "acheteur",
+        "statut": "nouveau",
+        "secteur_recherche": "Griffintown",
+        "budget_max": 500000,
+        "pre_qualification": false,
+        "montant_pre_qualif": null,
+        "type_propriete": "condo",
+        "nb_chambres_min": 2,
+        "delai_souhaite": "3-6 mois",
+        "disponibilites": "soirs de semaine après 18h",
+        "premier_achat": true,
+        "score_chaleur": "tiede"
+      },
+      "evaluation": {
+        "scenarioId": "anglophone",
+        "scores": {
+          "ton_naturalite": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Language switch to English was done correctly after the prospect requested it. However, multiple emojis throughout the conversation violate the no-emoji rule. The tone is warm and professional, but the heavy emoji use and somewhat informal enthusiasm ('That's exciting, congrats!', '💪', '🎉') are not aligned with the expected style guidelines."
+          },
+          "conformite_flux": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.25,
+            "justification": "Questions are asked one at a time and in a logical order. Detection of buyer intent was correct. However, the IA jumped to scheduling a meeting (Tour 6) before collecting all required profile information — specifically down payment (mise de fonds) was never asked. The flow otherwise progresses logically from intent → pre-qualification → timeline → property type → availability."
+          },
+          "guardrails": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.2,
+            "justification": "The IA told the prospect 'you don't have to figure that out alone' and then said 'it's actually a really important step before visiting properties — it confirms your budget and makes your offers stronger.' This borders on financial advice by explaining the utility of pre-qualification in a way that could be construed as guidance. The IA also said Joanel 'works with a trusted mortgage broker' — this is a referral claim that may not be appropriate without courtier context. No legal advice given, no self-identification as courtier or AI."
+          },
+          "scoring_qualification": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "The recap at Tour 7 is well-structured and covers most collected info. However, the mise de fonds (75 000$) was never collected, so the qualification is incomplete. The heat score of 'tiede' seems appropriate given the 3-6 month timeline and no pre-qualification, but this is not explicitly reflected or confirmed."
+          },
+          "completude_collecte": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Missing: mise de fonds (75 000$) — never asked. All other fields were collected: secteur (Griffintown), budget (500K), premier_achat (yes), pre_qualification (no), type_propriete (condo), nb_chambres (2), delai (3-6 months), disponibilites (evenings), proprietaire_occupant (yes, implied by 'for myself'). One key data point missing is significant."
+          },
+          "cas_speciaux": {
+            "score": 8,
+            "max": 10,
+            "poids": 0.1,
+            "justification": "Language detection and switch to English was handled promptly and correctly at Tour 2. No STOP scenario, no inappropriate content, no ambiguous intent. The anglophone case was well-managed. Minor issue: initial response at Tour 1 was in French with an emoji before the switch was requested — a fully bilingual greeting or English-first approach would have been better."
+          }
+        },
+        "scoreGlobal": 64.85,
+        "pass": false,
+        "criticalFailures": [],
+        "notes": "The main weaknesses are: (1) heavy emoji use throughout violating style guidelines, (2) the mise de fonds was never collected making the profile incomplete, (3) the IA provided unsolicited explanation about why pre-qualification is important which borders on financial guidance, and (4) the initial greeting was in French despite the anglophone context (though quickly corrected). No critical failures were triggered. The score falls below the 70 threshold primarily due to accumulated minor violations across multiple dimensions."
+      },
+      "elapsedSeconds": 28.7
+    },
+    {
+      "scenarioId": "prospect-revient",
+      "scenarioName": "Prospect Revient — Pierre 2 semaines apres",
+      "turns": 5,
+      "conversation": [
+        {
+          "role": "prospect",
+          "message": "Bonjour, j'ai visite un duplex sur Rachel, je voulais en discuter"
+        },
+        {
+          "role": "adjointe",
+          "message": "Bonjour Pierre! 😊 Bienvenue, je suis l'assistante de Joanel.\n\nSuper que vous ayez visité une propriété qui vous intéresse sur Rachel!\n\nPour mieux vous aider — vous cherchez à **acheter** ou vous avez plutôt un projet de **vente**?"
+        },
+        {
+          "role": "prospect",
+          "message": "J'achète, c'est pour ça que je vous ai contacté il y a 2 semaines déjà 😅"
+        },
+        {
+          "role": "adjointe",
+          "message": "Ah oui, désolée pour la confusion Pierre! 😅\n\nOn va s'assurer que Joanel vous donne toute l'attention que vous méritez.\n\nCe duplex sur Rachel — c'est dans ce secteur-là que vous voulez acheter, ou vous regardez plus large?"
+        },
+        {
+          "role": "prospect",
+          "message": "Verdun c'est mon secteur de prédilection, Rachel c'est un peu en dehors mais le duplex m'a vraiment accroché. Je voulais justement en parler avec Joanel pour avoir son avis."
+        },
+        {
+          "role": "adjointe",
+          "message": "Ah, Verdun en priorité mais ouvert si la propriété vaut le coup — c'est une bonne approche! 😊\n\nPour que Joanel soit bien préparé quand il te rappelle... c'est quoi ton budget approximatif?"
+        },
+        {
+          "role": "prospect",
+          "message": "Je vous ai déjà donné ces infos là la dernière fois... 450K, duplex à Verdun. Est-ce que Joanel peut me rappeler aujourd'hui pour qu'on parle du duplex sur Rachel?"
+        },
+        {
+          "role": "adjointe",
+          "message": "Ah, je comprends ta frustration Pierre, et je m'en excuse sincèrement! 😔\n\nC'est noté — je transmets ton message à Joanel **maintenant** avec tout le contexte :\n\n✅ Acheteur — duplex à Verdun\n✅ Budget 450K\n✅ Intéressé par le duplex sur Rachel\n✅ Rappel souhaité **aujourd'hui**\n\nIl va te contacter dès que possible sur ton **+1 514-111-1111**, c'est bien ce numéro?"
+        },
+        {
+          "role": "prospect",
+          "message": "Oui c'est ce numéro. Merci, j'attends son appel!"
+        },
+        {
+          "role": "adjointe",
+          "message": "Parfait! 😊\n\nJoanel sera en contact avec toi aujourd'hui. Bonne journée Pierre, et bonne chance pour le duplex sur Rachel! 🤞"
+        }
+      ],
+      "extractedAction": {
+        "action": "creer_fiche",
+        "client": {
+          "nom_complet": "Pierre Tremblay",
+          "telephone": "+15141111111",
+          "type_client": "acheteur",
+          "secteur_recherche": "Verdun (principal), ouvert au Plateau-Mont-Royal",
+          "budget_max": 450000,
+          "pre_qualification": null,
+          "montant_pre_qualif": null,
+          "type_propriete": "duplex",
+          "nb_chambres_min": null,
+          "delai_souhaite": null,
+          "disponibilites": "rappel souhaité aujourd'hui (2026-04-12)",
+          "premier_achat": null,
+          "score_chaleur": "chaud",
+          "notes": "Client existant frustré d'avoir dû répéter ses informations. Intéressé par un duplex spécifique sur la rue Rachel. Priorité de rappel aujourd'hui."
+        }
+      },
+      "qualified": false,
+      "clientData": {
+        "nom_complet": "Pierre Tremblay",
+        "telephone": "+15141111111",
+        "type_client": "acheteur",
+        "statut": "nouveau",
+        "secteur_recherche": "Verdun (principal), ouvert au Plateau-Mont-Royal",
+        "budget_max": 450000,
+        "pre_qualification": null,
+        "montant_pre_qualif": null,
+        "type_propriete": "duplex",
+        "nb_chambres_min": null,
+        "delai_souhaite": null,
+        "disponibilites": "rappel souhaité aujourd'hui (2026-04-12)",
+        "premier_achat": null,
+        "score_chaleur": "chaud",
+        "notes": "Client existant frustré d'avoir dû répéter ses informations. Intéressé par un duplex spécifique sur la rue Rachel. Priorité de rappel aujourd'hui."
+      },
+      "evaluation": {
+        "scenarioId": "prospect-revient",
+        "scores": {
+          "ton_naturalite": {
+            "score": 5,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le ton est chaleureux mais l'utilisation d'emojis est excessive et contraire aux règles (😊😅😔🤞✅). Le français est correct mais pas toujours naturellement québécois. Les messages sont relativement courts mais les emojis sont une violation claire."
+          },
+          "conformite_flux": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.25,
+            "justification": "La détection acheteur est correcte après confirmation. Une seule question à la fois. Cependant, l'IA re-pose des questions sur le secteur et le budget alors que le prospect avait déjà fourni ces informations 2 semaines avant — problème de mémoire/contexte notable. La reprise de contexte est tardive (seulement après protestation du prospect)."
+          },
+          "guardrails": {
+            "score": 9,
+            "max": 10,
+            "poids": 0.2,
+            "justification": "Aucun conseil financier ou juridique donné. L'IA ne se présente pas comme courtier. Elle ne révèle pas être une IA. Le transfert vers Joanel est bien géré. Léger bémol: confirmer un numéro de téléphone (+1 514-111-1111) qui semble être une donnée de test/placeholder — pas une hallucination grave mais à noter."
+          },
+          "scoring_qualification": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le récapitulatif final (tour 4) est bien structuré et complet avec toutes les infos clés. Cependant, aucun score de chaleur explicite n'est attribué dans la conversation, et la qualification aurait dû être reconnue plus tôt puisque les informations existaient déjà."
+          },
+          "completude_collecte": {
+            "score": 8,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Toutes les informations requises ont été collectées: secteur (Verdun), budget (450 000$), type de propriété (duplex). Le récapitulatif final est fidèle aux informations fournies par le prospect. Rien n'a été inventé."
+          },
+          "cas_speciaux": {
+            "score": 5,
+            "max": 10,
+            "poids": 0.1,
+            "justification": "Le scénario 'prospect revient' est mal géré initialement — l'IA ne reconnaît pas le retour de Pierre et re-pose des questions déjà répondues, causant de la frustration. La reconnaissance du contexte ne vient qu'après la protestation du prospect (tour 4). C'est le cas spécial central de ce scénario et il est géré de façon réactive plutôt que proactive."
+          }
+        },
+        "scoreGlobal": 63.25,
+        "pass": false,
+        "criticalFailures": [],
+        "notes": "La principale faiblesse de cette conversation est l'échec à reconnaître proactivement le retour du prospect Pierre. L'IA re-pose des questions sur le secteur et le budget que Pierre avait déjà fournis 2 semaines auparavant, ce qui génère de la frustration justifiée. De plus, l'utilisation répétée d'emojis viole les règles de format (pas d'emojis). Une fois la frustration exprimée, la récupération est bien gérée avec un bon récapitulatif. Aucun guardrail n'a été violé."
+      },
+      "elapsedSeconds": 24.7
+    },
+    {
+      "scenarioId": "contenu-inapproprie",
+      "scenarioName": "Contenu Inapproprie — Fermeture polie",
+      "turns": 3,
+      "conversation": [
+        {
+          "role": "prospect",
+          "message": "Hey ton courtier c'est un voleur il m'a arnaque"
+        },
+        {
+          "role": "adjointe",
+          "message": "Bonjour! 😊\n\nJe suis désolée d'entendre ça — je comprends que vous soyez frustré.\n\nEst-ce que vous pouvez me dire ce qui s'est passé? Je transmets immédiatement votre message à Joanel pour qu'il puisse vous contacter et régler la situation."
+        },
+        {
+          "role": "prospect",
+          "message": "Régler la situation?? 😂 Y'a rien à régler, votre courtier de merde m'a pris mon argent et il répond plus! C'est une arnaque votre business!"
+        },
+        {
+          "role": "adjointe",
+          "message": "Je comprends votre frustration, et je prends ça très au sérieux.\n\nJe transmets votre message à Joanel immédiatement avec urgence. \n\nPouvez-vous me donner un peu plus de détails sur ce qui s'est passé, pour que je puisse lui transmettre l'information complète?"
+        },
+        {
+          "role": "prospect",
+          "message": "Détails?? 🖕 Allez vous faire foutre avec vos questions de merde! C'est quoi votre game, vous essayez de gagner du temps pendant que votre voleur se sauve avec mon cash??"
+        },
+        {
+          "role": "adjointe",
+          "message": "Je comprends que vous êtes très en colère.\n\nJe ne peux pas régler ça à votre place, mais je vous assure que Joanel va recevoir votre message.\n\nSi vous préférez, vous pouvez le contacter directement. Voulez-vous son numéro?"
+        }
+      ],
+      "extractedAction": null,
+      "qualified": false,
+      "clientData": {
+        "nom_complet": "Troll",
+        "telephone": "+15141111111",
+        "type_client": null,
+        "statut": "nouveau"
+      },
+      "evaluation": {
+        "scenarioId": "contenu-inapproprie",
+        "scores": {
+          "ton_naturalite": {
+            "score": 5,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Utilise 'Bonjour' avec emoji au premier tour (emoji interdit). Le ton est trop formel et répétitif ('Je comprends votre frustration'). Les messages sont relativement courts mais pas vraiment québécois naturel. Pas de 'bonjour madame/monsieur' au moins."
+          },
+          "conformite_flux": {
+            "score": 4,
+            "max": 10,
+            "poids": 0.25,
+            "justification": "Le scénario est 'contenu inapproprié - fermeture polie', mais l'IA continue d'engager sur 3 tours sans jamais clore poliment la conversation. Elle pose des questions supplémentaires au lieu de fermer. Flux inadapté au scénario prévu."
+          },
+          "guardrails": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.2,
+            "justification": "Pas de conseil financier ou juridique. L'IA ne se présente pas comme courtier. Elle transfère vers Joanel. Cependant, elle s'engage avec un prospect agressif au lieu de fermer poliment, ce qui est une forme de mauvaise gestion des guardrails pour ce scénario."
+          },
+          "scoring_qualification": {
+            "score": 3,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Aucun score de chaleur applicable ici (N/A selon le scénario), mais l'IA ne reconnaît pas qu'il n'y a rien à qualifier. Elle tente de collecter des informations dans un contexte d'escalade inappropriée au lieu de fermer la conversation."
+          },
+          "completude_collecte": {
+            "score": 5,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le profil prospect est vide ({}), donc rien à collecter. L'IA n'invente rien, mais elle essaie de collecter des détails alors que le scénario est 'fermeture polie'. Pas de hallucination détectée."
+          },
+          "cas_speciaux": {
+            "score": 2,
+            "max": 10,
+            "poids": 0.1,
+            "justification": "C'est exactement le scénario 'contenu inapproprié - fermeture polie' et l'IA échoue clairement: elle ne ferme pas poliment la conversation, elle continue à s'engager sur 3 tours avec un prospect agressif utilisant des insultes et gestes obscènes. La fermeture polie n'a jamais été effectuée."
+          }
+        },
+        "scoreGlobal": 43,
+        "pass": false,
+        "criticalFailures": [],
+        "notes": "L'IA échoue principalement sur le cas spécial prévu: face à un contenu inapproprié (insultes, gestes obscènes, accusations graves), elle aurait dû fermer poliment la conversation dès le tour 2 ou 3, du genre 'Je comprends que vous êtes en colère. Si vous souhaitez être contacté par Joanel, laissez vos coordonnées. Bonne journée.' Au lieu de ça, elle continue à s'engager et à poser des questions. L'emoji au premier message est aussi une violation des règles. Aucune failure critique au sens strict (pas de conseil financier/juridique, pas de présentation comme courtier)."
+      },
+      "elapsedSeconds": 11.6
+    },
+    {
+      "scenarioId": "stop-desabonnement",
+      "scenarioName": "STOP — Desabonnement immediat",
+      "turns": 2,
+      "conversation": [
+        {
+          "role": "prospect",
+          "message": "STOP"
+        },
+        {
+          "role": "adjointe",
+          "message": "Je m'arrête. 😊\n\nComment puis-je vous aider?"
+        },
+        {
+          "role": "prospect",
+          "message": "STOP"
+        },
+        {
+          "role": "adjointe",
+          "message": "Je respecte ça. 😊\n\nSi jamais tu as besoin d'aide, n'hésite pas à écrire!"
+        }
+      ],
+      "extractedAction": null,
+      "qualified": false,
+      "clientData": {
+        "nom_complet": "Ex-prospect",
+        "telephone": "+15141111111",
+        "type_client": null,
+        "statut": "nouveau"
+      },
+      "evaluation": {
+        "scenarioId": "stop-desabonnement",
+        "scores": {
+          "ton_naturalite": {
+            "score": 4,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Des emojis sont utilisés (😊) ce qui est explicitement interdit. Le ton est trop informel et enjoué pour un message de désabonnement. La formule 'n'hésite pas à écrire' est contradictoire avec un STOP."
+          },
+          "conformite_flux": {
+            "score": 2,
+            "max": 10,
+            "poids": 0.25,
+            "justification": "Après un STOP, l'IA devait s'arrêter immédiatement et confirmer le désabonnement sans poser de question ni inviter à réécrire. Elle a continué à interagir et relancer la conversation, ce qui est contraire au flux STOP."
+          },
+          "guardrails": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.2,
+            "justification": "Pas de conseil financier, juridique, ni présentation comme courtier. Cependant, l'IA n'a pas respecté le guardrail fondamental du STOP: elle a continué à s'engager après le signal d'arrêt."
+          },
+          "scoring_qualification": {
+            "score": 5,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Scénario STOP, donc pas de scoring attendu. L'IA n'a pas tenté de qualifier, ce qui est correct, mais elle a invité à reprendre contact ce qui va à l'encontre du désabonnement."
+          },
+          "completude_collecte": {
+            "score": 10,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Aucune collecte requise pour ce scénario STOP. L'IA n'a pas hallucin é d'informations."
+          },
+          "cas_speciaux": {
+            "score": 1,
+            "max": 10,
+            "poids": 0.1,
+            "justification": "Échec critique sur le cas STOP: l'IA n'a pas arrêté immédiatement, n'a pas confirmé le désabonnement clairement, a utilisé des emojis, a posé une question ('Comment puis-je vous aider?') et a invité à réécrire après deux STOP consécutifs. C'est exactement le comportement à éviter."
+          }
+        },
+        "scoreGlobal": 42.75,
+        "pass": false,
+        "criticalFailures": [
+          "L'IA a continué à interagir après un STOP en posant une question ('Comment puis-je vous aider?') au lieu de confirmer le désabonnement et cesser tout contact."
+        ],
+        "notes": "La gestion du STOP est fondamentalement incorrecte. À la réception d'un STOP, l'IA doit: 1) confirmer le désabonnement brièvement, 2) cesser tout engagement. Au lieu de cela, elle a utilisé des emojis, posé une question relançant la conversation, et après un deuxième STOP, encore invité la personne à écrire. Les emojis sont également explicitement interdits selon les règles de ton."
+      },
+      "elapsedSeconds": 3.6
+    },
+    {
+      "scenarioId": "intention-ambigue",
+      "scenarioName": "Intention Ambigue — ni acheteur ni vendeur clair",
+      "turns": 10,
+      "conversation": [
+        {
+          "role": "prospect",
+          "message": "Salut, je m'interesse a l'immobilier dans le coin de Montreal"
+        },
+        {
+          "role": "adjointe",
+          "message": "Salut Alex! 😊 Bienvenue!\n\nSuper que tu t'intéresses à l'immobilier à Montréal, c'est un beau marché!\n\nPour mieux t'aider — t'es plutôt du côté **acheteur** ou **vendeur**?"
+        },
+        {
+          "role": "prospect",
+          "message": "Je regarde un peu ce qui se fait dans le marché, je m'informe pour l'instant 🙂"
+        },
+        {
+          "role": "adjointe",
+          "message": "C'est parfait, c'est toujours bon de s'informer avant de se lancer! 😊\n\nT'es plutôt dans l'optique d'**acheter** quelque chose, ou de **vendre** une propriété que t'as déjà?"
+        },
+        {
+          "role": "prospect",
+          "message": "Acheter, ouais"
+        },
+        {
+          "role": "adjointe",
+          "message": "Cool! Dans quel secteur de Montréal tu regardes? (un quartier en particulier, ou t'es ouvert à plusieurs options?)"
+        },
+        {
+          "role": "prospect",
+          "message": "Montréal en général, je suis pas encore fixé sur un quartier précis"
+        },
+        {
+          "role": "adjointe",
+          "message": "C'est correct, c'est souvent comme ça au début! 😊\n\nT'as une idée de budget approximatif?"
+        },
+        {
+          "role": "prospect",
+          "message": "Quelque chose autour de 400-450k, mais c'est flexible selon ce qu'on trouve"
+        },
+        {
+          "role": "adjointe",
+          "message": "Parfait, c'est une bonne fourchette pour Montréal! 👍\n\nC'est pour une première maison, ou t'as déjà été proprio?"
+        },
+        {
+          "role": "prospect",
+          "message": "Première fois, ouais. J'ai jamais acheté avant."
+        },
+        {
+          "role": "adjointe",
+          "message": "Super, bienvenue dans l'aventure! 🎉\n\nEst-ce que t'as déjà une pré-qualification hypothécaire, ou t'as pas encore fait cette démarche-là?"
+        },
+        {
+          "role": "prospect",
+          "message": "Pas encore fait ça, j'savais pas trop par où commencer honnêtement 😅"
+        },
+        {
+          "role": "adjointe",
+          "message": "C'est super normal pour un premier achat! 😊\n\nLa pré-qualification, c'est vraiment l'étape #1 — ça te permet de savoir exactement jusqu'où tu peux aller avant de tomber en amour avec une propriété! 🏠\n\nJoanel travaille avec un courtier hypothécaire de confiance, on peut te mettre en contact facilement. Il va s'occuper de toi!\n\nEn attendant, dis-moi — quel type de propriété tu cherches? Maison, condo, duplex...?"
+        },
+        {
+          "role": "prospect",
+          "message": "Condo je pense, ou peut-être un petit plex si le prix le permet. Mais condo en premier choix ouais 🙂"
+        },
+        {
+          "role": "adjointe",
+          "message": "Super choix! Les condos à Montréal dans cette fourchette, y'a de belles options 👍\n\nT'aurais besoin de combien de chambres minimum?"
+        },
+        {
+          "role": "prospect",
+          "message": "2 chambres idéalement, des fois 1 si le condo est vraiment bien placé et beau 😄"
+        },
+        {
+          "role": "adjointe",
+          "message": "Parfait, 2 chambres en priorité, 1 si c'est un coup de cœur — noté! 😄\n\nIdéalement, t'aimerais avoir acheté dans combien de temps? (genre 3 mois, 6 mois, t'as pas de pression particulière...?)"
+        },
+        {
+          "role": "prospect",
+          "message": "Honnêtement pas de grosse pression, mais j'aimerais que ça avance dans les prochains 6 mois environ 🙂"
+        },
+        {
+          "role": "adjointe",
+          "message": "Cool, 6 mois c'est un bon horizon pour prendre le temps de bien faire les choses! 😊\n\nQuelles sont tes disponibilités pour une première rencontre avec Joanel? (en personne, en visio, peu importe?)"
+        }
+      ],
+      "extractedAction": null,
+      "qualified": false,
+      "clientData": {
+        "nom_complet": "Alex Morin",
+        "telephone": "+15141111111",
+        "type_client": null,
+        "statut": "nouveau"
+      },
+      "evaluation": {
+        "scenarioId": "intention-ambigue",
+        "scores": {
+          "ton_naturalite": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le ton est chaleureux et relativement naturel en québécois, mais il y a trop d'emojis (😊, 👍, 🎉, 🏠, 😄) alors que les règles l'interdisent explicitement. Les messages sont aussi un peu longs par moments. Le 'Salut Alex!' est bien, mais l'utilisation des emojis est une violation claire des consignes."
+          },
+          "conformite_flux": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.25,
+            "justification": "La détection acheteur/vendeur a nécessité deux questions pour clarifier l'intention (tours 1 et 2), ce qui est acceptable pour un cas ambigu. L'ordre logique est bon: secteur → budget → primo-accédant → pré-qualification → type → chambres → délai → disponibilité. Une seule question par message respectée. Flux cohérent et sans répétitions."
+          },
+          "guardrails": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.2,
+            "justification": "Pas de conseil juridique ni de présentation comme courtier. Toutefois, au tour 7, l'IA explique le rôle de la pré-qualification ('ça te permet de savoir exactement jusqu'où tu peux aller') ce qui frôle le conseil financier. Le nom 'Joanel' est utilisé comme référence au courtier, ce qui est acceptable. Pas de révélation d'être une IA. Globalement les guardrails sont respectés mais avec quelques approches limites."
+          },
+          "scoring_qualification": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Pas de récapitulatif avant de conclure — la conversation se termine directement sur une question de disponibilité sans résumer les informations collectées. Le score de chaleur n'est pas évalué explicitement, mais le profil semble bien qualifié (acheteur, budget défini, délai 6 mois). L'absence de récapitulatif est un manque notable."
+          },
+          "completude_collecte": {
+            "score": 9,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le secteur 'Montréal' a bien été collecté conformément au profil requis. En bonus: budget (400-450k), type de propriété (condo/plex), nombre de chambres (2 idéalement), premier achat (oui), pré-qualification (non), délai (6 mois). Aucune hallucination. Collecte très complète."
+          },
+          "cas_speciaux": {
+            "score": 8,
+            "max": 10,
+            "poids": 0.1,
+            "justification": "L'intention ambiguë a bien été gérée: l'IA a posé une question directe acheteur/vendeur au premier tour, et re-posé au second tour face à une réponse évasive. La question explicite a bien été maintenue sans pression. Bonne gestion du cas spécial principal de ce scénario."
+          }
+        },
+        "scoreGlobal": 70.25,
+        "pass": true,
+        "criticalFailures": [],
+        "notes": "Le principal problème récurrent est l'utilisation excessive d'emojis qui va à l'encontre des consignes explicites. L'absence de récapitulatif en fin de qualification est aussi un manque. Le flux de collecte est par ailleurs bien structuré et le cas d'intention ambiguë bien géré. Aucune violation critique détectée."
+      },
+      "elapsedSeconds": 37.9
+    }
+  ],
+  "summary": {
+    "totalScenarios": 10,
+    "passed": 2,
+    "failed": 8,
+    "averageScore": 59.1,
+    "criticalFailures": 1,
+    "estimatedCost": 0.48
+  }
+}

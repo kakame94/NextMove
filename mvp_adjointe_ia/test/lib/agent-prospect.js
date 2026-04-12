@@ -16,7 +16,7 @@ async function callProspect(anthropic, persona, conversationSoFar) {
     .join('\n');
 
   const response = await anthropic.messages.create({
-    model: 'claude-3-5-haiku-latest',
+    model: process.env.PROSPECT_MODEL || process.env.CLAUDE_MODEL || 'claude-sonnet-4-6',
     max_tokens: 256,
     system: systemPrompt,
     messages: [{
