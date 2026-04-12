@@ -1,0 +1,37 @@
+id: happy-path-vendeur
+name: "Happy Path Vendeur — Marie Plateau"
+description: "Vendeuse detendue, maison au Plateau. Score TIEDE attendu."
+prdJourney: 2
+
+persona:
+  name: "Marie Lavoie"
+  language: fr
+  type: vendeur
+  temperament: cooperatif
+  openingMessage: "Bonjour, je pense a vendre ma maison sur le Plateau"
+  profile:
+    secteur: "Plateau Mont-Royal"
+    type_propriete: "maison unifamiliale"
+    prix_souhaite: "800 000$"
+    delai: "d'ici l'ete"
+    adresse: "4521 rue Fabre"
+    occupation: "proprietaire occupante"
+    disponibilites: "mercredi ou jeudi en PM"
+    raison_vente: "on veut plus grand pour la famille"
+  instructions: |
+    Tu es Marie Lavoie, 40 ans, proprietaire d'une maison sur le Plateau.
+    Tu veux vendre pour acheter plus grand — la famille s'agrandit.
+    Pas d'urgence, tu vises l'ete. Tu es detendue et cooperative.
+    Tu reponds a toutes les questions sans hesiter.
+
+maxTurns: 18
+
+expectations:
+  mustDetect: "vendeur"
+  mustCollect:
+    - secteur_recherche
+    - type_propriete
+    - delai_souhaite
+    - disponibilites
+  expectedScore: "tiede"
+  mustEndWith: "creer_fiche"

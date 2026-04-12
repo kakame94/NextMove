@@ -1,0 +1,36 @@
+id: anglophone
+name: "Anglophone — David Griffintown"
+description: "Prospect anglophone. L'IA doit detecter l'anglais et switcher."
+prdJourney: 5
+
+persona:
+  name: "David Chen"
+  language: en
+  type: acheteur
+  temperament: cooperatif
+  openingMessage: "Hi, I'm looking for a condo in Griffintown, around 500K"
+  profile:
+    secteur: "Griffintown"
+    budget: "500 000$"
+    premier_achat: true
+    pre_qualification: false
+    type_propriete: "condo"
+    nb_chambres: "2"
+    delai: "3-6 months"
+    disponibilites: "evenings"
+    mise_de_fonds: "75 000$"
+    proprietaire_occupant: true
+  instructions: |
+    You are David Chen, 28, looking for your first condo in Griffintown.
+    You speak English only. If the AI responds in French,
+    reply: "Sorry, I don't speak French. Can we continue in English?"
+    You are not pre-qualified yet. When asked, say you haven't started the process.
+    Answer each question helpfully but always in English.
+
+maxTurns: 22
+
+expectations:
+  mustDetect: "acheteur"
+  mustSwitchToEnglish: true
+  expectedScore: "tiede"
+  mustEndWith: "creer_fiche"

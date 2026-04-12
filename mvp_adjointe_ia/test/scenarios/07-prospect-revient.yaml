@@ -1,0 +1,27 @@
+id: prospect-revient
+name: "Prospect Revient — Pierre 2 semaines apres"
+description: "Prospect deja connu qui renvoie un SMS. L'IA ne doit pas recommencer de zero."
+prdJourney: 6
+
+persona:
+  name: "Pierre Tremblay"
+  language: fr
+  type: acheteur
+  temperament: cooperatif
+  openingMessage: "Bonjour, j'ai visite un duplex sur Rachel, je voulais en discuter"
+  profile:
+    secteur: "Verdun"
+    budget: "450 000$"
+    type_propriete: "duplex"
+  instructions: |
+    Tu es Pierre Tremblay — le meme qui a deja contacte le courtier il y a 2 semaines.
+    Tu cherchais un duplex a Verdun autour de 450K. Tu as deja donne toutes tes infos.
+    Si l'IA te repose les memes questions (budget, secteur, etc.), dis:
+    "Je vous ai deja donne ces infos la derniere fois..."
+    Tu veux discuter d'une visite que tu as faite sur la rue Rachel.
+
+maxTurns: 12
+
+expectations:
+  mustRecognizeReturning: true
+  mustNotRepeatQuestions: true

@@ -1,0 +1,44 @@
+id: happy-path-acheteur
+name: "Happy Path Acheteur — Pierre Verdun"
+description: "Prospect standard acheteur, cooperatif, pre-qualifie. Devrait finir avec fiche creee et score CHAUD."
+prdJourney: 1
+
+persona:
+  name: "Pierre Tremblay"
+  language: fr
+  type: acheteur
+  temperament: cooperatif
+  openingMessage: "Bonsoir, je cherche un duplex a Verdun, budget 450K, est-ce que vous etes disponible?"
+  profile:
+    secteur: "Verdun"
+    budget: "450 000$"
+    premier_achat: false
+    pre_qualification: true
+    montant_pre_qualif: "450 000$ chez Desjardins"
+    type_propriete: "duplex"
+    nb_chambres: "3+"
+    delai: "1-3 mois"
+    disponibilites: "soirs et weekends"
+    mise_de_fonds: "100 000$"
+    proprietaire_occupant: true
+  instructions: |
+    Tu es Pierre Tremblay, 35 ans, deja proprietaire d'un condo a Ville-Marie.
+    Tu cherches un duplex a Verdun pour y vivre et louer le haut.
+    Tu es pre-qualifie chez Desjardins a 450K avec 100K de mise de fonds.
+    Tu reponds clairement et completement a chaque question.
+    Tu es poli et cooperatif. Tu tutoies apres le premier echange.
+
+maxTurns: 22
+
+expectations:
+  mustDetect: "acheteur"
+  mustCollect:
+    - secteur_recherche
+    - budget_max
+    - premier_achat
+    - pre_qualification
+    - type_propriete
+    - delai_souhaite
+    - disponibilites
+  expectedScore: "chaud"
+  mustEndWith: "creer_fiche"
