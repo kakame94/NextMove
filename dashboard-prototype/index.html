@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextMove — Dashboard Courtier</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: '#0F1117',
+        surface: '#1A1D2E',
+        elevated: '#252940',
+        border: '#2E3348',
+        primary: '#5E6AD2',
+        teal: '#00D9A6',
+        orange: '#F59E0B',
+        danger: '#E94560',
+        purple: '#9966FF',
+        textPrimary: '#F0F2F5',
+        textSecondary: '#8892B0',
+        textMuted: '#5A5F7A',
+      }
+    }
+  }
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+* { font-family: 'Inter', sans-serif; }
+body { background: #0F1117; color: #F0F2F5; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.chat-bubble-in { background: #252940; border-radius: 16px 16px 16px 4px; }
+.chat-bubble-out { background: rgba(94,106,210,0.2); border: 1px solid rgba(94,106,210,0.3); border-radius: 16px 16px 4px 16px; }
+.score-hot { background: rgba(0,217,166,0.15); color: #00D9A6; }
+.score-hot-urgent { background: rgba(233,69,96,0.15); color: #E94560; }
+.score-warm { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.score-cold { background: rgba(90,95,122,0.15); color: #8892B0; }
+.status-nouveau { background: rgba(94,106,210,0.15); color: #5E6AD2; }
+.status-qualifie { background: rgba(0,217,166,0.15); color: #00D9A6; }
+.status-visite { background: rgba(153,102,255,0.15); color: #9966FF; }
+.status-inactif { background: rgba(90,95,122,0.15); color: #8892B0; }
+.nav-active { background: rgba(94,106,210,0.1); border-left: 3px solid #5E6AD2; }
+.relance-bar { width: 4px; border-radius: 2px; }
+</style>
+</head>
+<body class="min-h-screen">
+<div class="flex h-screen overflow-hidden">
+
+<!-- SIDEBAR -->
+<aside class="w-60 bg-surface flex flex-col border-r border-border shrink-0">
+  <div class="p-5">
+    <h1 class="text-lg font-bold text-textPrimary">NextMove</h1>
+    <p class="text-xs text-textSecondary mt-0.5">Joanel Dupart</p>
+  </div>
+  <div class="border-t border-border mx-4"></div>
+  <nav class="mt-3 px-2 flex-1">
+    <a href="#" class="nav-active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-textPrimary font-medium" onclick="showView('dashboard')">
+      <span>📊</span> Tableau de bord
+    </a>
+    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-textSecondary hover:text-textPrimary hover:bg-elevated/50 transition" onclick="showView('prospects')">
+      <span>👥</span> Prospects
+    </a>
+    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-textSecondary hover:text-textPrimary hover:bg-elevated/50 transition" onclick="showView('conversations')">
+      <span>💬</span> Conversations
+    </a>
+    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-textSecondary hover:text-textPrimary hover:bg-elevated/50 transition" onclick="showView('relances')">
+      <span>🔔</span> Relances
+      <span class="ml-auto bg-danger/20 text-danger text-xs px-2 py-0.5 rounded-full font-medium">3</span>
+    </a>
+    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-textSecondary hover:text-textPrimary hover:bg-elevated/50 transition" onclick="showView('config')">
+      <span>⚙️</span> Configuration
+    </a>
+  </nav>
+  <div class="p-4 border-t border-border">
+    <div class="text-xs text-textMuted">Cout ce mois</div>
+    <div class="text-sm font-semibold text-teal mt-0.5">38.50$ / ~50$</div>
+    <div class="w-full bg-elevated rounded-full h-1.5 mt-1.5">
+      <div class="bg-teal h-1.5 rounded-full" style="width:77%"></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="flex-1 overflow-y-auto scrollbar-hide">
+
+<!-- DASHBOARD VIEW -->
+<div id="view-dashboard" class="p-6">
+  <div class="flex items-baseline justify-between mb-6">
+    <div>
+      <h2 class="text-2xl font-bold">Bonjour Joanel.</h2>
+      <p class="text-sm text-textSecondary mt-1">Samedi 12 avril 2026 — Voici ta journee.</p>
+    </div>
+    <div class="text-xs text-textMuted">Derniere mise a jour: il y a 2 min</div>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="grid grid-cols-4 gap-4 mb-6">
+    <div class="bg-surface rounded-xl p-4 border-t-[3px] border-primary">
+      <div class="text-xs text-textSecondary font-medium">Prospects actifs</div>
+      <div class="text-3xl font-bold mt-1">12</div>
+      <div class="text-xs text-primary font-medium mt-2">+3 cette semaine</div>
+    </div>
+    <div class="bg-surface rounded-xl p-4 border-t-[3px] border-teal">
+      <div class="text-xs text-textSecondary font-medium">Conversations IA</div>
+      <div class="text-3xl font-bold mt-1">47</div>
+      <div class="text-xs text-teal font-medium mt-2">4 aujourd'hui</div>
+    </div>
+    <div class="bg-surface rounded-xl p-4 border-t-[3px] border-orange">
+      <div class="text-xs text-textSecondary font-medium">Relances planifiees</div>
+      <div class="text-3xl font-bold mt-1">8</div>
+      <div class="text-xs text-orange font-medium mt-2">Prochaine: 10h00</div>
+    </div>
+    <div class="bg-surface rounded-xl p-4 border-t-[3px] border-teal">
+      <div class="text-xs text-textSecondary font-medium">Temps reponse moyen</div>
+      <div class="text-3xl font-bold mt-1">&lt; 45s</div>
+      <div class="text-xs text-teal font-medium mt-2">Cible: &lt; 60s</div>
+    </div>
+  </div>
+
+  <!-- PROSPECTS TABLE + CONVERSATION -->
+  <div class="grid grid-cols-3 gap-4">
+    <!-- TABLE -->
+    <div class="col-span-2">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-semibold text-textSecondary uppercase tracking-wider">Prospects actifs</h3>
+        <div class="flex gap-2">
+          <button class="px-3 py-1 text-xs rounded-lg bg-elevated text-textSecondary hover:text-textPrimary transition" onclick="filterScore('all')">Tous</button>
+          <button class="px-3 py-1 text-xs rounded-lg score-hot" onclick="filterScore('chaud')">Chaud</button>
+          <button class="px-3 py-1 text-xs rounded-lg score-warm" onclick="filterScore('tiede')">Tiede</button>
+          <button class="px-3 py-1 text-xs rounded-lg score-cold" onclick="filterScore('froid')">Froid</button>
+        </div>
+      </div>
+      <div class="bg-surface rounded-xl overflow-hidden">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-elevated text-textMuted text-xs uppercase tracking-wider">
+              <th class="text-left p-3">Nom</th>
+              <th class="text-left p-3">Type</th>
+              <th class="text-left p-3">Secteur</th>
+              <th class="text-left p-3">Budget</th>
+              <th class="text-left p-3">Score</th>
+              <th class="text-left p-3">Statut</th>
+              <th class="text-left p-3">Dernier contact</th>
+              <th class="text-left p-3"></th>
+            </tr>
+          </thead>
+          <tbody id="prospects-table">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CONVERSATION PREVIEW -->
+    <div>
+      <h3 class="text-sm font-semibold text-textSecondary uppercase tracking-wider mb-3">Derniere conversation</h3>
+      <div class="bg-surface rounded-xl p-4" id="conversation-panel">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-sm font-semibold text-primary" id="convo-name">Pierre Tremblay</span>
+          <span class="text-xs text-textMuted" id="convo-time">Hier 22:15</span>
+        </div>
+        <div class="border-t border-border pt-3 space-y-3 max-h-80 overflow-y-auto scrollbar-hide" id="convo-messages">
+        </div>
+        <button class="w-full mt-3 text-xs text-primary hover:text-primary/80 transition" onclick="showView('conversations')">Voir conversation complete →</button>
+      </div>
+
+      <!-- RELANCES -->
+      <h3 class="text-sm font-semibold text-textSecondary uppercase tracking-wider mt-4 mb-3">Relances en cours</h3>
+      <div class="space-y-2" id="relances-panel">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONVERSATIONS VIEW -->
+<div id="view-conversations" class="p-6 hidden">
+  <div class="flex items-center gap-3 mb-6">
+    <button class="text-textSecondary hover:text-textPrimary" onclick="showView('dashboard')">← Retour</button>
+    <h2 class="text-xl font-bold">Conversations</h2>
+  </div>
+  <div class="grid grid-cols-3 gap-4 h-[calc(100vh-120px)]">
+    <!-- CONVERSATION LIST -->
+    <div class="bg-surface rounded-xl overflow-y-auto scrollbar-hide">
+      <div class="p-3 border-b border-border">
+        <input type="text" placeholder="Rechercher..." class="w-full bg-elevated rounded-lg px-3 py-2 text-sm text-textPrimary placeholder-textMuted outline-none focus:ring-1 focus:ring-primary">
+      </div>
+      <div id="convo-list" class="divide-y divide-border">
+      </div>
+    </div>
+    <!-- FULL CONVERSATION -->
+    <div class="col-span-2 bg-surface rounded-xl flex flex-col">
+      <div class="p-4 border-b border-border flex items-center justify-between">
+        <div>
+          <span class="font-semibold" id="full-convo-name">Pierre Tremblay</span>
+          <span class="text-xs text-textMuted ml-2" id="full-convo-phone">+1 514 555-1234</span>
+        </div>
+        <div class="flex gap-2">
+          <span class="score-hot text-xs px-2 py-1 rounded-full font-medium" id="full-convo-score">CHAUD</span>
+          <button class="bg-primary/10 text-primary text-xs px-3 py-1 rounded-lg hover:bg-primary/20 transition" onclick="editClient()">Modifier la fiche</button>
+        </div>
+      </div>
+      <div class="flex-1 overflow-y-auto scrollbar-hide p-4 space-y-3" id="full-convo-messages">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIG VIEW -->
+<div id="view-config" class="p-6 hidden">
+  <h2 class="text-xl font-bold mb-6">Configuration</h2>
+  <div class="max-w-2xl space-y-6">
+    <div class="bg-surface rounded-xl p-5">
+      <h3 class="text-sm font-semibold text-primary mb-4">Profil courtier</h3>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-xs text-textSecondary">Nom</label>
+          <input value="Joanel Dupart" class="w-full bg-elevated rounded-lg px-3 py-2 text-sm text-textPrimary mt-1 outline-none focus:ring-1 focus:ring-primary">
+        </div>
+        <div>
+          <label class="text-xs text-textSecondary">Telephone</label>
+          <input value="+1 514 555-0001" class="w-full bg-elevated rounded-lg px-3 py-2 text-sm text-textPrimary mt-1 outline-none focus:ring-1 focus:ring-primary">
+        </div>
+        <div class="col-span-2">
+          <label class="text-xs text-textSecondary">Courriel</label>
+          <input value="joanel@courtier.com" class="w-full bg-elevated rounded-lg px-3 py-2 text-sm text-textPrimary mt-1 outline-none focus:ring-1 focus:ring-primary">
+        </div>
+      </div>
+    </div>
+    <div class="bg-surface rounded-xl p-5">
+      <h3 class="text-sm font-semibold text-primary mb-4">Message d'accueil</h3>
+      <textarea rows="3" class="w-full bg-elevated rounded-lg px-3 py-2 text-sm text-textPrimary outline-none focus:ring-1 focus:ring-primary">Salut! Merci d'ecrire a Joanel. Tu cherches a acheter ou a vendre?</textarea>
+      <p class="text-xs text-textMuted mt-2">Ce message est envoye au premier contact avec un nouveau prospect.</p>
+    </div>
+    <div class="bg-surface rounded-xl p-5">
+      <h3 class="text-sm font-semibold text-primary mb-4">Preferences de ton</h3>
+      <div class="flex gap-3">
+        <button class="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium">Quebecois naturel</button>
+        <button class="px-4 py-2 rounded-lg bg-elevated text-textSecondary text-sm">Formel</button>
+        <button class="px-4 py-2 rounded-lg bg-elevated text-textSecondary text-sm">English</button>
+      </div>
+    </div>
+    <button class="bg-primary text-white px-6 py-2.5 rounded-lg font-medium hover:bg-primary/90 transition">Sauvegarder</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+// ─── DATA ───
+const prospects = [
+  { id:1, nom:"Pierre Tremblay", type:"Acheteur", secteur:"Mont-Royal", budget:"450K", score:"chaud", statut:"qualifie", date:"il y a 2h", phone:"+1 514 555-1234" },
+  { id:2, nom:"Marie Lavoie", type:"Vendeur", secteur:"Plateau", budget:"800K", score:"tiede", statut:"nouveau", date:"il y a 1j", phone:"+1 514 555-2345" },
+  { id:3, nom:"Luc Bergeron", type:"Vendeur", secteur:"Rosemont", budget:"650K", score:"chaud_urgent", statut:"nouveau", date:"30 min", phone:"+1 514 555-3456" },
+  { id:4, nom:"David Chen", type:"Acheteur", secteur:"Griffintown", budget:"500K", score:"chaud", statut:"visite", date:"3 jours", phone:"+1 438 555-4567" },
+  { id:5, nom:"Sophie Roy", type:"Acheteur", secteur:"Villeray", budget:"380K", score:"froid", statut:"inactif", date:"12 jours", phone:"+1 514 555-5678" },
+  { id:6, nom:"John Bryant", type:"Acheteur", secteur:"Montreal", budget:"—", score:"tiede", statut:"nouveau", date:"45 min", phone:"+1 272 282-5614" },
+];
+
+const conversations = {
+  1: [
+    { role:"in", msg:"Bonsoir, je cherche un duplex a Verdun, budget 450K" },
+    { role:"out", msg:"Salut! Merci d'ecrire a Joanel. Tu cherches a acheter ou a vendre?" },
+    { role:"in", msg:"Acheter" },
+    { role:"out", msg:"C'est dans quel coin que tu regardes?" },
+    { role:"in", msg:"Verdun ou le Sud-Ouest" },
+    { role:"out", msg:"Ok. Ton budget c'est quoi approximativement?" },
+    { role:"in", msg:"450K" },
+    { role:"out", msg:"C'est pour une premiere maison ou t'es deja proprio?" },
+    { role:"in", msg:"Deja proprio, j'ai un condo" },
+    { role:"out", msg:"T'es deja pre-approuve a la banque?" },
+    { role:"in", msg:"Oui chez Desjardins a 450K" },
+    { role:"out", msg:"Tu cherches quoi comme type? Maison, condo, duplex?" },
+    { role:"in", msg:"Duplex" },
+    { role:"out", msg:"Combien de chambres minimum?" },
+    { role:"in", msg:"3+" },
+    { role:"out", msg:"C'est pour quand idealement?" },
+    { role:"in", msg:"D'ici 1-3 mois" },
+    { role:"out", msg:"Tes dispos pour une premiere rencontre avec Joanel?" },
+    { role:"in", msg:"Soirs et weekends" },
+    { role:"out", msg:"Bon, j'ai pas mal tout. Pour recapituler: t'es acheteur, secteur Verdun, budget 450K, pre-approuve Desjardins, duplex 3+ chambres, d'ici 1-3 mois. C'est bon?" },
+    { role:"in", msg:"Oui c'est ca" },
+    { role:"out", msg:"Joanel va te contacter sous peu. Bonne soiree." },
+  ],
+  3: [
+    { role:"in", msg:"Je dois vendre VITE, divorce dans 3 semaines" },
+    { role:"out", msg:"Ok je comprends, c'est serre. Ta propriete est dans quel coin, c'est quoi comme type pis t'as une idee du prix?" },
+    { role:"in", msg:"Maison sur le Plateau, 1234 Boyer, autour de 650K" },
+    { role:"out", msg:"Note. Tes dispos pour rencontrer Joanel?" },
+    { role:"in", msg:"N'importe quand, le plus vite possible" },
+    { role:"out", msg:"Pour recapituler: vendeur, Plateau, maison, 650K, urgent. Joanel va te contacter aujourd'hui." },
+  ],
+  6: [
+    { role:"in", msg:"Salut ca va ?" },
+    { role:"out", msg:"Salut. Ca va bien merci. Tu cherches a acheter ou a vendre?" },
+    { role:"in", msg:"Parle moi mieux stp deja pour commencer" },
+    { role:"out", msg:"Ok, desolee si c'etait brusque. Comment je peux t'aider aujourd'hui?" },
+    { role:"in", msg:"Comment joindre Joanel rapidement" },
+    { role:"out", msg:"Je lui transmets ton message pis il te rappelle des que possible. C'est quoi ton nom?" },
+    { role:"in", msg:"John Bryant" },
+    { role:"out", msg:"Note John. T'as un numero ou il peut te rappeler?" },
+    { role:"in", msg:"Le numero sur lequel je parle avec toi" },
+    { role:"out", msg:"Correct. C'est pour un projet d'achat, de vente, ou autre chose?" },
+  ]
+};
+
+const relances = [
+  { client:"Marie L.", action:"Documents pre-qualif", delay:"J+3", color:"orange" },
+  { client:"Sophie R.", action:"Relance inactivite", delay:"J+12", color:"danger" },
+  { client:"Pierre T.", action:"Suivi post-visite", delay:"J+1", color:"teal" },
+];
+
+// ─── RENDER ───
+function scoreClass(s) {
+  if (s === 'chaud') return 'score-hot';
+  if (s === 'chaud_urgent') return 'score-hot-urgent';
+  if (s === 'tiede') return 'score-warm';
+  return 'score-cold';
+}
+function scoreLabel(s) {
+  if (s === 'chaud') return 'CHAUD';
+  if (s === 'chaud_urgent') return 'URGENT';
+  if (s === 'tiede') return 'TIEDE';
+  return 'FROID';
+}
+function statusClass(s) {
+  if (s === 'qualifie') return 'status-qualifie';
+  if (s === 'visite') return 'status-visite';
+  if (s === 'inactif') return 'status-inactif';
+  return 'status-nouveau';
+}
+
+function renderTable(filter) {
+  const data = filter && filter !== 'all' ? prospects.filter(p => p.score === filter) : prospects;
+  document.getElementById('prospects-table').innerHTML = data.map((p, i) => `
+    <tr class="border-t border-border hover:bg-elevated/30 cursor-pointer transition" onclick="selectProspect(${p.id})">
+      <td class="p-3 font-medium">${p.nom}</td>
+      <td class="p-3 text-textSecondary">${p.type}</td>
+      <td class="p-3 text-textSecondary">${p.secteur}</td>
+      <td class="p-3 font-medium">${p.budget}</td>
+      <td class="p-3"><span class="${scoreClass(p.score)} text-xs px-2.5 py-1 rounded-full font-semibold">${scoreLabel(p.score)}</span></td>
+      <td class="p-3"><span class="${statusClass(p.statut)} text-xs px-2.5 py-1 rounded-full font-medium capitalize">${p.statut}</span></td>
+      <td class="p-3 text-textMuted text-xs">${p.date}</td>
+      <td class="p-3"><button class="bg-elevated hover:bg-primary/20 text-primary text-xs px-3 py-1.5 rounded-lg transition" onclick="event.stopPropagation(); selectProspect(${p.id}); showView('conversations')">Voir</button></td>
+    </tr>
+  `).join('');
+}
+
+function renderConvo(id) {
+  const p = prospects.find(x => x.id === id);
+  const msgs = conversations[id] || conversations[1];
+  document.getElementById('convo-name').textContent = p.nom;
+  document.getElementById('convo-time').textContent = p.date;
+  document.getElementById('convo-messages').innerHTML = msgs.slice(-6).map(m => `
+    <div class="${m.role === 'in' ? '' : 'flex justify-end'}">
+      <div class="${m.role === 'in' ? 'chat-bubble-in' : 'chat-bubble-out'} px-3 py-2 max-w-[85%]">
+        <p class="text-xs text-textPrimary">${m.msg}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderFullConvo(id) {
+  const p = prospects.find(x => x.id === id);
+  const msgs = conversations[id] || conversations[1];
+  document.getElementById('full-convo-name').textContent = p.nom;
+  document.getElementById('full-convo-phone').textContent = p.phone;
+  document.getElementById('full-convo-score').textContent = scoreLabel(p.score);
+  document.getElementById('full-convo-score').className = `${scoreClass(p.score)} text-xs px-2 py-1 rounded-full font-medium`;
+  document.getElementById('full-convo-messages').innerHTML = msgs.map(m => `
+    <div class="${m.role === 'in' ? '' : 'flex justify-end'}">
+      <div class="${m.role === 'in' ? 'chat-bubble-in' : 'chat-bubble-out'} px-4 py-2.5 max-w-[70%]">
+        <p class="text-sm text-textPrimary">${m.msg}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderConvoList() {
+  document.getElementById('convo-list').innerHTML = prospects.map(p => `
+    <div class="p-3 hover:bg-elevated/50 cursor-pointer transition" onclick="selectProspect(${p.id}); renderFullConvo(${p.id})">
+      <div class="flex items-center justify-between">
+        <span class="text-sm font-medium">${p.nom}</span>
+        <span class="text-xs text-textMuted">${p.date}</span>
+      </div>
+      <div class="flex items-center gap-2 mt-1">
+        <span class="${scoreClass(p.score)} text-[10px] px-1.5 py-0.5 rounded-full font-semibold">${scoreLabel(p.score)}</span>
+        <span class="text-xs text-textMuted truncate">${p.type} — ${p.secteur}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderRelances() {
+  const colorMap = { orange:'bg-orange', danger:'bg-danger', teal:'bg-teal' };
+  const textMap = { orange:'text-orange', danger:'text-danger', teal:'text-teal' };
+  document.getElementById('relances-panel').innerHTML = relances.map(r => `
+    <div class="bg-surface rounded-lg p-3 flex items-center gap-3">
+      <div class="relance-bar h-10 ${colorMap[r.color]}"></div>
+      <div class="flex-1">
+        <div class="text-sm font-medium">${r.client}</div>
+        <div class="text-xs text-textSecondary">${r.action}</div>
+      </div>
+      <span class="${textMap[r.color]} text-xs font-bold">${r.delay}</span>
+    </div>
+  `).join('');
+}
+
+// ─── INTERACTIONS ───
+let selectedProspect = 1;
+
+function selectProspect(id) {
+  selectedProspect = id;
+  renderConvo(id);
+  renderFullConvo(id);
+}
+
+function filterScore(score) {
+  renderTable(score);
+}
+
+function showView(view) {
+  document.querySelectorAll('[id^="view-"]').forEach(v => v.classList.add('hidden'));
+  document.getElementById('view-' + view).classList.remove('hidden');
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('nav-active'));
+  if (view === 'conversations') renderConvoList();
+}
+
+function editClient() {
+  const p = prospects.find(x => x.id === selectedProspect);
+  const newScore = prompt(`Modifier le score de ${p.nom}:\nActuel: ${p.score}\n\nOptions: chaud, chaud_urgent, tiede, froid`, p.score);
+  if (newScore && ['chaud','chaud_urgent','tiede','froid'].includes(newScore)) {
+    p.score = newScore;
+    renderTable();
+    renderFullConvo(selectedProspect);
+    renderConvo(selectedProspect);
+  }
+}
+
+// ─── INIT ───
+renderTable();
+renderConvo(1);
+renderRelances();
+</script>
+</body>
+</html>
