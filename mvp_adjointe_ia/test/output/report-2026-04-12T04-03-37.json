@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-04-12T04:03:37.597Z",
+  "model": "claude-sonnet-4-6",
+  "results": [
+    {
+      "scenarioId": "happy-path-acheteur",
+      "scenarioName": "Happy Path Acheteur — Pierre Verdun",
+      "turns": 0,
+      "conversation": [],
+      "evaluation": {
+        "scoreGlobal": 0,
+        "pass": false,
+        "criticalFailures": [
+          "Runtime error: 404 {\"type\":\"error\",\"error\":{\"type\":\"not_found_error\",\"message\":\"model: claude-3-5-haiku-latest\"},\"request_id\":\"req_011CZyDL9gaXSdTJ9pwg8QXT\"}"
+        ]
+      },
+      "error": "404 {\"type\":\"error\",\"error\":{\"type\":\"not_found_error\",\"message\":\"model: claude-3-5-haiku-latest\"},\"request_id\":\"req_011CZyDL9gaXSdTJ9pwg8QXT\"}"
+    }
+  ],
+  "summary": {
+    "totalScenarios": 1,
+    "passed": 0,
+    "failed": 1,
+    "averageScore": 0,
+    "criticalFailures": 1,
+    "estimatedCost": 0.05
+  }
+}

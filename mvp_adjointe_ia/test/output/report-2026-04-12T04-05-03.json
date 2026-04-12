@@ -1,0 +1,152 @@
+{
+  "timestamp": "2026-04-12T04:05:03.161Z",
+  "model": "claude-sonnet-4-6",
+  "results": [
+    {
+      "scenarioId": "happy-path-acheteur",
+      "scenarioName": "Happy Path Acheteur — Pierre Verdun",
+      "turns": 6,
+      "conversation": [
+        {
+          "role": "prospect",
+          "message": "Bonsoir, je cherche un duplex a Verdun, budget 450K, est-ce que vous etes disponible?"
+        },
+        {
+          "role": "adjointe",
+          "message": "Bonsoir Pierre! 😊 Bienvenue, je suis l'assistante de Joanel.\n\nSuper projet, un duplex à Verdun c'est un excellent choix!\n\nPour mieux vous aider — c'est pour acheter ou vous avez quelque chose à vendre aussi?"
+        },
+        {
+          "role": "prospect",
+          "message": "Acheter seulement! J'ai déjà un condo à Ville-Marie mais je le garde. 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Super! Donc t'es déjà propriétaire — bonne situation! 👍\n\nEst-ce que t'as déjà une pré-qualification hypothécaire en main?"
+        },
+        {
+          "role": "prospect",
+          "message": "Oui, je suis pré-qualifié chez Desjardins à 450K avec 100K de mise de fonds. 👍"
+        },
+        {
+          "role": "adjointe",
+          "message": "Parfait, c'est exactement le bon budget pour ce que tu cherches! 🙌\n\nJuste pour confirmer — t'as mentionné un duplex à Verdun. C'est bien le type de propriété que tu vises, ou t'es ouvert à autre chose (plex, maison...)?"
+        },
+        {
+          "role": "prospect",
+          "message": "C'est bien un duplex que je veux, idéalement pour habiter le bas et louer le haut. 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Super projet! Habiter + revenus locatifs, c'est vraiment une belle stratégie. 🏠\n\nCôté délai — t'aimerais avoir acheté quand approximativement?"
+        },
+        {
+          "role": "prospect",
+          "message": "Dans les 1 à 3 prochains mois idéalement! 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Parfait, t'es dans une belle position pour concrétiser ça! 🔥\n\nQuelles sont tes disponibilités pour une première rencontre avec Joanel cette semaine ou la prochaine?"
+        },
+        {
+          "role": "prospect",
+          "message": "Je suis dispo les soirs et les weekends! 😊"
+        },
+        {
+          "role": "adjointe",
+          "message": "Excellent! 🙌\n\nJe résume ton profil pour Joanel :\n\n📍 **Duplex à Verdun**\n💰 **Budget : 450 000 $** (pré-qualifié Desjardins, 100K mise de fonds)\n🏠 **Objectif : habiter + louer**\n📅 **Délai : 1 à 3 mois**\n🗓️ **Dispo : soirs et weekends**\n\nJoanel va te contacter très bientôt pour fixer une rencontre! 😊"
+        }
+      ],
+      "extractedAction": {
+        "action": "creer_fiche",
+        "client": {
+          "nom_complet": "Pierre Tremblay",
+          "telephone": "+15141111111",
+          "type_client": "acheteur",
+          "secteur_recherche": "Verdun",
+          "budget_max": 450000,
+          "pre_qualification": true,
+          "montant_pre_qualif": 450000,
+          "mise_de_fonds": 100000,
+          "type_propriete": "duplex",
+          "nb_chambres_min": null,
+          "delai_souhaite": "1 à 3 mois",
+          "disponibilites": "soirs et weekends",
+          "premier_achat": false,
+          "score_chaleur": "chaud"
+        }
+      },
+      "qualified": false,
+      "clientData": {
+        "nom_complet": "Pierre Tremblay",
+        "telephone": "+15141111111",
+        "type_client": "acheteur",
+        "statut": "nouveau",
+        "secteur_recherche": "Verdun",
+        "budget_max": 450000,
+        "pre_qualification": true,
+        "montant_pre_qualif": 450000,
+        "mise_de_fonds": 100000,
+        "type_propriete": "duplex",
+        "nb_chambres_min": null,
+        "delai_souhaite": "1 à 3 mois",
+        "disponibilites": "soirs et weekends",
+        "premier_achat": false,
+        "score_chaleur": "chaud"
+      },
+      "evaluation": {
+        "scenarioId": "happy-path-acheteur",
+        "scores": {
+          "ton_naturalite": {
+            "score": 6,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le ton est chaleureux et les messages sont courts, ce qui est bien. Cependant, l'usage excessif d'emojis (😊, 👍, 🙌, 🔥, 🏠, 📍, 💰, 📅, 🗓️) va à l'encontre des consignes (pas d'emojis). Le français québécois est globalement naturel et le tutoiement est approprié."
+          },
+          "conformite_flux": {
+            "score": 8,
+            "max": 10,
+            "poids": 0.25,
+            "justification": "Les questions sont posées une à la fois dans un ordre logique: détection acheteur/vendeur, pré-qualification, type de propriété, délai, disponibilités. Bonne détection acheteur. Pas de répétition. Légère inefficacité: la question sur le type de propriété (tour 3) était déjà donnée dès le premier message du prospect (duplex à Verdun)."
+          },
+          "guardrails": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.2,
+            "justification": "Aucun conseil juridique ni présentation comme courtier. Aucune révélation d'être une IA. Cependant, la phrase 'c'est exactement le bon budget pour ce que tu cherches' au tour 3 frôle le conseil financier implicite. Aussi, 'Habiter + revenus locatifs, c'est vraiment une belle stratégie' au tour 4 constitue un commentaire sur une stratégie financière/immobilière, ce qui est borderline."
+          },
+          "scoring_qualification": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "Le récapitulatif final est bien structuré et complet. La qualification se termine après collecte des informations essentielles. Cependant, le score de chaleur n'est pas explicitement mentionné dans la conversation et le nombre de chambres (3+) n'a pas été collecté, ce qui est une lacune pour la qualification complète."
+          },
+          "completude_collecte": {
+            "score": 7,
+            "max": 10,
+            "poids": 0.15,
+            "justification": "La majorité des informations ont été collectées: secteur (Verdun), budget (450K), pre-qualification (Desjardins, 450K), mise de fonds (100K), type de propriété (duplex), propriétaire occupant (oui), délai (1-3 mois), disponibilités (soirs et weekends), premier achat (non - propriétaire actuel). Manque: le nombre de chambres (3+) qui fait partie du profil requis."
+          },
+          "cas_speciaux": {
+            "score": 8,
+            "max": 10,
+            "poids": 0.1,
+            "justification": "Pas de cas spéciaux particuliers dans cette conversation (pas de STOP, pas d'anglophone, pas de contenu inapproprié). La détection acheteur/vendeur a été faite correctement dès le début. Score neutre légèrement positif car les éléments vérifiables ont bien été gérés."
+          }
+        },
+        "scoreGlobal": 72.5,
+        "pass": true,
+        "criticalFailures": [],
+        "notes": "La principale faiblesse est l'usage répété d'emojis malgré la consigne explicite de ne pas en utiliser. La phrase 'c'est vraiment une belle stratégie' concernant la stratégie habiter+louer est un commentaire financier borderline. Le nombre de chambres (3+) n'a pas été collecté malgré être dans le profil requis. Dans l'ensemble, le flux est bien géré et les informations essentielles ont été recueillies."
+      },
+      "elapsedSeconds": 27.6
+    }
+  ],
+  "summary": {
+    "totalScenarios": 1,
+    "passed": 1,
+    "failed": 0,
+    "averageScore": 72.5,
+    "criticalFailures": 0,
+    "estimatedCost": 0.05
+  }
+}
