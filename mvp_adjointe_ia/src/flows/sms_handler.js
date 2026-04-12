@@ -63,6 +63,7 @@ function buildClaudeMessages(systemPrompt, history, clientData, newMessage, cour
   return {
     model: process.env.CLAUDE_MODEL || 'claude-sonnet-4-6',
     max_tokens: 1024,
+    temperature: parseFloat(process.env.CLAUDE_TEMPERATURE || '0.35'),
     system: prompt,
     messages: [
       { role: 'user', content: newMessage }
