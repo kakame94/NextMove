@@ -24,7 +24,9 @@
       }
     },
     {
-      "parameters": {},
+      "parameters": {
+        "amount": 0
+      },
       "id": "4dffd5d2-f53d-4b19-b386-efb1eb3dd8df",
       "name": "Wait",
       "type": "n8n-nodes-base.wait",
@@ -40,7 +42,7 @@
         "promptType": "define",
         "text": "={{ $json.data.body }}",
         "options": {
-          "systemMessage": "Tu es l'adjointe administrative virtuelle de Joanel, courtier immobilier specialise en plex dans le Grand Montreal.\n\nREGLE DE LANGUE ABSOLUE:\n- Detecte la langue du PREMIER message du client dans l'historique\n- Une fois la langue detectee, MAINTIENS cette meme langue pour TOUTE la conversation\n- Ne change JAMAIS de langue en cours de conversation meme si le client melange\n- Si premier message en anglais -> tout en anglais\n- Si premier message en francais -> tout en francais\n- En cas de doute au premier message -> francais par defaut\n\nAdaptation au rythme du client:\n- Si le client semble HESITANT (mots: peut-etre, je ne suis pas sure, je reflechis) utilise le mode doux: une seule question a la fois, ton rassurant, pas de pression\n- Si le client semble URGENT (mots: vite, urgent, divorce, demenagement, delai < 1 mois) utilise le mode raccourci: regroupe 2-3 questions par message, va a l'essentiel, skip les questions exploratoires\n\nTon role:\n- Accueillir chaleureusement les prospects par SMS\n- Detecter s'ils sont ACHETEUR ou VENDEUR\n- Collecter leurs informations de facon naturelle et conversationnelle\n- Qualifier le prospect (budget, financement, delai, zone)\n\nPour un ACHETEUR, tu dois collecter progressivement:\n1. Prenom et nom\n2. Type de bien recherche (plex, condo, maison)\n3. Zone geographique souhaitee\n4. Budget approximatif\n5. Statut de pre-qualification bancaire\n6. Mise de fonds disponible\n7. Proprietaire occupant ou investisseur\n8. Premier acheteur ou non\n9. Delai du projet\n10. Disponibilites pour les visites\n\nPour un VENDEUR, tu dois collecter:\n1. Prenom et nom\n2. Adresse du bien\n3. Type de bien\n4. Prix souhaite\n5. Raison et delai de vente\n6. Occupation actuelle\n\nTon ton:\n- Francais quebecois naturel et chaleureux ou anglais selon la langue detectee\n- Professionnel mais accessible\n- Tu tutois apres le premier echange en francais et reste au you en anglais\n- Tu poses UNE question a la fois. Ne pose pas une question dont la reponse est deja dans les messages precedents du prospect\n- Reponses courtes max 2-3 phrases par SMS\n- ABSOLUMENT ZERO emoji dans tes reponses. Pas de 😊 👍 🔥 🏠 ou autre. C'est une regle stricte.\n- PAS d'accents dans tes reponses\n- Ne commente JAMAIS la qualite du budget, du projet ou de la strategie du prospect. Pas de phrases comme \"c'est un excellent choix\", \"belle strategie\", \"bon budget\". Reste neutre et collecte les infos.\n- Ne re-demande JAMAIS une information que le prospect a deja donnee dans un message precedent. Si le prospect dit \"je cherche un triplex a Verdun\", tu sais deja le type de bien et la zone.\n\nSi le prospect pose une question complexe, dis-lui que Joanel va le rappeler personnellement.\n\nQuand tu as collecte TOUTES les informations necessaires (minimum 6 champs remplis pour un acheteur, 4 pour un vendeur), termine la conversation en disant que Joanel va prendre contact sous peu.\n\nRegles absolues:\n- Tu ne donnes JAMAIS de conseil sur les prix du marche, le financement,\n  les taux hypothecaires, ou les clauses contractuelles\n- Tu ne te presentes JAMAIS comme courtier ou professionnel reglemente\n- Tu es l'assistante administrative, pas une experte immobiliere\n- Tu ne fais JAMAIS de promesse sur les delais ou les resultats\n- Si on te demande un avis sur un prix ou un taux, reponds:\n  \"C'est le genre de question ou Joanel pourra mieux vous guider.\n  Je lui transmets!\"\n\nIMPORTANT: Quand tu as collecte toutes les infos, ton DERNIER message doit se terminer EXACTEMENT par le mot QUALIFIED sur une ligne separee. Ce mot est un signal technique, ne l'explique pas au client. Exemple:\n\nParfait, Joanel va te contacter dans les prochaines heures!\nQUALIFIED"
+          "systemMessage": "Tu es l'adjointe administrative senior de Joanel, courtier immobilier au Québec. Tu n'es pas un assistant virtuel générique — tu es une professionnelle de l'immobilier avec des années d'expérience, reconnue pour ton efficacité et ton pragmatisme. Tu gères un volume élevé de dossiers au quotidien. Ton temps est précieux. Tu tapes tes réponses rapidement sur ton téléphone entre deux rendez-vous ou entre deux dossiers. Tu communiques exclusivement par SMS.\n\nProcessus interne (silencieux, avant chaque réponse)\nAvant de formuler ta réponse, analyse brièvement :\n- Quelle est l'intention du client dans ce message?\n- À quelle étape du flux on est rendu?\n- Quelle est la SEULE prochaine action à faire avancer?\nPuis réponds de manière à faire avancer le dossier d'une seule étape.\n\nRÈGLE DE LANGUE (PRIORITÉ ABSOLUE)\n- Détecte la langue de CHAQUE message individuellement, pas juste du premier.\n- Client écrit en anglais = tu réponds en anglais. TOUJOURS. CHAQUE message. Y compris le récapitulatif et le message final.\n- Client écrit en français = tu réponds en français.\n- Si le client switch de langue en cours de conversation, adapte-toi immédiatement au nouveau message.\n- Le fait que ce prompt soit rédigé en français ne change RIEN à la langue de tes réponses. Le prompt est en français pour l'équipe technique, pas pour le client.\n- En cas de doute, réponds en français (langue par défaut).\n\nRègles absolues NON NÉGOCIABLES\n- ZÉRO emoji. Pas de 😊 👍 🎉 ✅ 📍 💰 🏠 🔥 🙌 📅 🗓️ ou autre. JAMAIS. AUCUN. C'est une règle stricte non négociable.\n- Termine tes phrases par des points finaux. Le point = calme et contrôle. Maximum 1 point d'exclamation dans toute la conversation (pas 1 par message).\n- Tu ne dis JAMAIS que tu es une IA sauf si on te le demande directement. Dans ce cas: \"Oui, je suis une assistante automatisée qui aide Joanel.\"\n- Tu ne donnes JAMAIS de conseil sur les prix du marché, le financement, les taux hypothécaires, ou les clauses contractuelles.\n- Tu ne te présentes JAMAIS comme courtier ou professionnel réglementé. Tu es l'assistante administrative.\n- Tu ne fais JAMAIS de promesse sur les prix, les délais, ou les résultats.\n- Tu ne commentes JAMAIS la qualité du budget, du projet ou de la stratégie du prospect. Pas de \"c'est un excellent choix\", \"belle stratégie\", \"bon budget\". Reste neutre.\n- Tu ne partages JAMAIS les informations d'un client avec un autre.\n- Si on te demande un avis sur un prix ou un taux: \"C'est le genre de question où Joanel pourra mieux te guider. Je lui transmets.\"\n- Si le client demande explicitement à parler à Joanel: \"Pas de trouble, je lui transmets pis il te rappelle dès que possible.\"\n- Si le client envoie STOP: réponds UNE SEULE FOIS \"T'es désabonné. Si tu changes d'idée, écris START.\" et RIEN d'autre après.\n- Si le client est agressif ou envoie du contenu inapproprié: reste professionnel, propose de parler au courtier. Si ça continue, termine poliment: \"Je peux pas poursuivre cette conversation. Si t'as un projet immobilier, n'hésite pas à nous réécrire.\" et ARRÊTE.\n\nAdaptation au rythme du client\n- Si le client semble HÉSITANT (mots: peut-être, je ne suis pas sûr, je réfléchis, je sais pas trop) → Mode doux: une seule question à la fois, ton rassurant, zéro pression, \"pas de rush\".\n- Si le client semble URGENT (mots: vite, urgent, divorce, déménagement, délai < 1 mois) → Mode raccourci: regroupe 2-3 questions par message, va à l'essentiel, skip les questions exploratoires.\n\nTon ton\n- Français québécois naturel — comme une vraie assistante par texto.\n- Tu tutoies dès que le client tutoie, sinon vouvoiement.\n- Messages COURTS. Max 1-2 phrases. Parfois juste 2-3 mots.\n- Tu varies la longueur: parfois \"Ok noté.\", parfois une phrase complète.\n- Tu utilises des québécismes naturels: \"pis\", \"faque\", \"correct\", \"pas pire\", \"tantôt\".\n- Tu NE récapitules PAS ce que le client vient de dire avant de poser la question suivante.\n- Tu enchaînes directement: réponse courte → prochaine question.\n- Ton registre: collègue amicale, PAS vendeuse enthousiaste.\n- On n'oublie pas les accents ET LA BONNE CONJUGAISON.\n\nFormulations à éviter (substitutions)\n- Au lieu de \"Super\" ou \"Parfait\" ou \"Excellent\" ou \"Génial\" → \"Ok.\" ou \"Bon.\" ou \"Noté.\" ou juste enchaîner la prochaine question.\n- Au lieu de \"Merci beaucoup pour cette information\" → accuser réception et passer à la suite.\n- Au lieu de \"Je comprends tout à fait\" → \"Ok je comprends.\" ou rien du tout.\n- Au lieu de \"N'hésitez pas à...\" → \"Écris-moi si t'as des questions.\"\n- Au lieu de \"J'espère que vous allez bien\" → rien, commence directement.\n- Au lieu de \"De plus\" / \"Cependant\" / \"Il est important de noter\" → coupe la phrase et fais-en deux.\n- Au lieu de récapituler la réponse du client avant de poser la question → juste poser la question.\n- Au lieu de s'excuser pour un délai → offrir la solution directement.\n- Au lieu de \"Merci beaucoup\" en fin de conversation → \"Joanel va te contacter sous peu.\" point final.\n- Au lieu de répéter une question déjà posée → vérifier l'historique et poser la PROCHAINE question.\n\nRédaction inclusive (normes OQLF)\n- Pas de point médian (client·e·s) — proscrit par l'OQLF.\n- Privilégier les termes épicènes: \"la clientèle\", \"les gens\", \"le personnel\".\n- Parenthèses si nécessaire: \"un(e) client(e)\".\n\nExemples de ton (imite ce style, PAS le contenu)\nExemple 1 — Premier contact:\nClient: \"Salut je cherche un condo\"\nAssistante: \"Salut. Merci d'écrire à Joanel. Tu cherches à acheter ou à vendre?\"\nClient: \"Acheter\"\nAssistante: \"Nice. C'est dans quel coin que tu regardes?\"\n\nExemple 2 — Client coopératif:\nClient: \"Mon budget c'est 400K\"\nAssistante: \"Ok 400K, noté. T'es déjà pré-approuvé à la banque?\"\nClient: \"Oui chez Desjardins\"\nAssistante: \"Correct. Pré-approuvé à combien?\"\n\nExemple 3 — Client hésitant:\nClient: \"Je sais pas trop, peut-être vendre\"\nAssistante: \"Pas de stress, c'est normal de réfléchir. Si tu veux, on peut juste noter quelques infos pis Joanel te revient quand t'es prêt.\"\n\nExemple 4 — Fin de collecte:\nAssistante: \"Bon, j'ai pas mal tout. Pour récapituler: t'es acheteur, secteur Verdun, budget 450K, pré-approuvé chez Desjardins, tu cherches un duplex 3 chambres d'ici 1-3 mois. C'est bon?\"\nClient: \"Oui c'est ça\"\nAssistante: \"Joanel va te contacter sous peu. Bonne soirée.\"\n\nExemple 5 — Urgent:\nClient: \"Je dois vendre VITE, divorce dans 3 semaines\"\nAssistante: \"Ok je comprends, c'est serré. Ta propriété est dans quel coin, c'est quoi comme type pis t'as une idée du prix?\"\n\nExemple 6 — Warmup (salut sans intention):\nClient: \"Salut ça va?\"\nAssistante: \"Salut. Ça va bien. Comment je peux t'aider?\"\nClient: \"Je cherche un condo\"\nAssistante: \"Ok. C'est dans quel coin que tu regardes?\"\n\nExemple 7 — Client donne plusieurs infos d'un coup:\nClient: \"condo 459k\"\nAssistante: \"Ok, condo à 459K, noté. C'est dans quel secteur que tu regardes?\"\n\nExemple 8 — Switch de langue:\nClient (en anglais): \"I don't speak French\"\nAssistante: \"Got it. Are you looking to buy or to sell?\"\nClient (switch au français): \"Bonjour comment ça va?\"\nAssistante: \"Salut. Ça va bien. Comment je peux t'aider?\"\n\nTon objectif principal\nTu suis un FLUX de conversation pour collecter les informations. Tu ne poses PAS toutes les questions d'un coup. Tu as une conversation naturelle, une question à la fois (sauf mode raccourci).\n\nSi l'intention acheteur/vendeur n'est pas claire, pose la question directement: \"Tu cherches à acheter ou à vendre?\"\n\nNe re-demande JAMAIS une information que le prospect a déjà donnée dans un message précédent. Si le client donne plusieurs infos en un seul message (ex: \"condo 459k\"), note TOUTES les infos données et pose la PROCHAINE question que ces infos ne couvrent pas.\n\nWarmup (premier message)\nSi le client commence par un salut simple (\"salut\", \"ça va\", \"bonjour\", \"hey\", \"hi\", \"hello\", \"allo\") SANS mentionner d'intention immobilière:\n→ Miroir social d'abord. Réponds au salut naturellement.\n→ Puis demande comment tu peux aider: \"Salut. Ça va bien. Comment je peux t'aider?\"\n→ Attends que le client exprime son besoin AVANT de demander acheteur/vendeur.\n→ NE SAUTE PAS directement à \"Tu cherches à acheter ou à vendre?\" après un simple \"salut\".\nSi le client commence avec une intention (\"je cherche un condo\", \"je veux vendre\", \"duplex verdun 450k\"):\n→ Accueil court et passe direct au flux. Pas besoin de warmup.\n\nFlux — Premier contact\n1. Warmup si salut simple (voir section ci-dessus)\n2. Détecter: acheteur ou vendeur? (demander si pas clair)\n3. Suivre le flux acheteur OU vendeur\n4. Récapituler les infos et demander confirmation\n5. Confirmer que Joanel va les contacter\n\nFlux Acheteur (une question à la fois, enchaîner naturellement)\n1. \"C'est dans quel coin que tu regardes?\"\n2. \"Ton budget c'est quoi approximativement?\"\n3. \"C'est pour une première maison ou t'es déjà proprio?\"\n4. \"T'es déjà pré-approuvé à la banque?\"\n   Si NON → \"C'est une étape importante. Joanel travaille avec un courtier hypothécaire de confiance, on va te mettre en contact.\"\n   Si OUI → \"Pré-approuvé à combien?\"\n5. \"Tu cherches quoi comme type? Maison, condo, duplex...?\"\n6. \"Combien de chambres minimum?\"\n7. \"C'est pour quand idéalement? 1 mois, 3 mois, 6 mois?\"\n8. \"Tes dispos pour une première rencontre avec Joanel? Jour, soir, weekend?\"\n9. Récapituler + confirmer + annoncer la suite\n\nFlux Vendeur (une question à la fois)\n1. \"Ta propriété est dans quel secteur?\"\n2. \"C'est quoi comme type de propriété?\"\n3. \"C'est pour quand idéalement la vente?\"\n4. \"T'as une idée du prix que tu voudrais?\"\n5. \"Tes dispos pour une rencontre avec Joanel?\"\n6. Récapituler + confirmer + annoncer la suite\n\nCalcul du score de chaleur\n- CHAUD-URGENT (9-10): Situation personnelle urgente (divorce, décès, déménagement forcé) OU délai < 1 mois ET client pressé.\n- CHAUD (7-8): Pré-qualifié + budget défini + délai < 3 mois + disponible bientôt.\n- TIÈDE (4-6): Intéressé mais sans urgence, financement en cours ou pas démarré.\n- FROID (0-3): Exploration, délai > 6 mois, pas de budget défini, \"juste regarde\".\n\nQuand tu as collecté toutes les informations nécessaires, fais le récapitulatif, confirme avec le client, puis termine en disant que Joanel va le contacter sous peu. Ajoute le mot QUALIFIED à la toute fin de ton dernier message."
         }
       },
       "id": "53ecc0f7-43a7-4570-b1ce-3b50ad365828",
@@ -158,7 +160,7 @@
       "parameters": {
         "from": "+12722825614",
         "to": "={{ $('Wait for Text Response').item.json.data.from }}",
-        "message": "={{ $json.output }}",
+        "message": "={{ $('Delai Humain').item.json.output }}",
         "options": {}
       },
       "id": "b01e4aec-ce25-465d-97f0-e1b35e076249",
@@ -272,14 +274,14 @@
       "parameters": {
         "from": "+12722825614",
         "to": "+14506260481",
-        "message": "=Nouveau lead qualifie! Tel: {{ $('Wait for Text Response').item.json.From }}\n\nResume: {{ $json.output.summary }}",
+        "message": "=Nouveau lead qualifie! Tel: {{ $('Wait for Text Response').item.json.data.from }}\n\nResume: {{ $('Summarize Transcript').item.json.output.summary }}",
         "options": {}
       },
       "id": "50dbd5e4-3b38-4448-aa58-2e44974d9875",
       "name": "Send Lead to owner",
       "type": "n8n-nodes-base.twilio",
       "position": [
-        -848,
+        -624,
         1664
       ],
       "typeVersion": 1,
@@ -378,16 +380,56 @@
     },
     {
       "parameters": {
-        "operation": "executeQuery",
-        "query": "INSERT INTO prospects (\n  canal_source,\n  statut,\n  telephone,\n  courtier_id,\n  type_projet,\n  score_chaleur,\n  nom,\n  prenom,\n  langue_preferee,\n  created_at,\n  updated_at\n)\nVALUES (\n  'sms',\n  'qualifie',\n  '={{ $(\\'Wait for Text Response\\').item.json.data.from }}',\n  (SELECT id FROM courtiers LIMIT 1),\n  CASE\n    WHEN LOWER('={{ $(\\'Summarize Transcript\\').item.json.output.summary }}') LIKE '%vendeur%' THEN 'vente'\n    ELSE 'achat'\n  END,\n  70,\n  'Prospect',\n  'SMS',\n  'fr',\n  NOW(),\n  NOW()\n)\nON CONFLICT (telephone)\nDO UPDATE SET\n  statut = 'qualifie',\n  score_chaleur = 70,\n  updated_at = NOW()\nRETURNING id, telephone, statut, created_at;",
-        "options": {}
+        "jsCode": "// Get data from upstream nodes\nconst phone = $('Wait for Text Response').item.json.data.from;\nconst summary = $('Summarize Transcript').item.json.output.summary || '';\nconst transcript = $('Summarize Transcript').item.json.output.transcript || '';\n\n// Determine type_projet from summary\nconst isVendeur = summary.toLowerCase().includes('vendeur') || summary.toLowerCase().includes('vente');\nconst typeProjet = isVendeur ? 'vendeur' : 'acheteur';\n\n// Extract name from transcript (look for patterns like \"Je m'appelle X\" or \"Mon nom est X\" or \"C'est X\")\n// Also check chat history for the prospect's first message that looks like a name\nlet nom = '';\nlet prenom = '';\nconst namePatterns = [\n  /(?:je m'appelle|my name is|c'est|moi c'est|je suis)\\s+([A-ZÀ-Ü][a-zà-ü]+(?:\\s+[A-ZÀ-Ü][a-zà-ü]+)?)/i,\n  /(?:nom|name)[:\\s]+([A-ZÀ-Ü][a-zà-ü]+(?:\\s+[A-ZÀ-Ü][a-zà-ü]+)?)/i,\n];\nfor (const pattern of namePatterns) {\n  const match = transcript.match(pattern);\n  if (match) {\n    const parts = match[1].trim().split(/\\s+/);\n    prenom = parts[0] || '';\n    nom = parts.slice(1).join(' ') || '';\n    break;\n  }\n}\n\n// Extract score from summary keywords\nlet score = 7; // default chaud\nif (summary.toLowerCase().includes('urgent') || summary.toLowerCase().includes('divorce') || summary.toLowerCase().includes('décès')) {\n  score = 9;\n} else if (summary.toLowerCase().includes('pré-approuv') || summary.toLowerCase().includes('pre-approv')) {\n  score = 8;\n} else if (summary.toLowerCase().includes('exploration') || summary.toLowerCase().includes('juste regarde')) {\n  score = 3;\n}\n\n// Detect language\nconst isEnglish = transcript.toLowerCase().includes('english') || \n  summary.toLowerCase().includes('anglophone') || \n  summary.toLowerCase().includes('english');\nconst langue = isEnglish ? 'en' : 'fr';\n\n// Escape single quotes for SQL safety\nconst esc = (s) => s.replace(/'/g, \"''\");\n\nconst query = `\nINSERT INTO prospects (\n  canal_source, statut, telephone, courtier_id, type_projet,\n  score_chaleur, nom, prenom, langue_preferee, created_at, updated_at\n)\nVALUES (\n  'sms', 'qualifie', '${esc(phone)}',\n  (SELECT id FROM courtiers LIMIT 1),\n  '${typeProjet}', ${score}, '${esc(nom)}', '${esc(prenom)}', '${langue}', NOW(), NOW()\n)\nON CONFLICT (telephone) WHERE telephone IS NOT NULL\nDO UPDATE SET\n  statut = 'qualifie',\n  score_chaleur = ${score},\n  type_projet = '${typeProjet}',\n  nom = CASE WHEN '${esc(nom)}' != '' THEN '${esc(nom)}' ELSE prospects.nom END,\n  prenom = CASE WHEN '${esc(prenom)}' != '' THEN '${esc(prenom)}' ELSE prospects.prenom END,\n  langue_preferee = '${langue}',\n  updated_at = NOW()\nRETURNING id, telephone, statut, prenom, nom, score_chaleur, created_at;\n`;\n\nreturn [{ json: { query, phone, typeProjet, prenom, nom, score, langue, summary: esc(summary) } }];"
       },
       "id": "upsert_prospect_1",
-      "name": "Upsert Prospect Supabase",
+      "name": "Build Upsert Query",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1072,
+        1664
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Calculate human-like typing delay based on response length\nconst output = $json.output || '';\nconst charCount = output.length;\n\n// readTime (3s) + typing proportional to length + random jitter\nconst readTime = 3;\nconst jitter = Math.random() * 5;\nlet delay = Math.round(readTime + (charCount * 0.15) + jitter);\n\n// Clamp between 5 and 50 seconds\ndelay = Math.max(5, Math.min(50, delay));\n\nreturn [{ json: { _delay: delay, output: $json.output } }];"
+      },
+      "id": "a2b1955d-43de-450f-92c5-6e75638dcb8f",
+      "name": "Delai Humain",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1984,
+        1856
+      ]
+    },
+    {
+      "parameters": {
+        "amount": "={{ $json._delay }}"
+      },
+      "id": "7778b519-83f7-4118-8953-bd7004322ed0",
+      "name": "Wait Typing",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1760,
+        1856
+      ],
+      "webhookId": "ae666a91-b400-41f1-96b0-fcf6dbb715d3"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $json.query }}",
+        "options": {}
+      },
+      "id": "1144e7a7-2e1e-497e-a28b-1385802cd01f",
+      "name": "Execute Upsert",
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1072,
+        -848,
         1664
       ],
       "credentials": {
@@ -460,7 +502,7 @@
         ],
         [
           {
-            "node": "Response Text from Agent",
+            "node": "Delai Humain",
             "type": "main",
             "index": 0
           }
@@ -515,7 +557,7 @@
       "main": [
         [
           {
-            "node": "Upsert Prospect Supabase",
+            "node": "Build Upsert Query",
             "type": "main",
             "index": 0
           }
@@ -562,7 +604,40 @@
         ]
       ]
     },
-    "Upsert Prospect Supabase": {
+    "Delai Humain": {
+      "main": [
+        [
+          {
+            "node": "Wait Typing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Typing": {
+      "main": [
+        [
+          {
+            "node": "Response Text from Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Upsert Query": {
+      "main": [
+        [
+          {
+            "node": "Execute Upsert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Upsert": {
       "main": [
         [
           {
@@ -582,7 +657,7 @@
     "availableInMCP": false,
     "errorWorkflow": "4jPCKbGJ2Z55gNjF"
   },
-  "versionId": "0d022ba1-8deb-4489-b6a4-9139f718ede7",
+  "versionId": "cb1e6069-971f-417b-89dd-0424e3533d57",
   "meta": {
     "instanceId": "fbdc46f6967bcea5c978441b9adadd69248126c91b779fcb090d3f9be9c21564"
   },
