@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architecture Multi-Agent — Workflow Conversationnel</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f1117; color: #e0e0e0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+  h1 { font-size: 1.6rem; font-weight: 600; color: #fff; margin-bottom: 6px; letter-spacing: -0.5px; }
+  .subtitle { font-size: 0.85rem; color: #888; margin-bottom: 40px; }
+
+  .canvas { position: relative; width: 960px; height: 640px; }
+
+  /* ── Agents ── */
+  .agent { position: absolute; border-radius: 16px; padding: 24px 28px; cursor: default; transition: box-shadow .3s, transform .3s; z-index: 2; }
+  .agent:hover { transform: translateY(-3px); }
+
+  .agent-main { width: 300px; top: 200px; left: 330px; background: linear-gradient(135deg, #1a1f35 0%, #1e2540 100%); border: 1.5px solid #3b5bdb; box-shadow: 0 0 40px rgba(59,91,219,.15); }
+  .agent-main:hover { box-shadow: 0 0 60px rgba(59,91,219,.3); }
+
+  .agent-tester { width: 260px; top: 60px; left: 0; background: linear-gradient(135deg, #1a2e1a 0%, #1e351e 100%); border: 1.5px solid #40c057; box-shadow: 0 0 30px rgba(64,192,87,.1); }
+  .agent-tester:hover { box-shadow: 0 0 50px rgba(64,192,87,.25); }
+
+  .agent-patcher { width: 260px; top: 60px; right: 0; background: linear-gradient(135deg, #2e1a2e 0%, #351e35 100%); border: 1.5px solid #be4bdb; box-shadow: 0 0 30px rgba(190,75,219,.1); }
+  .agent-patcher:hover { box-shadow: 0 0 50px rgba(190,75,219,.25); }
+
+  .agent-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
+  .tag-main { background: rgba(59,91,219,.2); color: #7b9cf5; }
+  .tag-tester { background: rgba(64,192,87,.2); color: #69db7c; }
+  .tag-patcher { background: rgba(190,75,219,.2); color: #da77f2; }
+
+  .agent-name { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; color: #fff; }
+  .agent-desc { font-size: 0.78rem; line-height: 1.55; color: #aaa; }
+
+  .agent-tools { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .tool-chip { font-size: 0.65rem; padding: 2px 8px; border-radius: 6px; background: rgba(255,255,255,.06); color: #999; border: 1px solid rgba(255,255,255,.08); }
+
+  /* ── User ── */
+  .user-block { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: 220px; text-align: center; padding: 18px 24px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px dashed rgba(255,255,255,.15); z-index: 2; }
+  .user-icon { font-size: 1.8rem; margin-bottom: 4px; }
+  .user-label { font-size: 0.8rem; color: #888; }
+
+  /* ── SVG arrows ── */
+  svg.arrows { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+  .arrow-path { fill: none; stroke-width: 2; stroke-linecap: round; }
+  .arrow-blue { stroke: #3b5bdb; }
+  .arrow-green { stroke: #40c057; }
+  .arrow-purple { stroke: #be4bdb; }
+  .arrow-gray { stroke: #555; stroke-dasharray: 6 4; }
+
+  .arrow-label { font-size: 11px; fill: #999; font-family: 'Segoe UI', system-ui, sans-serif; }
+  .arrow-label-bg { fill: #0f1117; }
+
+  /* ── Loop badge ── */
+  .loop-badge { position: absolute; top: 175px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 20px; background: rgba(255,193,7,.08); border: 1px solid rgba(255,193,7,.25); z-index: 3; }
+  .loop-dot { width: 8px; height: 8px; border-radius: 50%; background: #ffc107; animation: pulse 2s infinite; }
+  .loop-text { font-size: 0.7rem; color: #ffc107; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+  /* ── Steps ── */
+  .steps { margin-top: 50px; width: 960px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .step { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07); border-radius: 12px; padding: 18px 16px; text-align: center; }
+  .step-num { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
+  .step-num.c-blue { color: #3b5bdb; }
+  .step-num.c-green { color: #40c057; }
+  .step-num.c-purple { color: #be4bdb; }
+  .step-num.c-yellow { color: #ffc107; }
+  .step-num.c-gray { color: #888; }
+  .step-title { font-size: 0.75rem; font-weight: 600; color: #ddd; margin-bottom: 4px; }
+  .step-desc { font-size: 0.68rem; color: #888; line-height: 1.45; }
+</style>
+</head>
+<body>
+
+<h1>Architecture Multi-Agent — Feedback Loop</h1>
+<p class="subtitle">Boucle d'auto-correction sur workflow conversationnel</p>
+
+<div class="canvas">
+  <!-- SVG Arrows -->
+  <svg class="arrows" viewBox="0 0 960 640">
+    <defs>
+      <marker id="ah-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#3b5bdb"/></marker>
+      <marker id="ah-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#40c057"/></marker>
+      <marker id="ah-purple" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#be4bdb"/></marker>
+      <marker id="ah-gray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#555"/></marker>
+    </defs>
+
+    <!-- User → Agent Principal -->
+    <path class="arrow-path arrow-gray" d="M480,530 L480,430" marker-end="url(#ah-gray)"/>
+    <rect class="arrow-label-bg" x="430" y="468" width="100" height="16" rx="3"/>
+    <text class="arrow-label" x="480" y="479" text-anchor="middle">prompt utilisateur</text>
+
+    <!-- Agent Principal → Agent Testeur -->
+    <path class="arrow-path arrow-green" d="M345,220 C280,180 230,150 245,125" marker-end="url(#ah-green)"/>
+    <rect class="arrow-label-bg" x="215" y="162" width="100" height="16" rx="3"/>
+    <text class="arrow-label" x="265" y="173" text-anchor="middle">1. envoie output</text>
+
+    <!-- Agent Testeur → Agent Patcher -->
+    <path class="arrow-path arrow-green" d="M260,95 C400,40 560,40 700,95" marker-end="url(#ah-purple)"/>
+    <rect class="arrow-label-bg" x="420" y="40" width="120" height="16" rx="3"/>
+    <text class="arrow-label" x="480" y="51" text-anchor="middle">2. rapport edge cases</text>
+
+    <!-- Agent Patcher → Agent Principal -->
+    <path class="arrow-path arrow-purple" d="M715,125 C730,150 680,180 615,220" marker-end="url(#ah-blue)"/>
+    <rect class="arrow-label-bg" x="630" y="162" width="100" height="16" rx="3"/>
+    <text class="arrow-label" x="680" y="173" text-anchor="middle">3. applique patch</text>
+
+    <!-- Loop retour Agent Principal → User -->
+    <path class="arrow-path arrow-blue" d="M520,400 C560,420 560,470 520,510" marker-end="url(#ah-gray)" stroke-dasharray="6 4"/>
+    <rect class="arrow-label-bg" x="530" y="448" width="90" height="16" rx="3"/>
+    <text class="arrow-label" x="575" y="459" text-anchor="middle">réponse finale</text>
+  </svg>
+
+  <!-- Loop indicator -->
+  <div class="loop-badge">
+    <div class="loop-dot"></div>
+    <span class="loop-text">Boucle itérative jusqu'à 0 défaut</span>
+  </div>
+
+  <!-- Agent Testeur -->
+  <div class="agent agent-tester">
+    <span class="agent-tag tag-tester">Agent B</span>
+    <div class="agent-name">Testeur Edge Cases</div>
+    <div class="agent-desc">Reçoit l'output de l'agent principal et génère des scénarios limites : inputs malformés, cas vides, valeurs extrêmes, ambiguïtés sémantiques, retours inattendus.</div>
+    <div class="agent-tools">
+      <span class="tool-chip">fuzzing</span>
+      <span class="tool-chip">boundary analysis</span>
+      <span class="tool-chip">assertion checks</span>
+      <span class="tool-chip">rapport JSON</span>
+    </div>
+  </div>
+
+  <!-- Agent Patcher -->
+  <div class="agent agent-patcher">
+    <span class="agent-tag tag-patcher">Agent C</span>
+    <div class="agent-name">Correcteur / Patcher</div>
+    <div class="agent-desc">Lit le rapport de tests, diagnostique la cause racine, et applique les correctifs (prompt rewriting, guard rails, fallback) directement sur l'agent principal.</div>
+    <div class="agent-tools">
+      <span class="tool-chip">prompt patching</span>
+      <span class="tool-chip">hotfix</span>
+      <span class="tool-chip">rollback</span>
+      <span class="tool-chip">edit agent config</span>
+    </div>
+  </div>
+
+  <!-- Agent Principal -->
+  <div class="agent agent-main">
+    <span class="agent-tag tag-main">Agent A — Principal</span>
+    <div class="agent-name">Workflow Conversationnel</div>
+    <div class="agent-desc">Gère le flux de conversation avec l'utilisateur. Exécute les outils (MCP, fichiers, APIs). Son prompt et sa config sont modifiables à chaud par l'Agent C.</div>
+    <div class="agent-tools">
+      <span class="tool-chip">LLM core</span>
+      <span class="tool-chip">tool calling</span>
+      <span class="tool-chip">context window</span>
+      <span class="tool-chip">memory</span>
+    </div>
+  </div>
+
+  <!-- User -->
+  <div class="user-block">
+    <div class="user-icon">&#9786;</div>
+    <div class="user-label">Utilisateur</div>
+  </div>
+</div>
+
+<!-- Steps -->
+<div class="steps">
+  <div class="step">
+    <div class="step-num c-gray">1</div>
+    <div class="step-title">Prompt utilisateur</div>
+    <div class="step-desc">L'utilisateur envoie un message. L'Agent A génère une réponse candidat.</div>
+  </div>
+  <div class="step">
+    <div class="step-num c-green">2</div>
+    <div class="step-title">Test automatique</div>
+    <div class="step-desc">L'Agent B reçoit l'output et le soumet à N scénarios edge-case pré-définis + générés.</div>
+  </div>
+  <div class="step">
+    <div class="step-num c-purple">3</div>
+    <div class="step-title">Diagnostic & Patch</div>
+    <div class="step-desc">L'Agent C analyse les échecs, identifie la cause racine, et réécrit le prompt ou la config de A.</div>
+  </div>
+  <div class="step">
+    <div class="step-num c-yellow">4</div>
+    <div class="step-title">Boucle de validation</div>
+    <div class="step-desc">On re-teste (étape 2) jusqu'à 0 échec ou N itérations max. Garde-fou anti-boucle infinie.</div>
+  </div>
+  <div class="step">
+    <div class="step-num c-blue">5</div>
+    <div class="step-title">Réponse finale</div>
+    <div class="step-desc">L'output validé est renvoyé à l'utilisateur. Les patchs persistent pour les tours suivants.</div>
+  </div>
+</div>
+
+</body>
+</html>
+
