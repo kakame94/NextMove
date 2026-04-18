@@ -114,40 +114,116 @@ Courtier immobilier en croissance, niche dans les plex pour jeunes professionnel
 
 ---
 
-## Comparaison des deux personas
+## Persona 4 : JP — « Le Stratege de Franchise »
+
+### Archetype
+Co-proprietaire d'une franchise Royal LePage et courtier terrain, qui voit l'industrie des deux cotes — gestion d'agence (~99 courtiers sur 3 adresses) et pratique solo. Expert en analyse de plex et conciergerie d'investisseurs, pragmatique et sceptique envers la technologie non prouvee.
+
+### Profil
+- **Statut** : Co-proprietaire franchise Royal LePage + courtier actif
+- **Experience** : 4 ans gestion de franchise + ~3 ans retour terrain comme courtier
+- **Equipe agence** : ~99 courtiers sur 3 adresses (franchise a franchi le cap des 100)
+- **Formation anterieure** : Background cooperatif, gestion de franchise immobiliere
+- **Volume** : Variable selon la saison, travaille 7/7 en periode de pointe
+- **Marche** : Plex (duplex/triplex), investisseurs, conciergerie
+- **Secteur** : Gatineau (marche haussier), Rosemont, Grand Montreal
+- **Acquisition clients** : References + partenariats agence + referrals investisseurs via courtier hypothecaire
+- **Support** : Adjointe qui est courtiere immobiliere + staff agence complet (reception, conformite, admin, facturation)
+- **Particularite** : Double casquette — directeur d'agence (conformite, coaching, recrutement) + courtier terrain (analyse, visites, negociations)
+
+### Job-to-be-done principal
+> « Centraliser les outils et simplifier la gestion pour que mes courtiers et moi passions plus de temps sur le terrain avec les clients — pas a gerer de l'interne. »
+
+### Top 3 douleurs
+
+| # | Douleur | Frequence | Verbatim |
+|---|---------|-----------|----------|
+| 1 | **Temps de gestion interne vs terrain** | Quotidien | « Le plus de temps que tu passes a gerer ton cote interne, moins tu passes avec tes clients sur le terrain » |
+| 2 | **CRM: adoption faible et learning curve** | Permanent | « Je ne pense pas que c'est plus que deux sur dix qui vont utiliser un CRM... il y a un learning curve qui est tres difficile » |
+| 3 | **Trop d'outils non connectes (doublons)** | Permanent | « Il y en a trop que je vois... doublons entre plateformes... l'automatisation entre tous ces outils-la, c'est pas possible, c'est utopiste » |
+
+### Comportements cles
+- **Analyse matinale structuree** : Listes de recherche par investisseur/client, filtrage, analyse de positionnement, declarations du vendeur, registre foncier — « La premiere chose que je fais dans ma journee c'est de l'analyse »
+- **Conciergerie proactive** : Ne se contente pas de montrer des listings — analyse le batiment, les comparables, les vendus, la valorisation AVANT de proposer a l'investisseur
+- **Conformite obsessionnelle** : « La mission numero un d'une agence, c'est la conformite » — staff dedie, processus reglementes, zero raccourci
+- **Vision macro du marche** : Observe les tendances (Gatineau haussier, condos en surplus a Montreal, plex en rattrapage de 15-20%, surenchere irrationnelle sur les petits plex)
+- **Coaching interne** : A une equipe qui integre les courtiers au CRM, fait du coaching hebdomadaire, presente des partenaires strategiques (House Valley, etc.)
+- **Communication directe** : Priorise les textos (« je trouve ca direct »), WhatsApp pour operations agence, courriel = surcharge
+- **Outils** : Matrix, ImoContact, Prospect, Centris, Authenticene, GLR (registre foncier), Google Suite (incluant IA), CRM Royal LePage, House Valley (photos/videos)
+
+### Peur profonde
+> « Si vous utilisez un outil et que cet outil-la fait des choses a votre place, vous etes imputable. »
+>
+> La responsabilite reglementaire. En tant que co-proprietaire de franchise, il sait que la conformite est non-negociable et que tout outil qui agit au nom du courtier engage sa responsabilite personnelle. Il a vu des amendes, des « flags directs ».
+
+### Vision ideale (baguette magique)
+> « La seule plus-value qui ferait une difference, ce serait le cote centralisation — un one-stop-shop. »
+>
+> « Digerer potentiellement un document de 100 pages, puis en faire un sommaire. Mais a part ca... ca passait a pas grand chose. »
+>
+> « Il faut vraiment apporter quelque chose que quand ils vont l'utiliser, ils vont dire oui, ca, oui, il y a un gain. »
+
+### Propension au changement
+- **Push** (insatisfaction) : 4/10 — Fonctionnel avec le setup actuel, frustre par la multiplicite des outils mais s'en sort
+- **Pull** (attraction) : 3/10 — Voit le potentiel de centralisation mais tres sceptique sur la valeur ajoutee reelle
+- **Anxiete** : 8/10 — Conformite, imputabilite, « impressionne mais je ne ferais jamais confiance a ca »
+- **Habitude** : 7/10 — Processus d'agence bien rodes, CRM fourni par franchise, resistance au changement forte
+
+### Disposition a payer
+- Paye deja pour le CRM franchise + House Valley + outils divers
+- Exige une valeur ajoutee PROUVEE : « Il faut vraiment apporter quelque chose que quand ils vont l'utiliser, ils vont dire oui, il y a un gain »
+- Budget variable au volume de transactions, ~30% du revenu en depenses
+- Critere #1 : Efficacite reelle (pas un outil de plus)
+- Critere #2 : Conformite OACIQ compatible
+- Critere #3 : Adoption facile (learning curve = barriere #1)
+
+### Outils non-negociables
+- Matrix (listings, inscriptions — ecosysteme Centris)
+- ImoContact / Prospect (app mobile, prospection)
+- CRM Royal LePage (fourni par franchise, un des meilleurs taux d'adoption)
+- Authenticene / GLR (registre foncier, verification d'identite)
+- Google Suite (redaction, courriels, IA de base)
+- House Valley (photos, videos, plans 3D — partenaire strategique agence)
+
+---
+
+## Comparaison des quatre personas
 
 ```
-                           JOANEL                        MAXIME                         CHARLYSE
-                     « Le Solo Ambitieux »          « Le Batisseur Structure »     « La Perfectionniste Autonome »
-                     ─────────────────────          ──────────────────────────      ─────────────────────────────
+                           JOANEL                        MAXIME                         CHARLYSE                       JP
+                     « Le Solo Ambitieux »          « Le Batisseur Structure »     « La Perfectionniste Autonome » « Le Stratege de Franchise »
+                     ─────────────────────          ──────────────────────────      ───────────────────────────── ─────────────────────────────
 
-  Experience          Etabli (equipe passee)         13 ans, temps plein 2017       Depuis 2018 (ex PhD sciences)
-  Volume              Plafonne par l'admin           ~3/mois, veut 4+              Stable, 100% references
-  Support actuel      AUCUN (solo complet)           Assistante virtuelle           AUCUN (checklists manuelles)
-  Pain #1             Admin mange le temps            Analyse manuelle proprietes    Saisie donnees redondante
-  Pain #2             Visibilite hypothecaire         Pas de systeme de leads        Systemes non fiables
-  Pain #3             Temps de reponse                Assistante pas de verbal       Pas de temps reseaux sociaux
-  Acquisition         100% referrals                  Referrals + reseaux sociaux    100% referrals
-  Niche               General (achat/vente/invest)   Plex pour jeunes pros          Residentiel, Montreal
-  Adoption tech       E-signature, QSE, tutorials    Immo Plus, EasyMax, video      Prospect mobile, templates
-  Peur profonde       Deal qui tombe (financement)   Avancer sans systemes          Paraitre non-pro (erreur sys)
-  Vision IA           Adjointe IA 24/7               Analyse auto + verbal route    Synchro totale 1 entree
-  Readiness           TRES PRET (push 10/10)         PRET (push 7/10)              PRETE SI FIABLE (push 6/10)
+  Experience          Etabli (equipe passee)         13 ans, temps plein 2017       Depuis 2018 (ex PhD sciences)  4 ans franchise + 3 ans terrain
+  Volume              Plafonne par l'admin           ~3/mois, veut 4+              Stable, 100% references        Variable, 99 courtiers agence
+  Support actuel      AUCUN (solo complet)           Assistante virtuelle           AUCUN (checklists manuelles)   Adjointe courtiere + staff agence
+  Pain #1             Admin mange le temps            Analyse manuelle proprietes    Saisie donnees redondante      Gestion interne vs terrain
+  Pain #2             Visibilite hypothecaire         Pas de systeme de leads        Systemes non fiables           CRM adoption faible (2/10)
+  Pain #3             Temps de reponse                Assistante pas de verbal       Pas de temps reseaux sociaux   Trop d'outils non connectes
+  Acquisition         100% referrals                  Referrals + reseaux sociaux    100% referrals                 Referrals + partenariats agence
+  Niche               General (achat/vente/invest)   Plex pour jeunes pros          Residentiel, Montreal          Plex investisseurs + franchise
+  Adoption tech       E-signature, QSE, tutorials    Immo Plus, EasyMax, video      Prospect mobile, templates     CRM franchise, Google Suite IA
+  Peur profonde       Deal qui tombe (financement)   Avancer sans systemes          Paraitre non-pro (erreur sys)  Imputabilite reglementaire
+  Vision IA           Adjointe IA 24/7               Analyse auto + verbal route    Synchro totale 1 entree        Centralisation + sommaires docs
+  Readiness           TRES PRET (push 10/10)         PRET (push 7/10)              PRETE SI FIABLE (push 6/10)    SCEPTIQUE (push 4/10, anxiete 8)
 ```
 
 ---
 
-## Points communs (pattern inter-personas — 3 courtiers)
+## Points communs (pattern inter-personas — 4 courtiers)
 
-1. **L'admin est l'ennemi unanime** — Les trois veulent deleguer TOUT l'administratif pour se concentrer sur le terrain (visites, negociations, relations)
+1. **L'admin est l'ennemi unanime** — Les quatre veulent deleguer TOUT l'administratif pour se concentrer sur le terrain (visites, negociations, relations). JP: « Les courtiers veulent etre le plus sur le terrain possible »
 2. **Matrix/Centris = ecosysteme subi** — Obligatoire mais penible, PERSONNE n'est satisfait (Charlyse: « ca prend un temps fou rentrer une inscription »)
-3. **Referrals > Publicite** — 2 sur 3 fonctionnent a 100% par reference, le 3e y va aussi principalement
+3. **Referrals > Publicite** — 3 sur 4 fonctionnent a 100% par reference, le 4e y va aussi principalement. JP confirme cote agence: les grosses equipes en « bowling » ont des systemes de pub, mais la majorite fonctionne par references
 4. **Signature electronique = preuve d'adoption** — Adoptee par tous, game changer
-5. **Offre d'achat / formulaires = tache cle a automatiser** — Generation d'offres (Joanel, Maxime) + synchronisation formulaires (Charlyse)
+5. **Offre d'achat / formulaires = tache cle a automatiser** — Generation d'offres (Joanel, Maxime) + synchronisation formulaires (Charlyse) + sommaires de documents (JP)
 6. **Le verbal/la voix est un canal desire** — Joanel veut dicter, Maxime veut appeler sur la route, Charlyse veut un systeme qui enregistre la conversation et cree le portail
 7. **Chaque courtier a sa methode** — Processus similaires mais ordre et classement different
-8. **Confiance = non-negociable** — Les trois exigent que l'outil soit FIABLE avant tout; Charlyse en fait son critere #1 (« je prefere le faire moi-meme que me fier a une automatisation qui ne marche pas »)
+8. **Confiance = non-negociable** — Les quatre exigent que l'outil soit FIABLE avant tout; Charlyse en fait son critere #1; JP y ajoute la dimension reglementaire (imputabilite OACIQ)
 9. **Bilingue** — Charlyse insiste sur FR + EN, Maxime travaille avec une clientele diverse, Joanel aussi
+10. **SMS = canal privilegie** — JP confirme explicitement: « Moi principalement je priorise un peu les textos, je trouve ca direct. » Le SMS est le canal principal de communication client pour les courtiers quebecois
+11. **Conformite OACIQ = frein a l'IA** — JP apporte une dimension nouvelle: l'imputabilite reglementaire. « Si vous utilisez un outil et que cet outil-la fait des choses a votre place, vous etes imputable. » Tout outil IA doit etre conforme aux normes de l'OACIQ
+12. **CRM = promesse non tenue** — JP revele que meme avec coaching et support integre, seulement ~20% des courtiers utilisent vraiment leur CRM. Le learning curve et la multiplicite des outils sont des barrieres majeures
 
 ---
 
@@ -231,4 +307,5 @@ Courtiere immobiliere methodique, ancienne scientifique, qui a bati sa clientele
 - Transcript principal: `transcripts/interview courtier - transcript.rtf` (Joanel: lignes 1-625, Maxime: lignes 626-1125)
 - Transcript secondaire: `transcripts/transcript immo.rtf`
 - Questionnaire: `transcripts/Questionnaire_Charlyse_Courtier_Immo.docx`
+- Interview JP: `JP.pdf` (35 pages, entretien video avec sous-titres Amara.org)
 - Resultats atelier JTBD: `atelier_resultats/01-09`
