@@ -25,7 +25,24 @@ docs/relances/
 
 ## Ordre de lecture recommandé
 
-### Pour un développeur (~90 min)
+### Pour Dennis (dev n8n — reviewer PR) — parcours focus orchestration (~60 min)
+
+| # | Fichier | Durée | Ce que Dennis doit vérifier |
+|---|---------|-------|------------------------------|
+| 1 | `contexte-sprint-figma.md` | 10 min | Stack technique + séquence SMS (Twilio → n8n → Claude → Supabase) |
+| 2 | `templates-sms-figma-extraits.md` | 10 min | Les 5 flux exacts à reproduire dans les workflows n8n |
+| 3 | `relances-decision-matrix.md` § 5-6bis | 15 min | Arbre de décision M4 + **flow technique scheduler n8n** + `can_send_relance()` |
+| 4 | `rendez_vous-table-spec.md` | 10 min | Triggers RDV (J-1 rappel, H+24 feedback) dans le scheduler |
+| 5 | `sprint-2/backlog-sprint-2.md` US-4 à US-9 | 15 min | User stories orchestration : scheduler cron, triggers par type |
+
+**Points d'attention Dennis :**
+- Idempotence du scheduler (lock `FOR UPDATE` sur prospects)
+- Retry Twilio (1x après 2s si HTTP ≠ 200)
+- Reconnaissance mots-clés STOP/HELP/OUI/NON/CONTINUER
+- Gestion des 13 garde-fous centralisée dans `can_send_relance()`
+- Briefing quotidien 7h30 (cron séparé, format structuré Figma)
+
+### Pour un développeur généraliste (~90 min)
 
 | # | Fichier | Durée | Objectif |
 |---|---------|-------|----------|
