@@ -1,0 +1,81 @@
+@startuml c4-sequence-query
+title Séquence — Question réglementaire d'un courtier
+
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam ArrowColor #4B5563
+skinparam ArrowFontColor #4B5563
+skinparam ArrowFontSize 10
+skinparam sequenceArrowThickness 1.4
+skinparam roundCorner 8
+hide stereotype
+
+skinparam sequence {
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantBorderColor #1F2A37
+  ParticipantFontColor #1F2A37
+  LifeLineBackgroundColor #F9FAFB
+  LifeLineBorderColor #D1D5DB
+  ActorBackgroundColor #1F2A37
+  ActorFontColor #FFFFFF
+  ActorBorderColor #1F2A37
+  GroupBorderColor #2DD4BF
+  GroupFontColor #0F766E
+  GroupBackgroundColor #F0FDFA
+}
+
+actor "Courtier" as user
+participant "App Web" as web
+participant "API Gateway" as api
+participant "PII Redactor" as pii #F0FDFA
+participant "RAG Engine" as rag
+database "pgvector" as vector
+participant "Prompt\nRegistry" as registry #F0FDFA
+participant "LLM Router" as router #F0FDFA
+participant "Vertex AI\nClaude (CA)" as llm
+database "Audit Log" as audit #F0FDFA
+database "Redis" as cache #F0FDFA
+
+user -> web : "Quel délai pour\nrétractation après PA ?"
+web -> api : POST /query (JWT)
+activate api
+
+api -> cache : GET hash(query)
+alt cache hit
+    cache -[#0F766E]-> api : cached response
+    api -> web : 200 (cached)
+else cache miss
+    api -> pii : redact(query)
+    pii -[#0F766E]-> api : "Quel délai..."\n(noms client masqués)
+
+    api -> rag : process(query)
+    activate rag
+
+    rag -> rag : analyze intent\n→ "regulatory"
+    rag -> vector : hybrid search\n(intent=regulatory)
+    vector -[#1F2A37]-> rag : top-10 chunks\n(Loi courtage, Code OACIQ)
+
+    rag -> registry : get("regulatory_qa", v=12)
+    registry -[#0F766E]-> rag : system prompt
+
+    rag -> router : completion(prompt, context)
+    router -> llm : POST /v1/messages
+    llm -[#1F2A37]-> router : answer + spans
+    router -[#0F766E]-> rag : streamed tokens
+
+    rag -> rag : resolve citations\nvalidate answer
+    rag -[#1F2A37]-> api : answer + sources
+
+    deactivate rag
+
+    api -> audit : trace(user, query,\nresponse, sources)
+    api -> cache : SET hash(query) TTL=24h
+    api -[#1F2A37]-> web : 200 (response)
+end
+
+web -[#1F2A37]-> user : Réponse + citations\ncliquables
+deactivate api
+
+@enduml

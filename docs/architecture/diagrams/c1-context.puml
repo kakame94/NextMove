@@ -1,0 +1,52 @@
+@startuml c1-context
+title C1 — Diagramme de contexte · CourtierIA
+
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam roundCorner 14
+skinparam ArrowColor #4B5563
+skinparam ArrowFontColor #4B5563
+skinparam ArrowFontSize 11
+skinparam padding 6
+hide stereotype
+
+skinparam rectangle {
+  BackgroundColor<<person>> #1F2A37
+  FontColor<<person>> #FFFFFF
+  BorderColor<<person>> #1F2A37
+  FontStyle<<person>> bold
+}
+skinparam rectangle {
+  BackgroundColor<<system>> #2DD4BF
+  FontColor<<system>> #FFFFFF
+  BorderColor<<system>> #14B8A6
+  FontStyle<<system>> bold
+}
+skinparam rectangle {
+  BackgroundColor<<external>> #F9FAFB
+  FontColor<<external>> #4B5563
+  BorderColor<<external>> #9CA3AF
+}
+
+rectangle "Courtier immobilier\nUtilisateur principal\nOACIQ certifié" as courtier <<person>>
+rectangle "Client\nAcheteur ou vendeur" as client <<person>>
+
+rectangle "CourtierIA\nAssistant IA — App web + mobile\nRAG réglementaire + génération formulaires" as courtieria <<system>>
+
+rectangle "Centris / MLS\nListings + transactions\nQuébec" as centris <<external>>
+rectangle "OACIQ\nFormulaires officiels\nLois courtage" as oaciq <<external>>
+rectangle "Registre foncier QC\nActes, servitudes\ncertif. localisation" as foncier <<external>>
+rectangle "SCHL\nTaux hypothécaires\nGDS / TDS" as schl <<external>>
+rectangle "LLM Provider\nAnthropic Claude\nVertex AI Canada" as llm <<external>>
+
+client -[#4B5563]-> courtier : Mandate, questions
+courtier -[#1F2A37,thickness=2]-> courtieria : Pose questions, génère docs,\nconsulte le marché
+courtieria -[#4B5563]-> centris : Pull listings + comparables
+courtieria -[#4B5563]-> oaciq : Templates formulaires, lois
+courtieria -[#4B5563]-> foncier : Vérification fiches
+courtieria -[#4B5563]-> schl : Taux + indicateurs
+courtieria -[#4B5563]-> llm : Inférence (RAG context)
+
+@enduml
