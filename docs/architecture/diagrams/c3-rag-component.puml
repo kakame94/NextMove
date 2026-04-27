@@ -1,0 +1,80 @@
+@startuml c3-rag-component
+title C3 — Composants internes du RAG Engine
+
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 12
+skinparam ArrowColor #4B5563
+skinparam ArrowFontColor #4B5563
+skinparam ArrowFontSize 10
+hide stereotype
+
+skinparam rectangle {
+  BackgroundColor<<comp>> #FFFFFF
+  FontColor<<comp>> #1F2A37
+  BorderColor<<comp>> #1F2A37
+}
+skinparam rectangle {
+  BackgroundColor<<phase2>> #F0FDFA
+  FontColor<<phase2>> #0F766E
+  BorderColor<<phase2>> #2DD4BF
+  BorderStyle<<phase2>> dashed
+}
+skinparam rectangle {
+  BackgroundColor<<external>> #F9FAFB
+  FontColor<<external>> #6B7280
+  BorderColor<<external>> #9CA3AF
+}
+skinparam database {
+  BackgroundColor #F9FAFB
+  FontColor #1F2A37
+  BorderColor #4B5563
+}
+
+rectangle "**API Gateway**\nFastAPI" as api <<external>>
+
+package "RAG Engine" {
+  rectangle "**Query Analyzer**\nDétecte intent (juridique\nmarché, transac)\n+ filtres metadata" as analyzer <<comp>>
+
+  rectangle "**Retriever**\nHybrid search\ndense (embeddings) + BM25" as retriever <<comp>>
+
+  rectangle "**Reranker**\nCross-encoder\nCohere rerank-3 / local" as reranker <<phase2>>
+
+  rectangle "**Context Builder**\nAssemble top-k chunks\n+ metadata + sources" as builder <<comp>>
+
+  rectangle "**Prompt Builder**\nInject system prompt\n+ few-shot QC" as prompt <<comp>>
+
+  rectangle "**LLM Client**\nStreaming, retry,\ntimeout, budget" as llmclient <<comp>>
+
+  rectangle "**Citation Resolver**\nSpans LLM → sources\nLiens cliquables" as citation <<comp>>
+
+  rectangle "**Response Validator**\nCitation présente ?\nAnswerable ? Hallucination ?" as validator <<phase2>>
+
+  rectangle "**Eval Sink**\nTraces Ragas\nGolden set scoring" as eval <<phase2>>
+}
+
+database "**pgvector**\nCloud SQL MTL" as vector
+rectangle "**LLM Router**\nLiteLLM" as router <<external>>
+rectangle "**Prompt Registry**\nGit-backed" as registry <<external>>
+rectangle "**Audit Log**\nAppend-only" as audit <<external>>
+
+api -[#1F2A37,thickness=2]-> analyzer : POST /query
+analyzer -[#4B5563]-> retriever : intent + filters
+retriever -[#4B5563]-> vector : semantic + lexical
+retriever -[#0F766E,dashed]-> reranker : top-50
+reranker -[#0F766E,dashed]-> builder : top-10
+retriever -[#4B5563]-> builder : (sans rerank si MVP)
+builder -[#4B5563]-> prompt : context + query
+prompt -[#0F766E,dashed]-> registry : get("regulatory_qa", v=N)
+prompt -[#4B5563]-> llmclient : full prompt
+llmclient -[#4B5563]-> router : completion
+llmclient -[#4B5563]-> citation : raw response
+citation -[#0F766E,dashed]-> validator : check
+validator -[#0F766E,dashed]-> eval : trace
+citation -[#1F2A37,thickness=2]-> api : structured response
+analyzer -[#0F766E,dashed]-> audit : trace request
+citation -[#0F766E,dashed]-> audit : trace response
+
+@enduml

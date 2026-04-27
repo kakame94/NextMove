@@ -1,0 +1,115 @@
+@startuml c2-containers
+title C2 — Diagramme de containers · CourtierIA\nPlein = MVP (Phase 1) · Pointillé = Phase 2 (ajouts identifiés en validation)
+
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 12
+skinparam ArrowColor #6B7280
+skinparam ArrowFontColor #6B7280
+skinparam ArrowFontSize 10
+skinparam padding 4
+hide stereotype
+
+skinparam rectangle {
+  BackgroundColor<<person>> #1F2A37
+  FontColor<<person>> #FFFFFF
+  BorderColor<<person>> #1F2A37
+  FontStyle<<person>> bold
+}
+skinparam rectangle {
+  BackgroundColor<<container>> #FFFFFF
+  FontColor<<container>> #1F2A37
+  BorderColor<<container>> #1F2A37
+}
+skinparam rectangle {
+  BackgroundColor<<phase2>> #F0FDFA
+  FontColor<<phase2>> #0F766E
+  BorderColor<<phase2>> #2DD4BF
+  BorderStyle<<phase2>> dashed
+}
+skinparam rectangle {
+  BackgroundColor<<external>> #F9FAFB
+  FontColor<<external>> #6B7280
+  BorderColor<<external>> #9CA3AF
+}
+skinparam database {
+  BackgroundColor #FFFFFF
+  FontColor #1F2A37
+  BorderColor #1F2A37
+}
+skinparam database<<phase2>> {
+  BackgroundColor #F0FDFA
+  FontColor #0F766E
+  BorderColor #2DD4BF
+  BorderStyle dashed
+}
+
+rectangle "**Courtier**" as user <<person>>
+
+package "Frontend" {
+  rectangle "**App Web**\nReact + TypeScript\nDashboard, formulaires" as web <<container>>
+  rectangle "**App Mobile**\nFlutter (Dart)\niOS + Android\n[Phase 3 — décalé]" as mobile <<phase2>>
+}
+
+package "Edge & Auth" {
+  rectangle "**API Gateway**\nFastAPI · Python 3.12\nAuthN, rate-limit, OpenAPI" as api <<container>>
+  rectangle "**Auth Service**\nGCP Identity Platform\nOIDC + MFA OACIQ" as auth <<container>>
+}
+
+package "Couche IA & RAG" {
+  rectangle "**RAG Engine**\nOrchestrateur retrieval+gen\n(détaillé en C3)" as rag <<container>>
+  rectangle "**LLM Router**\nLiteLLM / Portkey\nFallback Claude ↔ GPT" as router <<phase2>>
+  rectangle "**PII Redaction**\nPresidio + règles QC\nLoi 25 art. 12" as pii <<phase2>>
+  rectangle "**Prompt Registry**\nPrompts versionnés\nGit-backed" as prompts <<phase2>>
+  rectangle "**Document Ingestion**\nOACIQ + Centris + SCHL\nIncrémental, scheduled" as ingest <<container>>
+}
+
+package "Stockage" {
+  database "**PostgreSQL 16**\nCloud SQL Montréal\nDonnées métier + audit" as pg
+  database "**pgvector**\nCloud SQL Montréal\nEmbeddings RAG\n(Souveraineté Loi 25)" as vector
+  database "**Redis Cache**\nMemoryStore\nSession + RAG cache" as redis <<phase2>>
+  database "**Object Storage**\nGCS Montréal\nPDFs, audio, exports" as gcs
+}
+
+package "Asynchrone & Ops" {
+  rectangle "**Pub/Sub**\nCloud Pub/Sub\nIngestion + jobs" as pubsub <<phase2>>
+  rectangle "**Worker Pool**\nCloud Run jobs\nIngestion, transcription" as workers <<phase2>>
+  rectangle "**Audit Log Service**\nAppend-only · 7 ans\nLoi 25 + OACIQ" as audit <<phase2>>
+  rectangle "**Observability**\nPrometheus + Grafana\nOpenTelemetry · Sentry" as obs <<phase2>>
+  rectangle "**Feature Flags**\nUnleash self-hosted\nRollout progressif" as flags <<phase2>>
+  rectangle "**HITL Approval Queue**\nValidation humaine\nformulaires OACIQ" as hitl <<phase2>>
+}
+
+rectangle "**LLM API**\nVertex AI Anthropic\nrégion ca-central" as llm <<external>>
+rectangle "**Centris / OACIQ**\nSources externes" as src <<external>>
+
+user -[#1F2A37,thickness=2]-> web
+user -[#0F766E,dashed]-> mobile
+web -[#4B5563]-> api : HTTPS/JSON
+mobile -[#0F766E,dashed]-> api
+api -[#4B5563]-> auth : verify JWT
+api -[#4B5563]-> rag : query
+api -[#4B5563]-> pg : CRUD
+api -[#0F766E,dashed]-> redis : cache check
+api -[#0F766E,dashed]-> flags : flag check
+api -[#0F766E,dashed]-> hitl : queue review
+
+rag -[#0F766E,dashed]-> pii : redact PII
+rag -[#4B5563]-> vector : retrieve top-k
+rag -[#0F766E,dashed]-> prompts : load prompt vN
+rag -[#0F766E,dashed]-> router : LLM call
+router -[#4B5563]-> llm
+rag -[#0F766E,dashed]-> audit : trace request
+
+ingest -[#0F766E,dashed]-> pubsub : publish job
+pubsub -[#0F766E,dashed]-> workers
+workers -[#4B5563]-> src : pull
+workers -[#4B5563]-> vector : upsert embeddings
+workers -[#4B5563]-> gcs : raw docs
+
+api -[#0F766E,dashed]-> obs : logs + traces
+rag -[#0F766E,dashed]-> obs
+
+@enduml

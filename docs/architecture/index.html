@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CourtierIA — Architecture C4 · NextMove</title>
+<meta name="description" content="Architecture C4 de CourtierIA : assistant IA RAG pour courtiers immobiliers au Québec. Diagrammes PlantUML, validation critique, roadmap 12 mois.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="layout">
+
+<!-- ============================ SIDEBAR ============================ -->
+<aside class="sidebar">
+  <div class="brand">
+    <div class="logo">N</div>
+    <span>Next<span class="move">Move</span></span>
+  </div>
+  <div class="subtitle">Architecture C4 · CourtierIA</div>
+
+  <nav>
+    <span class="group">Vue d'ensemble</span>
+    <a href="#overview" class="active">1 · Mission &amp; conformité</a>
+
+    <span class="group">Diagrammes C4</span>
+    <a href="#c1-context">2 · C1 · Contexte</a>
+    <a href="#c2-containers">3 · C2 · Containers</a>
+    <a href="#c3-rag">4 · C3 · RAG Engine</a>
+    <a href="#sequence">5 · Séquence type</a>
+    <a href="#data-layers">6 · Couches de données</a>
+
+    <span class="group">Stack &amp; conformité</span>
+    <a href="#stack">7 · Stack technique</a>
+    <a href="#compliance">8 · Conformité</a>
+
+    <span class="group">Décisions</span>
+    <a href="#validation">9 · Validation &amp; gaps</a>
+    <a href="#phase2">10 · Phase 2 enrichie</a>
+    <a href="#roadmap">11 · Roadmap 12 mois</a>
+    <a href="#risks">12 · Risques</a>
+  </nav>
+
+  <div class="footer">
+    <strong style="color: var(--ink-soft); display: block; margin-bottom: 4px;">CourtierIA v0.1</strong>
+    Préparé par Eliot Alanmanou · Avril 2026<br>
+    Source : <a href="https://github.com/kakame94/NextMove">github.com/kakame94/NextMove</a>
+  </div>
+</aside>
+
+<!-- ============================ MAIN ============================ -->
+<main>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="pill">Architecture cible · Confidentiel</span>
+  <h1>Architecture C4 de <span class="accent">CourtierIA</span><br>
+  Assistant IA pour courtiers immobiliers au Québec</h1>
+  <p>Refonte des diagrammes du PDF d'avril 2026 en PlantUML versionnés, augmentée des composants manquants identifiés en revue critique (observabilité, event bus, PII redaction, prompt registry, eval RAG, HITL).</p>
+  <div class="meta">
+    <div>Approche<strong>RAG 80% + Fine-tuning 20%</strong></div>
+    <div>Hébergement<strong>GCP Montréal</strong></div>
+    <div>Conformité<strong>Loi 25 · OACIQ · LPRPDE</strong></div>
+    <div>Roadmap<strong>4 phases · 12 mois</strong></div>
+  </div>
+</div>
+
+<!-- ============================ 1 OVERVIEW ============================ -->
+<section id="overview">
+  <span class="eyebrow">Section 1</span>
+  <h2><span class="num">01</span>Vue d'ensemble</h2>
+  <p class="lead">CourtierIA est un copilote IA dédié aux courtiers immobiliers québécois. Il combine un moteur de recherche réglementaire (RAG sur OACIQ + lois QC), un générateur de formulaires, des analyses de marché (CMA), et — à terme — la transcription des conversations courtier-client.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="sub">Mission</div>
+      <div class="ttl">Réduire la charge admin du courtier</div>
+      <div class="desc">Q&amp;A réglementaire instantané, génération de formulaires OACIQ pré-remplis, CMA automatisé, briefings clients automatisés.</div>
+    </div>
+    <div class="card">
+      <div class="sub">Différenciation</div>
+      <div class="ttl">Souveraineté + conformité</div>
+      <div class="desc">100% des données stockées au Québec (Cloud SQL Montréal, GCS Montréal). LLM via Vertex AI Canada. Audit trail Loi 25.</div>
+    </div>
+    <div class="card">
+      <div class="sub">Cible</div>
+      <div class="ttl">Courtiers OACIQ</div>
+      <div class="desc">~16 000 courtiers immobiliers résidentiels au Québec. Beta 50 courtiers (Phase 3), GA 1.0 fin Phase 4.</div>
+    </div>
+    <div class="card">
+      <div class="sub">Modèle</div>
+      <div class="ttl">SaaS B2B mensuel</div>
+      <div class="desc">Abonnement par siège courtier. Intégration possible aux agences (Royal LePage, Re/Max, Sutton).</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>📐 Méthode C4</strong>
+    Les diagrammes ci-dessous suivent le modèle C4 de Simon Brown : <code class="inline">Context → Container → Component → Code</code>. Chaque niveau zoom progressivement. La séquence et les couches de données complètent la vision système.
+  </div>
+</section>
+
+<!-- ============================ 2 C1 CONTEXT ============================ -->
+<section id="c1-context">
+  <span class="eyebrow">Diagramme C1</span>
+  <h2><span class="num">02</span>Contexte système</h2>
+  <p class="lead">Vue d'ensemble des acteurs et des systèmes externes qui interagissent avec CourtierIA. Le courtier est l'utilisateur principal ; le système consomme cinq sources externes (OACIQ, Centris, Registre foncier, SCHL, LLM).</p>
+
+  <div class="diagram">
+    <img src="diagrams/c1-context.svg" alt="Diagramme C1 Contexte">
+    <div class="caption">Source : <a href="diagrams/c1-context.puml">c1-context.puml</a> · Rendu PlantUML 1.2025.4</div>
+  </div>
+
+  <h3>Acteurs &amp; systèmes</h3>
+  <table>
+    <thead><tr><th style="width: 180px;">Acteur / Système</th><th>Rôle</th><th style="width: 140px;">Type</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Courtier immobilier</strong></td><td>Utilisateur principal. OACIQ certifié. Pose des questions réglementaires, génère des documents, consulte le marché.</td><td>Personne</td></tr>
+      <tr><td><strong>Client</strong></td><td>Acheteur ou vendeur. N'utilise pas directement CourtierIA — interagit avec le courtier.</td><td>Personne</td></tr>
+      <tr><td><strong>CourtierIA</strong></td><td>Système central. App web (MVP) + mobile (Phase 3).</td><td>Système</td></tr>
+      <tr><td><strong>Centris / MLS</strong></td><td>Source des listings et historiques de transactions au Québec.</td><td>Externe</td></tr>
+      <tr><td><strong>OACIQ</strong></td><td>Templates de formulaires officiels, Code de déontologie, Loi sur le courtage immobilier.</td><td>Externe</td></tr>
+      <tr><td><strong>Registre foncier QC</strong></td><td>Actes notariés, servitudes, certificats de localisation.</td><td>Externe</td></tr>
+      <tr><td><strong>SCHL</strong></td><td>Taux hypothécaires, ratios GDS/TDS, indicateurs de marché.</td><td>Externe</td></tr>
+      <tr><td><strong>LLM Provider</strong></td><td>Anthropic Claude via <strong>Vertex AI région ca-central</strong> (résidence des données).</td><td>Externe</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================ 3 C2 CONTAINERS ============================ -->
+<section id="c2-containers">
+  <span class="eyebrow">Diagramme C2</span>
+  <h2><span class="num">03</span>Containers applicatifs</h2>
+  <p class="lead">Décomposition en containers déployables. <strong>Plein</strong> = composants du PDF (Phase 1 MVP). <strong>Pointillé turquoise</strong> = composants ajoutés à l'architecture après revue critique (Phase 2). Cette refonte comble les angles morts d'observabilité, d'asynchronisme, de cache, de gouvernance des prompts et de conformité Loi 25.</p>
+
+  <div class="diagram">
+    <img src="diagrams/c2-containers.svg" alt="Diagramme C2 Containers">
+    <div class="caption">Source : <a href="diagrams/c2-containers.puml">c2-containers.puml</a></div>
+  </div>
+
+  <h3>Description par container</h3>
+  <table>
+    <thead><tr><th style="width: 180px;">Container</th><th>Rôle</th><th style="width: 160px;">Techno</th><th style="width: 80px;">Phase</th></tr></thead>
+    <tbody>
+      <tr><td><strong>App Web</strong></td><td>Dashboard courtier, formulaires interactifs, Q&amp;A réglementaire, CMA. Cible primaire B2B.</td><td>React 18 + TS, Vite</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>App Mobile</strong></td><td>Version mobile pour usage terrain (visites, photos). <em>Décalée à Phase 3</em> : B2B courtiers = web-first.</td><td>Flutter (Dart)</td><td><span class="tag-phase p3">P3</span></td></tr>
+      <tr><td><strong>API Gateway</strong></td><td>Point d'entrée unique. AuthN/AuthZ, rate-limit, OpenAPI auto-généré, validation requêtes.</td><td>FastAPI (Python 3.12)</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>Auth Service</strong></td><td>OIDC + MFA obligatoire (OACIQ pro accounts). Reco : <strong>GCP Identity Platform</strong> au lieu de Keycloak (moins lourd).</td><td>GCP Identity Platform</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>RAG Engine</strong></td><td>Cœur du système. Détaillé en C3. Orchestre retrieval hybride + génération + citations.</td><td>Python + LangChain / LlamaIndex</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>LLM Router</strong></td><td>Découple le provider. Permet fallback Claude ↔ GPT, A/B testing modèles, gestion des budgets.</td><td>LiteLLM ou Portkey</td><td><span class="tag-phase p2">P2</span></td></tr>
+      <tr><td><strong>PII Redaction</strong></td><td><strong>Critique Loi 25.</strong> Anonymise nom, adresse, NAS avant envoi au LLM externe. Réversible côté serveur.</td><td>Microsoft Presidio + règles QC</td><td><span class="tag-phase p2">P2</span></td></tr>
+      <tr><td><strong>Prompt Registry</strong></td><td>Versioning des system prompts. Permet rollback, A/B test, traçabilité (quel prompt a généré quelle réponse).</td><td>Git-backed (YAML + tags)</td><td><span class="tag-phase p2">P2</span></td></tr>
+      <tr><td><strong>Document Ingestion</strong></td><td>Pipeline incrémental d'ingestion OACIQ + Centris + SCHL. Chunking, embedding, upsert pgvector.</td><td>Python jobs + Cloud Composer</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>PostgreSQL 16</strong></td><td>Base relationnelle métier (courtiers, clients, requêtes, audit). ACID, RLS multi-tenant.</td><td>Cloud SQL PostgreSQL 16 (Montréal)</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>pgvector</strong></td><td><strong>Reco : remplace Pinecone.</strong> Stockage des embeddings dans Cloud SQL Montréal pour souveraineté Loi 25. Hybrid search dense + BM25.</td><td>Postgres + extension pgvector</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>Redis Cache</strong></td><td>Cache des réponses RAG fréquentes (TTL 24h), session, rate-limit distribué.</td><td>GCP MemoryStore Redis</td><td><span class="tag-phase p2">P2</span></td></tr>
+      <tr><td><strong>Object Storage</strong></td><td>PDFs sources, exports formulaires, audio (Phase 3). Lifecycle policies.</td><td>GCS bucket Montréal</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>Pub/Sub</strong></td><td>Bus d'événements pour découpler ingestion et API. Évite que Centris bloque les requêtes courtier.</td><td>GCP Pub/Sub</td><td><span class="tag-phase p2">P2</span></td></tr>
+      <tr><td><strong>Worker Pool</strong></td><td>Workers asynchrones (ingestion, transcription Phase 3, génération CMA batch).</td><td>Cloud Run jobs</td><td><span class="tag-phase p2">P2</span></td></tr>
+      <tr><td><strong>Audit Log Service</strong></td><td><strong>Exigence Loi 25 + OACIQ.</strong> Journal append-only de toutes les actions (qui, quand, quoi, source). Rétention 7 ans.</td><td>Cloud Logging + BigQuery</td><td><span class="tag-phase p2">P2</span></td></tr>
+      <tr><td><strong>Observability</strong></td><td>Logs structurés, métriques applicatives, tracing distribué, alerting. Indispensable dès le MVP.</td><td>Prometheus + Grafana + OTEL + Sentry</td><td><span class="tag-phase p2">P2</span></td></tr>
+      <tr><td><strong>Feature Flags</strong></td><td>Rollout progressif des features Phase 2+, kill-switch en prod.</td><td>Unleash self-hosted</td><td><span class="tag-phase p2">P2</span></td></tr>
+      <tr><td><strong>HITL Approval Queue</strong></td><td><strong>Critique.</strong> Tout document à valeur légale (promesse d'achat) passe par une review humaine avant signature.</td><td>Custom + UI dans App Web</td><td><span class="tag-phase p2">P2</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================ 4 C3 RAG ============================ -->
+<section id="c3-rag">
+  <span class="eyebrow">Diagramme C3</span>
+  <h2><span class="num">04</span>Composants internes du RAG Engine</h2>
+  <p class="lead">Le RAG Engine du PDF était décrit en table — voici son décomposé en composants. Chaque composant a une responsabilité unique, ce qui permet de les tester indépendamment et de les remplacer (par ex. swap du Reranker).</p>
+
+  <div class="diagram">
+    <img src="diagrams/c3-rag-component.svg" alt="Diagramme C3 RAG Component">
+    <div class="caption">Source : <a href="diagrams/c3-rag-component.puml">c3-rag-component.puml</a></div>
+  </div>
+
+  <table>
+    <thead><tr><th style="width: 180px;">Composant</th><th>Rôle</th><th style="width: 100px;">Phase</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Query Analyzer</strong></td><td>Détecte l'intent de la requête (juridique, marché, transac) et extrait les filtres metadata (région, type de bien, période). Permet un retrieval ciblé.</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>Retriever</strong></td><td>Recherche hybride : dense (embeddings) + sparse (BM25) sur pgvector. Top-50 chunks candidats.</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>Reranker</strong></td><td>Cross-encoder qui re-classe les top-50 → top-10 les plus pertinents. Améliore drastiquement la précision (20-30% sur les benchmarks).</td><td><span class="tag-phase p2">P2</span></td></tr>
+      <tr><td><strong>Context Builder</strong></td><td>Assemble les top-k chunks avec leur metadata (source, date, article de loi) pour injection dans le prompt.</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>Prompt Builder</strong></td><td>Récupère le system prompt depuis le Prompt Registry (avec version), injecte le contexte et la query. Few-shot examples QC.</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>LLM Client</strong></td><td>Streaming, retry exponentiel, timeouts, gestion budget (max tokens).</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>Citation Resolver</strong></td><td>Mappe les spans de la réponse LLM aux sources documentaires d'origine. Génère des liens cliquables vers la loi/article cité.</td><td><span class="tag-phase p1">P1</span></td></tr>
+      <tr><td><strong>Response Validator</strong></td><td>Sanity check : la réponse contient-elle des citations ? Est-elle "answerable" depuis le contexte fourni ? Détecte hallucinations.</td><td><span class="tag-phase p2">P2</span></td></tr>
+      <tr><td><strong>Eval Sink</strong></td><td>Émet des traces (query, contexte, réponse, scores) vers la stack d'évaluation (Ragas-style). Permet de mesurer la qualité dans le temps.</td><td><span class="tag-phase p2">P2</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================ 5 SEQUENCE ============================ -->
+<section id="sequence">
+  <span class="eyebrow">Séquence type</span>
+  <h2><span class="num">05</span>Question réglementaire d'un courtier</h2>
+  <p class="lead">Flux end-to-end pour le cas d'usage MVP : un courtier pose une question juridique (« Quel délai pour rétractation après une promesse d'achat ? »). Le diagramme montre le chemin complet, du clic jusqu'à la réponse citée.</p>
+
+  <div class="diagram">
+    <img src="diagrams/c4-sequence-query.svg" alt="Diagramme de séquence">
+    <div class="caption">Source : <a href="diagrams/c4-sequence-query.puml">c4-sequence-query.puml</a></div>
+  </div>
+
+  <h3>Étapes détaillées</h3>
+  <ol class="steps">
+    <li><strong>Saisie courtier</strong> Le courtier tape la question dans l'App Web.</li>
+    <li><strong>Authentification</strong> L'API Gateway vérifie le JWT (signé par GCP Identity Platform, MFA OACIQ obligatoire).</li>
+    <li><strong>Cache check</strong> Redis vérifie si la même question (hash) a été posée récemment (TTL 24h). Si hit, réponse immédiate.</li>
+    <li><strong>PII Redaction</strong> Le PII Redactor anonymise les noms de clients ou adresses présents dans la question (Loi 25 art. 12 — minimisation).</li>
+    <li><strong>Analyse intent</strong> Le Query Analyzer du RAG Engine classe la requête comme "regulatory" et extrait les filtres metadata (loi courtage, OACIQ).</li>
+    <li><strong>Retrieval hybride</strong> pgvector exécute une recherche dense + BM25, retourne les 10 chunks les plus pertinents (Loi sur le courtage immobilier, Code OACIQ).</li>
+    <li><strong>Récupération du prompt</strong> Le Prompt Registry retourne le prompt « regulatory_qa » version 12 (avec few-shot examples QC).</li>
+    <li><strong>Appel LLM</strong> Le LLM Router envoie la requête à Vertex AI Anthropic Claude (région ca-central pour résidence des données).</li>
+    <li><strong>Génération streaming</strong> La réponse arrive token par token, avec spans pointant vers les chunks sources.</li>
+    <li><strong>Citations résolues</strong> Le Citation Resolver remplace les spans par des liens vers les articles de loi (URL canonique OACIQ).</li>
+    <li><strong>Audit + cache</strong> Le couple (query, réponse, sources) est tracé dans l'Audit Log Service (rétention 7 ans) et mis en cache Redis.</li>
+    <li><strong>Affichage</strong> Le courtier voit la réponse avec citations cliquables, peut copier ou exporter en PDF.</li>
+  </ol>
+</section>
+
+<!-- ============================ 6 DATA LAYERS ============================ -->
+<section id="data-layers">
+  <span class="eyebrow">Couches de données</span>
+  <h2><span class="num">06</span>Stratégie RAG + Fine-tuning</h2>
+  <p class="lead">Six couches documentaires alimentent CourtierIA, priorisées P0 / P1 / P2. La stratégie 80/20 retient le RAG comme mécanisme principal (mises à jour sans re-entraînement) et réserve le fine-tuning au ton et à la structure des documents québécois.</p>
+
+  <div class="diagram">
+    <img src="diagrams/data-layers.svg" alt="Couches de données">
+    <div class="caption">Source : <a href="diagrams/data-layers.puml">data-layers.puml</a></div>
+  </div>
+
+  <table>
+    <thead><tr><th>Couche</th><th>Exemples</th><th>Volume</th><th>Priorité</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Réglementaire</strong></td><td>Loi sur le courtage immobilier, Code de déontologie OACIQ, Loi 25, formulaires officiels.</td><td>~500 docs</td><td><span class="verdict err">P0</span></td></tr>
+      <tr><td><strong>Marché</strong></td><td>Centris/MLS transactions, évaluations municipales, taux hypothécaires SCHL.</td><td>~10M records</td><td><span class="verdict err">P0</span></td></tr>
+      <tr><td><strong>Transactionnelle</strong></td><td>Promesses d'achat, contre-propositions, clauses types, CMA passées.</td><td>~5K templates</td><td><span class="verdict warn">P1</span></td></tr>
+      <tr><td><strong>Métier courtier</strong></td><td>Scripts de conversation, processus listing-to-close, guides pricing.</td><td>~200 docs</td><td><span class="verdict warn">P1</span></td></tr>
+      <tr><td><strong>Juridique / Notarial</strong></td><td>Registre foncier, servitudes, certif. localisation, Loi 16 copropriété.</td><td>~300 docs</td><td><span class="verdict info">P2</span></td></tr>
+      <tr><td><strong>Bâtiment / Inspection</strong></td><td>Problèmes par époque (pyrite, UFFI), normes RBQ, garantie GCR.</td><td>~150 docs</td><td><span class="verdict info">P2</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>💡 Pourquoi 80/20 ?</strong>
+    Le RAG permet de mettre à jour le corpus quand une loi change (commun en immobilier QC) sans toucher au modèle. Le fine-tuning, lui, est réservé à ce qui ne change pas : le <em>ton</em> du courtier québécois, la <em>structure</em> des documents OACIQ, et les expressions techniques propres au marché.
+  </div>
+</section>
+
+<!-- ============================ 7 STACK ============================ -->
+<section id="stack">
+  <span class="eyebrow">Stack technique</span>
+  <h2><span class="num">07</span>Choix technologiques</h2>
+  <p class="lead">Stack proposée — la majorité reprise du PDF, avec deux changements critiques : <strong>pgvector au lieu de Pinecone</strong> (souveraineté Loi 25) et <strong>GCP Identity Platform au lieu de Keycloak</strong> (moins lourd à opérer pour solo dev).</p>
+
+  <div class="stack-grid">
+    <div class="head">Composante</div>
+    <div class="head">Technologie</div>
+    <div class="head">Justification</div>
+
+    <div class="cat">Frontend web</div>
+    <div>React 18 + TypeScript + Vite</div>
+    <div>Dashboard courtier, admin panel. Mature, ecosystem large.</div>
+
+    <div class="cat">Frontend mobile</div>
+    <div>Flutter (Dart)</div>
+    <div>Cross-platform iOS+Android, UI cohérente. <em>Phase 3.</em></div>
+
+    <div class="cat">API Backend</div>
+    <div>FastAPI (Python 3.12)</div>
+    <div>Async natif, type hints, OpenAPI auto-généré.</div>
+
+    <div class="cat">Base relationnelle</div>
+    <div>PostgreSQL 16 — Cloud SQL Montréal</div>
+    <div>ACID, RLS multi-tenant, extension pgvector embarquée.</div>
+
+    <div class="cat">Vector store</div>
+    <div><strong>pgvector</strong> (vs Pinecone)</div>
+    <div>Souveraineté QC, mutualise l'infra Postgres, hybrid search natif.</div>
+
+    <div class="cat">LLM</div>
+    <div><strong>Vertex AI Anthropic Claude</strong> (CA)</div>
+    <div>Région ca-central — résidence des données. Fallback OpenAI via DPA.</div>
+
+    <div class="cat">Object storage</div>
+    <div>GCS bucket Montréal</div>
+    <div>PDFs source, audio Phase 3, exports.</div>
+
+    <div class="cat">Auth</div>
+    <div><strong>GCP Identity Platform</strong> (vs Keycloak)</div>
+    <div>OIDC + MFA managé, intégration native GCP, moins d'ops.</div>
+
+    <div class="cat">Cache &amp; sessions</div>
+    <div>MemoryStore Redis</div>
+    <div>Cache RAG, rate-limit distribué.</div>
+
+    <div class="cat">Event bus</div>
+    <div>Cloud Pub/Sub</div>
+    <div>Découplage ingestion / API.</div>
+
+    <div class="cat">Workers</div>
+    <div>Cloud Run jobs</div>
+    <div>Ingestion incrémentale, transcription, batch CMA.</div>
+
+    <div class="cat">Observability</div>
+    <div>Prometheus + Grafana + OTEL + Sentry</div>
+    <div>Logs structurés, traces, alerting.</div>
+
+    <div class="cat">Infra</div>
+    <div>GCP Montréal + Cloud Run / GKE</div>
+    <div>Souveraineté Loi 25, scalable.</div>
+
+    <div class="cat">CI/CD</div>
+    <div>GitHub Actions</div>
+    <div>Build Docker, deploy Cloud Run, tests, lint.</div>
+  </div>
+</section>
+
+<!-- ============================ 8 COMPLIANCE ============================ -->
+<section id="compliance">
+  <span class="eyebrow">Conformité</span>
+  <h2><span class="num">08</span>Cadre réglementaire</h2>
+  <p class="lead">CourtierIA opère dans un environnement à forte charge réglementaire (3 niveaux : Québec, fédéral canadien, ordre professionnel). Chaque exigence légale a une contrepartie architecturale concrète.</p>
+
+  <table>
+    <thead><tr><th>Loi / Règlement</th><th>Exigence clé</th><th>Réponse architecture</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Loi 25 (Québec)</strong></td><td>Consentement explicite, droit d'accès, RPRP, minimisation.</td><td>Privacy by design, DPO désigné, registre des traitements, <strong>PII Redaction</strong> avant LLM externe, Audit Log 7 ans.</td></tr>
+      <tr><td><strong>Loi sur le courtage immobilier</strong></td><td>Formulaires OACIQ obligatoires, divulgation, tenue de dossiers.</td><td>Templates OACIQ validés, audit trail des modifications, <strong>HITL Approval Queue</strong> avant signature.</td></tr>
+      <tr><td><strong>LPRPDE (fédéral)</strong></td><td>Protection des données personnelles, consentement, sécurité.</td><td>Chiffrement E2E (TLS 1.3 + at-rest), rétention minimale, suppression sur demande.</td></tr>
+      <tr><td><strong>PIPEDA</strong></td><td>Collecte proportionnelle, transparence sur l'IA.</td><td>Politique confidentialité, opt-out IA explicite, divulgation que IA est utilisée pour le draft.</td></tr>
+      <tr><td><strong>OACIQ — code de déontologie</strong></td><td>Compétence, intégrité, secret professionnel.</td><td>HITL obligatoire pour docs juridiques, <strong>MFA</strong> pour pro accounts, séparation données par courtier (RLS).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <strong>⚠️ Risque de résidence des données LLM</strong>
+    L'envoi de requêtes à un LLM hors Canada (OpenAI US, Anthropic US direct) peut violer la Loi 25 si les données contiennent du PII. <strong>Mitigation</strong> : Vertex AI Anthropic Claude région <code class="inline">ca-central1</code> dès qu'il est disponible, sinon <strong>PII Redaction obligatoire</strong> + DPA signé + opt-in courtier explicite.
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================ 9 VALIDATION ============================ -->
+<section id="validation">
+  <span class="eyebrow">Revue critique</span>
+  <h2><span class="num">09</span>Validation du PDF · gaps identifiés</h2>
+  <p class="lead">Verdict structuré sur chaque proposition du PDF d'avril 2026. ✅ Validé. ⚠️ À nuancer. ❌ Manquant ou critique.</p>
+
+  <table>
+    <thead><tr><th style="width: 200px;">Élément du PDF</th><th style="width: 120px;">Verdict</th><th>Justification</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Approche RAG 80% / FT 20%</strong></td><td><span class="verdict ok">✅ Validé</span></td><td>Aligné avec l'état de l'art pour les domaines à forte charge réglementaire (mises à jour fréquentes). Le FT sur ton/structure est la bonne dose.</td></tr>
+      <tr><td><strong>GCP Montréal</strong></td><td><span class="verdict ok">✅ Validé</span></td><td>Souveraineté + Loi 25 + écosystème managé. Choix solide.</td></tr>
+      <tr><td><strong>Stack Flutter / React / FastAPI</strong></td><td><span class="verdict ok">✅ Validé</span></td><td>Technos matures, écosystèmes larges, recrutement facile.</td></tr>
+      <tr><td><strong>Roadmap 4 phases / 12 mois</strong></td><td><span class="verdict ok">✅ Validé</span></td><td>Séquence MVP → Marché → Voix → Intelligence cohérente. Calendrier réaliste pour un solo / petite équipe.</td></tr>
+      <tr><td><strong>Pinecone comme vector store</strong></td><td><span class="verdict warn">⚠️ À revoir</span></td><td>Pinecone est <strong>US-hosted</strong> = risque Loi 25 sur PII. Recommandation : <strong>pgvector sur Cloud SQL Montréal</strong>. Mutualise l'infra, hybrid search natif, souveraineté.</td></tr>
+      <tr><td><strong>Keycloak pour Auth</strong></td><td><span class="verdict warn">⚠️ Trop lourd</span></td><td>Keycloak demande sa propre stack JVM + DB. Pour un solo, <strong>GCP Identity Platform</strong> (ou Supabase Auth si déjà en place) est plus pragmatique. Keycloak revient en Phase 4 si SSO entreprise.</td></tr>
+      <tr><td><strong>OpenAI / Anthropic API directe</strong></td><td><span class="verdict warn">⚠️ Résidence</span></td><td>Appels directs aux APIs US = risque Loi 25. Mitigation : <strong>Vertex AI Anthropic Claude région ca-central</strong> + PII Redaction + DPA.</td></tr>
+      <tr><td><strong>Phase 2 = mobile beta</strong></td><td><span class="verdict warn">⚠️ Trop tôt</span></td><td>Les courtiers B2B utilisent majoritairement leur ordinateur (CRM, listings, docs). Mobile en Phase 2 distrait des sujets critiques (CMA, ingestion Centris). <strong>Décaler Flutter en Phase 3</strong>.</td></tr>
+      <tr><td><strong>Pas d'observabilité</strong></td><td><span class="verdict err">❌ Manquant</span></td><td>Indispensable dès le MVP. Sans logs structurés + traces, debug en prod = impossible. <strong>Phase 1 obligatoire</strong> : Cloud Logging + OTEL minimum.</td></tr>
+      <tr><td><strong>Pas d'event bus / async</strong></td><td><span class="verdict err">❌ Manquant</span></td><td>L'ingestion Centris (~10M records) doit être asynchrone — sinon elle bloque l'API. <strong>Pub/Sub + workers</strong> à introduire en Phase 2.</td></tr>
+      <tr><td><strong>Pas de cache</strong></td><td><span class="verdict err">❌ Manquant</span></td><td>Sans cache : coût LLM × N requêtes identiques. Redis pour cache RAG + rate-limit.</td></tr>
+      <tr><td><strong>Pas de PII Redaction</strong></td><td><span class="verdict err">❌ Critique</span></td><td>Loi 25 art. 12 — minimisation. Envoyer un nom de client à OpenAI/Anthropic sans redaction est juridiquement <strong>discutable</strong>. À introduire avant le premier client en prod.</td></tr>
+      <tr><td><strong>Pas d'évaluation RAG</strong></td><td><span class="verdict err">❌ Manquant</span></td><td>Sans golden set + métriques (citation accuracy, hallucination rate, latency p95), on déploie sans savoir si la qualité dérive. <strong>Ragas + 100 questions de référence</strong> en Phase 2.</td></tr>
+      <tr><td><strong>Pas de Prompt Registry</strong></td><td><span class="verdict err">❌ Manquant</span></td><td>Modifier un prompt en prod sans versioning = impossible à rollback. <strong>Git-backed</strong> avec tags sémantiques.</td></tr>
+      <tr><td><strong>Pas de HITL pour docs légaux</strong></td><td><span class="verdict err">❌ Critique</span></td><td>Une promesse d'achat est un <strong>engagement légal</strong>. Aucun document juridique ne devrait être généré 100% IA sans validation humaine. <strong>Approval Queue obligatoire</strong>.</td></tr>
+      <tr><td><strong>Pas de MFA</strong></td><td><span class="verdict err">❌ Critique</span></td><td>Compte courtier OACIQ = données clients sensibles. MFA dès le compte créé. Non négociable.</td></tr>
+      <tr><td><strong>Pas de feature flags</strong></td><td><span class="verdict nice">🟡 Nice-to-have</span></td><td>Critique en Phase 2+ pour rollout progressif. Unleash self-hosted suffit.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================ 10 PHASE 2 ENRICHIE ============================ -->
+<section id="phase2">
+  <span class="eyebrow">Phase 2 enrichie</span>
+  <h2><span class="num">10</span>Au-delà du PDF · plomberie + qualité</h2>
+  <p class="lead">Le PDF résumait Phase 2 à « Centris + CMA + mobile beta ». La revue critique pousse à <strong>scinder la Phase 2 en trois sous-phases</strong> et à <strong>décaler le mobile en Phase 3</strong>. Le mobile sans plomberie production solide = un MVP mobile qui plante.</p>
+
+  <h3>Phase 2.a · Plomberie production <span class="tag-phase p2">Mois 3-4</span></h3>
+  <ul style="padding-left: 22px; color: var(--ink-soft); margin-bottom: 24px;">
+    <li><strong>Observabilité</strong> — Prometheus + Grafana + OpenTelemetry + Sentry.</li>
+    <li><strong>Pub/Sub + Worker Pool</strong> — découpler l'ingestion Centris du chemin requête.</li>
+    <li><strong>Redis</strong> — cache RAG (TTL 24h sur queries fréquentes) + rate-limit.</li>
+    <li><strong>LLM Router</strong> (LiteLLM) — fallback Anthropic ↔ OpenAI, gestion budget par tenant.</li>
+    <li><strong>PII Redaction</strong> service — Presidio + règles QC custom (NAS, code postal QC, adresse).</li>
+  </ul>
+
+  <h3>Phase 2.b · Données &amp; qualité <span class="tag-phase p2">Mois 4-5</span></h3>
+  <ul style="padding-left: 22px; color: var(--ink-soft); margin-bottom: 24px;">
+    <li><strong>Centris/MLS ingestion</strong> incrémentale (Airbyte ou job Cloud Composer).</li>
+    <li><strong>Prompt Registry</strong> — Git-backed, tags sémantiques (regulatory_qa@v12).</li>
+    <li><strong>Eval harness RAG</strong> — Ragas + golden set 100 questions juridiques + dashboard qualité.</li>
+    <li><strong>Feature Flags</strong> — Unleash self-hosted, rollouts gradués.</li>
+  </ul>
+
+  <h3>Phase 2.c · Workflow courtier <span class="tag-phase p2">Mois 5-6</span></h3>
+  <ul style="padding-left: 22px; color: var(--ink-soft); margin-bottom: 24px;">
+    <li><strong>CMA automatisé</strong> — Centris + heuristiques marché + génération PDF.</li>
+    <li><strong>HITL Approval Queue</strong> pour formulaires OACIQ générés (validation courtier obligatoire).</li>
+    <li><strong>Calculateur hypothécaire</strong> SCHL/GDS/TDS intégré.</li>
+    <li><strong>Dashboard analytics</strong> web — pipeline courtier, performance, métriques.</li>
+  </ul>
+
+  <div class="callout">
+    <strong>📲 Mobile Flutter → Phase 3</strong>
+    Le mobile vient en Phase 3 (mois 6-9) en même temps que la transcription audio. Cohérence fonctionnelle (mobile + voix sur le terrain) et techniquement la plomberie est en place.
+  </div>
+</section>
+
+<!-- ============================ 11 ROADMAP ============================ -->
+<section id="roadmap">
+  <span class="eyebrow">Roadmap 12 mois</span>
+  <h2><span class="num">11</span>Trajectoire MVP → GA 1.0</h2>
+  <p class="lead">Roadmap révisée après revue critique. Phase 2 augmentée, mobile décalé en Phase 3.</p>
+
+  <div class="timeline">
+    <div class="step current">
+      <div class="month">Mois 0–3</div>
+      <div class="ph">Phase 1 · MVP</div>
+      <ul>
+        <li>RAG réglementaire (OACIQ + lois QC)</li>
+        <li>Assistant Q&amp;A avec citations</li>
+        <li>Génération formulaires OACIQ</li>
+        <li>App Web React (early adopters)</li>
+        <li>Logs minimum + audit basique</li>
+      </ul>
+    </div>
+    <div class="step">
+      <div class="month">Mois 3–6</div>
+      <div class="ph">Phase 2 · Marché</div>
+      <ul>
+        <li><strong>2.a</strong> Observabilité, Pub/Sub, Redis, LLM Router, PII Redaction</li>
+        <li><strong>2.b</strong> Centris ingestion, Prompt Registry, eval RAG</li>
+        <li><strong>2.c</strong> CMA auto, HITL queue, calculateur hypo</li>
+        <li>Dashboard analytics web</li>
+      </ul>
+    </div>
+    <div class="step">
+      <div class="month">Mois 6–9</div>
+      <div class="ph">Phase 3 · Voix &amp; mobile</div>
+      <ul>
+        <li>Transcription conversations (style Plume)</li>
+        <li>Notes de visite auto</li>
+        <li>App Mobile Flutter beta fermée</li>
+        <li>Intégration Registre foncier</li>
+        <li>Beta ouverte 50 courtiers</li>
+      </ul>
+    </div>
+    <div class="step">
+      <div class="month">Mois 9–12</div>
+      <div class="ph">Phase 4 · Intelligence</div>
+      <ul>
+        <li>Fine-tuning ton courtier QC</li>
+        <li>Analytics prédictif (prix, durée)</li>
+        <li>Gestion offres multiples IA</li>
+        <li>Intégration CRM + relances</li>
+        <li>Lancement commercial v1.0</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 12 RISKS ============================ -->
+<section id="risks">
+  <span class="eyebrow">Risques</span>
+  <h2><span class="num">12</span>Risques majeurs &amp; mitigations</h2>
+
+  <div class="callout warn">
+    <strong>🌐 Risque résidence des données LLM</strong>
+    Si Vertex AI Claude région CA n'est pas disponible à temps → dépendance OpenAI/Anthropic US. <strong>Mitigation</strong> : DPA signé + PII Redaction obligatoire + opt-in courtier explicite (Loi 25 art. 12). Plan B : LLM open-source self-hosté (Llama 3) sur GKE Montréal pour les requêtes ultra-sensibles.
+  </div>
+
+  <div class="callout err">
+    <strong>⚖️ Risque OACIQ — exposition professionnelle du courtier</strong>
+    Génération automatique de formulaires juridiques sans HITL = exposition pour le courtier (sa licence est en jeu). <strong>Mitigation</strong> : HITL Approval Queue obligatoire avant signature. Le courtier voit, valide, modifie si besoin, puis signe. Tout est logué.
+  </div>
+
+  <div class="callout warn">
+    <strong>💰 Risque coût LLM</strong>
+    top-k=10 chunks × 1k tokens/chunk × 50 requêtes/jour/courtier = budget significatif (~$15-30/courtier/mois en Claude Opus). <strong>Mitigation</strong> : cache Redis agressif (40-60% hit rate attendu), reranker pour réduire k, modèles plus légers (Haiku) pour intent simple, quotas par tenant.
+  </div>
+
+  <div class="callout">
+    <strong>👥 Risque adoption</strong>
+    Les courtiers ne sont pas tous technophiles. App séparée = friction. <strong>Mitigation</strong> : onboarding guidé, intégration native dans flux existants (extension Centris, plugin Outlook, SMS via Twilio en Phase 1), accompagnement 1-on-1 pour les 10 premiers courtiers beta.
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- ============================ JS NAV ============================ -->
+<script>
+(function() {
+  const sections = document.querySelectorAll('main section[id]');
+  const links = document.querySelectorAll('aside.sidebar nav a');
+
+  if (!('IntersectionObserver' in window)) return;
+
+  const map = {};
+  links.forEach(a => {
+    const href = a.getAttribute('href');
+    if (href && href.startsWith('#')) map[href.slice(1)] = a;
+  });
+
+  const setActive = (id) => {
+    links.forEach(a => a.classList.remove('active'));
+    if (map[id]) map[id].classList.add('active');
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) setActive(e.target.id);
+    });
+  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+})();
+</script>
+
+</body>
+</html>

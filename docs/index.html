@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextMove — Documentation</title>
+<meta name="description" content="Documentation NextMove : architecture C4 CourtierIA, schéma Supabase, wireframes CRM, ateliers de découverte.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1F2A37;
+    --ink-soft: #4B5563;
+    --silver: #6B7280;
+    --silver-soft: #9CA3AF;
+    --bg: #F8F9FB;
+    --card: #FFFFFF;
+    --line: #E5E7EB;
+    --accent: #2DD4BF;
+    --accent-soft: #F0FDFA;
+    --accent-ink: #0F766E;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 64px 32px 96px; }
+
+  header.top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 56px;
+  }
+  header.top .logo {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 20px;
+  }
+  header.top .brand { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+  header.top .brand .move { color: var(--silver-soft); font-weight: 600; }
+  header.top .tag {
+    margin-left: auto;
+    font-size: 11px;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #1F2A37 0%, #111827 100%);
+    border-radius: 20px;
+    padding: 56px 48px;
+    color: #fff;
+    margin-bottom: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -80px; top: -80px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45,212,191,0.25) 0%, transparent 70%);
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    max-width: 780px;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero p {
+    margin-top: 14px;
+    color: rgba(255,255,255,0.72);
+    max-width: 680px;
+    font-size: 16px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+  }
+  a.card {
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.18s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  a.card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(45,212,191,0.12);
+  }
+  a.card.featured {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F0FDFA 100%);
+    border-color: var(--accent);
+    grid-column: span 2;
+  }
+  a.card .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--accent-ink);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  a.card h3 {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  a.card.featured h3 { font-size: 26px; }
+  a.card p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  a.card .arrow {
+    position: absolute;
+    top: 28px; right: 28px;
+    color: var(--silver-soft);
+    transition: transform 0.18s ease, color 0.18s ease;
+  }
+  a.card:hover .arrow { transform: translateX(2px); color: var(--accent-ink); }
+  a.card .meta {
+    margin-top: 14px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  a.card .meta span {
+    font-size: 11px;
+    background: #F3F4F6;
+    color: var(--silver);
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  a.card.featured .meta span {
+    background: rgba(45,212,191,0.18);
+    color: var(--accent-ink);
+  }
+
+  section h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--silver);
+    margin: 48px 0 16px;
+    font-weight: 700;
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--silver);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer a { color: var(--ink-soft); text-decoration: none; }
+  footer a:hover { color: var(--accent-ink); }
+
+  @media (max-width: 720px) {
+    .wrap { padding: 32px 20px 64px; }
+    .hero { padding: 36px 24px; }
+    .hero h1 { font-size: 30px; }
+    a.card.featured { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="logo">N</div>
+  <div class="brand">Next<span class="move">Move</span></div>
+  <div class="tag">Documentation</div>
+</header>
+
+<div class="hero">
+  <h1>Documentation <span class="accent">NextMove</span> —<br>Copilote IA du courtier immobilier QC</h1>
+  <p>Architecture cible, schémas de données, wireframes produit, ateliers de découverte. Tout ce qui structure la construction du produit, en un endroit.</p>
+</div>
+
+<section>
+  <h2>🏗️ Architecture &amp; conception</h2>
+  <div class="grid">
+    <a class="card featured" href="architecture/">
+      <div class="eyebrow">Diagrammes C4 + revue critique</div>
+      <h3>Architecture CourtierIA →</h3>
+      <p>Refonte complète du PDF d'architecture en diagrammes PlantUML versionnés. Validation critique du PDF, gaps identifiés, roadmap Phase 2 enrichie.</p>
+      <div class="meta">
+        <span>5 diagrammes</span>
+        <span>PlantUML</span>
+        <span>Validation critique</span>
+        <span>Roadmap 12 mois</span>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="card" href="schema.md">
+      <div class="eyebrow">Base de données</div>
+      <h3>Schéma Supabase</h3>
+      <p>Modèle ER du MVP NSA — courtiers, prospects, besoins, conversations, relances. RLS multi-tenant.</p>
+      <div class="meta"><span>Mermaid ER</span><span>RLS</span></div>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="card" href="wireframes/">
+      <div class="eyebrow">Produit</div>
+      <h3>Wireframes CRM</h3>
+      <p>6 écrans wireframes du CRM courtier. Roadmap produit en 8 phases jusqu'à Q4 2026.</p>
+      <div class="meta"><span>Figma</span><span>React JSX</span></div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2>📋 Recherche &amp; ateliers</h2>
+  <div class="grid">
+    <a class="card" href="miro_atelier_courtier_immobilier.md">
+      <div class="eyebrow">Discovery</div>
+      <h3>Atelier découverte courtier</h3>
+      <p>Empathy map, pain points, magic wand outcomes. Notes du board Miro de discovery 5 frames.</p>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="card" href="nsa_courtier_ia_etat_jalons.md">
+      <div class="eyebrow">État du projet</div>
+      <h3>État &amp; jalons NSA</h3>
+      <p>Cartographie des artefacts du projet « assistant IA courtier », jalons et état d'avancement.</p>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="card" href="contrats_docusign_openclaw_immo.md">
+      <div class="eyebrow">Recherche</div>
+      <h3>Contrats &amp; OpenClaw</h3>
+      <p>Notes sur RBQ, Santé Québec, automatisation OpenClaw, intégrations DocuSign.</p>
+      <div class="arrow">→</div>
+    </a>
+
+    <a class="card" href="projet_immo_fire.md">
+      <div class="eyebrow">Stratégie personnelle</div>
+      <h3>Projet Immo FIRE</h3>
+      <p>Stratégie investissement immobilier (BRRRR, cashflow). Note personnelle.</p>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span>Préparé par Eliot Alanmanou · Avril 2026</span>
+  <span><a href="https://github.com/kakame94/NextMove">github.com/kakame94/NextMove</a></span>
+</footer>
+
+</div>
+</body>
+</html>

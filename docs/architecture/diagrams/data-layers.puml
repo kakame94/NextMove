@@ -1,0 +1,70 @@
+@startuml data-layers
+title Couches de données · Stratégie RAG (80%) + Fine-tuning (20%)
+
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundCorner 14
+skinparam ArrowColor transparent
+skinparam padding 8
+hide stereotype
+
+skinparam rectangle {
+  BackgroundColor<<p0>> #1F2A37
+  FontColor<<p0>> #FFFFFF
+  BorderColor<<p0>> #1F2A37
+}
+skinparam rectangle {
+  BackgroundColor<<p1>> #4B5563
+  FontColor<<p1>> #FFFFFF
+  BorderColor<<p1>> #4B5563
+}
+skinparam rectangle {
+  BackgroundColor<<p2>> #9CA3AF
+  FontColor<<p2>> #FFFFFF
+  BorderColor<<p2>> #9CA3AF
+}
+skinparam rectangle {
+  BackgroundColor<<accent>> #2DD4BF
+  FontColor<<accent>> #FFFFFF
+  BorderColor<<accent>> #14B8A6
+  FontStyle<<accent>> bold
+}
+
+rectangle "P0 · CRITIQUE — MVP" as p0header <<accent>>
+
+rectangle "**Réglementaire** · ~500 docs\nLoi courtage immo · Code déontologie OACIQ\nLoi 25 · Formulaires officiels OACIQ" as reg <<p0>>
+
+rectangle "**Marché** · ~10M records\nCentris/MLS transactions · Évaluations municipales\nTaux hypothécaires SCHL · Statistiques secteur" as market <<p0>>
+
+rectangle "P1 · IMPORTANT — Phase 2" as p1header <<accent>>
+
+rectangle "**Transactionnelle** · ~5K templates\nPromesses d'achat · Contre-propositions\nClauses types · CMA passées" as trans <<p1>>
+
+rectangle "**Métier courtier** · ~200 docs\nScripts conversation · Processus listing-to-close\nGuides pricing · Best practices QC" as metier <<p1>>
+
+rectangle "P2 · COMPLÉMENTAIRE — Phase 3+" as p2header <<accent>>
+
+rectangle "**Juridique / Notarial** · ~300 docs\nRegistre foncier · Servitudes\nCertif. localisation · Loi 16 copropriété" as legal <<p2>>
+
+rectangle "**Bâtiment / Inspection** · ~150 docs\nProblèmes par époque (pyrite, UFFI)\nNormes RBQ · GCR garantie" as building <<p2>>
+
+p0header -[hidden]down- reg
+reg -[hidden]right- market
+market -[hidden]down- p1header
+p1header -[hidden]down- trans
+trans -[hidden]right- metier
+metier -[hidden]down- p2header
+p2header -[hidden]down- legal
+legal -[hidden]right- building
+
+note right of reg
+  <b>Stratégie RAG 80% / FT 20%</b>
+  • <b>RAG</b> sur la base documentaire
+    → MAJ sans re-entraînement
+  • <b>Fine-tuning</b> sur ton/style
+    courtier QC + structure docs
+end note
+
+@enduml
