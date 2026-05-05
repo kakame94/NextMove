@@ -37,3 +37,6 @@ build/
 
 # Legacy
 openclaw-immo/
+
+# Local Netlify folder
+.netlify

@@ -1,0 +1,9 @@
+{
+  "name": "maison-forge-ai-functions",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Netlify Functions for Maison Forge — AI report generation, lead notification.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0"
+  }
+}

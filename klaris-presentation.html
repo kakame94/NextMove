@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klaris — L'adjointe IA des courtiers immo · Next Move</title>
+<meta name="description" content="Klaris répond aux prospects par SMS, qualifie les leads, et alimente le dashboard du courtier. Bilingue FR/EN, conforme OACIQ + Loi 25 + CASL. Une marque Next Move.">
+<meta name="theme-color" content="#0f1117">
+
+<!-- OG / Twitter -->
+<meta property="og:title" content="Klaris — L'adjointe IA des courtiers immo">
+<meta property="og:description" content="Elle qualifie tes prospects par SMS pendant que tu vends. Bilingue, conforme, transparente.">
+<meta property="og:url" content="https://klarisapp.ai">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Inline SVG favicon — Klaris K -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' rx='44' fill='%23ff5a36'/%3E%3Cpath d='M62 50 V150 M62 100 L130 50 M62 100 L130 150' stroke='white' stroke-width='18' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='150' cy='60' r='8' fill='white'/%3E%3C/svg%3E">
+
+<style>
+/* ════════════════════════════════════════════════════════
+   KLARIS — Tokens
+   Heritage Cléa (terracotta OKLCH) + dark sci-fi (RAG diagram)
+   Mode dark par défaut, toggle vers light terracotta
+   ════════════════════════════════════════════════════════ */
+:root {
+  --background: oklch(0.98 0.005 60);
+  --foreground: oklch(0.20 0.02 30);
+  --card: oklch(1 0 0);
+  --card-elev: oklch(0.99 0.005 60);
+  --primary: oklch(0.55 0.18 30);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-soft: oklch(0.55 0.18 30 / 0.10);
+  --primary-mid: oklch(0.55 0.18 30 / 0.20);
+  --primary-strong: oklch(0.45 0.20 28);
+  --muted: oklch(0.94 0.015 60);
+  --muted-foreground: oklch(0.50 0.02 30);
+  --border: oklch(0.90 0.02 60);
+  --border-strong: oklch(0.82 0.02 60);
+  --success: oklch(0.60 0.15 145);
+  --success-soft: oklch(0.60 0.15 145 / 0.12);
+  --warning: oklch(0.75 0.15 75);
+  --info: oklch(0.60 0.15 230);
+  --destructive: oklch(0.55 0.22 25);
+  --heat-1: oklch(0.65 0.10 230);
+  --heat-2: oklch(0.70 0.12 200);
+  --heat-3: oklch(0.75 0.15 75);
+  --heat-4: oklch(0.65 0.18 50);
+  --heat-5: oklch(0.55 0.22 25);
+
+  /* Agents palette (RAG heritage) */
+  --agent-blue: #3b5bdb;
+  --agent-green: #40c057;
+  --agent-purple: #be4bdb;
+  --agent-yellow: #ffc107;
+
+  --radius-sm: 0.375rem;
+  --radius: 0.625rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.125rem;
+  --radius-xl: 1.5rem;
+
+  --shadow-sm: 0 1px 2px oklch(0.20 0.02 30 / 0.05);
+  --shadow: 0 4px 16px oklch(0.20 0.02 30 / 0.08);
+  --shadow-lg: 0 20px 50px oklch(0.20 0.02 30 / 0.10);
+  --glow-primary: 0 0 0 1px var(--primary-mid), 0 0 32px oklch(0.55 0.18 30 / 0.25);
+
+  --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --tx: 0.2s ease;
+  --tx-fast: 0.12s ease;
+  --tx-mech: 0.4s steps(8, end);
+}
+html.dark {
+  --background: #0f1117;
+  --foreground: oklch(0.96 0 0);
+  --card: oklch(0.17 0.005 250);
+  --card-elev: oklch(0.20 0.005 250);
+  --primary: oklch(0.68 0.18 28);
+  --primary-foreground: oklch(0.10 0 0);
+  --primary-soft: oklch(0.68 0.18 28 / 0.14);
+  --primary-mid: oklch(0.68 0.18 28 / 0.28);
+  --primary-strong: oklch(0.78 0.18 28);
+  --muted: oklch(0.22 0.005 250);
+  --muted-foreground: oklch(0.65 0.005 250);
+  --border: oklch(0.28 0.005 250);
+  --border-strong: oklch(0.36 0.005 250);
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.5);
+  --shadow: 0 4px 16px oklch(0 0 0 / 0.5);
+  --shadow-lg: 0 20px 50px oklch(0 0 0 / 0.6);
+  --glow-primary: 0 0 0 1px var(--primary-mid), 0 0 32px oklch(0.68 0.18 28 / 0.35);
+}
+
+/* ── reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: 0; background: transparent; color: inherit; }
+img, svg { display: block; max-width: 100%; }
+.mono { font-family: var(--font-mono); }
+
+::selection { background: var(--primary-mid); color: var(--foreground); }
+
+/* ════════════════════════════════════════════════════════
+   Blueprint grid background — Yemdamja-robotic accent
+   ════════════════════════════════════════════════════════ */
+.blueprint-bg {
+  position: relative;
+  isolation: isolate;
+}
+.blueprint-bg::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(to right, color-mix(in oklch, var(--foreground) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklch, var(--foreground) 10%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 80%);
+  opacity: 0.5;
+  z-index: -1;
+  pointer-events: none;
+}
+html.dark .blueprint-bg::before { opacity: 0.7; }
+
+.blueprint-bg::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 50% 50%, color-mix(in oklch, var(--foreground) 28%, transparent) 1px, transparent 1.5px);
+  background-size: 144px 144px;
+  background-position: 24px 24px;
+  opacity: 0.4;
+  z-index: -1;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 40%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 40%, transparent 90%);
+}
+
+/* ════════════════════════════════════════════════════════
+   Layout
+   ════════════════════════════════════════════════════════ */
+.container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 96px 0; position: relative; }
+@media (max-width: 768px) { .section { padding: 64px 0; } }
+
+.section-head {
+  text-align: center; max-width: 720px;
+  margin: 0 auto 56px;
+}
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 999px;
+  background: var(--muted); color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  border: 1px solid var(--border);
+}
+.section-eyebrow::before {
+  content: "";
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 8px var(--primary);
+  animation: pulse 2.4s infinite;
+}
+.section h2 {
+  font-size: clamp(28px, 4.5vw, 44px);
+  font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin-bottom: 16px;
+}
+.section h2 em { font-style: normal; color: var(--primary); }
+.section-sub {
+  font-size: 17px;
+  color: var(--muted-foreground);
+  max-width: 580px;
+  margin: 0 auto;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } }
+
+/* ════════════════════════════════════════════════════════
+   NAV
+   ════════════════════════════════════════════════════════ */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in oklch, var(--background) 80%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 12px;
+  font-weight: 700; font-size: 19px;
+  letter-spacing: -0.02em;
+}
+.nav-brand .mark { width: 34px; height: 34px; }
+.nav-brand .domain {
+  font-family: var(--font-mono);
+  font-size: 11px; color: var(--muted-foreground);
+  font-weight: 500; letter-spacing: 0;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-left: 4px;
+}
+.nav-links {
+  display: flex; gap: 32px; align-items: center;
+}
+.nav-links a {
+  font-size: 14px; color: var(--muted-foreground);
+  transition: color var(--tx-fast);
+  font-weight: 500;
+}
+.nav-links a:hover { color: var(--foreground); }
+.nav-cta { display: flex; gap: 10px; align-items: center; }
+
+.icon-btn {
+  width: 38px; height: 38px; border-radius: 8px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--card);
+  transition: background var(--tx-fast), border-color var(--tx-fast);
+}
+.icon-btn:hover { background: var(--muted); border-color: var(--border-strong); }
+.lang-btn {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 600;
+  padding: 0 10px;
+  width: auto; min-width: 60px;
+  letter-spacing: 0.05em;
+}
+.theme-btn .sun { display: none; }
+.theme-btn .moon { display: block; }
+html.dark .theme-btn .sun { display: block; }
+html.dark .theme-btn .moon { display: none; }
+
+@media (max-width: 900px) { .nav-links { display: none; } }
+@media (max-width: 480px) { .nav-brand .domain { display: none; } }
+
+/* ════════════════════════════════════════════════════════
+   BUTTONS
+   ════════════════════════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-size: 14px; font-weight: 600;
+  transition: all var(--tx-fast);
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.btn-primary:hover {
+  background: var(--primary-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--glow-primary);
+}
+.btn-ghost {
+  background: var(--card);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+.btn-ghost:hover { background: var(--muted); border-color: var(--border-strong); }
+.btn-lg { padding: 14px 28px; font-size: 15px; border-radius: 12px; }
+.btn-arrow { transition: transform var(--tx-fast); }
+.btn:hover .btn-arrow { transform: translateX(4px); }
+
+/* ════════════════════════════════════════════════════════
+   HERO
+   ════════════════════════════════════════════════════════ */
+.hero {
+  padding: 88px 0 64px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items: center;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 6px 14px; border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 13px; font-weight: 600;
+  margin-bottom: 24px;
+  border: 1px solid var(--primary-mid);
+}
+.hero-eyebrow .signal {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 12px var(--primary);
+  animation: pulse 2s infinite;
+}
+.hero-eyebrow .ver {
+  font-family: var(--font-mono);
+  font-size: 11px; opacity: 0.7;
+  padding-left: 10px;
+  margin-left: 4px;
+  border-left: 1px solid var(--primary-mid);
+}
+.hero h1 {
+  font-size: clamp(38px, 5.8vw, 68px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  margin-bottom: 24px;
+}
+.hero h1 em { font-style: normal; color: var(--primary); }
+.hero-sub {
+  font-size: 19px;
+  color: var(--muted-foreground);
+  margin-bottom: 32px;
+  max-width: 560px;
+  line-height: 1.55;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-trust {
+  margin-top: 32px;
+  display: flex; gap: 24px;
+  font-size: 13px; color: var(--muted-foreground);
+  flex-wrap: wrap;
+}
+.hero-trust span { display: flex; align-items: center; gap: 8px; }
+.hero-trust svg { color: var(--success); width: 16px; height: 16px; }
+
+.hero-visual {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-visual::before {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  background: radial-gradient(circle at 50% 50%, var(--primary-soft) 0%, transparent 60%);
+  z-index: -1;
+}
+
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+  .hero { padding: 56px 0 32px; }
+}
+
+/* ════════════════════════════════════════════════════════
+   MASCOTTE — Klaris robot
+   ════════════════════════════════════════════════════════ */
+.mascot-stage {
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 1;
+  position: relative;
+}
+.mascot-stage svg.mascot {
+  width: 100%; height: 100%;
+  filter: drop-shadow(0 24px 48px oklch(0 0 0 / 0.25));
+}
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  94%, 98% { transform: scaleY(0.1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes antenna-glow {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.3; }
+}
+@keyframes orbit-dot {
+  from { transform: rotate(0deg) translateX(180px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(180px) rotate(-360deg); }
+}
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+.mascot-body { animation: float 4s ease-in-out infinite; transform-origin: center; }
+.mascot-eye { animation: blink 5s infinite; transform-origin: center; transform-box: fill-box; }
+.mascot-antenna-tip { animation: antenna-glow 2s infinite; }
+
+.mascot-orbit {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 6px; height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 12px var(--primary);
+  animation: orbit-dot 8s linear infinite;
+}
+.mascot-orbit.alt { animation-duration: 12s; animation-direction: reverse; background: var(--agent-blue); box-shadow: 0 0 12px var(--agent-blue); }
+.mascot-orbit.alt2 { animation-duration: 10s; animation-delay: -3s; background: var(--agent-green); box-shadow: 0 0 12px var(--agent-green); }
+@media (prefers-reduced-motion: reduce) {
+  .mascot-body, .mascot-eye, .mascot-antenna-tip, .mascot-orbit { animation: none !important; }
+}
+
+/* ════════════════════════════════════════════════════════
+   PROBLEM
+   ════════════════════════════════════════════════════════ */
+.problem { background: var(--muted); }
+.problem-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.problem-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--tx), border-color var(--tx);
+}
+.problem-card::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--destructive), var(--primary));
+}
+.problem-card:hover { transform: translateY(-3px); border-color: var(--primary-mid); }
+.problem-stat {
+  font-family: var(--font-mono);
+  font-size: 44px; font-weight: 700;
+  color: var(--destructive);
+  line-height: 1;
+  margin-bottom: 12px;
+  letter-spacing: -0.03em;
+}
+.problem-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+.problem-card p { font-size: 14px; color: var(--muted-foreground); }
+@media (max-width: 768px) { .problem-grid { grid-template-columns: 1fr; gap: 16px; } }
+
+/* ════════════════════════════════════════════════════════
+   SOLUTION — 3 piliers
+   ════════════════════════════════════════════════════════ */
+.pillars-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.pillar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 36px 28px;
+  text-align: center;
+  position: relative;
+  transition: transform var(--tx), border-color var(--tx), box-shadow var(--tx);
+}
+.pillar:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary-mid);
+  box-shadow: var(--shadow);
+}
+.pillar-icon {
+  width: 64px; height: 64px;
+  border-radius: 16px;
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-mid);
+  color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+}
+.pillar-icon svg { width: 30px; height: 30px; }
+.pillar h3 { font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+.pillar p { font-size: 14px; color: var(--muted-foreground); line-height: 1.55; }
+@media (max-width: 768px) { .pillars-grid { grid-template-columns: 1fr; } }
+
+/* ════════════════════════════════════════════════════════
+   DEMO — SMS thread animée
+   ════════════════════════════════════════════════════════ */
+.demo-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+  align-items: center;
+}
+.demo-text h2 { margin-bottom: 18px; }
+.demo-text ul {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 14px;
+  margin-top: 24px;
+}
+.demo-text li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 15px;
+}
+.demo-text li svg {
+  color: var(--primary);
+  width: 20px; height: 20px;
+  flex-shrink: 0; margin-top: 3px;
+}
+.phone {
+  max-width: 360px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 36px;
+  padding: 28px 18px 24px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+.phone::before {
+  content: "";
+  position: absolute; top: 12px; left: 50%;
+  transform: translateX(-50%);
+  width: 80px; height: 6px;
+  border-radius: 3px;
+  background: var(--muted);
+}
+.phone-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 8px 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+.phone-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-mid);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--primary);
+  font-weight: 700; font-size: 13px;
+}
+.phone-name { font-size: 14px; font-weight: 600; }
+.phone-status {
+  font-family: var(--font-mono);
+  font-size: 10px; color: var(--success);
+  display: flex; align-items: center; gap: 5px;
+}
+.phone-status::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 6px var(--success);
+}
+.thread {
+  display: flex; flex-direction: column; gap: 10px;
+  min-height: 320px;
+}
+.bubble {
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  max-width: 86%;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.bubble.show { opacity: 1; transform: translateY(0); }
+.bubble.in {
+  background: var(--muted);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+.bubble.out {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.bubble.summary {
+  background: var(--success-soft);
+  color: var(--success);
+  border: 1px solid var(--success);
+  align-self: stretch;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+}
+.typing {
+  display: inline-flex; gap: 4px;
+  padding: 12px 14px;
+  background: var(--muted);
+  align-self: flex-start;
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+}
+.typing span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--muted-foreground);
+  animation: type-dot 1.4s infinite;
+}
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes type-dot {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-4px); }
+}
+@media (max-width: 900px) {
+  .demo-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ════════════════════════════════════════════════════════
+   ARCHITECTURE — Multi-agent diagram (RAG style)
+   ════════════════════════════════════════════════════════ */
+.archi {
+  background: var(--background);
+  position: relative;
+  overflow: hidden;
+}
+.archi-canvas {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  height: 540px;
+  margin: 0 auto;
+}
+@media (max-width: 980px) { .archi-canvas { height: 880px; } }
+
+.agent-node {
+  position: absolute;
+  border-radius: 16px;
+  padding: 22px 24px;
+  z-index: 2;
+  background: var(--card-elev);
+  transition: transform var(--tx), box-shadow var(--tx);
+  backdrop-filter: blur(8px);
+}
+.agent-node:hover { transform: translateY(-3px); }
+
+.agent-intake {
+  width: 280px;
+  top: 60px; left: 0;
+  border: 1.5px solid var(--agent-green);
+  box-shadow: 0 0 0 1px transparent, 0 0 32px rgba(64, 192, 87, 0.15);
+}
+.agent-intake:hover { box-shadow: 0 0 0 1px var(--agent-green), 0 0 56px rgba(64, 192, 87, 0.30); }
+
+.agent-core {
+  width: 320px;
+  top: 200px; left: 50%;
+  transform: translateX(-50%);
+  border: 1.5px solid var(--agent-blue);
+  box-shadow: 0 0 0 1px transparent, 0 0 40px rgba(59, 91, 219, 0.18);
+}
+.agent-core:hover { transform: translateX(-50%) translateY(-3px); box-shadow: 0 0 0 1px var(--agent-blue), 0 0 64px rgba(59, 91, 219, 0.32); }
+
+.agent-scoring {
+  width: 280px;
+  top: 60px; right: 0;
+  border: 1.5px solid var(--agent-purple);
+  box-shadow: 0 0 0 1px transparent, 0 0 32px rgba(190, 75, 219, 0.15);
+}
+.agent-scoring:hover { box-shadow: 0 0 0 1px var(--agent-purple), 0 0 56px rgba(190, 75, 219, 0.30); }
+
+.agent-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.4px;
+  padding: 3px 10px; border-radius: 999px;
+  margin-bottom: 10px;
+}
+.tag-intake { background: rgba(64, 192, 87, 0.18); color: var(--agent-green); }
+.tag-core   { background: rgba(59, 91, 219, 0.20); color: #7b9cf5; }
+.tag-scoring{ background: rgba(190, 75, 219, 0.18); color: #da77f2; }
+.agent-name { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.agent-desc { font-size: 13px; line-height: 1.5; color: var(--muted-foreground); }
+.agent-tools {
+  margin-top: 14px;
+  display: flex; flex-wrap: wrap; gap: 5px;
+}
+.tool-chip {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: color-mix(in oklch, var(--foreground) 5%, transparent);
+  color: var(--muted-foreground);
+  border: 1px solid var(--border);
+}
+
+.endpoint-node {
+  position: absolute;
+  width: 200px;
+  text-align: center;
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: color-mix(in oklch, var(--foreground) 4%, transparent);
+  border: 1px dashed var(--border-strong);
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.endpoint-prospect { bottom: 30px; left: 0; }
+.endpoint-broker   { bottom: 30px; right: 0; }
+.endpoint-icon { font-size: 22px; margin-bottom: 4px; display: block; }
+
+svg.archi-arrows {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.arrow {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+.archi-canvas.in-view .arrow { animation: draw 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.archi-canvas.in-view .arrow.delay-1 { animation-delay: 0.2s; }
+.archi-canvas.in-view .arrow.delay-2 { animation-delay: 0.5s; }
+.archi-canvas.in-view .arrow.delay-3 { animation-delay: 0.8s; }
+.archi-canvas.in-view .arrow.delay-4 { animation-delay: 1.1s; }
+.arrow-blue { stroke: var(--agent-blue); }
+.arrow-green { stroke: var(--agent-green); }
+.arrow-purple { stroke: var(--agent-purple); }
+.arrow-orange { stroke: var(--primary); }
+.arrow-dashed { stroke-dasharray: 6 5; }
+.arrow-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  fill: var(--muted-foreground);
+  text-anchor: middle;
+  letter-spacing: 0.5px;
+}
+.arrow-label-bg {
+  fill: var(--background);
+}
+
+.loop-pill {
+  position: absolute;
+  top: 168px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: rgba(255, 193, 7, 0.10);
+  border: 1px solid rgba(255, 193, 7, 0.35);
+  z-index: 3;
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 600;
+  color: var(--agent-yellow);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.loop-pill::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--agent-yellow);
+  animation: pulse 2s infinite;
+}
+
+.steps {
+  margin-top: 56px;
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
+}
+.step {
+  background: var(--card-elev);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 18px;
+  text-align: center;
+}
+.step-num {
+  font-family: var(--font-mono);
+  font-size: 28px; font-weight: 800;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+.step-num.c-green { color: var(--agent-green); }
+.step-num.c-blue { color: var(--agent-blue); }
+.step-num.c-purple { color: var(--agent-purple); }
+.step-num.c-orange { color: var(--primary); }
+.step-num.c-yellow { color: var(--agent-yellow); }
+.step-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+.step-desc { font-size: 12px; color: var(--muted-foreground); line-height: 1.5; }
+@media (max-width: 900px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { .steps { grid-template-columns: 1fr; } }
+
+@media (max-width: 980px) {
+  .agent-intake, .agent-scoring, .agent-core { position: static; transform: none; width: 100%; max-width: 100%; }
+  .agent-core { transform: none !important; }
+  .endpoint-node { position: static; width: 100%; max-width: 100%; margin-top: 16px; }
+  .archi-canvas { display: flex; flex-direction: column; gap: 16px; }
+  svg.archi-arrows, .loop-pill { display: none; }
+}
+
+/* ════════════════════════════════════════════════════════
+   FEATURES
+   ════════════════════════════════════════════════════════ */
+.features { background: var(--muted); }
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+.feature-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  position: relative;
+  transition: transform var(--tx), border-color var(--tx);
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary-mid);
+  box-shadow: var(--shadow);
+}
+.feature-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.feature-icon svg { width: 22px; height: 22px; }
+.feature-card h3 {
+  font-size: 17px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.feature-card p {
+  font-size: 14px; color: var(--muted-foreground);
+  line-height: 1.55;
+}
+.feature-card .tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--success-soft);
+  color: var(--success);
+  margin-top: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+@media (max-width: 900px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .features-grid { grid-template-columns: 1fr; } }
+
+/* ════════════════════════════════════════════════════════
+   PERSONAS
+   ════════════════════════════════════════════════════════ */
+.personas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.persona-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  transition: transform var(--tx), border-color var(--tx);
+}
+.persona-card:hover { transform: translateY(-3px); border-color: var(--primary-mid); }
+.persona-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  border: 2px solid var(--primary-mid);
+  color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 18px;
+  flex-shrink: 0;
+}
+.persona-name {
+  font-size: 17px; font-weight: 700;
+  margin-bottom: 4px;
+}
+.persona-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted-foreground);
+  margin-bottom: 12px;
+}
+.persona-quote {
+  font-size: 14px;
+  color: var(--foreground);
+  line-height: 1.55;
+  font-style: italic;
+  border-left: 2px solid var(--primary);
+  padding-left: 14px;
+  margin-bottom: 12px;
+}
+.persona-meta {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.persona-meta .chip {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--muted);
+  color: var(--muted-foreground);
+}
+@media (max-width: 900px) { .personas-grid { grid-template-columns: 1fr; } }
+
+/* ════════════════════════════════════════════════════════
+   STACK — sous le capot
+   ════════════════════════════════════════════════════════ */
+.stack { background: var(--background); position: relative; overflow: hidden; }
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.stack-card {
+  background: var(--card-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-align: center;
+  transition: border-color var(--tx), transform var(--tx);
+}
+.stack-card:hover { border-color: var(--primary-mid); transform: translateY(-2px); }
+.stack-logo {
+  height: 32px; margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.stack-logo svg { height: 32px; width: auto; }
+.stack-name {
+  font-size: 15px; font-weight: 700;
+  margin-bottom: 4px;
+}
+.stack-role {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.stack-flow {
+  background: var(--card-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted-foreground);
+  overflow-x: auto;
+}
+.stack-flow .arrow-down { color: var(--primary); }
+.stack-flow .highlight { color: var(--foreground); font-weight: 600; }
+@media (max-width: 900px) { .stack-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ════════════════════════════════════════════════════════
+   COMPLIANCE
+   ════════════════════════════════════════════════════════ */
+.compliance { background: var(--muted); }
+.compliance-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.compliance-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  display: flex; gap: 16px;
+  align-items: flex-start;
+}
+.compliance-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: var(--success-soft);
+  color: var(--success);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.compliance-icon svg { width: 22px; height: 22px; }
+.compliance-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.compliance-card p { font-size: 13px; color: var(--muted-foreground); line-height: 1.55; }
+@media (max-width: 768px) { .compliance-grid { grid-template-columns: 1fr; } }
+
+/* ════════════════════════════════════════════════════════
+   PRICING
+   ════════════════════════════════════════════════════════ */
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.price-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 36px;
+  display: flex; flex-direction: column;
+  transition: transform var(--tx), border-color var(--tx);
+}
+.price-card:hover { transform: translateY(-3px); }
+.price-card.featured {
+  border-color: var(--primary);
+  box-shadow: var(--glow-primary);
+  position: relative;
+}
+.price-badge {
+  position: absolute; top: -12px; left: 24px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.price-name {
+  font-size: 14px; color: var(--muted-foreground);
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.price-amount {
+  display: flex; align-items: baseline;
+  gap: 8px; margin-bottom: 8px;
+}
+.price-amount strong {
+  font-size: 48px; font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.price-amount span {
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+.price-desc {
+  color: var(--muted-foreground);
+  font-size: 14px;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+.price-features {
+  list-style: none;
+  display: flex; flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex: 1;
+}
+.price-features li {
+  display: flex; gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+}
+.price-features svg {
+  color: var(--success);
+  width: 18px; height: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.price-compare {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+.price-compare strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+@media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+/* ════════════════════════════════════════════════════════
+   FINAL CTA
+   ════════════════════════════════════════════════════════ */
+.final-cta-wrap { padding: 48px 0 96px; }
+.final-cta {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-strong) 100%);
+  color: var(--primary-foreground);
+  text-align: center;
+  border-radius: var(--radius-xl);
+  padding: 72px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.final-cta::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.final-cta > * { position: relative; z-index: 1; }
+.final-cta h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: -0.025em;
+}
+.final-cta p {
+  font-size: 17px;
+  opacity: 0.92;
+  margin-bottom: 36px;
+  max-width: 540px;
+  margin-left: auto; margin-right: auto;
+}
+.final-cta .btn {
+  background: var(--card);
+  color: var(--foreground);
+  padding: 16px 32px;
+  font-size: 15px;
+}
+.final-cta .btn:hover {
+  background: white;
+  transform: translateY(-2px);
+}
+.final-cta-meta {
+  margin-top: 24px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* ════════════════════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════════════════════ */
+.footer {
+  padding: 56px 0 32px;
+  border-top: 1px solid var(--border);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 40px;
+}
+.footer-brand {
+  display: flex; align-items: center; gap: 12px;
+  font-weight: 700; font-size: 19px;
+  margin-bottom: 14px;
+}
+.footer-brand svg { width: 32px; height: 32px; }
+.footer-tagline {
+  color: var(--muted-foreground);
+  font-size: 14px;
+  max-width: 360px;
+  line-height: 1.55;
+}
+.footer-meta {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted-foreground);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.footer-col h5 {
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  color: var(--muted-foreground);
+}
+.footer-col a {
+  display: block;
+  font-size: 14px;
+  color: var(--foreground);
+  padding: 5px 0;
+  transition: color var(--tx-fast);
+}
+.footer-col a:hover { color: var(--primary); }
+.footer-bottom {
+  display: flex; justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--muted-foreground);
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-lang { display: flex; gap: 8px; }
+.footer-lang button {
+  font-family: var(--font-mono);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+}
+.footer-lang button.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+/* ════════════════════════════════════════════════════════
+   Reveal-on-scroll utility
+   ════════════════════════════════════════════════════════ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-reveal].visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-reveal-delay="1"] { transition-delay: 0.08s; }
+[data-reveal-delay="2"] { transition-delay: 0.16s; }
+[data-reveal-delay="3"] { transition-delay: 0.24s; }
+[data-reveal-delay="4"] { transition-delay: 0.32s; }
+[data-reveal-delay="5"] { transition-delay: 0.40s; }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .archi-canvas .arrow { animation: none !important; stroke-dashoffset: 0 !important; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════
+     NAV
+     ════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="nav-brand" aria-label="Klaris — accueil">
+      <svg class="mark" viewBox="0 0 200 200" aria-hidden="true">
+        <rect x="2" y="2" width="196" height="196" rx="44" fill="var(--primary)"/>
+        <path d="M62 50 V150 M62 100 L130 50 M62 100 L130 150"
+              stroke="var(--primary-foreground)" stroke-width="18"
+              stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="150" cy="60" r="8" fill="var(--primary-foreground)"/>
+      </svg>
+      <span>Klaris</span>
+      <span class="domain mono">klarisapp.ai</span>
+    </a>
+    <div class="nav-links">
+      <a href="#problem" data-i18n="nav.problem">Le défi</a>
+      <a href="#solution" data-i18n="nav.solution">La solution</a>
+      <a href="#features" data-i18n="nav.features">Fonctionnalités</a>
+      <a href="#personas" data-i18n="nav.personas">Pour qui</a>
+      <a href="#pricing" data-i18n="nav.pricing">Tarifs</a>
+    </div>
+    <div class="nav-cta">
+      <button class="icon-btn lang-btn mono" id="langToggle" aria-label="Changer de langue">FR</button>
+      <button class="icon-btn theme-btn" id="themeToggle" aria-label="Basculer le thème">
+        <svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="#cta" class="btn btn-primary" data-i18n="nav.cta">Réserver une démo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════
+     HERO
+     ════════════════════════════════════════════════════════ -->
+<section class="hero blueprint-bg">
+  <div class="container hero-grid">
+    <div data-reveal>
+      <span class="hero-eyebrow">
+        <span class="signal"></span>
+        <span data-i18n="hero.eyebrow">Live · pilote courtiers Grand Montréal</span>
+        <span class="ver">v2.1</span>
+      </span>
+      <h1>
+        <span data-i18n="hero.title.1">L'</span><em data-i18n="hero.title.em">adjointe IA</em><span data-i18n="hero.title.2"> des courtiers immo. Elle qualifie. Toi, tu vends.</span>
+      </h1>
+      <p class="hero-sub" data-i18n="hero.sub">
+        Klaris répond à tes prospects par SMS, recueille leurs besoins, les classe par
+        température dans ton dashboard. Tu reprends la main quand le lead est mûr.
+      </p>
+      <div class="hero-actions">
+        <a href="#cta" class="btn btn-primary btn-lg">
+          <span data-i18n="hero.cta1">Réserver une démo</span>
+          <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#solution" class="btn btn-ghost btn-lg" data-i18n="hero.cta2">Voir la solution →</a>
+      </div>
+      <div class="hero-trust">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="hero.trust1">OACIQ · Loi 25 · CASL</span></span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="hero.trust2">Bilingue FR/EN natif</span></span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="hero.trust3">Hébergé au Canada</span></span>
+      </div>
+    </div>
+
+    <div class="hero-visual" data-reveal data-reveal-delay="2">
+      <div class="mascot-stage">
+        <!-- Mascotte robot Klaris — SVG inline -->
+        <svg class="mascot" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-label="Klaris robot mascotte">
+          <defs>
+            <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="var(--card)"/>
+              <stop offset="100%" stop-color="var(--card-elev)"/>
+            </linearGradient>
+            <radialGradient id="visorGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="var(--primary)"/>
+              <stop offset="100%" stop-color="var(--primary-strong)"/>
+            </radialGradient>
+            <filter id="bodyShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="black" flood-opacity="0.2"/>
+            </filter>
+          </defs>
+
+          <!-- Outer orbit ring (decorative) -->
+          <circle cx="200" cy="200" r="180" fill="none" stroke="var(--border)" stroke-width="1" stroke-dasharray="4 6" opacity="0.5"/>
+          <circle cx="200" cy="200" r="155" fill="none" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 4" opacity="0.3"/>
+
+          <g class="mascot-body" filter="url(#bodyShadow)">
+            <!-- Antenna -->
+            <line x1="200" y1="92" x2="200" y2="60" stroke="var(--border-strong)" stroke-width="3" stroke-linecap="round"/>
+            <circle class="mascot-antenna-tip" cx="200" cy="56" r="8" fill="var(--primary)" filter="drop-shadow(0 0 8px var(--primary))"/>
+            <circle cx="200" cy="56" r="3" fill="var(--primary-foreground)"/>
+
+            <!-- Head -->
+            <rect x="120" y="100" width="160" height="130" rx="40" ry="40"
+                  fill="url(#bodyGrad)" stroke="var(--border-strong)" stroke-width="2"/>
+
+            <!-- Visor / face screen -->
+            <rect x="138" y="128" width="124" height="64" rx="22"
+                  fill="url(#visorGrad)" opacity="0.95"/>
+            <!-- Visor inner glow -->
+            <rect x="138" y="128" width="124" height="64" rx="22"
+                  fill="none" stroke="var(--primary-foreground)" stroke-width="0.5" opacity="0.4"/>
+
+            <!-- Eyes -->
+            <ellipse class="mascot-eye" cx="170" cy="160" rx="8" ry="10" fill="var(--primary-foreground)"/>
+            <ellipse class="mascot-eye" cx="230" cy="160" rx="8" ry="10" fill="var(--primary-foreground)"/>
+
+            <!-- Smile -->
+            <path d="M 180 178 Q 200 188 220 178" fill="none" stroke="var(--primary-foreground)" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+
+            <!-- Cheek lights -->
+            <circle cx="142" cy="208" r="4" fill="var(--agent-green)" opacity="0.85"/>
+            <circle cx="258" cy="208" r="4" fill="var(--agent-green)" opacity="0.85"/>
+
+            <!-- Neck connector -->
+            <rect x="180" y="230" width="40" height="14" fill="var(--border-strong)"/>
+            <rect x="184" y="234" width="32" height="6" fill="var(--muted-foreground)" opacity="0.4"/>
+
+            <!-- Body / chassis -->
+            <rect x="100" y="244" width="200" height="110" rx="24"
+                  fill="url(#bodyGrad)" stroke="var(--border-strong)" stroke-width="2"/>
+
+            <!-- Chest panel — SMS bubble badge -->
+            <g transform="translate(160 268)">
+              <rect width="80" height="56" rx="14" fill="var(--primary-soft)" stroke="var(--primary)" stroke-width="1.5"/>
+              <circle cx="22" cy="28" r="3" fill="var(--primary)"/>
+              <circle cx="40" cy="28" r="3" fill="var(--primary)"/>
+              <circle cx="58" cy="28" r="3" fill="var(--primary)"/>
+              <path d="M 30 56 L 36 64 L 42 56" fill="var(--primary-soft)" stroke="var(--primary)" stroke-width="1.5"/>
+            </g>
+
+            <!-- Side ports -->
+            <rect x="92" y="280" width="6" height="20" rx="2" fill="var(--border-strong)"/>
+            <rect x="92" y="306" width="6" height="20" rx="2" fill="var(--border-strong)"/>
+            <rect x="302" y="280" width="6" height="20" rx="2" fill="var(--border-strong)"/>
+            <rect x="302" y="306" width="6" height="20" rx="2" fill="var(--border-strong)"/>
+
+            <!-- Status LEDs -->
+            <circle cx="120" cy="262" r="3" fill="var(--success)" opacity="0.9"/>
+            <circle cx="132" cy="262" r="3" fill="var(--warning)" opacity="0.9"/>
+            <circle cx="144" cy="262" r="3" fill="var(--info)" opacity="0.9"/>
+          </g>
+
+          <!-- Floor / shadow plate -->
+          <ellipse cx="200" cy="370" rx="70" ry="6" fill="black" opacity="0.15"/>
+        </svg>
+
+        <!-- Orbiting dots -->
+        <span class="mascot-orbit"></span>
+        <span class="mascot-orbit alt"></span>
+        <span class="mascot-orbit alt2"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     PROBLEM
+     ════════════════════════════════════════════════════════ -->
+<section class="section problem" id="problem">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="section-eyebrow" data-i18n="problem.eyebrow">Le problème</span>
+      <h2 data-i18n="problem.title">L'admin tue tes ventes. Klaris s'en occupe.</h2>
+      <p class="section-sub" data-i18n="problem.sub">
+        Issu de quatre entretiens approfondis avec des courtiers terrain (Joanel, Maxime, Charlyse, JP).
+        Les douleurs sont les mêmes partout.
+      </p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card" data-reveal data-reveal-delay="1">
+        <div class="problem-stat mono">30-60 min</div>
+        <h3 data-i18n="problem.c1.h">Par offre rédigée à la main</h3>
+        <p data-i18n="problem.c1.p">Retour au bureau. Ouvrir Matrix. Copier-coller. Pendant ce temps, le prospect attend ou parle à la concurrence.</p>
+      </div>
+      <div class="problem-card" data-reveal data-reveal-delay="2">
+        <div class="problem-stat mono">&gt; 24h</div>
+        <h3 data-i18n="problem.c2.h">Délai moyen de réponse aux nouveaux leads</h3>
+        <p data-i18n="problem.c2.p">Le courtier est en visite, en négo, en route. Le prospect frais qui n'a pas de réponse en 1h se refroidit — et s'en va.</p>
+      </div>
+      <div class="problem-card" data-reveal data-reveal-delay="3">
+        <div class="problem-stat mono">2 / 10</div>
+        <h3 data-i18n="problem.c3.h">Courtiers qui adoptent le CRM franchise</h3>
+        <p data-i18n="problem.c3.p">Trop d'outils, mal connectés. Saisie redondante. Le CRM devient une corvée — et reste vide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     SOLUTION — 3 piliers
+     ════════════════════════════════════════════════════════ -->
+<section class="section" id="solution">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="section-eyebrow" data-i18n="pillars.eyebrow">La solution</span>
+      <h2 data-i18n="pillars.title">Trois <em>promesses</em>. Pas de bullshit.</h2>
+      <p class="section-sub" data-i18n="pillars.sub">
+        Klaris est conçue pour le terrain québécois — pas pour Cupertino.
+      </p>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar" data-reveal data-reveal-delay="1">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3 data-i18n="pillars.p1.h">Toujours dispo. Pas de jour off.</h3>
+        <p data-i18n="pillars.p1.p">Klaris répond en 60 secondes, 24/7. Soir, week-end, fériés. Aucun prospect ne tombe entre les craques.</p>
+      </div>
+      <div class="pillar" data-reveal data-reveal-delay="2">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <h3 data-i18n="pillars.p2.h">Bilingue FR/EN dès le premier mot.</h3>
+        <p data-i18n="pillars.p2.p">Détection automatique de la langue. Anglos comme francos, mêmes flux, même qualité. Pas de paramètre à cocher.</p>
+      </div>
+      <div class="pillar" data-reveal data-reveal-delay="3">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3 data-i18n="pillars.p3.h">Conforme dès la conception.</h3>
+        <p data-i18n="pillars.p3.p">OACIQ + Loi 25 + CASL. Tout est tracé, signé par toi, exportable. Klaris est ton assistante — jamais ta remplaçante.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     DEMO — SMS thread animée
+     ════════════════════════════════════════════════════════ -->
+<section class="section" style="background: var(--muted);">
+  <div class="container demo-grid">
+    <div class="demo-text" data-reveal>
+      <span class="section-eyebrow" data-i18n="demo.eyebrow">Aperçu live</span>
+      <h2 data-i18n="demo.title">Une vraie conversation. Pas un formulaire.</h2>
+      <p style="color: var(--muted-foreground); font-size: 16px;" data-i18n="demo.sub">
+        Voici un échange réel issu d'un test pilote. Ton, ponctuation, signature — tout calibré pour
+        sonner québécois. Klaris pose une question à la fois, jamais un mur de texte.
+      </p>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="demo.li1">Une question à la fois — flux acheteur ou vendeur</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="demo.li2">Résumé qualifié final, prêt pour ton dashboard</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="demo.li3">Mémoire de conversation par numéro — multi-tour cohérent</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="demo.li4">Tu reprends la main d'un seul tap — Klaris se tait</span></li>
+      </ul>
+    </div>
+    <div class="phone" data-reveal data-reveal-delay="2" id="demoPhone">
+      <div class="phone-header">
+        <div class="phone-avatar">K</div>
+        <div>
+          <div class="phone-name" data-i18n="demo.phone.name">Klaris · pour Joanel</div>
+          <div class="phone-status mono" data-i18n="demo.phone.status">en ligne</div>
+        </div>
+      </div>
+      <div class="thread" id="demoThread">
+        <!-- Bulles ajoutées dynamiquement par JS pour effet animation -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     FEATURES — 6 cards
+     ════════════════════════════════════════════════════════ -->
+<section class="section features" id="features">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="section-eyebrow" data-i18n="features.eyebrow">Fait accompli</span>
+      <h2 data-i18n="features.title">Ce que Klaris fait <em>déjà aujourd'hui</em>.</h2>
+      <p class="section-sub" data-i18n="features.sub">
+        Sprint 1 livré. En production sur les premiers pilotes. Sprint 2 sur les rails.
+      </p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" data-reveal data-reveal-delay="1">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 data-i18n="features.f1.h">Intake SMS qualifié</h3>
+        <p data-i18n="features.f1.p">Cinq à sept questions structurées par flux acheteur ou vendeur. Ton chaleureux québécois. Signature « son assistante » — jamais d'IA déguisée.</p>
+        <span class="tag mono" data-i18n="features.live">live</span>
+      </div>
+      <div class="feature-card" data-reveal data-reveal-delay="2">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <h3 data-i18n="features.f2.h">Scoring de température</h3>
+        <p data-i18n="features.f2.p">Cinq niveaux, du froid (bleu) au brûlant (rouge). Calculé à partir de la pré-qualification hypothécaire, du délai, du budget, et du secteur.</p>
+        <span class="tag mono" data-i18n="features.live">live</span>
+      </div>
+      <div class="feature-card" data-reveal data-reveal-delay="3">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9M3 4v5h5"/></svg>
+        </div>
+        <h3 data-i18n="features.f3.h">Relances automatiques</h3>
+        <p data-i18n="features.f3.p">J+2, J+5, J+10 si silence. Heures ouvrables QC, fériés respectés, STOP reconnu &lt; 1h. Tu valides chaque séquence.</p>
+        <span class="tag mono" data-i18n="features.live">live</span>
+      </div>
+      <div class="feature-card" data-reveal data-reveal-delay="4">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        </div>
+        <h3 data-i18n="features.f4.h">Dashboard courtier</h3>
+        <p data-i18n="features.f4.p">Vue prospects par température. Fiche complète. Transcript SMS intégral. Filtres par secteur, délai, budget. Mode clair/sombre.</p>
+        <span class="tag mono" data-i18n="features.live">live</span>
+      </div>
+      <div class="feature-card" data-reveal data-reveal-delay="5">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+        </div>
+        <h3 data-i18n="features.f5.h">Briefing 7h30</h3>
+        <p data-i18n="features.f5.p">Email structuré chaque matin. Nouveaux leads, prospects chauds, relances à valider, agenda du jour. Tu attaques la journée préparé.</p>
+        <span class="tag mono" data-i18n="features.live">live</span>
+      </div>
+      <div class="feature-card" data-reveal data-reveal-delay="5">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <h3 data-i18n="features.f6.h">Bilingue FR/EN auto</h3>
+        <p data-i18n="features.f6.p">Détection au premier message, persistance par numéro. Vocabulaire local : Centris, Matrix, hypothèque, plex. Pas d'anglicismes en FR.</p>
+        <span class="tag mono" data-i18n="features.live">live</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     PERSONAS — 4 courtiers
+     ════════════════════════════════════════════════════════ -->
+<section class="section" id="personas">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="section-eyebrow" data-i18n="personas.eyebrow">Pour qui</span>
+      <h2 data-i18n="personas.title">Quatre courtiers. <em>Une même douleur.</em></h2>
+      <p class="section-sub" data-i18n="personas.sub">
+        Klaris est née de quatre entretiens en profondeur avec des courtiers terrain du Grand Montréal.
+      </p>
+    </div>
+    <div class="personas-grid">
+      <div class="persona-card" data-reveal data-reveal-delay="1">
+        <div class="persona-avatar">JD</div>
+        <div>
+          <div class="persona-name" data-i18n="personas.p1.n">Joanel D.</div>
+          <div class="persona-tag mono" data-i18n="personas.p1.t">Solo ambitieux · 90% close rate</div>
+          <div class="persona-quote" data-i18n="personas.p1.q">
+            « La différence entre moi et les courtiers à $40M, c'est juste la grosseur de l'équipe admin. »
+          </div>
+          <div class="persona-meta">
+            <span class="chip" data-i18n="personas.p1.m1">Solo</span>
+            <span class="chip" data-i18n="personas.p1.m2">Plateau admin</span>
+            <span class="chip" data-i18n="personas.p1.m3">Vise 10/mois</span>
+          </div>
+        </div>
+      </div>
+      <div class="persona-card" data-reveal data-reveal-delay="2">
+        <div class="persona-avatar">MD</div>
+        <div>
+          <div class="persona-name" data-i18n="personas.p2.n">Maxime D.</div>
+          <div class="persona-tag mono" data-i18n="personas.p2.t">Bâtisseur structuré · 3/mois en croissance</div>
+          <div class="persona-quote" data-i18n="personas.p2.q">
+            « J'ai déjà une VA. Ce qu'il me manque, c'est l'analyse de propriété qui sort du moule. »
+          </div>
+          <div class="persona-meta">
+            <span class="chip" data-i18n="personas.p2.m1">Niche plex</span>
+            <span class="chip" data-i18n="personas.p2.m2">VA en place</span>
+            <span class="chip" data-i18n="personas.p2.m3">Process-driven</span>
+          </div>
+        </div>
+      </div>
+      <div class="persona-card" data-reveal data-reveal-delay="3">
+        <div class="persona-avatar">CL</div>
+        <div>
+          <div class="persona-name" data-i18n="personas.p3.n">Charlyse L.</div>
+          <div class="persona-tag mono" data-i18n="personas.p3.t">Perfectionniste autonome · 100% référencement</div>
+          <div class="persona-quote" data-i18n="personas.p3.q">
+            « Mes clients viennent par bouche-à-oreille. Je ne peux pas me permettre une erreur. »
+          </div>
+          <div class="persona-meta">
+            <span class="chip" data-i18n="personas.p3.m1">FR/EN</span>
+            <span class="chip" data-i18n="personas.p3.m2">Checklist manuelle</span>
+            <span class="chip" data-i18n="personas.p3.m3">Zéro tolérance bug</span>
+          </div>
+        </div>
+      </div>
+      <div class="persona-card" data-reveal data-reveal-delay="4">
+        <div class="persona-avatar">JP</div>
+        <div>
+          <div class="persona-name" data-i18n="personas.p4.n">JP — Royal LePage</div>
+          <div class="persona-tag mono" data-i18n="personas.p4.t">Stratège de franchise · 99 courtiers</div>
+          <div class="persona-quote" data-i18n="personas.p4.q">
+            « Si l'OACIQ peut pas tracer chaque action, je signe rien. Compliance avant features. »
+          </div>
+          <div class="persona-meta">
+            <span class="chip" data-i18n="personas.p4.m1">Co-propriétaire</span>
+            <span class="chip" data-i18n="personas.p4.m2">Compliance-first</span>
+            <span class="chip" data-i18n="personas.p4.m3">Sceptique IA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     COMPLIANCE
+     ════════════════════════════════════════════════════════ -->
+<section class="section compliance" id="compliance">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="section-eyebrow" data-i18n="comp.eyebrow">Conformité</span>
+      <h2 data-i18n="comp.title">Construite <em>avec</em> la conformité, pas malgré elle.</h2>
+      <p class="section-sub" data-i18n="comp.sub">
+        Toutes les actions sont tracées, signées par toi, exportables. La conformité est un argument de vente, pas du fine-print.
+      </p>
+    </div>
+    <div class="compliance-grid">
+      <div class="compliance-card" data-reveal data-reveal-delay="1">
+        <div class="compliance-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <div>
+          <h4>OACIQ</h4>
+          <p data-i18n="comp.oaciq">Chaque action tracée, imputable. Le courtier reste signataire. Aucune décision automatique sur les offres ou contrats.</p>
+        </div>
+      </div>
+      <div class="compliance-card" data-reveal data-reveal-delay="2">
+        <div class="compliance-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div>
+          <h4>Loi 25 (Québec)</h4>
+          <p data-i18n="comp.loi25">Consentement explicite, opt-out STOP &lt; 1h, droits d'accès et suppression. Données hébergées au Canada (Supabase ca-central-1).</p>
+        </div>
+      </div>
+      <div class="compliance-card" data-reveal data-reveal-delay="3">
+        <div class="compliance-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <h4>CASL + Twilio</h4>
+          <p data-i18n="comp.casl">Pas d'envoi avant 8h ni après 20h. Jours fériés QC respectés. Identification claire de l'expéditeur dans chaque message.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     PRICING
+     ════════════════════════════════════════════════════════ -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="section-eyebrow" data-i18n="price.eyebrow">Tarifs</span>
+      <h2 data-i18n="price.title">Une <em>fraction</em> du coût d'une assistante.</h2>
+      <p class="section-sub" data-i18n="price.sub">
+        Aucun frais de mise en route. Annulable à tout moment. Hébergement Canada inclus.
+      </p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card" data-reveal data-reveal-delay="1">
+        <div class="price-name" data-i18n="price.solo.name">Solo</div>
+        <div class="price-amount"><strong>100$</strong><span data-i18n="price.solo.per">CAD / mois</span></div>
+        <div class="price-desc" data-i18n="price.solo.desc">Pour le courtier solo qui veut récupérer son temps.</div>
+        <ul class="price-features">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.solo.f1">Intake SMS qualifié illimité</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.solo.f2">Dashboard avec scoring de température</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.solo.f3">Relances automatiques (4 séquences)</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.solo.f4">Briefing matinal 7h30</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.solo.f5">Bilingue FR/EN inclus</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.solo.f6">Support email + chat</span></li>
+        </ul>
+        <a href="#cta" class="btn btn-ghost" data-i18n="price.solo.cta">Commencer maintenant</a>
+      </div>
+      <div class="price-card featured" data-reveal data-reveal-delay="2">
+        <span class="price-badge" data-i18n="price.agency.badge">Pour franchises</span>
+        <div class="price-name" data-i18n="price.agency.name">Agence</div>
+        <div class="price-amount"><strong>200$</strong><span data-i18n="price.agency.per">CAD / courtier / mois</span></div>
+        <div class="price-desc" data-i18n="price.agency.desc">Pour les franchises qui veulent centraliser et structurer.</div>
+        <ul class="price-features">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.agency.f1">Tout du plan Solo, multi-courtiers</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.agency.f2">Dashboard direction + reporting consolidé</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.agency.f3">Templates personnalisés par franchise</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.agency.f4">SLA 99.9% + support prioritaire</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.agency.f5">Onboarding dédié + formation équipe</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="price.agency.f6">Audit conformité OACIQ inclus</span></li>
+        </ul>
+        <a href="#cta" class="btn btn-primary" data-i18n="price.agency.cta">Parler à l'équipe</a>
+      </div>
+    </div>
+    <p class="price-compare" data-reveal>
+      <span data-i18n="price.compare.1">Comparé à</span>
+      <strong data-i18n="price.compare.2">$2,500–3,000/mois</strong>
+      <span data-i18n="price.compare.3">pour une adjointe humaine. Klaris travaille 24/7, sans congé, sans erreur de saisie.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     FINAL CTA
+     ════════════════════════════════════════════════════════ -->
+<section class="final-cta-wrap" id="cta">
+  <div class="container">
+    <div class="final-cta" data-reveal>
+      <h2 data-i18n="cta.title">Prêt à laisser Klaris s'occuper du reste?</h2>
+      <p data-i18n="cta.sub">15 minutes de démo. On te montre Klaris avec un cas réel. Pas de carte de crédit, pas de pression.</p>
+      <a href="mailto:contact@klarisapp.ai?subject=D%C3%A9mo%20Klaris" class="btn btn-lg">
+        <span data-i18n="cta.btn">Réserver une démo</span>
+        <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <div class="final-cta-meta" data-i18n="cta.meta">contact@klarisapp.ai · Montréal, QC</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <rect x="2" y="2" width="196" height="196" rx="44" fill="var(--primary)"/>
+            <path d="M62 50 V150 M62 100 L130 50 M62 100 L130 150"
+                  stroke="var(--primary-foreground)" stroke-width="18"
+                  stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="150" cy="60" r="8" fill="var(--primary-foreground)"/>
+          </svg>
+          <span>Klaris</span>
+        </div>
+        <p class="footer-tagline" data-i18n="footer.tagline">L'adjointe IA des courtiers immobiliers. Une marque Next Move Inc.</p>
+        <div class="footer-meta">
+          <span>klarisapp.ai · github.com/kakame94/NextMove</span>
+          <span data-i18n="footer.hosted">Hébergé au Canada · Montréal, QC</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5 data-i18n="footer.col1">Produit</h5>
+        <a href="#problem" data-i18n="footer.problem">Le défi</a>
+        <a href="#solution" data-i18n="footer.solution">La solution</a>
+        <a href="#features" data-i18n="footer.features">Fonctionnalités</a>
+        <a href="#pricing" data-i18n="footer.pricing">Tarifs</a>
+        <a href="#cta" data-i18n="footer.demo">Réserver démo</a>
+      </div>
+      <div class="footer-col">
+        <h5 data-i18n="footer.col2">Compagnie</h5>
+        <a href="#" data-i18n="footer.nextmove">Next Move Inc.</a>
+        <a href="#personas" data-i18n="footer.team">Pour qui</a>
+        <a href="mailto:contact@klarisapp.ai">contact@klarisapp.ai</a>
+        <a href="https://github.com/kakame94/NextMove" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <div class="footer-col">
+        <h5 data-i18n="footer.col3">Légal</h5>
+        <a href="#" data-i18n="footer.privacy">Confidentialité (Loi 25)</a>
+        <a href="#" data-i18n="footer.terms">Conditions d'utilisation</a>
+        <a href="#" data-i18n="footer.casl">CASL</a>
+        <a href="#" data-i18n="footer.oaciq">OACIQ</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">© 2026 Next Move Inc. · Tous droits réservés.</span>
+      <div class="footer-lang">
+        <button class="lang-link active" data-set-lang="fr">FR</button>
+        <button class="lang-link" data-set-lang="en">EN</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   i18n FR/EN
+   ════════════════════════════════════════════════════════ */
+const I18N = {
+  fr: {
+    'nav.problem': 'Le défi',
+    'nav.solution': 'La solution',
+    'nav.features': 'Fonctionnalités',
+    'nav.personas': 'Pour qui',
+    'nav.pricing': 'Tarifs',
+    'nav.cta': 'Réserver une démo',
+
+    'hero.eyebrow': 'Live · pilote courtiers Grand Montréal',
+    'hero.title.1': "L'",
+    'hero.title.em': 'adjointe IA',
+    'hero.title.2': ' des courtiers immo. Elle qualifie. Toi, tu vends.',
+    'hero.sub': "Klaris répond à tes prospects par SMS, recueille leurs besoins, les classe par température dans ton dashboard. Tu reprends la main quand le lead est mûr.",
+    'hero.cta1': 'Réserver une démo',
+    'hero.cta2': 'Voir la solution →',
+    'hero.trust1': 'OACIQ · Loi 25 · CASL',
+    'hero.trust2': 'Bilingue FR/EN natif',
+    'hero.trust3': 'Hébergé au Canada',
+
+    'problem.eyebrow': 'Le problème',
+    'problem.title': "L'admin tue tes ventes. Klaris s'en occupe.",
+    'problem.sub': "Issu de quatre entretiens approfondis avec des courtiers terrain (Joanel, Maxime, Charlyse, JP). Les douleurs sont les mêmes partout.",
+    'problem.c1.h': 'Par offre rédigée à la main',
+    'problem.c1.p': "Retour au bureau. Ouvrir Matrix. Copier-coller. Pendant ce temps, le prospect attend ou parle à la concurrence.",
+    'problem.c2.h': 'Délai moyen de réponse aux nouveaux leads',
+    'problem.c2.p': "Le courtier est en visite, en négo, en route. Le prospect frais qui n'a pas de réponse en 1h se refroidit — et s'en va.",
+    'problem.c3.h': 'Courtiers qui adoptent le CRM franchise',
+    'problem.c3.p': "Trop d'outils, mal connectés. Saisie redondante. Le CRM devient une corvée — et reste vide.",
+
+    'pillars.eyebrow': 'La solution',
+    'pillars.title.full': 'Trois <em>promesses</em>. Pas de bullshit.',
+    'pillars.sub': "Klaris est conçue pour le terrain québécois — pas pour Cupertino.",
+    'pillars.p1.h': 'Toujours dispo. Pas de jour off.',
+    'pillars.p1.p': 'Klaris répond en 60 secondes, 24/7. Soir, week-end, fériés. Aucun prospect ne tombe entre les craques.',
+    'pillars.p2.h': 'Bilingue FR/EN dès le premier mot.',
+    'pillars.p2.p': "Détection automatique de la langue. Anglos comme francos, mêmes flux, même qualité. Pas de paramètre à cocher.",
+    'pillars.p3.h': 'Conforme dès la conception.',
+    'pillars.p3.p': "OACIQ + Loi 25 + CASL. Tout est tracé, signé par toi, exportable. Klaris est ton assistante — jamais ta remplaçante.",
+
+    'demo.eyebrow': 'Aperçu live',
+    'demo.title': 'Une vraie conversation. Pas un formulaire.',
+    'demo.sub': "Voici un échange réel issu d'un test pilote. Ton, ponctuation, signature — tout calibré pour sonner québécois. Klaris pose une question à la fois, jamais un mur de texte.",
+    'demo.li1': 'Une question à la fois — flux acheteur ou vendeur',
+    'demo.li2': 'Résumé qualifié final, prêt pour ton dashboard',
+    'demo.li3': 'Mémoire de conversation par numéro — multi-tour cohérent',
+    'demo.li4': "Tu reprends la main d'un seul tap — Klaris se tait",
+    'demo.phone.name': 'Klaris · pour Joanel',
+    'demo.phone.status': 'en ligne',
+
+    'archi.eyebrow': 'Architecture',
+    'archi.title.full': 'Trois agents. <em>Une boucle.</em> Zéro lead perdu.',
+    'archi.sub': "Sous le capot, Klaris est une orchestration multi-agent. Le prospect parle, Klaris écoute, score, et notifie.",
+    'archi.loop.text': 'Boucle conversationnelle multi-tour',
+    'archi.intake.name': 'Intake conversationnel',
+    'archi.intake.desc': "Reçoit le SMS, identifie acheteur ou vendeur, mène les 5-7 questions de qualification dans un ton naturel québécois.",
+    'archi.core.name': 'Mémoire & raisonnement',
+    'archi.core.desc': "Maintient le contexte multi-tour par numéro, récupère l'historique, génère la prochaine question. Claude Sonnet 4.6 + mémoire Postgres.",
+    'archi.scoring.name': 'Scoring & alerting',
+    'archi.scoring.desc': "À chaque tour, recalcule le score de température (0-10). Pré-approuvé +3, délai <3 mois +2, budget +2, secteur +1, etc.",
+    'archi.prospect': 'Prospect<br>SMS direct',
+    'archi.broker': 'Courtier<br>Dashboard + notif',
+
+    'steps.s1.t': 'SMS arrive',
+    'steps.s1.d': 'Le prospect texte le numéro Twilio. Klaris répond en < 60 secondes.',
+    'steps.s2.t': 'Klaris écoute',
+    'steps.s2.d': "Identifie le besoin (achat/vente), pose les bonnes questions une par une.",
+    'steps.s3.t': 'Mémoire active',
+    'steps.s3.d': "Postgres garde le contexte par numéro. Multi-tour cohérent, jamais de répétition.",
+    'steps.s4.t': 'Score auto',
+    'steps.s4.d': "Pré-approuvé, budget, délai, secteur — calcul transparent, score expliqué.",
+    'steps.s5.t': 'Toi, tu fermes',
+    'steps.s5.d': "Notif push si lead chaud. Fiche complète + transcript dans ton dashboard.",
+
+    'features.eyebrow': 'Fait accompli',
+    'features.title.full': "Ce que Klaris fait <em>déjà aujourd'hui</em>.",
+    'features.sub': "Sprint 1 livré. En production sur les premiers pilotes. Sprint 2 sur les rails.",
+    'features.live': 'live',
+    'features.f1.h': 'Intake SMS qualifié',
+    'features.f1.p': "Cinq à sept questions structurées par flux acheteur ou vendeur. Ton chaleureux québécois. Signature « son assistante » — jamais d'IA déguisée.",
+    'features.f2.h': 'Scoring de température',
+    'features.f2.p': "Cinq niveaux, du froid (bleu) au brûlant (rouge). Calculé à partir de la pré-qualification hypothécaire, du délai, du budget, et du secteur.",
+    'features.f3.h': 'Relances automatiques',
+    'features.f3.p': "J+2, J+5, J+10 si silence. Heures ouvrables QC, fériés respectés, STOP reconnu < 1h. Tu valides chaque séquence.",
+    'features.f4.h': 'Dashboard courtier',
+    'features.f4.p': "Vue prospects par température. Fiche complète. Transcript SMS intégral. Filtres par secteur, délai, budget. Mode clair/sombre.",
+    'features.f5.h': 'Briefing 7h30',
+    'features.f5.p': "Email structuré chaque matin. Nouveaux leads, prospects chauds, relances à valider, agenda du jour. Tu attaques la journée préparé.",
+    'features.f6.h': 'Bilingue FR/EN auto',
+    'features.f6.p': "Détection au premier message, persistance par numéro. Vocabulaire local : Centris, Matrix, hypothèque, plex. Pas d'anglicismes en FR.",
+
+    'personas.eyebrow': 'Pour qui',
+    'personas.title.full': 'Quatre courtiers. <em>Une même douleur.</em>',
+    'personas.sub': "Klaris est née de quatre entretiens en profondeur avec des courtiers terrain du Grand Montréal.",
+    'personas.p1.n': 'Joanel D.',
+    'personas.p1.t': 'Solo ambitieux · 90% close rate',
+    'personas.p1.q': "« La différence entre moi et les courtiers à $40M, c'est juste la grosseur de l'équipe admin. »",
+    'personas.p1.m1': 'Solo',
+    'personas.p1.m2': 'Plateau admin',
+    'personas.p1.m3': 'Vise 10/mois',
+    'personas.p2.n': 'Maxime D.',
+    'personas.p2.t': 'Bâtisseur structuré · 3/mois en croissance',
+    'personas.p2.q': "« J'ai déjà une VA. Ce qu'il me manque, c'est l'analyse de propriété qui sort du moule. »",
+    'personas.p2.m1': 'Niche plex',
+    'personas.p2.m2': 'VA en place',
+    'personas.p2.m3': 'Process-driven',
+    'personas.p3.n': 'Charlyse L.',
+    'personas.p3.t': 'Perfectionniste autonome · 100% référencement',
+    'personas.p3.q': "« Mes clients viennent par bouche-à-oreille. Je ne peux pas me permettre une erreur. »",
+    'personas.p3.m1': 'FR/EN',
+    'personas.p3.m2': 'Checklist manuelle',
+    'personas.p3.m3': 'Zéro tolérance bug',
+    'personas.p4.n': 'JP — Royal LePage',
+    'personas.p4.t': 'Stratège de franchise · 99 courtiers',
+    'personas.p4.q': "« Si l'OACIQ peut pas tracer chaque action, je signe rien. Compliance avant features. »",
+    'personas.p4.m1': 'Co-propriétaire',
+    'personas.p4.m2': 'Compliance-first',
+    'personas.p4.m3': 'Sceptique IA',
+
+    'stack.eyebrow': 'Sous le capot',
+    'stack.title.full': 'Stack <em>boring</em>. Résultats <em>spectaculaires</em>.',
+    'stack.sub': "Aucune brique exotique. Que des outils éprouvés, hébergés au Canada quand c'est possible.",
+    'stack.twilio': 'SMS canal',
+    'stack.claude': 'moteur LLM',
+    'stack.supabase': 'DB + RLS · ca-central',
+    'stack.n8n': 'orchestration',
+    'stack.note': "// Tout en moins de 60 secondes. Coût ~ $0.05 par conversation complète.",
+
+    'comp.eyebrow': 'Conformité',
+    'comp.title.full': 'Construite <em>avec</em> la conformité, pas malgré elle.',
+    'comp.sub': "Toutes les actions sont tracées, signées par toi, exportables. La conformité est un argument de vente, pas du fine-print.",
+    'comp.oaciq': 'Chaque action tracée, imputable. Le courtier reste signataire. Aucune décision automatique sur les offres ou contrats.',
+    'comp.loi25': "Consentement explicite, opt-out STOP < 1h, droits d'accès et suppression. Données hébergées au Canada (Supabase ca-central-1).",
+    'comp.casl': "Pas d'envoi avant 8h ni après 20h. Jours fériés QC respectés. Identification claire de l'expéditeur dans chaque message.",
+
+    'price.eyebrow': 'Tarifs',
+    'price.title.full': "Une <em>fraction</em> du coût d'une assistante.",
+    'price.sub': "Aucun frais de mise en route. Annulable à tout moment. Hébergement Canada inclus.",
+    'price.solo.name': 'Solo',
+    'price.solo.per': 'CAD / mois',
+    'price.solo.desc': 'Pour le courtier solo qui veut récupérer son temps.',
+    'price.solo.f1': 'Intake SMS qualifié illimité',
+    'price.solo.f2': 'Dashboard avec scoring de température',
+    'price.solo.f3': 'Relances automatiques (4 séquences)',
+    'price.solo.f4': 'Briefing matinal 7h30',
+    'price.solo.f5': 'Bilingue FR/EN inclus',
+    'price.solo.f6': 'Support email + chat',
+    'price.solo.cta': 'Commencer maintenant',
+    'price.agency.badge': 'Pour franchises',
+    'price.agency.name': 'Agence',
+    'price.agency.per': 'CAD / courtier / mois',
+    'price.agency.desc': 'Pour les franchises qui veulent centraliser et structurer.',
+    'price.agency.f1': 'Tout du plan Solo, multi-courtiers',
+    'price.agency.f2': 'Dashboard direction + reporting consolidé',
+    'price.agency.f3': 'Templates personnalisés par franchise',
+    'price.agency.f4': 'SLA 99.9% + support prioritaire',
+    'price.agency.f5': 'Onboarding dédié + formation équipe',
+    'price.agency.f6': 'Audit conformité OACIQ inclus',
+    'price.agency.cta': "Parler à l'équipe",
+    'price.compare.1': 'Comparé à',
+    'price.compare.2': '$2,500–3,000/mois',
+    'price.compare.3': "pour une adjointe humaine. Klaris travaille 24/7, sans congé, sans erreur de saisie.",
+
+    'cta.title': "Prêt à laisser Klaris s'occuper du reste?",
+    'cta.sub': "15 minutes de démo. On te montre Klaris avec un cas réel. Pas de carte de crédit, pas de pression.",
+    'cta.btn': 'Réserver une démo',
+    'cta.meta': 'contact@klarisapp.ai · Montréal, QC',
+
+    'footer.tagline': "L'adjointe IA des courtiers immobiliers. Une marque Next Move Inc.",
+    'footer.hosted': 'Hébergé au Canada · Montréal, QC',
+    'footer.col1': 'Produit',
+    'footer.col2': 'Compagnie',
+    'footer.col3': 'Légal',
+    'footer.problem': 'Le défi',
+    'footer.solution': 'La solution',
+    'footer.features': 'Fonctionnalités',
+    'footer.pricing': 'Tarifs',
+    'footer.demo': 'Réserver démo',
+    'footer.nextmove': 'Next Move Inc.',
+    'footer.team': 'Pour qui',
+    'footer.privacy': 'Confidentialité (Loi 25)',
+    'footer.terms': "Conditions d'utilisation",
+    'footer.casl': 'CASL',
+    'footer.oaciq': 'OACIQ',
+    'footer.copyright': '© 2026 Next Move Inc. · Tous droits réservés.',
+
+    'demo.bubbles': [
+      { side: 'in',  text: 'Bonsoir, je cherche un duplex à Verdun, budget 450K' },
+      { side: 'out', text: "Bonsoir! Merci de contacter Joanel, courtier immo. Je suis son assistante. Acheter ou vendre?" },
+      { side: 'in',  text: 'Acheter' },
+      { side: 'out', text: "Super! Dans quel secteur vous aimeriez acheter?" },
+      { side: 'in',  text: 'Verdun ou le Sud-Ouest' },
+      { side: 'out', text: "C'est quoi votre budget approximatif?" },
+      { side: 'in',  text: 'Autour de 450K' },
+      { side: 'out', text: 'Pré-qualifié à la banque?' },
+      { side: 'in',  text: 'Oui, Desjardins' },
+      { side: 'summary', text: '✓ M. Tremblay · Acheteur · Verdun/Sud-Ouest · 450K · Desjardins · score 8/10 🔥' }
+    ]
+  },
+
+  en: {
+    'nav.problem': 'The pain',
+    'nav.solution': 'The solution',
+    'nav.features': 'Features',
+    'nav.personas': 'Who for',
+    'nav.pricing': 'Pricing',
+    'nav.cta': 'Book a demo',
+
+    'hero.eyebrow': 'Live · piloting Greater Montreal brokers',
+    'hero.title.1': 'The ',
+    'hero.title.em': 'AI assistant',
+    'hero.title.2': ' for real estate brokers. She qualifies. You sell.',
+    'hero.sub': "Klaris answers your prospects via SMS, gathers their needs, and ranks them by heat in your dashboard. You take over when the lead is ripe.",
+    'hero.cta1': 'Book a demo',
+    'hero.cta2': 'See the solution →',
+    'hero.trust1': 'OACIQ · Law 25 · CASL',
+    'hero.trust2': 'Native FR/EN bilingual',
+    'hero.trust3': 'Hosted in Canada',
+
+    'problem.eyebrow': 'The problem',
+    'problem.title': "Admin kills your sales. Klaris handles it.",
+    'problem.sub': 'Distilled from four field interviews with brokers (Joanel, Maxime, Charlyse, JP). The pain is universal.',
+    'problem.c1.h': 'Per hand-written offer',
+    'problem.c1.p': "Drive back to office, open Matrix, copy-paste, draft. Meanwhile the prospect waits — or chats with the competition.",
+    'problem.c2.h': 'Average response time on new leads',
+    'problem.c2.p': "Brokers are touring, negotiating, on the road. A fresh lead with no answer in 1h goes cold — and walks.",
+    'problem.c3.h': 'Of brokers actually use the franchise CRM',
+    'problem.c3.p': "Too many tools, poorly connected. Redundant data entry. The CRM becomes a chore — and stays empty.",
+
+    'pillars.eyebrow': 'The solution',
+    'pillars.sub': 'Klaris is built for the Quebec ground — not Cupertino.',
+    'pillars.p1.h': 'Always on. No day off.',
+    'pillars.p1.p': "Klaris answers in 60 seconds, 24/7. Evenings, weekends, holidays. Not a single prospect slips through the cracks.",
+    'pillars.p2.h': 'Bilingual FR/EN from the first word.',
+    'pillars.p2.p': 'Auto language detection. Anglos and francos, same flow, same quality. No setting to toggle.',
+    'pillars.p3.h': 'Compliant by design.',
+    'pillars.p3.p': "OACIQ + Law 25 + CASL. Everything traced, signed by you, exportable. Klaris is your assistant — never your replacement.",
+
+    'demo.eyebrow': 'Live preview',
+    'demo.title': 'A real conversation. Not a form.',
+    'demo.sub': 'A real exchange from a pilot test. Tone, punctuation, signature — all calibrated to sound Quebec-natural. Klaris asks one question at a time, never a wall of text.',
+    'demo.li1': 'One question at a time — buyer or seller flow',
+    'demo.li2': 'Final qualified summary, ready for your dashboard',
+    'demo.li3': 'Conversation memory per phone number — coherent multi-turn',
+    'demo.li4': 'Take over with one tap — Klaris steps aside',
+    'demo.phone.name': 'Klaris · for Joanel',
+    'demo.phone.status': 'online',
+
+    'archi.eyebrow': 'Architecture',
+    'archi.sub': "Under the hood, Klaris is a multi-agent orchestration. Prospect speaks, Klaris listens, scores, and notifies.",
+    'archi.loop.text': 'Multi-turn conversational loop',
+    'archi.intake.name': 'Conversational intake',
+    'archi.intake.desc': "Receives the SMS, identifies buyer or seller, runs the 5-7 qualification questions in a natural Quebec tone.",
+    'archi.core.name': 'Memory & reasoning',
+    'archi.core.desc': "Maintains multi-turn context per phone number, retrieves history, generates next question. Claude Sonnet 4.6 + Postgres memory.",
+    'archi.scoring.name': 'Scoring & alerting',
+    'archi.scoring.desc': "Each turn, recomputes the heat score (0-10). Pre-approved +3, timeline <3mo +2, budget +2, location +1, etc.",
+    'archi.prospect': 'Prospect<br>direct SMS',
+    'archi.broker': 'Broker<br>dashboard + alert',
+
+    'steps.s1.t': 'SMS arrives',
+    'steps.s1.d': "Prospect texts the Twilio number. Klaris replies in < 60 seconds.",
+    'steps.s2.t': 'Klaris listens',
+    'steps.s2.d': 'Identifies the need (buy/sell), asks the right questions one by one.',
+    'steps.s3.t': 'Memory active',
+    'steps.s3.d': 'Postgres holds context per phone number. Coherent multi-turn, never repeats.',
+    'steps.s4.t': 'Auto score',
+    'steps.s4.d': "Pre-approved, budget, timeline, area — transparent calc, explainable score.",
+    'steps.s5.t': 'You close',
+    'steps.s5.d': 'Push notification on hot leads. Full record + transcript in your dashboard.',
+
+    'features.eyebrow': 'Live today',
+    'features.sub': 'Sprint 1 shipped. Running on first pilots. Sprint 2 in flight.',
+    'features.live': 'live',
+    'features.f1.h': 'Qualified SMS intake',
+    'features.f1.p': "Five to seven structured questions per buyer or seller flow. Warm Quebec tone. Signs as 'his assistant' — never disguised as AI.",
+    'features.f2.h': 'Heat scoring',
+    'features.f2.p': "Five levels, cold (blue) to red-hot. Computed from mortgage pre-approval, timeline, budget, and area.",
+    'features.f3.h': 'Auto follow-ups',
+    'features.f3.p': "D+2, D+5, D+10 on silence. QC business hours, holidays respected, STOP recognized < 1h. You approve every sequence.",
+    'features.f4.h': 'Broker dashboard',
+    'features.f4.p': "Prospects view by heat. Full record. Complete SMS transcript. Filters by area, timeline, budget. Light/dark mode.",
+    'features.f5.h': '7:30am briefing',
+    'features.f5.p': 'Structured email every morning. New leads, hot prospects, follow-ups to approve, day agenda. You start prepared.',
+    'features.f6.h': 'Auto FR/EN bilingual',
+    'features.f6.p': "Detection on first message, persisted per number. Local vocab: Centris, Matrix, mortgage, duplex. No anglicisms in FR.",
+
+    'personas.eyebrow': 'Who for',
+    'personas.sub': 'Klaris was born from four deep interviews with Greater Montreal field brokers.',
+    'personas.p1.n': 'Joanel D.',
+    'personas.p1.t': 'Ambitious solo · 90% close rate',
+    'personas.p1.q': "« The difference between me and the $40M brokers is just the size of the admin team. »",
+    'personas.p1.m1': 'Solo',
+    'personas.p1.m2': 'Admin ceiling',
+    'personas.p1.m3': 'Targets 10/mo',
+    'personas.p2.n': 'Maxime D.',
+    'personas.p2.t': 'Structured builder · 3/mo growing',
+    'personas.p2.q': "« I already have a VA. What I'm missing is property analysis that breaks the mold. »",
+    'personas.p2.m1': 'Plex niche',
+    'personas.p2.m2': 'VA in place',
+    'personas.p2.m3': 'Process-driven',
+    'personas.p3.n': 'Charlyse L.',
+    'personas.p3.t': 'Autonomous perfectionist · 100% referrals',
+    'personas.p3.q': "« My clients come from word of mouth. I can't afford a single mistake. »",
+    'personas.p3.m1': 'FR/EN',
+    'personas.p3.m2': 'Manual checklist',
+    'personas.p3.m3': 'Zero bug tolerance',
+    'personas.p4.n': 'JP — Royal LePage',
+    'personas.p4.t': 'Franchise strategist · 99 brokers',
+    'personas.p4.q': "« If OACIQ can't trace every action, I sign nothing. Compliance before features. »",
+    'personas.p4.m1': 'Co-owner',
+    'personas.p4.m2': 'Compliance-first',
+    'personas.p4.m3': 'AI-skeptic',
+
+    'stack.eyebrow': 'Under the hood',
+    'stack.sub': "No exotic bricks. Just battle-tested tools, hosted in Canada when possible.",
+    'stack.twilio': 'SMS channel',
+    'stack.claude': 'LLM engine',
+    'stack.supabase': 'DB + RLS · ca-central',
+    'stack.n8n': 'orchestration',
+    'stack.note': "// All in under 60 seconds. Cost ~ $0.05 per full conversation.",
+
+    'comp.eyebrow': 'Compliance',
+    'comp.sub': 'Every action traced, signed by you, exportable. Compliance is a sales argument, not fine print.',
+    'comp.oaciq': 'Each action traced and accountable. Broker stays signatory. No automatic decision on offers or contracts.',
+    'comp.loi25': "Explicit consent, STOP opt-out < 1h, access and deletion rights. Data hosted in Canada (Supabase ca-central-1).",
+    'comp.casl': "No sending before 8am or after 8pm. QC holidays respected. Clear sender identification in every message.",
+
+    'price.eyebrow': 'Pricing',
+    'price.sub': 'No setup fees. Cancel anytime. Canada hosting included.',
+    'price.solo.name': 'Solo',
+    'price.solo.per': 'CAD / month',
+    'price.solo.desc': 'For the solo broker who wants their time back.',
+    'price.solo.f1': 'Unlimited qualified SMS intake',
+    'price.solo.f2': 'Dashboard with heat scoring',
+    'price.solo.f3': 'Auto follow-ups (4 sequences)',
+    'price.solo.f4': '7:30am morning briefing',
+    'price.solo.f5': 'Bilingual FR/EN included',
+    'price.solo.f6': 'Email + chat support',
+    'price.solo.cta': 'Get started',
+    'price.agency.badge': 'For franchises',
+    'price.agency.name': 'Agency',
+    'price.agency.per': 'CAD / broker / month',
+    'price.agency.desc': 'For franchises who want to centralize and structure.',
+    'price.agency.f1': 'Everything in Solo, multi-broker',
+    'price.agency.f2': 'Leadership dashboard + consolidated reporting',
+    'price.agency.f3': 'Per-franchise custom templates',
+    'price.agency.f4': '99.9% SLA + priority support',
+    'price.agency.f5': 'Dedicated onboarding + team training',
+    'price.agency.f6': 'OACIQ compliance audit included',
+    'price.agency.cta': 'Talk to the team',
+    'price.compare.1': 'Compared to',
+    'price.compare.2': '$2,500–3,000/month',
+    'price.compare.3': 'for a human assistant. Klaris works 24/7, no leave, zero data-entry errors.',
+
+    'cta.title': 'Ready to let Klaris handle the rest?',
+    'cta.sub': "15-minute demo. We show you Klaris with a real case. No credit card, no pressure.",
+    'cta.btn': 'Book a demo',
+    'cta.meta': 'contact@klarisapp.ai · Montreal, QC',
+
+    'footer.tagline': "The AI assistant for real estate brokers. A Next Move Inc. brand.",
+    'footer.hosted': 'Hosted in Canada · Montreal, QC',
+    'footer.col1': 'Product',
+    'footer.col2': 'Company',
+    'footer.col3': 'Legal',
+    'footer.problem': 'The pain',
+    'footer.solution': 'The solution',
+    'footer.features': 'Features',
+    'footer.pricing': 'Pricing',
+    'footer.demo': 'Book demo',
+    'footer.nextmove': 'Next Move Inc.',
+    'footer.team': 'Who for',
+    'footer.privacy': 'Privacy (Law 25)',
+    'footer.terms': 'Terms of service',
+    'footer.casl': 'CASL',
+    'footer.oaciq': 'OACIQ',
+    'footer.copyright': '© 2026 Next Move Inc. · All rights reserved.',
+
+    'demo.bubbles': [
+      { side: 'in',  text: "Hi, looking for a duplex in Verdun, budget 450K" },
+      { side: 'out', text: "Hi! Thanks for reaching Joanel, real estate broker. I'm his assistant. Buying or selling?" },
+      { side: 'in',  text: 'Buying' },
+      { side: 'out', text: 'Great! Which area?' },
+      { side: 'in',  text: 'Verdun or Sud-Ouest' },
+      { side: 'out', text: "What's your approximate budget?" },
+      { side: 'in',  text: 'Around 450K' },
+      { side: 'out', text: 'Pre-approved with the bank?' },
+      { side: 'in',  text: 'Yes, Desjardins' },
+      { side: 'summary', text: '✓ Mr. Tremblay · Buyer · Verdun/Sud-Ouest · 450K · Desjardins · score 8/10 🔥' }
+    ]
+  }
+};
+
+/* Riches : titres avec <em> */
+const I18N_HTML = {
+  fr: {
+    'pillars.title': 'Trois <em>promesses</em>. Pas de bullshit.',
+    'archi.title': 'Trois agents. <em>Une boucle.</em> Zéro lead perdu.',
+    'features.title': "Ce que Klaris fait <em>déjà aujourd'hui</em>.",
+    'personas.title': 'Quatre courtiers. <em>Une même douleur.</em>',
+    'stack.title': 'Stack <em>boring</em>. Résultats <em>spectaculaires</em>.',
+    'comp.title': 'Construite <em>avec</em> la conformité, pas malgré elle.',
+    'price.title': "Une <em>fraction</em> du coût d'une assistante."
+  },
+  en: {
+    'pillars.title': 'Three <em>promises</em>. No bullshit.',
+    'archi.title': 'Three agents. <em>One loop.</em> Zero leads lost.',
+    'features.title': 'What Klaris <em>already does today</em>.',
+    'personas.title': 'Four brokers. <em>One shared pain.</em>',
+    'stack.title': '<em>Boring</em> stack. <em>Spectacular</em> results.',
+    'comp.title': 'Built <em>with</em> compliance, not despite it.',
+    'price.title': "A <em>fraction</em> of an assistant's cost."
+  }
+};
+
+function setLang(lang) {
+  if (!I18N[lang]) return;
+  document.documentElement.lang = lang;
+  document.body.dataset.lang = lang;
+
+  // Plain text replacements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    const val = I18N[lang][key];
+    if (val !== undefined) {
+      // archi endpoint nodes contain <br>
+      if (val.includes('<br>')) {
+        el.innerHTML = val;
+      } else {
+        el.textContent = val;
+      }
+    }
+  });
+
+  // Rich titles (avec <em>)
+  Object.entries(I18N_HTML[lang]).forEach(([key, html]) => {
+    const target = document.querySelector(`h2[data-i18n-rich="${key}"]`);
+    if (target) target.innerHTML = html;
+  });
+
+  // Lang button label
+  const langBtn = document.getElementById('langToggle');
+  if (langBtn) langBtn.textContent = lang === 'fr' ? 'EN' : 'FR';
+
+  // Footer lang buttons active
+  document.querySelectorAll('.lang-link').forEach(b => {
+    b.classList.toggle('active', b.dataset.setLang === lang);
+  });
+
+  // Re-render demo bubbles in current lang
+  renderDemoBubbles(lang);
+
+  localStorage.setItem('klaris.lang', lang);
+}
+
+/* ════════════════════════════════════════════════════════
+   Theme toggle
+   ════════════════════════════════════════════════════════ */
+(() => {
+  const root = document.documentElement;
+  const stored = localStorage.getItem('klaris.theme');
+  // default = dark (sci-fi). Only opt-out if stored = 'light'
+  if (stored === 'light') root.classList.remove('dark');
+  else root.classList.add('dark');
+
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    root.classList.toggle('dark');
+    localStorage.setItem('klaris.theme', root.classList.contains('dark') ? 'dark' : 'light');
+  });
+})();
+
+/* ════════════════════════════════════════════════════════
+   Reveal-on-scroll (IntersectionObserver)
+   ════════════════════════════════════════════════════════ */
+const reveal = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      reveal.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('[data-reveal]').forEach(el => reveal.observe(el));
+
+/* ════════════════════════════════════════════════════════
+   Architecture canvas: trigger arrow drawing on scroll
+   ════════════════════════════════════════════════════════ */
+const archiObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in-view');
+      archiObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+const archiCanvas = document.getElementById('archiCanvas');
+if (archiCanvas) archiObs.observe(archiCanvas);
+
+/* ════════════════════════════════════════════════════════
+   Demo SMS thread — animated bubbles
+   ════════════════════════════════════════════════════════ */
+let demoTimers = [];
+function clearDemoTimers() { demoTimers.forEach(t => clearTimeout(t)); demoTimers = []; }
+
+function renderDemoBubbles(lang) {
+  const thread = document.getElementById('demoThread');
+  if (!thread) return;
+  clearDemoTimers();
+  thread.innerHTML = '';
+  const bubbles = I18N[lang]['demo.bubbles'];
+  // Render all bubbles (hidden), then reveal one by one
+  bubbles.forEach((b, i) => {
+    const div = document.createElement('div');
+    div.className = `bubble ${b.side}`;
+    div.textContent = b.text;
+    thread.appendChild(div);
+  });
+}
+
+function playDemo() {
+  const thread = document.getElementById('demoThread');
+  if (!thread) return;
+  const lang = document.body.dataset.lang || 'fr';
+  const bubbles = thread.querySelectorAll('.bubble');
+  bubbles.forEach((b, i) => {
+    const t = setTimeout(() => b.classList.add('show'), 800 + i * 700);
+    demoTimers.push(t);
+  });
+  // Loop: after all done + 4s, reset + replay
+  const totalDelay = 800 + bubbles.length * 700 + 4500;
+  const loop = setTimeout(() => {
+    bubbles.forEach(b => b.classList.remove('show'));
+    setTimeout(playDemo, 500);
+  }, totalDelay);
+  demoTimers.push(loop);
+}
+
+const demoObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      playDemo();
+      demoObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.4 });
+const demoPhone = document.getElementById('demoPhone');
+if (demoPhone) demoObs.observe(demoPhone);
+
+/* ════════════════════════════════════════════════════════
+   Lang controls
+   ════════════════════════════════════════════════════════ */
+// Mark rich-content h2s for special handling
+document.querySelectorAll('section h2').forEach(h2 => {
+  // Try to deduce key from nearby eyebrow + heuristic
+  // We add data-i18n-rich on the relevant ones manually:
+});
+
+// Add data-i18n-rich to specific h2s before first setLang
+const richMap = [
+  { selector: '#solution h2', key: 'pillars.title' },
+  { selector: '#features h2', key: 'features.title' },
+  { selector: '#personas h2', key: 'personas.title' },
+  { selector: '#compliance h2', key: 'comp.title' },
+  { selector: '#pricing h2', key: 'price.title' }
+];
+richMap.forEach(({ selector, key }) => {
+  const el = document.querySelector(selector);
+  if (el) el.setAttribute('data-i18n-rich', key);
+});
+
+document.getElementById('langToggle').addEventListener('click', () => {
+  const cur = document.body.dataset.lang || 'fr';
+  setLang(cur === 'fr' ? 'en' : 'fr');
+});
+document.querySelectorAll('.lang-link').forEach(b => {
+  b.addEventListener('click', () => setLang(b.dataset.setLang));
+});
+
+// Initial language
+const storedLang = localStorage.getItem('klaris.lang');
+const initialLang = (storedLang === 'en' || storedLang === 'fr') ? storedLang : 'fr';
+setLang(initialLang);
+
+/* ════════════════════════════════════════════════════════
+   Smooth scroll on nav anchors
+   ════════════════════════════════════════════════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (ev) => {
+    const id = a.getAttribute('href');
+    if (id.length > 1 && document.querySelector(id)) {
+      ev.preventDefault();
+      document.querySelector(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>

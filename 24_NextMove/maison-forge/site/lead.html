@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Démarrer un projet — Maison Forge</title>
+<meta name="description" content="Cinq minutes pour décrire votre projet de rénovation. Estimation budget IA + proposition de visite Phase 1.">
+<link rel="icon" type="image/svg+xml" href="assets/maison-forge-favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F0EBE0;--bg-soft:#F6F2E9;--bg-warm:#EDE5D4;--fg:#243845;--fg-soft:#4A5C6B;--fg-muted:#7B8794;--copper:#B86A2E;--copper-dark:#8E5022;--copper-light:#D8915C;--copper-soft:rgba(184,106,46,.10);--border:#DCD3C2;--font-serif:'Cormorant Garamond','Tinos',Georgia,serif;--font-sans:'Inter',-apple-system,system-ui,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:0;background:transparent;color:inherit}
+.eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.18em;color:var(--copper)}
+
+/* ═══ TOPBAR ═══ */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(240,235,224,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1180px;margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.topbar-brand{font-weight:600;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg)}
+.topbar-progress{flex:1;max-width:520px;height:3px;background:var(--bg-warm);border-radius:99px;overflow:hidden}
+.topbar-progress-fill{height:100%;background:var(--copper);width:0;transition:width 0.45s cubic-bezier(0.16,1,0.3,1)}
+.topbar-step{font-size:13px;color:var(--fg-muted);font-variant-numeric:tabular-nums;flex-shrink:0}
+.topbar-step strong{color:var(--fg);font-weight:600}
+.topbar-exit{font-size:13px;color:var(--fg-muted);transition:color .2s}
+.topbar-exit:hover{color:var(--copper)}
+@media(max-width:640px){.topbar-inner{padding:14px 20px;gap:14px}.topbar-brand,.topbar-exit{display:none}}
+
+/* ═══ WIZARD AREA ═══ */
+.wizard{min-height:calc(100vh - 65px);display:flex;align-items:center;justify-content:center;padding:48px 32px}
+.step{max-width:680px;width:100%;display:none;animation:slideIn 0.45s cubic-bezier(0.16,1,0.3,1)}
+.step.active{display:block}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.step-num{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:18px;color:var(--copper);margin-bottom:14px}
+.step h2{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(28px,4.5vw,42px);line-height:1.15;letter-spacing:-0.02em;color:var(--fg);margin-bottom:14px}
+.step .help{font-size:15px;color:var(--fg-muted);margin-bottom:32px;line-height:1.5}
+
+/* ═══ FORM CONTROLS ═══ */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px}
+.opts.cols-1{grid-template-columns:1fr}
+.opts.cols-3{grid-template-columns:repeat(3,1fr)}
+.opt{padding:20px 22px;background:var(--bg-soft);border:1.5px solid var(--border);border-radius:6px;cursor:pointer;transition:all .2s;text-align:left;display:flex;align-items:center;gap:14px;font-size:15px;color:var(--fg)}
+.opt:hover{border-color:var(--copper);background:var(--copper-soft)}
+.opt.selected{border-color:var(--copper);background:var(--copper-soft);box-shadow:inset 0 0 0 1px var(--copper)}
+.opt-icon{width:32px;height:32px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:14px;color:var(--fg-muted);transition:all .2s}
+.opt.selected .opt-icon{background:var(--copper);border-color:var(--copper);color:var(--bg)}
+.opt-text{flex:1}
+.opt-tag{font-size:12px;color:var(--fg-muted);margin-top:4px;display:block}
+.opt.selected .opt-tag{color:var(--copper-dark)}
+@media(max-width:600px){.opts,.opts.cols-3{grid-template-columns:1fr}}
+
+.field{display:block;width:100%;padding:16px 18px;background:var(--bg-soft);border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:16px;color:var(--fg);transition:all .2s;margin-bottom:14px}
+.field:focus{outline:none;border-color:var(--copper);background:var(--bg);box-shadow:0 0 0 3px var(--copper-soft)}
+.field::placeholder{color:var(--fg-muted)}
+textarea.field{resize:vertical;min-height:120px;font-family:inherit;line-height:1.5}
+
+/* SLIDER (budget) */
+.slider-wrap{margin:24px 0 32px}
+.slider-display{display:flex;justify-content:space-between;margin-bottom:14px;font-family:var(--font-serif);font-style:italic;font-weight:500}
+.slider-current{font-size:36px;color:var(--copper)}
+.slider-range{font-size:14px;color:var(--fg-muted);align-self:center}
+.slider{width:100%;-webkit-appearance:none;appearance:none;height:4px;background:var(--bg-warm);border-radius:99px;outline:none}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;background:var(--copper);border-radius:50%;cursor:pointer;border:3px solid var(--bg);box-shadow:0 2px 6px rgba(0,0,0,0.15)}
+.slider::-moz-range-thumb{width:24px;height:24px;background:var(--copper);border-radius:50%;cursor:pointer;border:3px solid var(--bg);box-shadow:0 2px 6px rgba(0,0,0,0.15)}
+
+/* PHOTO UPLOAD */
+.upload{border:2px dashed var(--border);border-radius:8px;padding:36px 24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg-soft);margin-bottom:14px}
+.upload:hover{border-color:var(--copper);background:var(--copper-soft)}
+.upload.dragging{border-color:var(--copper);background:var(--copper-soft)}
+.upload-icon{font-family:var(--font-serif);font-style:italic;font-size:36px;color:var(--copper);margin-bottom:8px}
+.upload-text{font-size:14px;color:var(--fg-soft)}
+.upload-text strong{color:var(--fg)}
+.upload-hint{font-size:12px;color:var(--fg-muted);margin-top:6px}
+.upload-files{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:14px}
+.upload-file{aspect-ratio:1;background:var(--bg-warm);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--fg-muted);position:relative;overflow:hidden}
+.upload-file img{width:100%;height:100%;object-fit:cover}
+.upload-file-rm{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(36,56,69,0.8);color:white;font-size:14px;display:flex;align-items:center;justify-content:center}
+
+/* ═══ NAV BUTTONS ═══ */
+.nav-btns{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;font-size:14px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;transition:all .25s;border-radius:2px;border:1.5px solid transparent;cursor:pointer}
+.btn-primary{background:var(--fg);color:var(--bg)}
+.btn-primary:hover:not(:disabled){background:var(--copper);transform:translateY(-1px)}
+.btn-primary:disabled{opacity:0.4;cursor:not-allowed}
+.btn-ghost{color:var(--fg-soft);border-color:var(--border);background:transparent}
+.btn-ghost:hover{color:var(--fg);border-color:var(--fg)}
+.btn-text{color:var(--fg-muted);font-size:13px;background:transparent}
+.btn-text:hover{color:var(--copper)}
+.kbd-hint{font-size:11px;color:var(--fg-muted);text-align:center;margin-top:14px}
+.kbd-hint kbd{padding:2px 6px;background:var(--bg-warm);border:1px solid var(--border);border-radius:3px;font-family:var(--font-sans);font-size:11px;font-weight:600}
+
+/* ═══ ESTIMATION RECAP (last step) ═══ */
+.estim{background:var(--bg-soft);border:1.5px solid var(--copper);border-left-width:4px;border-radius:8px;padding:32px;margin:24px 0 32px}
+.estim-eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.18em;color:var(--copper);margin-bottom:14px}
+.estim-amount{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:48px;line-height:1;color:var(--fg);margin-bottom:8px;letter-spacing:-0.02em}
+.estim-range{font-size:13px;color:var(--fg-muted);margin-bottom:18px}
+.estim-detail{display:grid;grid-template-columns:1fr 1fr;gap:14px 24px;font-size:13px;color:var(--fg-soft);padding-top:18px;border-top:1px dashed var(--border)}
+.estim-detail-row{display:flex;justify-content:space-between}
+.estim-detail-row strong{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
+.estim-disclaimer{font-size:12px;color:var(--fg-muted);font-style:italic;margin-top:18px;line-height:1.5}
+
+.recap{background:var(--bg-soft);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:24px;font-size:14px}
+.recap-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--border)}
+.recap-row:last-child{border-bottom:0}
+.recap-label{color:var(--fg-muted)}
+.recap-val{color:var(--fg);font-weight:500;text-align:right}
+
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="topbar-brand">Maison Forge</a>
+    <div class="topbar-progress"><div class="topbar-progress-fill" id="progressFill"></div></div>
+    <span class="topbar-step"><strong id="curStep">1</strong> / <span id="totalSteps">12</span></span>
+    <a href="index.html" class="topbar-exit">Quitter</a>
+  </div>
+</header>
+
+<!-- WIZARD -->
+<main class="wizard">
+  <form name="lead" id="leadForm" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="merci.html" enctype="multipart/form-data" novalidate>
+    <input type="hidden" name="form-name" value="lead">
+    <p hidden><label>Ne pas remplir : <input name="bot-field"></label></p>
+
+    <!-- STEP 1 — Type de projet -->
+    <section class="step active" data-step="1">
+      <div class="step-num">01</div>
+      <h2>Quel type de projet ?</h2>
+      <p class="help">On adapte les questions suivantes selon votre choix. Vous pourrez préciser plus loin.</p>
+      <div class="opts cols-3" data-field="projet_type">
+        <button type="button" class="opt" data-val="cuisine"><span class="opt-icon">A</span><div class="opt-text">Cuisine<span class="opt-tag">Notre spécialité</span></div></button>
+        <button type="button" class="opt" data-val="salle_de_bain"><span class="opt-icon">B</span><div class="opt-text">Salle de bain<span class="opt-tag">Notre spécialité</span></div></button>
+        <button type="button" class="opt" data-val="reconfiguration"><span class="opt-icon">C</span><div class="opt-text">Reconfiguration<span class="opt-tag">Plus large</span></div></button>
+        <button type="button" class="opt" data-val="conversion_locative"><span class="opt-icon">D</span><div class="opt-text">Conversion locative<span class="opt-tag">Duplex → triplex</span></div></button>
+        <button type="button" class="opt" data-val="ajout_etage"><span class="opt-icon">E</span><div class="opt-text">Agrandissement<span class="opt-tag">À évaluer ensemble</span></div></button>
+        <button type="button" class="opt" data-val="autre"><span class="opt-icon">F</span><div class="opt-text">Autre<span class="opt-tag">Décrivez en commentaire</span></div></button>
+      </div>
+      <input type="hidden" name="projet_type" id="f_projet_type">
+    </section>
+
+    <!-- STEP 2 — Surface approx -->
+    <section class="step" data-step="2">
+      <div class="step-num">02</div>
+      <h2>Quelle taille, approximativement ?</h2>
+      <p class="help">Estimation au pied carré. Pas grave si vous n'êtes pas précis — on validera en visite.</p>
+      <div class="opts cols-3" data-field="surface">
+        <button type="button" class="opt" data-val="petite"><span class="opt-icon">S</span><div class="opt-text">Petite<span class="opt-tag">&lt; 80 pi²</span></div></button>
+        <button type="button" class="opt" data-val="moyenne"><span class="opt-icon">M</span><div class="opt-text">Moyenne<span class="opt-tag">80 – 150 pi²</span></div></button>
+        <button type="button" class="opt" data-val="grande"><span class="opt-icon">L</span><div class="opt-text">Grande<span class="opt-tag">150 – 300 pi²</span></div></button>
+        <button type="button" class="opt" data-val="tres_grande"><span class="opt-icon">XL</span><div class="opt-text">Très grande<span class="opt-tag">&gt; 300 pi²</span></div></button>
+        <button type="button" class="opt" data-val="multi_pieces"><span class="opt-icon">+</span><div class="opt-text">Multi-pièces<span class="opt-tag">Maison entière, locatif</span></div></button>
+        <button type="button" class="opt" data-val="incertain"><span class="opt-icon">?</span><div class="opt-text">Je ne sais pas<span class="opt-tag">On valide en visite</span></div></button>
+      </div>
+      <input type="hidden" name="surface" id="f_surface">
+    </section>
+
+    <!-- STEP 3 — Niveau finition -->
+    <section class="step" data-step="3">
+      <div class="step-num">03</div>
+      <h2>Quel niveau de finition visez-vous ?</h2>
+      <p class="help">On propose toujours 3 niveaux dans le devis. Votre première intuition aide à calibrer le budget initial.</p>
+      <div class="opts cols-1" data-field="finition">
+        <button type="button" class="opt" data-val="essentiel"><span class="opt-icon">1</span><div class="opt-text">Essentiel — fonctionnel, propre, durable<span class="opt-tag">Mélamine, céramique standard, IKEA niveau intermédiaire</span></div></button>
+        <button type="button" class="opt" data-val="confort"><span class="opt-icon">2</span><div class="opt-text">Confort — qualité supérieure, design soigné<span class="opt-tag">Quartz, chêne huilé, équipements de marque</span></div></button>
+        <button type="button" class="opt" data-val="premium"><span class="opt-icon">3</span><div class="opt-text">Premium — sur-mesure, matériaux nobles<span class="opt-tag">Marbre, sur-mesure, équipements haut de gamme</span></div></button>
+      </div>
+      <input type="hidden" name="finition" id="f_finition">
+    </section>
+
+    <!-- STEP 4 — Délai -->
+    <section class="step" data-step="4">
+      <div class="step-num">04</div>
+      <h2>Quand aimeriez-vous démarrer ?</h2>
+      <p class="help">Réponse honnête > date de rêve. On planifie en fonction.</p>
+      <div class="opts cols-3" data-field="delai">
+        <button type="button" class="opt" data-val="urgence"><span class="opt-icon">!</span><div class="opt-text">Asap<span class="opt-tag">&lt; 1 mois</span></div></button>
+        <button type="button" class="opt" data-val="court"><span class="opt-icon">Q</span><div class="opt-text">Trimestre<span class="opt-tag">1 – 3 mois</span></div></button>
+        <button type="button" class="opt" data-val="moyen"><span class="opt-icon">S</span><div class="opt-text">Semestre<span class="opt-tag">3 – 6 mois</span></div></button>
+        <button type="button" class="opt" data-val="long"><span class="opt-icon">A</span><div class="opt-text">L'an prochain<span class="opt-tag">6 – 12 mois</span></div></button>
+        <button type="button" class="opt" data-val="ouvert"><span class="opt-icon">∞</span><div class="opt-text">Pas pressé<span class="opt-tag">À discuter</span></div></button>
+        <button type="button" class="opt" data-val="exploration"><span class="opt-icon">?</span><div class="opt-text">J'explore<span class="opt-tag">Pas encore décidé</span></div></button>
+      </div>
+      <input type="hidden" name="delai" id="f_delai">
+    </section>
+
+    <!-- STEP 5 — Budget envisagé -->
+    <section class="step" data-step="5">
+      <div class="step-num">05</div>
+      <h2>Budget total que vous êtes à l'aise d'investir ?</h2>
+      <p class="help">Incluant les imprévus. Pas de jugement — la réponse honnête nous permet de proposer la bonne ampleur. Faites glisser le curseur.</p>
+      <div class="slider-wrap">
+        <div class="slider-display">
+          <span class="slider-current"><span id="budgetVal">40</span> 000 $</span>
+          <span class="slider-range">10 k$ — 200 k$ et plus</span>
+        </div>
+        <input type="range" min="10" max="200" step="5" value="40" class="slider" id="budgetSlider" name="budget_k">
+      </div>
+      <div class="opts cols-3" data-field="budget_flex" style="margin-top:24px">
+        <button type="button" class="opt" data-val="ferme"><span class="opt-icon">=</span><div class="opt-text">Ferme<span class="opt-tag">Plafond strict</span></div></button>
+        <button type="button" class="opt" data-val="souple"><span class="opt-icon">~</span><div class="opt-text">Souple<span class="opt-tag">±15 % si justifié</span></div></button>
+        <button type="button" class="opt" data-val="ouvert"><span class="opt-icon">↑</span><div class="opt-text">Ouvert<span class="opt-tag">Si la valeur suit</span></div></button>
+      </div>
+      <input type="hidden" name="budget_flex" id="f_budget_flex">
+    </section>
+
+    <!-- STEP 6 — Statut propriété -->
+    <section class="step" data-step="6">
+      <div class="step-num">06</div>
+      <h2>Vous habitez la propriété pendant les travaux ?</h2>
+      <p class="help">Impacte la planification (étapes vivables, zones isolées, durée totale).</p>
+      <div class="opts" data-field="occupation">
+        <button type="button" class="opt" data-val="oui"><span class="opt-icon">O</span><div class="opt-text">Oui, on reste<span class="opt-tag">Phasage adapté</span></div></button>
+        <button type="button" class="opt" data-val="non_relogement"><span class="opt-icon">N</span><div class="opt-text">Non, on se reloge<span class="opt-tag">Vitesse maximale</span></div></button>
+        <button type="button" class="opt" data-val="locatif"><span class="opt-icon">L</span><div class="opt-text">Propriété locative<span class="opt-tag">Vacante pendant chantier</span></div></button>
+        <button type="button" class="opt" data-val="vacant"><span class="opt-icon">V</span><div class="opt-text">Acquisition récente, vacante<span class="opt-tag">Cas idéal</span></div></button>
+      </div>
+      <input type="hidden" name="occupation" id="f_occupation">
+    </section>
+
+    <!-- STEP 7 — Motivation projet -->
+    <section class="step" data-step="7">
+      <div class="step-num">07</div>
+      <h2>Pourquoi ce projet, maintenant ?</h2>
+      <p class="help">Une phrase ou deux suffit. Cette réponse oriente toute notre approche en Phase 1.</p>
+      <textarea class="field" name="motivation" id="f_motivation" placeholder="Exemple : on garde la maison 10 ans, la cuisine est d'origine 1985, et on cuisine beaucoup à 4. Ou : duplex acheté en mars, on convertit en triplex pour le revenu locatif." rows="5"></textarea>
+    </section>
+
+    <!-- STEP 8 — Adresse / secteur -->
+    <section class="step" data-step="8">
+      <div class="step-num">08</div>
+      <h2>Où se trouve la propriété ?</h2>
+      <p class="help">L'adresse précise n'est pas obligatoire à cette étape. Le quartier suffit pour le premier échange.</p>
+      <input type="text" class="field" name="adresse" id="f_adresse" placeholder="Adresse civique (optionnel)" autocomplete="street-address">
+      <input type="text" class="field" name="quartier" id="f_quartier" placeholder="Quartier ou arrondissement (ex. Mercier-HoMa, Verdun…)" required autocomplete="address-level2">
+    </section>
+
+    <!-- STEP 9 — Photos / plans -->
+    <section class="step" data-step="9">
+      <div class="step-num">09</div>
+      <h2>Photos ou plans de l'espace actuel ?</h2>
+      <p class="help">Optionnel mais TRÈS utile. Une photo vaut 1000 mots. Vous pouvez en ajouter d'autres plus tard par email.</p>
+      <label class="upload" id="uploadZone">
+        <div class="upload-icon">+</div>
+        <div class="upload-text"><strong>Glissez vos fichiers ici</strong> ou cliquez pour parcourir</div>
+        <div class="upload-hint">JPG, PNG, PDF · 5 Mo max par fichier · jusqu'à 6 fichiers</div>
+        <input type="file" name="photos[]" id="photosInput" multiple accept="image/*,.pdf" style="display:none">
+      </label>
+      <div class="upload-files" id="uploadFiles"></div>
+    </section>
+
+    <!-- STEP 10 — Coordonnées -->
+    <section class="step" data-step="10">
+      <div class="step-num">10</div>
+      <h2>Comment vous joindre ?</h2>
+      <p class="help">On vous écrit sous 48 h ouvrables avec une fourchette budgétaire indicative. Aucune utilisation hors de votre projet (Loi 25 Québec).</p>
+      <input type="text" class="field" name="nom" id="f_nom" placeholder="Nom complet" required autocomplete="name">
+      <input type="email" class="field" name="email" id="f_email" placeholder="Adresse courriel" required autocomplete="email">
+      <input type="tel" class="field" name="telephone" id="f_telephone" placeholder="Téléphone (optionnel mais accélère)" autocomplete="tel">
+    </section>
+
+    <!-- STEP 11 — Préférence contact + RGPD -->
+    <section class="step" data-step="11">
+      <div class="step-num">11</div>
+      <h2>Comment préférez-vous qu'on vous joigne ?</h2>
+      <p class="help">On respecte votre choix.</p>
+      <div class="opts" data-field="canal_pref">
+        <button type="button" class="opt" data-val="email"><span class="opt-icon">@</span><div class="opt-text">Email<span class="opt-tag">Discret, traçable</span></div></button>
+        <button type="button" class="opt" data-val="telephone"><span class="opt-icon">☎</span><div class="opt-text">Téléphone<span class="opt-tag">Direct, rapide</span></div></button>
+        <button type="button" class="opt" data-val="sms"><span class="opt-icon">SMS</span><div class="opt-text">SMS / WhatsApp<span class="opt-tag">Asynchrone</span></div></button>
+        <button type="button" class="opt" data-val="indifferent"><span class="opt-icon">∅</span><div class="opt-text">Peu importe<span class="opt-tag">Au mieux pour vous</span></div></button>
+      </div>
+      <input type="hidden" name="canal_pref" id="f_canal_pref">
+
+      <label style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--fg-soft);line-height:1.5;cursor:pointer;margin-top:24px;padding:14px;background:var(--bg-soft);border:1px solid var(--border);border-radius:6px">
+        <input type="checkbox" name="consent_loi25" id="f_consent" required style="margin-top:3px">
+        <span>J'autorise Maison Forge à utiliser ces informations pour me recontacter au sujet de mon projet de rénovation. Mes données restent au Canada. Je peux demander leur suppression à tout moment (Loi 25 Québec).</span>
+      </label>
+    </section>
+
+    <!-- STEP 12 — RECAP + ESTIMATION IA -->
+    <section class="step" data-step="12">
+      <div class="step-num">12</div>
+      <h2>Voici votre estimation indicative.</h2>
+      <p class="help">Calculée automatiquement à partir de vos réponses. Ce n'est pas un devis — juste une fourchette pour cadrer la conversation. Le vrai chiffrage vient en Phase 2 après visite.</p>
+
+      <div class="estim">
+        <div class="estim-eyebrow">Fourchette budgétaire indicative</div>
+        <div class="estim-amount" id="estimAmount">— k$</div>
+        <div class="estim-range" id="estimRange">Estimation calculée selon type, surface, finition</div>
+        <div class="estim-detail" id="estimDetail"></div>
+        <p class="estim-disclaimer">Estimation générée par notre algorithme à partir des données du marché Québec 2026. Marge typique ±20 % avant visite Phase 1. Le devis officiel intervient en Phase 2 après visite conjointe.</p>
+      </div>
+
+      <input type="hidden" name="estimation_min" id="f_estim_min">
+      <input type="hidden" name="estimation_max" id="f_estim_max">
+
+      <div class="recap" id="recap"></div>
+
+      <p style="font-size:14px;color:var(--fg-soft);line-height:1.6;margin-bottom:14px">En soumettant, on prend le relai : email de confirmation immédiat, retour personnalisé sous 48 h ouvrables avec proposition de visite Phase 1.</p>
+    </section>
+
+    <!-- NAV BUTTONS (toujours visible) -->
+    <div style="max-width:680px;margin:0 auto;width:100%">
+      <div class="nav-btns">
+        <button type="button" id="btnPrev" class="btn btn-ghost">← Précédent</button>
+        <button type="button" id="btnNext" class="btn btn-primary">Suivant →</button>
+        <button type="submit" id="btnSubmit" class="btn btn-primary" style="display:none">Envoyer ma demande →</button>
+      </div>
+      <p class="kbd-hint"><kbd>Entrée</kbd> pour avancer · <kbd>Esc</kbd> pour quitter</p>
+    </div>
+  </form>
+</main>
+
+<script src="estimate-budget.js"></script>
+<script>
+(() => {
+  const form = document.getElementById('leadForm');
+  const steps = Array.from(form.querySelectorAll('.step'));
+  const total = steps.length;
+  document.getElementById('totalSteps').textContent = total;
+  let cur = 0;
+  const data = {};
+
+  const progressFill = document.getElementById('progressFill');
+  const curStepEl = document.getElementById('curStep');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  const btnSubmit = document.getElementById('btnSubmit');
+
+  function render() {
+    steps.forEach((s, i) => s.classList.toggle('active', i === cur));
+    curStepEl.textContent = cur + 1;
+    progressFill.style.width = `${((cur + 1) / total) * 100}%`;
+    btnPrev.style.visibility = cur === 0 ? 'hidden' : 'visible';
+    btnNext.style.display = cur === total - 1 ? 'none' : '';
+    btnSubmit.style.display = cur === total - 1 ? '' : 'none';
+    if (cur === total - 1) buildRecap();
+    // focus first input/button
+    const focusable = steps[cur].querySelector('input:not([type=hidden]), textarea, .opt');
+    if (focusable) setTimeout(() => focusable.focus(), 100);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function next() {
+    if (!validate()) return;
+    if (cur < total - 1) { cur++; render(); }
+  }
+  function prev() { if (cur > 0) { cur--; render(); } }
+
+  function validate() {
+    const step = steps[cur];
+    // option groups
+    const opts = step.querySelectorAll('[data-field]');
+    for (const group of opts) {
+      const field = group.dataset.field;
+      if (!data[field]) {
+        group.style.boxShadow = `0 0 0 2px var(--copper) inset`;
+        setTimeout(() => group.style.boxShadow = '', 800);
+        return false;
+      }
+    }
+    // text inputs marked required
+    const required = step.querySelectorAll('[required]');
+    for (const inp of required) {
+      if (!inp.value) {
+        inp.focus();
+        inp.style.borderColor = 'var(--copper)';
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // Option click handler
+  document.querySelectorAll('.opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const group = opt.closest('[data-field]');
+      const field = group.dataset.field;
+      const val = opt.dataset.val;
+      group.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      data[field] = val;
+      const hidden = document.getElementById(`f_${field}`);
+      if (hidden) hidden.value = val;
+      // Auto-advance for single-select questions (not on multi-input steps)
+      const stepEl = opt.closest('.step');
+      const otherInputs = stepEl.querySelectorAll('input[type="text"]:not([type=hidden]), input[type="email"], input[type="tel"], textarea, [data-field]:not([data-field="' + field + '"])');
+      if (otherInputs.length === 0) {
+        setTimeout(() => next(), 250);
+      }
+    });
+  });
+
+  // Text inputs sync
+  form.addEventListener('input', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+      data[e.target.name] = e.target.value;
+      e.target.style.borderColor = '';
+    }
+  });
+
+  // Budget slider
+  const slider = document.getElementById('budgetSlider');
+  const budgetVal = document.getElementById('budgetVal');
+  slider.addEventListener('input', () => {
+    budgetVal.textContent = slider.value;
+    data.budget_k = slider.value;
+  });
+  data.budget_k = '40';
+
+  // Photo upload
+  const uploadZone = document.getElementById('uploadZone');
+  const photosInput = document.getElementById('photosInput');
+  const uploadFiles = document.getElementById('uploadFiles');
+  const filesArr = [];
+
+  uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragging'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragging'));
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragging');
+    handleFiles(e.dataTransfer.files);
+  });
+  photosInput.addEventListener('change', e => handleFiles(e.target.files));
+
+  function handleFiles(fileList) {
+    Array.from(fileList).forEach(f => {
+      if (filesArr.length >= 6) return;
+      if (f.size > 5 * 1024 * 1024) return;
+      filesArr.push(f);
+      renderFile(f);
+    });
+  }
+  function renderFile(f) {
+    const div = document.createElement('div');
+    div.className = 'upload-file';
+    if (f.type.startsWith('image/')) {
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(f);
+      div.appendChild(img);
+    } else {
+      div.textContent = f.name.length > 20 ? f.name.substring(0, 18) + '…' : f.name;
+    }
+    const rm = document.createElement('button');
+    rm.type = 'button';
+    rm.className = 'upload-file-rm';
+    rm.textContent = '×';
+    rm.onclick = e => { e.stopPropagation(); div.remove(); const idx = filesArr.indexOf(f); if (idx > -1) filesArr.splice(idx, 1); };
+    div.appendChild(rm);
+    uploadFiles.appendChild(div);
+  }
+
+  // Recap + IA estimation
+  function buildRecap() {
+    const labels = {
+      cuisine:'Cuisine', salle_de_bain:'Salle de bain', reconfiguration:'Reconfiguration',
+      conversion_locative:'Conversion locative', ajout_etage:'Agrandissement', autre:'Autre',
+      petite:'Petite (<80 pi²)', moyenne:'Moyenne (80-150 pi²)', grande:'Grande (150-300 pi²)',
+      tres_grande:'Très grande (>300 pi²)', multi_pieces:'Multi-pièces', incertain:'À valider',
+      essentiel:'Essentiel', confort:'Confort', premium:'Premium',
+      urgence:'Asap (<1 mois)', court:'1-3 mois', moyen:'3-6 mois', long:'6-12 mois', ouvert:'Pas pressé', exploration:'J\'explore',
+      ferme:'Ferme', souple:'Souple ±15 %', oui:'Oui, on reste', non_relogement:'On se reloge',
+      locatif:'Locatif vacant', vacant:'Vacante (acquisition récente)',
+      email:'Email', telephone:'Téléphone', sms:'SMS / WhatsApp', indifferent:'Peu importe'
+    };
+    const map = [
+      ['Type de projet', labels[data.projet_type]],
+      ['Surface', labels[data.surface]],
+      ['Niveau finition', labels[data.finition]],
+      ['Délai souhaité', labels[data.delai]],
+      ['Budget envisagé', `${data.budget_k} 000 $ (${labels[data.budget_flex] || ''})`],
+      ['Occupation', labels[data.occupation]],
+      ['Quartier', data.quartier],
+      ['Contact', `${data.nom || ''} · ${data.email || ''}`],
+      ['Préférence contact', labels[data.canal_pref]]
+    ];
+    document.getElementById('recap').innerHTML = map.map(([k, v]) =>
+      `<div class="recap-row"><span class="recap-label">${k}</span><span class="recap-val">${v || '—'}</span></div>`
+    ).join('');
+
+    // Run IA budget estimation
+    const est = window.estimateBudget(data);
+    document.getElementById('estimAmount').textContent = `${est.min} – ${est.max} k$`;
+    document.getElementById('estimRange').textContent = `Centre estimé : ${est.center} k$ · ${est.confidence_label}`;
+    document.getElementById('f_estim_min').value = est.min;
+    document.getElementById('f_estim_max').value = est.max;
+
+    document.getElementById('estimDetail').innerHTML = est.breakdown.map(b =>
+      `<div class="estim-detail-row"><span>${b.label}</span><strong>${b.value}</strong></div>`
+    ).join('');
+  }
+
+  btnNext.addEventListener('click', next);
+  btnPrev.addEventListener('click', prev);
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && e.target.type !== 'submit') {
+      e.preventDefault();
+      next();
+    }
+    if (e.key === 'Escape') location.href = 'index.html';
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

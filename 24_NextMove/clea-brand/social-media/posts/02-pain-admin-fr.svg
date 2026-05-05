@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <style>
+      .ttl{font-family:'Geist',sans-serif;font-weight:700;letter-spacing:-0.02em;fill:oklch(0.20 0.02 30)}
+      .sub{font-family:'Geist',sans-serif;font-weight:400;fill:oklch(0.50 0.02 30)}
+      .num{font-family:'Geist',sans-serif;font-weight:700;letter-spacing:-0.04em;fill:oklch(0.55 0.22 25)}
+      .pill{font-family:'Geist',sans-serif;font-weight:500;fill:oklch(0.55 0.22 25)}
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="oklch(0.98 0.005 60)"/>
+
+  <rect x="80" y="80" width="240" height="44" rx="22" fill="oklch(0.55 0.22 25 / 0.10)"/>
+  <text class="pill" x="200" y="109" font-size="18" text-anchor="middle">● LE PROBLÈME</text>
+
+  <text class="num" x="80" y="430" font-size="280">30-60</text>
+  <text class="ttl" x="80" y="510" font-size="46">minutes</text>
+  <text class="sub" x="80" y="570" font-size="28">par offre d'achat rédigée à la main.</text>
+
+  <line x1="80" y1="640" x2="1000" y2="640" stroke="oklch(0.90 0.02 60)" stroke-width="2"/>
+
+  <text class="ttl" x="80" y="730" font-size="38">Pendant ce temps, le prospect</text>
+  <text class="ttl" x="80" y="780" font-size="38">attend. Ou parle à la concurrence.</text>
+
+  <text class="sub" x="80" y="900" font-size="24">Cléa rédige en secondes. Tu signes.</text>
+
+  <g transform="translate(80 970) scale(0.4)">
+    <path d="M 152 54 A 64 64 0 1 0 152 146" fill="none" stroke="oklch(0.55 0.18 30)" stroke-width="34" stroke-linecap="round"/>
+    <path d="M 144 142 Q 168 162 178 178 Q 156 168 138 156 Z" fill="oklch(0.55 0.18 30)"/>
+    <circle cx="78" cy="100" r="6" fill="oklch(0.55 0.18 30)"/><circle cx="100" cy="100" r="6" fill="oklch(0.55 0.18 30)"/><circle cx="122" cy="100" r="6" fill="oklch(0.55 0.18 30)"/>
+  </g>
+  <text x="200" y="1010" font-family="Geist" font-size="22" font-weight="700" fill="oklch(0.20 0.02 30)">Cléa · clea.app</text>
+</svg>

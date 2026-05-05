@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396" width="1584" height="396">
+  <title>Cléa LinkedIn cover</title>
+  <defs>
+    <linearGradient id="lkbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="oklch(0.98 0.005 60)"/>
+      <stop offset="100%" stop-color="oklch(0.94 0.03 45)"/>
+    </linearGradient>
+    <pattern id="lkdots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="16" cy="16" r="1.4" fill="oklch(0.55 0.18 30 / 0.18)"/>
+    </pattern>
+    <style>
+      .ttl{font-family:'Geist',sans-serif;font-weight:700;letter-spacing:-0.02em;fill:oklch(0.20 0.02 30)}
+      .sub{font-family:'Geist',sans-serif;font-weight:500;fill:oklch(0.50 0.02 30)}
+    </style>
+  </defs>
+  <rect width="1584" height="396" fill="url(#lkbg)"/>
+  <rect width="1584" height="396" fill="url(#lkdots)"/>
+
+  <!-- mark left -->
+  <g transform="translate(80 110) scale(1.2)">
+    <path d="M 152 54 A 64 64 0 1 0 152 146"
+          fill="none" stroke="oklch(0.55 0.18 30)" stroke-width="34" stroke-linecap="round"/>
+    <path d="M 144 142 Q 168 162 178 178 Q 156 168 138 156 Z"
+          fill="oklch(0.55 0.18 30)"/>
+    <circle cx="78" cy="100" r="6" fill="oklch(0.55 0.18 30)"/>
+    <circle cx="100" cy="100" r="6" fill="oklch(0.55 0.18 30)"/>
+    <circle cx="122" cy="100" r="6" fill="oklch(0.55 0.18 30)"/>
+  </g>
+
+  <!-- copy right of mark -->
+  <text class="ttl" x="380" y="180" font-size="68">L'adjointe IA des courtiers immo.</text>
+  <text class="sub" x="380" y="240" font-size="28">Elle qualifie tes prospects par SMS. Toi, tu vends.</text>
+  <text class="sub" x="380" y="290" font-size="20" fill="oklch(0.55 0.18 30)" font-weight="600">clea.app · Conforme OACIQ + Loi 25 + CASL</text>
+</svg>

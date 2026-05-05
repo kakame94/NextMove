@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <style>
+      .ttl{font-family:'Geist',sans-serif;font-weight:700;letter-spacing:-0.02em;fill:oklch(0.20 0.02 30)}
+      .pill{font-family:'Geist',sans-serif;font-weight:500;fill:oklch(0.55 0.18 30)}
+      .col-h{font-family:'Geist',sans-serif;font-weight:600;font-size:24px}
+      .row{font-family:'Geist',sans-serif;font-weight:500;font-size:20px}
+      .bad{fill:oklch(0.55 0.22 25)}
+      .good{fill:oklch(0.60 0.15 145)}
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="oklch(0.98 0.005 60)"/>
+  <rect x="80" y="80" width="280" height="44" rx="22" fill="oklch(0.55 0.18 30 / 0.10)"/>
+  <text class="pill" x="220" y="109" font-size="18" text-anchor="middle">● BEFORE / AFTER</text>
+
+  <text class="ttl" x="80" y="240" font-size="60">Status quo vs Cléa.</text>
+
+  <g transform="translate(80 320)">
+    <rect x="0" y="0" width="440" height="600" rx="16" fill="oklch(0.55 0.22 25 / 0.06)" stroke="oklch(0.55 0.22 25 / 0.30)"/>
+    <text class="col-h" x="220" y="50" text-anchor="middle" fill="oklch(0.55 0.22 25)">TODAY</text>
+    <line x1="40" y1="78" x2="400" y2="78" stroke="oklch(0.55 0.22 25 / 0.20)"/>
+    <text class="row bad" x="40" y="130">⨯ 30-60 min / offer</text>
+    <text class="row bad" x="40" y="180">⨯ &gt; 24h to reply</text>
+    <text class="row bad" x="40" y="230">⨯ Empty CRM</text>
+    <text class="row bad" x="40" y="280">⨯ Manual data entry</text>
+    <text class="row bad" x="40" y="330">⨯ Lost EN prospects</text>
+    <text class="row bad" x="40" y="380">⨯ 3 deals/month</text>
+    <text class="row bad" x="40" y="430">⨯ $2500/mo assistant</text>
+    <text class="row bad" x="40" y="480">⨯ Compliance ad-hoc</text>
+    <text class="row bad" x="40" y="530">⨯ Too many tools</text>
+  </g>
+
+  <g transform="translate(560 320)">
+    <rect x="0" y="0" width="440" height="600" rx="16" fill="oklch(0.60 0.15 145 / 0.08)" stroke="oklch(0.60 0.15 145)" stroke-width="2"/>
+    <text class="col-h" x="220" y="50" text-anchor="middle" fill="oklch(0.60 0.15 145)">WITH CLÉA</text>
+    <line x1="40" y1="78" x2="400" y2="78" stroke="oklch(0.60 0.15 145 / 0.30)"/>
+    <text class="row good" x="40" y="130">✓ Seconds / offer</text>
+    <text class="row good" x="40" y="180">✓ Instant reply</text>
+    <text class="row good" x="40" y="230">✓ Auto-filled CRM</text>
+    <text class="row good" x="40" y="280">✓ Zero data entry</text>
+    <text class="row good" x="40" y="330">✓ Bilingual EN/FR</text>
+    <text class="row good" x="40" y="380">✓ 10+ deals/month</text>
+    <text class="row good" x="40" y="430">✓ $100/month</text>
+    <text class="row good" x="40" y="480">✓ OACIQ + Law 25 default</text>
+    <text class="row good" x="40" y="530">✓ One tool</text>
+  </g>
+
+  <text x="200" y="1010" font-family="Geist" font-size="22" font-weight="700" fill="oklch(0.20 0.02 30)">Cléa · clea.app</text>
+  <g transform="translate(80 970) scale(0.4)">
+    <path d="M 152 54 A 64 64 0 1 0 152 146" fill="none" stroke="oklch(0.55 0.18 30)" stroke-width="34" stroke-linecap="round"/>
+    <path d="M 144 142 Q 168 162 178 178 Q 156 168 138 156 Z" fill="oklch(0.55 0.18 30)"/>
+    <circle cx="78" cy="100" r="6" fill="oklch(0.55 0.18 30)"/><circle cx="100" cy="100" r="6" fill="oklch(0.55 0.18 30)"/><circle cx="122" cy="100" r="6" fill="oklch(0.55 0.18 30)"/>
+  </g>
+</svg>

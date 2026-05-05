@@ -1,0 +1,144 @@
+/* ═══════════════════════════════════════════════════════════════
+   Cléa — Design Tokens (shared between dashboard + marketing)
+   Extracted from index.html (dashboard) — single source of truth
+   OKLCH color space for perceptually uniform light/dark mode
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Surfaces */
+  --background: oklch(0.98 0.005 60);
+  --foreground: oklch(0.20 0.02 30);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.20 0.02 30);
+  --popover: oklch(1 0 0);
+
+  /* Primary — Terracotta warm */
+  --primary: oklch(0.55 0.18 30);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-soft: oklch(0.55 0.18 30 / 0.10);
+  --primary-mid: oklch(0.55 0.18 30 / 0.15);
+  --primary-strong: oklch(0.45 0.20 28);
+
+  /* Neutrals */
+  --secondary: oklch(0.94 0.02 60);
+  --muted: oklch(0.94 0.015 60);
+  --muted-foreground: oklch(0.50 0.02 30);
+  --accent: oklch(0.92 0.03 45);
+  --border: oklch(0.90 0.02 60);
+
+  /* Semantic */
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-soft: oklch(0.55 0.22 25 / 0.10);
+  --success: oklch(0.60 0.15 145);
+  --success-soft: oklch(0.60 0.15 145 / 0.12);
+  --warning: oklch(0.75 0.15 75);
+  --warning-soft: oklch(0.75 0.15 75 / 0.15);
+  --info: oklch(0.60 0.15 230);
+  --info-soft: oklch(0.60 0.15 230 / 0.12);
+
+  /* Heat scale (5 levels — used in CRM scoring) */
+  --heat-1: oklch(0.65 0.10 230);  /* cold blue */
+  --heat-2: oklch(0.70 0.12 200);
+  --heat-3: oklch(0.75 0.15 75);   /* warm amber */
+  --heat-4: oklch(0.65 0.18 50);
+  --heat-5: oklch(0.55 0.22 25);   /* hot red */
+
+  /* Sidebar (dashboard-only but kept for consistency) */
+  --sidebar: oklch(0.99 0.005 60);
+  --sidebar-border: oklch(0.90 0.02 60);
+
+  /* Geometry */
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius: 0.5rem;       /* 8px */
+  --radius-md: 0.75rem;   /* 12px */
+  --radius-lg: 1rem;      /* 16px */
+  --radius-xl: 1.5rem;    /* 24px */
+  --radius-pill: 9999px;
+
+  /* Spacing scale (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Typography */
+  --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --fs-xs: 0.75rem;     /* 12 */
+  --fs-sm: 0.875rem;    /* 14 — body default */
+  --fs-base: 1rem;      /* 16 */
+  --fs-lg: 1.125rem;    /* 18 */
+  --fs-xl: 1.25rem;     /* 20 */
+  --fs-2xl: 1.5rem;     /* 24 — H1 dashboard */
+  --fs-3xl: 2rem;       /* 32 — H1 deck */
+  --fs-4xl: 3rem;       /* 48 — H1 landing */
+  --fs-5xl: 4rem;       /* 64 — hero display */
+
+  /* Transitions */
+  --tx-fast: 0.12s ease;
+  --tx: 0.2s ease;
+  --tx-slow: 0.4s ease;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px oklch(0.20 0.02 30 / 0.04);
+  --shadow: 0 4px 12px oklch(0.20 0.02 30 / 0.06);
+  --shadow-lg: 0 12px 32px oklch(0.20 0.02 30 / 0.10);
+}
+
+html.dark {
+  --background: oklch(0.13 0 0);
+  --foreground: oklch(0.96 0 0);
+  --card: oklch(0.17 0 0);
+  --card-foreground: oklch(0.96 0 0);
+  --popover: oklch(0.17 0 0);
+
+  --primary: oklch(0.68 0.18 28);
+  --primary-foreground: oklch(0.10 0 0);
+  --primary-soft: oklch(0.68 0.18 28 / 0.12);
+  --primary-mid: oklch(0.68 0.18 28 / 0.20);
+  --primary-strong: oklch(0.78 0.18 28);
+
+  --secondary: oklch(0.22 0 0);
+  --muted: oklch(0.20 0 0);
+  --muted-foreground: oklch(0.62 0 0);
+  --accent: oklch(0.24 0.02 30);
+  --border: oklch(0.28 0 0);
+
+  --destructive: oklch(0.68 0.22 25);
+  --destructive-soft: oklch(0.68 0.22 25 / 0.15);
+  --success: oklch(0.70 0.16 145);
+  --success-soft: oklch(0.70 0.16 145 / 0.15);
+  --warning: oklch(0.80 0.15 75);
+  --warning-soft: oklch(0.80 0.15 75 / 0.18);
+  --info: oklch(0.72 0.15 230);
+  --info-soft: oklch(0.72 0.15 230 / 0.15);
+
+  --sidebar: oklch(0.11 0 0);
+  --sidebar-border: oklch(0.25 0 0);
+
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.4);
+  --shadow: 0 4px 12px oklch(0 0 0 / 0.5);
+  --shadow-lg: 0 12px 32px oklch(0 0 0 / 0.6);
+}
+
+/* Reset baseline — apply alongside tokens */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: 0; background: transparent; }
+img, svg { display: block; max-width: 100%; }
+.mono { font-family: var(--font-mono); }

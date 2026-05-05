@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Cléa — Custom icon set
+  6 vertical-specific icons. 24×24 grid, 2px stroke, rounded caps.
+  Use currentColor — set on parent.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 120" color="oklch(0.55 0.18 30)">
+  <title>Cléa icon set</title>
+  <defs>
+    <style>
+      .ic { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .ic-fill { fill: currentColor; }
+      .lbl { font-family: 'Geist', system-ui, sans-serif; font-size: 11px; fill: oklch(0.50 0.02 30); text-anchor: middle; }
+    </style>
+  </defs>
+
+  <!-- 1. Chatbot bubble (qualif chat) -->
+  <g transform="translate(48 24)">
+    <path class="ic" d="M 4 4 H 20 V 16 H 14 L 10 20 L 10 16 H 4 Z"/>
+    <circle class="ic-fill" cx="9" cy="10" r="1.2"/>
+    <circle class="ic-fill" cx="12" cy="10" r="1.2"/>
+    <circle class="ic-fill" cx="15" cy="10" r="1.2"/>
+    <text x="12" y="40" class="lbl">SMS qualif</text>
+  </g>
+
+  <!-- 2. Heat thermometer (scoring) -->
+  <g transform="translate(168 24)">
+    <path class="ic" d="M 12 4 V 14"/>
+    <circle class="ic" cx="12" cy="17" r="3"/>
+    <path class="ic-fill" d="M 11.2 13 H 12.8 V 17 H 11.2 Z"/>
+    <path class="ic" d="M 14 6 H 16 M 14 9 H 16 M 14 12 H 16"/>
+    <text x="12" y="40" class="lbl">Scoring</text>
+  </g>
+
+  <!-- 3. Auto-relance (clock + arrow circle) -->
+  <g transform="translate(288 24)">
+    <path class="ic" d="M 4 12 a 8 8 0 1 0 3 -6"/>
+    <path class="ic" d="M 4 4 V 8 H 8"/>
+    <path class="ic" d="M 12 8 V 12 L 15 14"/>
+    <text x="12" y="40" class="lbl">Auto-relance</text>
+  </g>
+
+  <!-- 4. Bilingue FR/EN -->
+  <g transform="translate(408 24)">
+    <path class="ic" d="M 3 6 H 11 M 7 4 V 6 M 4 18 L 7 8 L 10 18 M 5 14 H 9"/>
+    <path class="ic" d="M 13 14 H 21 M 17 12 V 14 M 14 6 L 21 6 M 17.5 6 V 16 M 14 16 L 21 16"/>
+    <text x="12" y="40" class="lbl">FR / EN</text>
+  </g>
+
+  <!-- 5. Conformité OACIQ (shield + check) -->
+  <g transform="translate(528 24)">
+    <path class="ic" d="M 12 3 L 4 6 V 12 Q 4 18 12 21 Q 20 18 20 12 V 6 Z"/>
+    <path class="ic" d="M 8 12 L 11 15 L 16 9"/>
+    <text x="12" y="40" class="lbl">Conformité</text>
+  </g>
+
+  <!-- 6. Dashboard (stats grid) -->
+  <g transform="translate(648 24)">
+    <rect class="ic" x="3" y="3" width="8" height="8" rx="1"/>
+    <rect class="ic" x="13" y="3" width="8" height="5" rx="1"/>
+    <rect class="ic" x="13" y="10" width="8" height="11" rx="1"/>
+    <rect class="ic" x="3" y="13" width="8" height="8" rx="1"/>
+    <text x="12" y="40" class="lbl">Dashboard</text>
+  </g>
+</svg>

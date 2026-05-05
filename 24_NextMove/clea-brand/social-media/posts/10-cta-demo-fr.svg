@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <linearGradient id="cta10" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="oklch(0.55 0.18 30)"/><stop offset="100%" stop-color="oklch(0.45 0.20 28)"/></linearGradient>
+    <style>
+      .ttl{font-family:'Geist',sans-serif;font-weight:700;letter-spacing:-0.025em;fill:oklch(0.99 0 0)}
+      .sub{font-family:'Geist',sans-serif;font-weight:400;fill:oklch(0.99 0 0 / 0.85)}
+      .pill{font-family:'Geist',sans-serif;font-weight:500;fill:oklch(0.55 0.18 30)}
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#cta10)"/>
+
+  <rect x="80" y="80" width="180" height="44" rx="22" fill="oklch(0.99 0 0)"/>
+  <text class="pill" x="170" y="109" font-size="18" text-anchor="middle">● 15 MIN</text>
+
+  <text class="ttl" x="80" y="320" font-size="92">Réservons</text>
+  <text class="ttl" x="80" y="420" font-size="92">15 minutes.</text>
+
+  <text class="sub" x="80" y="540" font-size="32">Démo personnalisée, sur ton cas réel.</text>
+  <text class="sub" x="80" y="585" font-size="32">Pas de pression. Pas de carte de crédit.</text>
+
+  <!-- big CTA button -->
+  <g transform="translate(80 700)">
+    <rect width="600" height="100" rx="20" fill="oklch(0.99 0 0)"/>
+    <text x="300" y="64" font-family="Geist" font-size="32" font-weight="600" fill="oklch(0.55 0.18 30)" text-anchor="middle">Réserver une démo →</text>
+  </g>
+
+  <text class="sub" x="80" y="880" font-size="22" font-weight="500">contact@nextmove.app</text>
+  <text class="sub" x="80" y="912" font-size="22" font-weight="500">clea.app</text>
+
+  <g transform="translate(80 970) scale(0.4)" color="oklch(0.99 0 0)">
+    <path d="M 152 54 A 64 64 0 1 0 152 146" fill="none" stroke="currentColor" stroke-width="34" stroke-linecap="round"/>
+    <path d="M 144 142 Q 168 162 178 178 Q 156 168 138 156 Z" fill="currentColor"/>
+    <circle cx="78" cy="100" r="6" fill="currentColor"/><circle cx="100" cy="100" r="6" fill="currentColor"/><circle cx="122" cy="100" r="6" fill="currentColor"/>
+  </g>
+  <text x="200" y="1010" font-family="Geist" font-size="22" font-weight="700" fill="oklch(0.99 0 0)">Cléa · une marque Next Move</text>
+</svg>

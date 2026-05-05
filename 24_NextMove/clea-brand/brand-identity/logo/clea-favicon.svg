@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Cléa — Favicon (simplified for 16-32px)
+  No conversation dots (illegible at favicon size); thicker C; bigger tail.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Cléa">
+  <title>Cléa</title>
+  <rect width="200" height="200" rx="44" fill="oklch(0.55 0.18 30)"/>
+  <path d="M 152 50 A 64 64 0 1 0 152 150"
+        fill="none" stroke="oklch(0.99 0 0)" stroke-width="36" stroke-linecap="round"/>
+  <path d="M 144 144 Q 172 168 184 184 Q 158 174 136 158 Z"
+        fill="oklch(0.99 0 0)"/>
+</svg>

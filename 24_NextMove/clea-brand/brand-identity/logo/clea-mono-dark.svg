@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Cléa — Mono (single color, white on dark/colored backgrounds)
+  Default: white. Override via parent color CSS.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" role="img" aria-label="Cléa" color="oklch(0.99 0 0)">
+  <title>Cléa</title>
+  <defs>
+    <style>
+      .wordmark {
+        font-family: 'Geist', 'Inter', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 156px;
+        letter-spacing: -0.04em;
+        fill: currentColor;
+      }
+    </style>
+  </defs>
+
+  <g transform="translate(10 10)">
+    <path d="M 152 54 A 64 64 0 1 0 152 146"
+          fill="none" stroke="currentColor" stroke-width="34" stroke-linecap="round"/>
+    <path d="M 144 142 Q 168 162 178 178 Q 156 168 138 156 Z"
+          fill="currentColor"/>
+    <circle cx="78"  cy="100" r="6" fill="currentColor"/>
+    <circle cx="100" cy="100" r="6" fill="currentColor"/>
+    <circle cx="122" cy="100" r="6" fill="currentColor"/>
+  </g>
+
+  <text x="240" y="158" class="wordmark">Cléa</text>
+</svg>

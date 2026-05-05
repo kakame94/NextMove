@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <linearGradient id="t7e" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="oklch(0.94 0.03 45)"/><stop offset="100%" stop-color="oklch(0.92 0.04 30)"/></linearGradient>
+    <style>
+      .quote{font-family:'Geist',sans-serif;font-weight:500;letter-spacing:-0.01em;fill:oklch(0.20 0.02 30)}
+      .em{fill:oklch(0.55 0.18 30);font-weight:600}
+      .name{font-family:'Geist',sans-serif;font-weight:600;font-size:22px;fill:oklch(0.20 0.02 30)}
+      .role{font-family:'Geist',sans-serif;font-weight:400;font-size:18px;fill:oklch(0.50 0.02 30)}
+      .pill{font-family:'Geist',sans-serif;font-weight:500;fill:oklch(0.55 0.18 30)}
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#t7e)"/>
+  <rect x="80" y="80" width="220" height="44" rx="22" fill="oklch(0.99 0 0)"/>
+  <text class="pill" x="190" y="109" font-size="18" text-anchor="middle">● FIELD PILOT</text>
+
+  <text x="80" y="320" font-family="Geist" font-size="240" font-weight="700" fill="oklch(0.55 0.18 30)" letter-spacing="-0.04em">"</text>
+
+  <text x="80" y="430" class="quote" font-size="40">An AI that <tspan class="em">drafts an</tspan></text>
+  <text x="80" y="490" class="quote" font-size="40"><tspan class="em">offer in seconds.</tspan></text>
+  <text x="80" y="560" class="quote" font-size="32">While I'm out showing,</text>
+  <text x="80" y="610" class="quote" font-size="32">Cléa talks to my prospects</text>
+  <text x="80" y="660" class="quote" font-size="32">and hands me a clean record.</text>
+
+  <text x="80" y="760" class="quote" font-size="28" fill="oklch(0.50 0.02 30)">Before: 30-60 min per offer.</text>
+  <text x="80" y="800" class="quote" font-size="28" fill="oklch(0.55 0.18 30)" font-weight="600">Now: seconds.</text>
+
+  <circle cx="120" cy="900" r="40" fill="oklch(0.55 0.18 30 / 0.15)"/>
+  <text x="120" y="912" font-family="Geist" font-weight="600" font-size="22" fill="oklch(0.55 0.18 30)" text-anchor="middle">JD</text>
+  <text x="180" y="895" class="name">Joanel D.</text>
+  <text x="180" y="920" class="role">Broker · Greater Montreal · 90% close rate</text>
+
+  <g transform="translate(80 970) scale(0.4)">
+    <path d="M 152 54 A 64 64 0 1 0 152 146" fill="none" stroke="oklch(0.55 0.18 30)" stroke-width="34" stroke-linecap="round"/>
+    <path d="M 144 142 Q 168 162 178 178 Q 156 168 138 156 Z" fill="oklch(0.55 0.18 30)"/>
+    <circle cx="78" cy="100" r="6" fill="oklch(0.55 0.18 30)"/><circle cx="100" cy="100" r="6" fill="oklch(0.55 0.18 30)"/><circle cx="122" cy="100" r="6" fill="oklch(0.55 0.18 30)"/>
+  </g>
+  <text x="200" y="1010" font-family="Geist" font-size="22" font-weight="700" fill="oklch(0.20 0.02 30)">Cléa · clea.app</text>
+</svg>

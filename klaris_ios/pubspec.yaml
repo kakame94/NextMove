@@ -1,0 +1,50 @@
+name: klaris_ios
+description: "Klaris — adjointe IA des courtiers immo. App iOS Flutter."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.5.0
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # State management
+  flutter_riverpod: ^2.6.1
+
+  # Routing
+  go_router: ^14.6.2
+
+  # Backend
+  supabase_flutter: ^2.8.4
+
+  # Push notifications
+  firebase_core: ^3.10.0
+  firebase_messaging: ^15.1.6
+
+  # Fonts (Geist + Geist Mono — alignement avec web)
+  google_fonts: ^6.2.1
+
+  # Storage local chiffre
+  drift: ^2.21.0
+  sqlite3_flutter_libs: ^0.5.27
+  path_provider: ^2.1.5
+  path: ^1.9.0
+
+  # Utils
+  intl: ^0.20.0
+  collection: ^1.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  drift_dev: ^2.21.2
+  build_runner: ^2.4.13
+
+flutter:
+  uses-material-design: false
+  generate: true

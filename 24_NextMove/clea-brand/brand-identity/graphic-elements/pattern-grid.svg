@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Cléa — Pattern grid (subtle background)
+  Repeating dot grid + occasional bubble accents.
+  Use as background-image with low opacity.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <defs>
+    <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="1" fill="oklch(0.55 0.18 30 / 0.4)"/>
+    </pattern>
+    <pattern id="bubbles" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+      <path d="M 30 40 H 50 V 52 H 42 L 38 56 V 52 H 30 Z"
+            fill="none" stroke="oklch(0.55 0.18 30 / 0.25)" stroke-width="0.8"/>
+      <path d="M 80 90 H 100 V 100 H 96 L 92 104 V 100 H 80 Z"
+            fill="none" stroke="oklch(0.55 0.18 30 / 0.18)" stroke-width="0.8"/>
+    </pattern>
+  </defs>
+  <rect width="240" height="240" fill="url(#dots)"/>
+  <rect width="240" height="240" fill="url(#bubbles)"/>
+</svg>

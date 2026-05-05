@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bg01" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="oklch(0.55 0.18 30)"/><stop offset="100%" stop-color="oklch(0.45 0.20 28)"/></linearGradient>
+    <style>
+      .ttl{font-family:'Geist',sans-serif;font-weight:700;letter-spacing:-0.02em;fill:oklch(0.99 0 0)}
+      .sub{font-family:'Geist',sans-serif;font-weight:400;fill:oklch(0.99 0 0 / 0.85)}
+      .pill{font-family:'Geist',sans-serif;font-weight:500;fill:oklch(0.55 0.18 30)}
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg01)"/>
+  <rect x="80" y="80" width="180" height="44" rx="22" fill="oklch(0.99 0 0)"/>
+  <text class="pill" x="170" y="109" font-size="18" text-anchor="middle">● LAUNCH</text>
+  <text class="ttl" x="80" y="380" font-size="120">Cléa</text>
+  <text class="ttl" x="80" y="500" font-size="56">is here.</text>
+  <text class="sub" x="80" y="600" font-size="32">The AI assistant for real estate brokers.</text>
+  <text class="sub" x="80" y="650" font-size="32">She qualifies your prospects via SMS.</text>
+  <text class="sub" x="80" y="700" font-size="32">You sell.</text>
+  <g transform="translate(80 850) scale(0.6)" color="oklch(0.99 0 0)">
+    <path d="M 152 54 A 64 64 0 1 0 152 146" fill="none" stroke="currentColor" stroke-width="34" stroke-linecap="round"/>
+    <path d="M 144 142 Q 168 162 178 178 Q 156 168 138 156 Z" fill="currentColor"/>
+    <circle cx="78" cy="100" r="6" fill="currentColor"/><circle cx="100" cy="100" r="6" fill="currentColor"/><circle cx="122" cy="100" r="6" fill="currentColor"/>
+  </g>
+  <text class="sub" x="900" y="1000" font-size="20" text-anchor="end">clea.app</text>
+</svg>

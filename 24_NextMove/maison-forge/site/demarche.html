@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Démarche — Maison Forge</title>
+<meta name="description" content="Notre méthode en 4 phases pour vos projets de rénovation cuisine ou salle de bain à Montréal. Découverte, conception, exécution, livraison.">
+<link rel="icon" type="image/svg+xml" href="assets/maison-forge-favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F0EBE0;--bg-soft:#F6F2E9;--bg-warm:#EDE5D4;--fg:#243845;--fg-soft:#4A5C6B;--fg-muted:#7B8794;--copper:#B86A2E;--copper-dark:#8E5022;--copper-soft:rgba(184,106,46,.10);--border:#DCD3C2;--font-serif:'Cormorant Garamond','Tinos',Georgia,serif;--font-sans:'Inter',-apple-system,system-ui,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:0;background:transparent;color:inherit}
+.serif{font-family:var(--font-serif);font-style:italic;font-weight:500}
+.eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.18em;color:var(--copper)}
+.container{max-width:1180px;margin:0 auto;padding:0 32px}
+@media(max-width:640px){.container{padding:0 20px}}
+
+.nav{position:sticky;top:0;z-index:50;background:rgba(240,235,224,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+.nav-brand{font-weight:600;font-size:13px;letter-spacing:0.18em;text-transform:uppercase}
+.nav-links{display:flex;gap:36px;align-items:center}
+.nav-links a{font-size:14px;color:var(--fg-soft)}
+.nav-links a:hover,.nav-links a.active{color:var(--copper)}
+@media(max-width:768px){.nav-links{display:none}}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;font-size:14px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;transition:all .25s;border-radius:2px;border:1.5px solid transparent}
+.btn-primary{background:var(--fg);color:var(--bg)}
+.btn-primary:hover{background:var(--copper)}
+.btn-ghost{color:var(--fg);border-color:var(--fg)}
+.btn-ghost:hover{background:var(--fg);color:var(--bg)}
+
+/* HERO compact */
+.page-hero{padding:80px 0 60px;border-bottom:1px solid var(--border)}
+.page-hero h1{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(40px,6vw,72px);line-height:1.05;letter-spacing:-0.025em;margin:24px 0 24px}
+.page-hero p{font-size:18px;color:var(--fg-soft);max-width:640px;line-height:1.6}
+
+/* PHASE BIG BLOCK */
+.phase-block{padding:96px 0;border-bottom:1px solid var(--border)}
+.phase-block:nth-child(even){background:var(--bg-warm)}
+.phase-grid{display:grid;grid-template-columns:140px 1fr 1fr;gap:64px;align-items:start}
+.phase-num-big{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:120px;line-height:0.9;color:var(--copper);letter-spacing:-0.04em}
+.phase-when-tag{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.18em;color:var(--copper);margin-top:14px;display:block}
+.phase-content h2{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(28px,4vw,42px);line-height:1.15;letter-spacing:-0.02em;color:var(--fg);margin-bottom:18px}
+.phase-content .lead{font-size:18px;color:var(--fg-soft);line-height:1.65;margin-bottom:24px}
+.phase-content p{color:var(--fg-soft);font-size:15px;line-height:1.7;margin-bottom:14px}
+.phase-livrables{padding:32px;background:var(--bg-soft);border:1px solid var(--border);border-left:3px solid var(--copper);border-radius:4px}
+.phase-livrables h4{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.18em;color:var(--copper);margin-bottom:18px}
+.phase-livrables ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
+.phase-livrables li{padding-left:24px;position:relative;font-size:14px;color:var(--fg);line-height:1.55}
+.phase-livrables li::before{content:"";position:absolute;left:0;top:9px;width:12px;height:1.5px;background:var(--copper)}
+.phase-tarif{margin-top:24px;padding-top:24px;border-top:1px dashed var(--border);font-size:13px;color:var(--fg-muted);font-style:italic}
+.phase-tarif strong{font-style:normal;color:var(--fg);font-weight:600}
+@media(max-width:900px){.phase-grid{grid-template-columns:1fr;gap:32px}.phase-num-big{font-size:88px}}
+
+/* GUARDRAILS / 4 RÈGLES (visite) */
+.regles{padding:120px 0;background:var(--bg-warm)}
+.regles-head{margin-bottom:64px;max-width:760px}
+.regles-head h2{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(32px,4.5vw,48px);line-height:1.15;letter-spacing:-0.02em;margin-top:18px}
+.regles-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.regle{padding:32px;background:var(--bg);border:1px solid var(--border);border-radius:4px}
+.regle-num{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:36px;line-height:1;color:var(--copper);margin-bottom:18px}
+.regle h3{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:22px;line-height:1.2;margin-bottom:14px}
+.regle p{font-size:14px;color:var(--fg-soft);line-height:1.6}
+@media(max-width:900px){.regles-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.regles-grid{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{padding:120px 0}
+.faq-head{margin-bottom:48px;max-width:760px}
+.faq-head h2{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(32px,4.5vw,48px);line-height:1.15;margin-top:18px}
+.faq-list{max-width:840px}
+.faq-item{border-top:1px solid var(--border);padding:24px 0}
+.faq-item:last-child{border-bottom:1px solid var(--border)}
+.faq-q{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;cursor:pointer;background:transparent;padding:0;width:100%;text-align:left}
+.faq-q-text{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:22px;line-height:1.3;color:var(--fg)}
+.faq-toggle{font-size:24px;color:var(--copper);flex-shrink:0;line-height:1;transition:transform .3s}
+.faq-item.open .faq-toggle{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
+.faq-a-inner{padding:18px 0 0;color:var(--fg-soft);font-size:15px;line-height:1.7;max-width:680px}
+.faq-item.open .faq-a{max-height:500px}
+
+/* CTA + FOOTER */
+.cta-final{padding:140px 0;text-align:center;background:var(--fg);color:var(--bg)}
+.cta-final h2{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(36px,5vw,56px);line-height:1.1;margin:24px 0 32px}
+.cta-final p{font-size:18px;color:rgba(240,235,224,0.75);max-width:560px;margin:0 auto 40px;line-height:1.6}
+.cta-final .eyebrow{color:var(--copper-light,#D8915C)}
+.cta-final .btn-primary{background:var(--copper);color:var(--bg)}
+.cta-final .btn-primary:hover{background:#D8915C}
+
+.footer{padding:80px 0 48px;background:var(--bg-warm);border-top:1px solid var(--border)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:64px}
+.footer-brand-block{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:24px;line-height:1.3;max-width:340px}
+.footer-mini{font-size:12px;color:var(--fg-muted);margin-top:14px;line-height:1.6}
+.footer-col h5{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.18em;color:var(--copper);margin-bottom:18px}
+.footer-col a{display:block;font-size:14px;padding:5px 0}
+.footer-col a:hover{color:var(--copper)}
+.footer-bot{display:flex;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--fg-muted);flex-wrap:wrap;gap:14px}
+.footer-bot-mark{font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg)}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;gap:36px}}
+
+.has-motion [data-motion]{opacity:0;transform:translateY(24px)}
+@media(prefers-reduced-motion:reduce){.has-motion [data-motion]{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-brand">Maison Forge</a>
+    <div class="nav-links">
+      <a href="demarche.html" class="active">Démarche</a>
+      <a href="realisations.html">Réalisations</a>
+      <a href="index.html#equipe">Équipe</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a href="lead.html" class="btn btn-primary">Démarrer un projet</a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container" data-motion>
+    <span class="eyebrow">Notre méthode</span>
+    <h1>Quatre phases, aucune zone grise.</h1>
+    <p>Chaque projet, du plus modeste au plus ambitieux, suit la même structure. C'est ce qui permet la transparence sur les délais, la précision sur les chiffres, et la qualité sur le résultat. Voici, en détail, ce qui se passe entre votre premier appel et la remise des clés.</p>
+  </div>
+</section>
+
+<!-- PHASE 01 -->
+<section class="phase-block">
+  <div class="container">
+    <div class="phase-grid" data-motion>
+      <div>
+        <div class="phase-num-big">01</div>
+        <span class="phase-when-tag">Semaine 0</span>
+      </div>
+      <div class="phase-content">
+        <span class="eyebrow">Découverte</span>
+        <h2>Comprendre le besoin réel, avant tout chiffrage.</h2>
+        <p class="lead">Visite sur place de 60 à 90 minutes. Maison Forge mène l'entrevue, Avita Pro intervient sur les 30 dernières minutes pour la lecture technique du bâti.</p>
+        <p>L'objectif : capter votre usage réel, vos contraintes, votre budget cible — pas seulement vos goûts esthétiques. On vous écoute d'abord. On ne propose rien sur place. On vous revient avec un compte-rendu structuré sous 48 heures.</p>
+        <p><strong style="color:var(--fg)">Tarification.</strong> Gratuite pour les premiers mandats. Ensuite : 150–300 $ créditables si le projet est signé. Ce signal qualifie naturellement les projets sérieux.</p>
+      </div>
+      <div class="phase-livrables">
+        <h4>Livrables Phase 1</h4>
+        <ul>
+          <li>Compte-rendu de découverte (2-4 pages) sous 48 h</li>
+          <li>Photos annotées des zones à rénover</li>
+          <li>Mesures et relevé sommaire</li>
+          <li>Fourchette budgétaire en 3 scénarios (bon, mieux, meilleur)</li>
+          <li>Identification des permis requis</li>
+          <li>Recommandation d'aller ou non en Phase 2</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 02 -->
+<section class="phase-block">
+  <div class="container">
+    <div class="phase-grid" data-motion>
+      <div>
+        <div class="phase-num-big">02</div>
+        <span class="phase-when-tag">Semaines 1–2</span>
+      </div>
+      <div class="phase-content">
+        <span class="eyebrow">Design &amp; devis</span>
+        <h2>Transformer la découverte en proposition signable.</h2>
+        <p class="lead">Plans, ambiances, sélection des matériaux, devis détaillé par lot. Vous recevez un dossier complet avant toute signature.</p>
+        <p>C'est ici qu'on cadre tout : trois niveaux de finition avec prix par niveau, échéancier détaillé incluant délais d'approvisionnement, contrat-cadre avec clauses de changement de portée. Aucune ambiguïté possible au moment de signer.</p>
+        <p><strong style="color:var(--fg)">Tarification.</strong> Forfait fixe 500 à 1 500 $, entièrement crédité si vous signez le projet. Ce modèle nous paie pour notre temps si vous décidez de ne pas continuer — et ça vous protège d'un design bâclé.</p>
+      </div>
+      <div class="phase-livrables">
+        <h4>Livrables Phase 2</h4>
+        <ul>
+          <li>Plans et croquis des espaces transformés</li>
+          <li>Moodboard visuel avec 2–3 directions esthétiques</li>
+          <li>Liste des matériaux avec 3 niveaux de finition</li>
+          <li>Échéancier détaillé avec jalons</li>
+          <li>Devis ventilé par lot (démolition, plomberie, électricité, finitions)</li>
+          <li>Contrat-cadre incluant garanties et paiements jalonnés</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 03 -->
+<section class="phase-block">
+  <div class="container">
+    <div class="phase-grid" data-motion>
+      <div>
+        <div class="phase-num-big">03</div>
+        <span class="phase-when-tag">Mois 1–3</span>
+      </div>
+      <div class="phase-content">
+        <span class="eyebrow">Exécution</span>
+        <h2>Livrer sans dérapage. Communiquer comme une montre.</h2>
+        <p class="lead">Avita Pro construit. Maison Forge orchestre, contrôle, communique. Tu reçois un rapport écrit chaque mercredi, sans exception.</p>
+        <p>Notre rituel hebdomadaire : lundi point d'équipe interne, mercredi mini-rapport client (3 phrases + 3 à 5 photos), vendredi validation des paiements progressifs selon les jalons signés. Les changements de portée passent toujours par un bon de modification écrit, chiffré, signé avant exécution. Jamais de « on règle ça plus tard ».</p>
+        <p><strong style="color:var(--fg)">Inclus.</strong> Coordination de tous les corps de métier, gestion des approvisionnements, contrôle qualité, communication client structurée.</p>
+      </div>
+      <div class="phase-livrables">
+        <h4>Rituel d'exécution</h4>
+        <ul>
+          <li>Lundi : 15 min point Maison Forge ↔ Avita Pro</li>
+          <li>Mercredi : mini-rapport client (photos + écarts + prochaine semaine)</li>
+          <li>Vendredi : validation paiements progressifs sur jalons</li>
+          <li>Bon de modification signé avant tout changement</li>
+          <li>Suivi quotidien en stories (si vous l'autorisez)</li>
+          <li>Inspection conjointe en fin de phase</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 04 -->
+<section class="phase-block">
+  <div class="container">
+    <div class="phase-grid" data-motion>
+      <div>
+        <div class="phase-num-big">04</div>
+        <span class="phase-when-tag">Fin mois 3</span>
+      </div>
+      <div class="phase-content">
+        <span class="eyebrow">Livraison &amp; suivi</span>
+        <h2>Finir proprement. Vous remettre un dossier complet.</h2>
+        <p class="lead">Inspection conjointe avec liste de déficiences réglée AVANT remise des clés. Pas après. Pas plus tard.</p>
+        <p>À la livraison, vous recevez le dossier de fin de projet : photos avant/après HD, plans finaux, garanties fabricants, fiches d'entretien, coordonnées des fournisseurs. Le projet vous appartient, pas seulement le résultat. Suivis structurés à 30 et 90 jours.</p>
+        <p><strong style="color:var(--fg)">Garanties.</strong> 1 an minimum main-d'œuvre. Durée fabricant pour les matériaux. Un seul interlocuteur si quoi que ce soit nécessite un retour.</p>
+      </div>
+      <div class="phase-livrables">
+        <h4>Livrables Phase 4</h4>
+        <ul>
+          <li>Inspection conjointe + punch list datée</li>
+          <li>Reprise des déficiences avant remise des clés</li>
+          <li>Dossier projet : photos avant/après HD</li>
+          <li>Plans finaux, garanties, fiches d'entretien</li>
+          <li>Coordonnées des fournisseurs et corps de métier</li>
+          <li>Suivi à 30 jours et à 90 jours</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 RÈGLES DE LA VISITE (extraits du plan stratégique) -->
+<section class="regles">
+  <div class="container">
+    <div class="regles-head" data-motion>
+      <span class="eyebrow">Pendant la visite découverte</span>
+      <h2>Quatre règles qui changent tout.</h2>
+    </div>
+    <div class="regles-grid">
+      <div class="regle" data-motion>
+        <div class="regle-num">01</div>
+        <h3>Écouter d'abord.</h3>
+        <p>Les 30 premières minutes, on pose des questions et on prend des notes. Vous n'avez sans doute jamais vécu ça avec un rénovateur. Vous serez compris avant même qu'on parle de prix.</p>
+      </div>
+      <div class="regle" data-motion>
+        <div class="regle-num">02</div>
+        <h3>Arriver en duo.</h3>
+        <p>Maison Forge sur la vision et le budget global. Avita Pro sur la faisabilité technique. Vous voyez l'architecte et le bâtisseur — pas deux contracteurs qui se répètent.</p>
+      </div>
+      <div class="regle" data-motion>
+        <div class="regle-num">03</div>
+        <h3>Ne jamais quoter sur place.</h3>
+        <p>« On vous revient avec une proposition structurée sous 5 à 7 jours. » Ce délai positionne la relation comme consultative et nous donne le temps de bien chiffrer.</p>
+      </div>
+      <div class="regle" data-motion>
+        <div class="regle-num">04</div>
+        <h3>Laisser une trace.</h3>
+        <p>Compte-rendu écrit envoyé sous 48 h. Confirme la compréhension du besoin et liste les prochaines étapes. Démontre le professionnalisme avant la proposition commerciale.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="faq-head" data-motion>
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2>Avant de démarrer.</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item" data-motion>
+        <button class="faq-q"><span class="faq-q-text">Combien coûte une rénovation de cuisine ou de salle de bain ?</span><span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Pour une cuisine résidentielle complète à Montréal, comptez 25 000 à 80 000 $ selon la taille, le niveau de finition et les contraintes structurelles. Salles de bain : 12 000 à 35 000 $. Le formulaire vous donne une fourchette indicative en 5 minutes — chiffrage précis en Phase 2.</div></div>
+      </div>
+      <div class="faq-item" data-motion>
+        <button class="faq-q"><span class="faq-q-text">Combien de temps prend un projet typique ?</span><span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">De la signature du contrat à la remise des clés : 8 à 12 semaines pour une cuisine standard, 4 à 6 semaines pour une salle de bain. Plus si reconfiguration structurelle. Les délais d'approvisionnement matériaux sont intégrés dans l'échéancier dès la Phase 2.</div></div>
+      </div>
+      <div class="faq-item" data-motion>
+        <button class="faq-q"><span class="faq-q-text">Quelle est la différence entre Maison Forge et un contracteur classique ?</span><span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Un contracteur vous vend des heures de main-d'œuvre. Maison Forge vous vend une démarche structurée. Vous signez un livrable précis (cuisine x, dans un délai y, à un prix z) plutôt qu'un devis approximatif qui dérive. La différence se voit sur la communication hebdomadaire, la documentation finale, et l'absence de surprises budgétaires.</div></div>
+      </div>
+      <div class="faq-item" data-motion>
+        <button class="faq-q"><span class="faq-q-text">Êtes-vous licenciés RBQ ?</span><span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Maison Forge est une agence — nous coordonnons. La licence RBQ est portée par notre partenaire entrepreneur Avita Pro (RBQ 5873-0946-01), qui exécute tous les travaux. Cette structure est plus transparente pour le client : architecte de la solution + bâtisseur, deux rôles, un seul contrat à signer.</div></div>
+      </div>
+      <div class="faq-item" data-motion>
+        <button class="faq-q"><span class="faq-q-text">Travaillez-vous hors Montréal ?</span><span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">On se concentre actuellement sur Mercier-HoMa, Verdun, le Sud-Ouest, Rosemont et les arrondissements limitrophes. Nous évaluons les projets en banlieue Sud (Longueuil, Brossard) au cas par cas selon la complexité.</div></div>
+      </div>
+      <div class="faq-item" data-motion>
+        <button class="faq-q"><span class="faq-q-text">Comment se passe le paiement ?</span><span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Paiements jalonnés : 15 % à la signature, 30 % au démarrage, 30 % à mi-chantier, 20 % à la livraison, 5 % retenu et libéré à la levée des déficiences à 30 jours. Cette structure protège les deux parties.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-final">
+  <div class="container">
+    <span class="eyebrow" data-motion>Prêt ?</span>
+    <h2 data-motion>Cinq minutes. Une estimation. Une visite.</h2>
+    <p data-motion>Le formulaire est court. Vous recevez en retour une fourchette budgétaire indicative et une proposition de Phase 1.</p>
+    <a href="lead.html" class="btn btn-primary" data-motion>Démarrer le formulaire →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-block">Maison Forge</div>
+        <p class="footer-mini">La rénovation pensée comme un projet d'architecture. Cuisines &amp; salles de bain. Montréal.<br><br>9520-5936 Québec Inc. · En collaboration avec Avita Pro (RBQ 5873-0946-01)</p>
+      </div>
+      <div class="footer-col">
+        <h5>Démarche</h5>
+        <a href="demarche.html">Les 4 phases</a>
+        <a href="realisations.html">Réalisations</a>
+        <a href="index.html#equipe">L'équipe</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="lead.html">Démarrer un projet</a>
+        <a href="mailto:contact@maisonforge.ca">contact@maisonforge.ca</a>
+        <a href="tel:5145525445">514 552-5445</a>
+      </div>
+      <div class="footer-col">
+        <h5>Légal</h5>
+        <a href="#">Confidentialité (Loi 25)</a>
+        <a href="#">RBQ Avita Pro</a>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span class="footer-bot-mark">Maison Forge · 2026</span>
+      <span>Hébergé au Canada</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+import { animate, inView } from 'https://cdn.jsdelivr.net/npm/motion@11.11.17/+esm';
+document.body.classList.add('has-motion');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduce) {
+  document.querySelectorAll('[data-motion]').forEach(el => {
+    inView(el, () => animate(el, { opacity:[0,1], y:[24,0] }, { duration:0.7, easing:[0.16,1,0.3,1] }), { amount:0.15 });
+  });
+}
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => btn.parentElement.classList.toggle('open'));
+});
+</script>
+</body>
+</html>

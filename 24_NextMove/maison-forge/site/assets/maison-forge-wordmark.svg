@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Maison Forge — Wordmark
+  Style: ALL CAPS Inter 600, letter-spacing 0.15em, ligne cuivre courte au-dessus.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120" role="img" aria-label="Maison Forge">
+  <title>Maison Forge</title>
+  <defs>
+    <style>
+      .wm {
+        font-family: 'Inter', -apple-system, system-ui, sans-serif;
+        font-weight: 600;
+        font-size: 28px;
+        letter-spacing: 0.15em;
+        fill: #243845;
+      }
+    </style>
+  </defs>
+  <!-- petit trait cuivre signature -->
+  <line x1="220" y1="48" x2="260" y2="48" stroke="#B86A2E" stroke-width="2"/>
+  <!-- wordmark -->
+  <text x="240" y="86" class="wm" text-anchor="middle">MAISON FORGE</text>
+</svg>

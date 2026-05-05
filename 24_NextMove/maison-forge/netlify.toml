@@ -1,0 +1,63 @@
+[build]
+  publish = "site"
+  functions = "ai-functions"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@anthropic-ai/sdk"]
+
+# ── Headers sécurité ──
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/estimate-budget.js"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+# ── Friendly URLs ──
+[[redirects]]
+  from = "/demarche"
+  to = "/demarche.html"
+  status = 200
+[[redirects]]
+  from = "/realisations"
+  to = "/realisations.html"
+  status = 200
+[[redirects]]
+  from = "/contact"
+  to = "/lead.html"
+  status = 301
+[[redirects]]
+  from = "/devis"
+  to = "/lead.html"
+  status = 301
+[[redirects]]
+  from = "/lead"
+  to = "/lead.html"
+  status = 200
+[[redirects]]
+  from = "/merci"
+  to = "/merci.html"
+  status = 200
+
+# Hide dev files
+[[redirects]]
+  from = "/mockups/*"
+  to = "/index.html"
+  status = 404

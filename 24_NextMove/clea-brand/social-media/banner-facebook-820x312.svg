@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 312" width="820" height="312">
+  <title>Cléa Facebook cover</title>
+  <defs>
+    <linearGradient id="fbbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="oklch(0.98 0.005 60)"/>
+      <stop offset="100%" stop-color="oklch(0.94 0.03 45)"/>
+    </linearGradient>
+    <style>
+      .ttl{font-family:'Geist',sans-serif;font-weight:700;letter-spacing:-0.02em;fill:oklch(0.20 0.02 30)}
+      .sub{font-family:'Geist',sans-serif;font-weight:500;fill:oklch(0.50 0.02 30)}
+    </style>
+  </defs>
+  <rect width="820" height="312" fill="url(#fbbg)"/>
+
+  <!-- decorative SMS bubble bottom-right -->
+  <path d="M 600 220 H 760 V 280 H 720 L 700 300 V 280 H 600 Z"
+        fill="oklch(0.55 0.18 30 / 0.10)"/>
+
+  <g transform="translate(60 100) scale(0.7)">
+    <path d="M 152 54 A 64 64 0 1 0 152 146"
+          fill="none" stroke="oklch(0.55 0.18 30)" stroke-width="34" stroke-linecap="round"/>
+    <path d="M 144 142 Q 168 162 178 178 Q 156 168 138 156 Z"
+          fill="oklch(0.55 0.18 30)"/>
+    <circle cx="78" cy="100" r="6" fill="oklch(0.55 0.18 30)"/>
+    <circle cx="100" cy="100" r="6" fill="oklch(0.55 0.18 30)"/>
+    <circle cx="122" cy="100" r="6" fill="oklch(0.55 0.18 30)"/>
+  </g>
+
+  <text class="ttl" x="220" y="150" font-size="46">Cléa qualifie. Tu vends.</text>
+  <text class="sub" x="220" y="190" font-size="20">L'adjointe IA des courtiers immobiliers — bilingue FR/EN</text>
+  <text class="sub" x="220" y="225" font-size="16" font-weight="600" fill="oklch(0.55 0.18 30)">clea.app</text>
+</svg>
