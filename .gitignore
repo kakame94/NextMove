@@ -40,3 +40,11 @@ openclaw-immo/
 
 # Local Netlify folder
 .netlify
+
+# Pitch deck binaries — code-only on GitHub
+24_NextMove/*.pptx
+24_NextMove/*.pdf
+24_NextMove/assets_pptx/
+24_NextMove/slide-*.jpg
+24_NextMove/slide_new-*.jpg
+24_NextMove/~$*
