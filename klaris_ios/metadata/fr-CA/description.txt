@@ -1,0 +1,40 @@
+Klaris — l'adjointe IA des courtiers immobiliers.
+
+Pendant que tu visites, négocies, vends — Klaris répond aux SMS de tes prospects, qualifie leurs besoins, et te livre une fiche prête à actionner. 24/7. Bilingue FR/EN dès le premier mot. Conforme OACIQ, Loi 25 et CASL. Hébergement au Canada.
+
+— Conçue pour le terrain québécois —
+
+• INTAKE SMS QUALIFIÉ — Klaris pose les bonnes questions (acheteur ou vendeur, secteur, budget, délai, pré-approbation), avec un ton chaleureux québécois. Elle signe « son assistante » — jamais d'IA déguisée.
+
+• SCORING DE TEMPÉRATURE — Cinq niveaux du froid (bleu) au brûlant (rouge). Calculé à partir de la pré-approbation hypothécaire, du délai, du budget et du secteur.
+
+• DASHBOARD COURTIER — Liste prospects par température, fiche complète, transcript SMS intégral, filtres avancés (type, secteur, budget min/max, délai). Mode clair/sombre.
+
+• AGENDA + EVENTKIT — Planifie tes rendez-vous prospects en 4 taps. Synchronisation native iOS Calendar avec rappel 15 min avant.
+
+• RELANCES J+2 / J+5 / J+10 — Klaris rédige chaque relance, tu valides avant envoi. Heures ouvrables QC, fériés respectés, STOP reconnu en moins d'une heure.
+
+• BRIEFING 7H30 — Email matinal structuré : nouveaux leads, prospects chauds, relances à valider, agenda du jour.
+
+• NOTES VOCALES — Enregistre une note post-visite, Klaris transcrit + résume automatiquement (Whisper + Claude).
+
+• CARTE PROSPECTS — Vue MapKit native avec pins colorés selon la température.
+
+• AGENCE MULTI-COURTIER — Tableau de bord équipe, attribution des leads, performance par membre. Visible aux rôles admin et manager.
+
+• CONFORMITÉ — Toutes les actions tracées, exportables, signées par le courtier. Données hébergées au Canada (Supabase ca-central-1). Loi 25 native, CASL respectée, OACIQ-friendly.
+
+— Pour qui —
+
+Le courtier solo qui veut récupérer son temps. Le bâtisseur qui scale de 3 à 10 transactions/mois. La perfectionniste qui ne tolère aucune faille. La franchise qui veut centraliser sans alourdir.
+
+— Tarifs —
+
+Solo : 100 $ CAD / mois — illimité.
+Agence : 200 $ CAD / courtier / mois — multi-courtiers + reporting consolidé.
+
+Aucune carte de crédit pour la démo. Annulable à tout moment.
+
+— Une marque Next Move Inc. —
+
+klarisapp.ai · contact@klarisapp.ai · Montréal, QC

@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/i18n/klaris_strings.dart';
+import '../agency/lead_assign_sheet.dart';
+import '../notes/voice_memo_sheet.dart';
 import '../../core/theme/klaris_colors.dart';
 import '../../core/theme/klaris_typography.dart';
 import '../../core/widgets/heat_indicator.dart';
 import '../../data/models/prospect.dart';
 import '../../data/repositories/prospects_repository.dart';
+import 'prospect_recommendations_section.dart';
 
 class ProspectDetailScreen extends ConsumerWidget {
   final String prospectId;
@@ -23,6 +27,12 @@ class ProspectDetailScreen extends ConsumerWidget {
       navigationBar: CupertinoNavigationBar(
         backgroundColor: context.klCard().withValues(alpha: 0.85),
         middle: Text(ref.s('prospects.title'), style: KlarisType.h3(fg)),
+        trailing: CupertinoButton(
+          padding: EdgeInsets.zero,
+          minSize: 0,
+          onPressed: () => _showActions(context, ref),
+          child: Icon(CupertinoIcons.ellipsis_circle, color: context.klPrimary(), size: 22),
+        ),
       ),
       child: SafeArea(
         child: async.when(
@@ -88,7 +98,7 @@ class ProspectDetailScreen extends ConsumerWidget {
                       child: CupertinoButton(
                         color: context.klCard(),
                         borderRadius: BorderRadius.circular(12),
-                        onPressed: () {/* TODO: transcript route */},
+                        onPressed: () => context.push('/prospects/${p.id}/thread'),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -101,9 +111,47 @@ class ProspectDetailScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
+
+                const SizedBox(height: 24),
+                ProspectRecommendationsSection(prospectId: p.id),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  void _showActions(BuildContext context, WidgetRef ref) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (_) => CupertinoActionSheet(
+        actions: [
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.of(context).pop();
+              context.push('/calendar/new?prospect=$prospectId');
+            },
+            child: Text(ref.s('detail.action.appointment')),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.of(context).pop();
+              showVoiceMemoSheet(context: context, ref: ref, prospectId: prospectId);
+            },
+            child: Text(ref.s('detail.action.memo')),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.of(context).pop();
+              showLeadAssignSheet(context: context, ref: ref, prospectId: prospectId);
+            },
+            child: Text(ref.s('detail.action.assign')),
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(ref.s('common.cancel')),
         ),
       ),
     );

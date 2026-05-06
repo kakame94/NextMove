@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ════════════════════════════════════════════════════════
+   Klaris design tokens — mirror iOS app + site vitrine.
+   OKLCH = source de vérité ; valeurs sans `oklch()` wrapper
+   pour permettre l'override d'opacité par Tailwind.
+   ════════════════════════════════════════════════════════ */
+:root {
+  --bg: 0.985 0.005 75;
+  --fg: 0.20 0.015 60;
+  --muted: 0.96 0.005 70;
+  --muted-fg: 0.50 0.012 55;
+  --card: 1 0 0;
+  --card-elev: 0.99 0.005 60;
+  --border: 0.92 0.008 65;
+  --primary: 0.55 0.18 30;
+  --primary-fg: 1 0 0;
+}
+
+[data-theme="dark"] {
+  --bg: 0.16 0.005 250;
+  --fg: 0.95 0.005 75;
+  --muted: 0.22 0.005 250;
+  --muted-fg: 0.65 0.012 65;
+  --card: 0.18 0.005 250;
+  --card-elev: 0.20 0.005 250;
+  --border: 0.28 0.008 250;
+  --primary: 0.68 0.18 28;
+  --primary-fg: 0.16 0.005 250;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: 0.16 0.005 250;
+    --fg: 0.95 0.005 75;
+    --muted: 0.22 0.005 250;
+    --muted-fg: 0.65 0.012 65;
+    --card: 0.18 0.005 250;
+    --card-elev: 0.20 0.005 250;
+    --border: 0.28 0.008 250;
+    --primary: 0.68 0.18 28;
+    --primary-fg: 0.16 0.005 250;
+  }
+}
+
+html, body {
+  background: oklch(var(--bg));
+  color: oklch(var(--fg));
+  font-feature-settings: "ss01", "cv01";
+}
+
+body {
+  font-family: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-mono {
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
+  font-feature-settings: "tnum", "zero";
+}

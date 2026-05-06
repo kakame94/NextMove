@@ -13,6 +13,8 @@ class Prospect {
   final bool preApprouve;
   final DateTime createdAt;
   final DateTime? lastContactAt;
+  final double? latitude;
+  final double? longitude;
 
   const Prospect({
     required this.id,
@@ -28,6 +30,8 @@ class Prospect {
     this.budget,
     this.delai,
     this.lastContactAt,
+    this.latitude,
+    this.longitude,
   });
 
   factory Prospect.fromJson(Map<String, dynamic> j) => Prospect(
@@ -44,6 +48,8 @@ class Prospect {
         preApprouve:   (j['pre_approuve'] as bool?) ?? false,
         createdAt:     DateTime.parse(j['created_at'] as String),
         lastContactAt: j['last_contact_at'] != null ? DateTime.parse(j['last_contact_at'] as String) : null,
+        latitude:      (j['latitude'] as num?)?.toDouble(),
+        longitude:     (j['longitude'] as num?)?.toDouble(),
       );
 
   bool get isHot  => score >= 7;

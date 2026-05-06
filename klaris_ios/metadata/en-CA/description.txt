@@ -1,0 +1,40 @@
+Klaris — the AI assistant for real estate brokers.
+
+While you're touring, negotiating, closing — Klaris answers your prospects' SMS, qualifies their needs, and hands you an actionable record. 24/7. Bilingual FR/EN from the first word. OACIQ, Law 25, and CASL compliant. Canadian hosting.
+
+— Built for the Quebec ground —
+
+• QUALIFIED SMS INTAKE — Klaris asks the right questions (buyer or seller, area, budget, timeline, pre-approval), in a warm Quebec-natural tone. She signs as "his assistant" — never disguised as AI.
+
+• HEAT SCORING — Five levels from cold (blue) to red-hot. Computed from mortgage pre-approval, timeline, budget, and area.
+
+• BROKER DASHBOARD — Prospect list by heat, full record, complete SMS transcript, advanced filters (type, area, budget min/max, timeline). Light/dark mode.
+
+• CALENDAR + EVENTKIT — Schedule prospect appointments in 4 taps. Native iOS Calendar sync with 15-min advance reminder.
+
+• FOLLOW-UPS D+2 / D+5 / D+10 — Klaris drafts every follow-up, you approve before sending. QC business hours, holidays respected, STOP honored in under an hour.
+
+• 7:30AM BRIEFING — Structured morning email: new leads, hot prospects, follow-ups to approve, day agenda.
+
+• VOICE MEMOS — Record a post-visit note, Klaris transcribes + summarizes automatically (Whisper + Claude).
+
+• PROSPECT MAP — Native MapKit view with color-coded pins by heat.
+
+• MULTI-BROKER AGENCY — Team dashboard, lead attribution, per-member performance. Visible to admin and manager roles.
+
+• COMPLIANCE — Every action traced, exportable, signed by the broker. Data hosted in Canada (Supabase ca-central-1). Native Law 25, CASL-respectful, OACIQ-friendly.
+
+— Who for —
+
+The solo broker who wants their time back. The builder scaling from 3 to 10 transactions/month. The perfectionist who tolerates no slip. The franchise that wants to centralize without weight.
+
+— Pricing —
+
+Solo: $100 CAD / month — unlimited.
+Agency: $200 CAD / broker / month — multi-broker + consolidated reporting.
+
+No credit card for the demo. Cancel anytime.
+
+— A Next Move Inc. brand —
+
+klarisapp.ai · contact@klarisapp.ai · Montreal, QC

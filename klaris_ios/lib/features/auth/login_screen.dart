@@ -6,6 +6,7 @@ import '../../core/i18n/klaris_strings.dart';
 import '../../core/theme/klaris_colors.dart';
 import '../../core/theme/klaris_typography.dart';
 import '../../core/widgets/klaris_mascot.dart';
+import '../../data/services/apple_auth_service.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -25,6 +26,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     _email.dispose();
     _pass.dispose();
     super.dispose();
+  }
+
+  Future<void> _signInWithApple() async {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      await AppleAuthService.instance.signIn();
+    } catch (e) {
+      setState(() => _error = '$e');
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
   }
 
   Future<void> _signIn() async {
@@ -155,6 +170,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: _loading
                     ? const CupertinoActivityIndicator(color: CupertinoColors.white)
                     : Text(ref.s('auth.signin'), style: KlarisType.body(KlarisColors.primaryFg).copyWith(fontWeight: FontWeight.w600)),
+              ),
+
+              const SizedBox(height: 14),
+              Row(
+                children: [
+                  Expanded(child: Container(height: 1, color: border)),
+                  Padding(padding: const EdgeInsets.symmetric(horizontal: 12), child: Text(ref.s('auth.or'), style: KlarisType.caption(mutedFg))),
+                  Expanded(child: Container(height: 1, color: border)),
+                ],
+              ),
+              const SizedBox(height: 14),
+              CupertinoButton(
+                color: const Color(0xFF000000),
+                borderRadius: BorderRadius.circular(12),
+                onPressed: _loading ? null : _signInWithApple,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(CupertinoIcons.suit_heart, color: CupertinoColors.white, size: 18),
+                    const SizedBox(width: 8),
+                    Text(ref.s('auth.apple'), style: KlarisType.body(CupertinoColors.white).copyWith(fontWeight: FontWeight.w600)),
+                  ],
+                ),
               ),
 
               const SizedBox(height: 16),

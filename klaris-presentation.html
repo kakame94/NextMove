@@ -806,6 +806,184 @@ svg.archi-arrows {
 }
 
 /* ════════════════════════════════════════════════════════
+   APP iOS — 3 iPhone mockups (Sprint 7 reveal)
+   ════════════════════════════════════════════════════════ */
+.app-section { background: var(--card-elev); position: relative; overflow: hidden; }
+.app-section::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 15% 20%, var(--primary-soft) 0%, transparent 35%),
+    radial-gradient(circle at 85% 80%, var(--primary-soft) 0%, transparent 35%);
+  pointer-events: none; opacity: 0.6;
+}
+.app-section .container { position: relative; z-index: 1; }
+.app-screens-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  margin-top: 56px;
+  align-items: end;
+}
+.ios-frame {
+  width: 100%; max-width: 280px; margin: 0 auto;
+  background: var(--card);
+  border: 8px solid #0a0a0a;
+  border-radius: 44px;
+  padding: 0;
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.04) inset;
+  overflow: hidden;
+  position: relative;
+}
+.ios-frame.featured {
+  transform: translateY(-24px) scale(1.04);
+  border-color: var(--primary-strong);
+  box-shadow: 0 40px 80px -20px var(--primary-soft), 0 30px 60px -30px rgba(0,0,0,0.55);
+}
+.ios-frame::before {
+  /* Dynamic Island */
+  content: ""; position: absolute;
+  top: 10px; left: 50%; transform: translateX(-50%);
+  width: 90px; height: 24px;
+  border-radius: 14px;
+  background: #0a0a0a;
+  z-index: 3;
+}
+.ios-status {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 22px 6px;
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600;
+  color: var(--foreground);
+}
+.ios-status .ios-time { letter-spacing: -0.3px; }
+.ios-status .ios-icons { display: flex; gap: 4px; opacity: 0.85; font-size: 10px; }
+.ios-navbar {
+  padding: 14px 18px 12px;
+  border-bottom: 0.5px solid var(--border);
+  text-align: center;
+}
+.ios-navbar h4 {
+  font-size: 17px; font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -0.4px;
+  margin: 0;
+}
+.ios-content {
+  padding: 14px 14px 28px;
+  display: flex; flex-direction: column; gap: 10px;
+  min-height: 420px;
+}
+.ios-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.ios-row {
+  display: flex; align-items: center; gap: 10px;
+}
+.ios-row + .ios-row { margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--border); }
+.ios-heat {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.ios-heat.hot   { background: #D64C2E; box-shadow: 0 0 8px #D64C2E; }
+.ios-heat.warm  { background: #E07A45; box-shadow: 0 0 6px #E07A45; }
+.ios-heat.tepid { background: #E0A836; box-shadow: 0 0 6px #E0A836; }
+.ios-heat.cold  { background: #8AB4D0; }
+.ios-name {
+  flex: 1;
+  font-size: 13px; font-weight: 600;
+  color: var(--foreground);
+}
+.ios-meta {
+  font-size: 11px; color: var(--muted-foreground);
+  font-family: var(--font-mono);
+}
+.ios-score-chip {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 700;
+  padding: 2px 7px; border-radius: 6px;
+}
+.ios-score-chip.s-hot  { background: rgba(214,76,46,0.12); color: #D64C2E; }
+.ios-score-chip.s-warm { background: rgba(224,122,69,0.12); color: #E07A45; }
+.ios-eyebrow {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 8px;
+}
+.ios-eyebrow svg { width: 12px; height: 12px; color: var(--primary); }
+.ios-reco {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.ios-reco-title {
+  font-size: 12px; font-weight: 700; color: var(--foreground);
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 8px;
+}
+.ios-reco-meta {
+  display: flex; gap: 5px; flex-wrap: wrap;
+  margin: 6px 0 6px;
+}
+.ios-pill {
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 10px; font-weight: 600;
+  padding: 2px 6px; border-radius: 5px;
+  font-family: var(--font-mono);
+}
+.ios-reco-reason {
+  font-size: 10px; line-height: 1.4;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+.ios-bubble-in, .ios-bubble-out {
+  font-size: 12px;
+  padding: 7px 11px;
+  border-radius: 14px;
+  max-width: 80%;
+  line-height: 1.35;
+}
+.ios-bubble-in {
+  background: var(--muted);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  color: var(--foreground);
+}
+.ios-bubble-out {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.ios-handover {
+  background: rgba(34,197,94,0.10);
+  border: 1px solid var(--success);
+  border-radius: 10px;
+  padding: 7px 10px;
+  font-size: 10px;
+  color: var(--success);
+  font-family: var(--font-mono);
+  text-align: center;
+  margin: 4px 0;
+}
+.app-caption {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 12px; font-weight: 600;
+  color: var(--muted-foreground);
+  letter-spacing: 0.4px;
+}
+.app-caption.featured { color: var(--primary); }
+@media (max-width: 900px) {
+  .app-screens-grid { grid-template-columns: 1fr; gap: 56px; }
+  .ios-frame.featured { transform: none; }
+}
+
+/* ════════════════════════════════════════════════════════
    FEATURES
    ════════════════════════════════════════════════════════ */
 .features { background: var(--muted); }
@@ -1501,6 +1679,169 @@ svg.archi-arrows {
 </section>
 
 <!-- ════════════════════════════════════════════════════════
+     APP iOS — Sprint 7 mockups (dashboard / reco IA / handover)
+     ════════════════════════════════════════════════════════ -->
+<section class="section app-section" id="app">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="section-eyebrow" data-i18n="app.eyebrow">L'app iOS</span>
+      <h2 data-i18n="app.title">Pas que du SMS. <em>L'app courtier</em> est là.</h2>
+      <p class="section-sub" data-i18n="app.sub">
+        Cupertino natif. Mode sombre. Recommandations IA propulsées par Claude. Conforme OACIQ + Loi 25.
+      </p>
+    </div>
+
+    <div class="app-screens-grid">
+      <!-- Mockup 1 — Dashboard prospects -->
+      <div data-reveal data-reveal-delay="1">
+        <div class="ios-frame">
+          <div class="ios-status">
+            <span class="ios-time">9:41</span>
+            <span class="ios-icons">●●● 5G ▮▮▮▮</span>
+          </div>
+          <div class="ios-navbar"><h4 data-i18n="app.s1.title">Prospects</h4></div>
+          <div class="ios-content">
+            <div class="ios-card">
+              <div class="ios-row">
+                <span class="ios-heat hot"></span>
+                <span class="ios-name">Catherine Tremblay</span>
+                <span class="ios-score-chip s-hot">9/10</span>
+              </div>
+              <div class="ios-row" style="border-top:none; padding-top:0; margin-top:4px;">
+                <span style="width:8px;flex-shrink:0;"></span>
+                <span class="ios-meta">Verdun · 650K · &lt;1 mois</span>
+              </div>
+            </div>
+            <div class="ios-card">
+              <div class="ios-row">
+                <span class="ios-heat hot"></span>
+                <span class="ios-name">Jean-Philippe Roy</span>
+                <span class="ios-score-chip s-hot">8/10</span>
+              </div>
+              <div class="ios-row" style="border-top:none; padding-top:0; margin-top:4px;">
+                <span style="width:8px;flex-shrink:0;"></span>
+                <span class="ios-meta">Saint-Henri · 720K · pré-app.</span>
+              </div>
+            </div>
+            <div class="ios-card">
+              <div class="ios-row">
+                <span class="ios-heat warm"></span>
+                <span class="ios-name">Marie-Hélène Bouchard</span>
+                <span class="ios-score-chip s-warm">6/10</span>
+              </div>
+              <div class="ios-row" style="border-top:none; padding-top:0; margin-top:4px;">
+                <span style="width:8px;flex-shrink:0;"></span>
+                <span class="ios-meta">Sud-Ouest · 480K · 2-3 mois</span>
+              </div>
+            </div>
+            <div class="ios-card">
+              <div class="ios-row">
+                <span class="ios-heat tepid"></span>
+                <span class="ios-name">Olivier Lefèvre</span>
+                <span class="ios-score-chip s-warm">5/10</span>
+              </div>
+            </div>
+            <div class="ios-card">
+              <div class="ios-row">
+                <span class="ios-heat cold"></span>
+                <span class="ios-name">Sophia Nguyen</span>
+                <span class="ios-meta" style="margin-left:auto;">3/10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="app-caption" data-i18n="app.s1.caption">Triage par chaleur · 5 niveaux</div>
+      </div>
+
+      <!-- Mockup 2 (featured) — Recommandations IA Sprint 7 -->
+      <div data-reveal data-reveal-delay="2">
+        <div class="ios-frame featured">
+          <div class="ios-status">
+            <span class="ios-time">9:42</span>
+            <span class="ios-icons">●●● 5G ▮▮▮▮</span>
+          </div>
+          <div class="ios-navbar"><h4 data-i18n="app.s2.title">Catherine T.</h4></div>
+          <div class="ios-content">
+            <div class="ios-card">
+              <div class="ios-row" style="margin-bottom:6px;">
+                <span class="ios-name" style="font-size:15px;">Catherine Tremblay</span>
+                <span class="ios-score-chip s-hot">9/10</span>
+              </div>
+              <div class="ios-meta" style="margin-bottom:8px;">Verdun · 650K · &lt;1 mois · pré-approuvée</div>
+            </div>
+
+            <div class="ios-eyebrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              <span data-i18n="app.s2.eyebrow">Recommandations IA</span>
+            </div>
+
+            <div class="ios-reco">
+              <div class="ios-reco-title">
+                <span>Condo · Verdun</span>
+                <span class="ios-score-chip s-hot">94</span>
+              </div>
+              <div class="ios-reco-meta">
+                <span class="ios-pill">645K$</span>
+                <span class="ios-pill">2 ch</span>
+                <span class="ios-pill">1 sdb</span>
+              </div>
+              <div class="ios-reco-reason" data-i18n="app.s2.reason1">Match parfait : secteur, budget et délai alignés.</div>
+            </div>
+
+            <div class="ios-reco">
+              <div class="ios-reco-title">
+                <span>Plex · Verdun</span>
+                <span class="ios-score-chip s-hot">87</span>
+              </div>
+              <div class="ios-reco-meta">
+                <span class="ios-pill">680K$</span>
+                <span class="ios-pill">3 ch</span>
+              </div>
+              <div class="ios-reco-reason" data-i18n="app.s2.reason2">+5% budget mais ROI locatif intéressant.</div>
+            </div>
+
+            <div class="ios-reco">
+              <div class="ios-reco-title">
+                <span>Condo · Pointe-Saint-Charles</span>
+                <span class="ios-score-chip s-warm">71</span>
+              </div>
+              <div class="ios-reco-meta">
+                <span class="ios-pill">595K$</span>
+                <span class="ios-pill">2 ch</span>
+              </div>
+              <div class="ios-reco-reason" data-i18n="app.s2.reason3">Quartier limitrophe Verdun, prix sous budget.</div>
+            </div>
+          </div>
+        </div>
+        <div class="app-caption featured" data-i18n="app.s2.caption">Claude Haiku · ranking 30 inscriptions actives</div>
+      </div>
+
+      <!-- Mockup 3 — Conversation thread + handover -->
+      <div data-reveal data-reveal-delay="3">
+        <div class="ios-frame">
+          <div class="ios-status">
+            <span class="ios-time">9:43</span>
+            <span class="ios-icons">●●● 5G ▮▮▮▮</span>
+          </div>
+          <div class="ios-navbar"><h4 data-i18n="app.s3.title">Échange · Catherine</h4></div>
+          <div class="ios-content" style="gap:8px;">
+            <div class="ios-bubble-in">Bonjour Catherine, je suis Klaris pour Joanel. Vous cherchez quoi exactement?</div>
+            <div class="ios-bubble-out" data-i18n="app.s3.b1">Un condo 2 chambres dans Verdun, max 650</div>
+            <div class="ios-bubble-in" data-i18n="app.s3.b2">Parfait. Pré-approuvée hypothécaire?</div>
+            <div class="ios-bubble-out" data-i18n="app.s3.b3">Oui, jusqu'à 700</div>
+            <div class="ios-bubble-in" data-i18n="app.s3.b4">Délai de mise en marché?</div>
+            <div class="ios-bubble-out" data-i18n="app.s3.b5">Avant la fin du mois si possible</div>
+            <div class="ios-handover" data-i18n="app.s3.handover">Joanel a repris la main · Klaris en retrait</div>
+            <div class="ios-bubble-out" data-i18n="app.s3.b6">Allo Catherine, Joanel ici. J'ai 3 condos pour toi.</div>
+          </div>
+        </div>
+        <div class="app-caption" data-i18n="app.s3.caption">Handover en un tap · audit log OACIQ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
      FEATURES — 6 cards
      ════════════════════════════════════════════════════════ -->
 <section class="section features" id="features">
@@ -1864,6 +2205,27 @@ const I18N = {
     'demo.phone.name': 'Klaris · pour Joanel',
     'demo.phone.status': 'en ligne',
 
+    'app.eyebrow': "L'app iOS",
+    'app.title': "Pas que du SMS. <em>L'app courtier</em> est là.",
+    'app.sub': "Cupertino natif. Mode sombre. Recommandations IA propulsées par Claude. Conforme OACIQ + Loi 25.",
+    'app.s1.title': 'Prospects',
+    'app.s1.caption': 'Triage par chaleur · 5 niveaux',
+    'app.s2.title': 'Catherine T.',
+    'app.s2.eyebrow': 'Recommandations IA',
+    'app.s2.reason1': 'Match parfait : secteur, budget et délai alignés.',
+    'app.s2.reason2': '+5% budget mais ROI locatif intéressant.',
+    'app.s2.reason3': 'Quartier limitrophe Verdun, prix sous budget.',
+    'app.s2.caption': 'Claude Haiku · ranking 30 inscriptions actives',
+    'app.s3.title': 'Échange · Catherine',
+    'app.s3.b1': 'Un condo 2 chambres dans Verdun, max 650',
+    'app.s3.b2': 'Parfait. Pré-approuvée hypothécaire?',
+    'app.s3.b3': 'Oui, jusqu’à 700',
+    'app.s3.b4': 'Délai de mise en marché?',
+    'app.s3.b5': 'Avant la fin du mois si possible',
+    'app.s3.handover': 'Joanel a repris la main · Klaris en retrait',
+    'app.s3.b6': 'Allo Catherine, Joanel ici. J’ai 3 condos pour toi.',
+    'app.s3.caption': 'Handover en un tap · audit log OACIQ',
+
     'archi.eyebrow': 'Architecture',
     'archi.title.full': 'Trois agents. <em>Une boucle.</em> Zéro lead perdu.',
     'archi.sub': "Sous le capot, Klaris est une orchestration multi-agent. Le prospect parle, Klaris écoute, score, et notifie.",
@@ -2062,6 +2424,27 @@ const I18N = {
     'demo.phone.name': 'Klaris · for Joanel',
     'demo.phone.status': 'online',
 
+    'app.eyebrow': 'iOS app',
+    'app.title': 'Not just SMS. <em>The broker app</em> is here.',
+    'app.sub': 'Native Cupertino. Dark mode. Claude-powered AI recommendations. OACIQ + Law 25 compliant.',
+    'app.s1.title': 'Prospects',
+    'app.s1.caption': 'Heat triage · 5 levels',
+    'app.s2.title': 'Catherine T.',
+    'app.s2.eyebrow': 'AI recommendations',
+    'app.s2.reason1': 'Perfect match: area, budget and timeline aligned.',
+    'app.s2.reason2': '+5% budget but solid rental ROI.',
+    'app.s2.reason3': 'Adjacent to Verdun, price under budget.',
+    'app.s2.caption': 'Claude Haiku · ranking 30 active listings',
+    'app.s3.title': 'Thread · Catherine',
+    'app.s3.b1': '2-bedroom condo in Verdun, max 650',
+    'app.s3.b2': 'Got it. Mortgage pre-approved?',
+    'app.s3.b3': 'Yes, up to 700',
+    'app.s3.b4': 'When are you looking to move?',
+    'app.s3.b5': 'Before end of month if possible',
+    'app.s3.handover': 'Joanel took over · Klaris stepped aside',
+    'app.s3.b6': 'Hi Catherine, Joanel here. I have 3 condos for you.',
+    'app.s3.caption': 'Handover in one tap · OACIQ audit log',
+
     'archi.eyebrow': 'Architecture',
     'archi.sub': "Under the hood, Klaris is a multi-agent orchestration. Prospect speaks, Klaris listens, scores, and notifies.",
     'archi.loop.text': 'Multi-turn conversational loop',
@@ -2212,6 +2595,7 @@ const I18N_HTML = {
   fr: {
     'pillars.title': 'Trois <em>promesses</em>. Pas de bullshit.',
     'archi.title': 'Trois agents. <em>Une boucle.</em> Zéro lead perdu.',
+    'app.title': "Pas que du SMS. <em>L'app courtier</em> est là.",
     'features.title': "Ce que Klaris fait <em>déjà aujourd'hui</em>.",
     'personas.title': 'Quatre courtiers. <em>Une même douleur.</em>',
     'stack.title': 'Stack <em>boring</em>. Résultats <em>spectaculaires</em>.',
@@ -2221,6 +2605,7 @@ const I18N_HTML = {
   en: {
     'pillars.title': 'Three <em>promises</em>. No bullshit.',
     'archi.title': 'Three agents. <em>One loop.</em> Zero leads lost.',
+    'app.title': 'Not just SMS. <em>The broker app</em> is here.',
     'features.title': 'What Klaris <em>already does today</em>.',
     'personas.title': 'Four brokers. <em>One shared pain.</em>',
     'stack.title': '<em>Boring</em> stack. <em>Spectacular</em> results.',

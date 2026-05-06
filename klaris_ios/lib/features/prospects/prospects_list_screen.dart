@@ -8,6 +8,9 @@ import '../../core/theme/klaris_typography.dart';
 import '../../core/widgets/heat_indicator.dart';
 import '../../data/models/prospect.dart';
 import '../../data/repositories/prospects_repository.dart';
+import '../briefing/briefing_screen.dart';
+import 'create_prospect_screen.dart';
+import 'prospect_filters_sheet.dart';
 
 class ProspectsListScreen extends ConsumerWidget {
   const ProspectsListScreen({super.key});
@@ -19,11 +22,76 @@ class ProspectsListScreen extends ConsumerWidget {
     final fg = context.klFg();
     final mutedFg = context.klMutedFg();
 
+    final advanced = ref.watch(advancedFilterProvider);
     return CupertinoPageScaffold(
       backgroundColor: context.klBg(),
       navigationBar: CupertinoNavigationBar(
         backgroundColor: context.klCard().withValues(alpha: 0.85),
+        leading: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              minSize: 0,
+              onPressed: () => Navigator.of(context, rootNavigator: true).push(
+                CupertinoPageRoute<void>(builder: (_) => const _BriefingNavWrapper()),
+              ),
+              child: Icon(CupertinoIcons.sun_max, color: context.klPrimary(), size: 22),
+            ),
+            const SizedBox(width: 12),
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              minSize: 0,
+              onPressed: () => context.push('/search'),
+              child: Icon(CupertinoIcons.search, color: context.klPrimary(), size: 22),
+            ),
+          ],
+        ),
         middle: Text(ref.s('prospects.title'), style: KlarisType.h3(fg)),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              minSize: 0,
+              onPressed: () => context.push('/map'),
+              child: Icon(CupertinoIcons.map_fill, color: context.klPrimary(), size: 22),
+            ),
+            const SizedBox(width: 12),
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              minSize: 0,
+              onPressed: () => context.push('/calendar'),
+              child: Icon(CupertinoIcons.calendar, color: context.klPrimary(), size: 22),
+            ),
+            const SizedBox(width: 12),
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              minSize: 0,
+              onPressed: () => showAdvancedFiltersSheet(context, ref),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Icon(CupertinoIcons.slider_horizontal_3, color: context.klPrimary(), size: 22),
+                  if (advanced.isActive)
+                    Positioned(
+                      right: -2, top: -2,
+                      child: Container(width: 8, height: 8, decoration: BoxDecoration(color: context.klPrimary(), shape: BoxShape.circle, border: Border.all(color: context.klCard(), width: 1.5))),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              minSize: 0,
+              onPressed: () => Navigator.of(context, rootNavigator: true).push(
+                CupertinoPageRoute<void>(builder: (_) => const CreateProspectScreen(), fullscreenDialog: true),
+              ),
+              child: Icon(CupertinoIcons.add_circled_solid, color: context.klPrimary(), size: 24),
+            ),
+          ],
+        ),
         border: Border(bottom: BorderSide(color: context.klBorder(), width: 0.5)),
       ),
       child: SafeArea(
@@ -88,6 +156,12 @@ class ProspectsListScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+class _BriefingNavWrapper extends StatelessWidget {
+  const _BriefingNavWrapper();
+  @override
+  Widget build(BuildContext context) => const BriefingScreen();
 }
 
 class _ProspectTile extends ConsumerWidget {
