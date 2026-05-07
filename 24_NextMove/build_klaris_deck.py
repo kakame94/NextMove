@@ -26,9 +26,9 @@ ROBOT_PNG = str(ASSETS / "klaris_robot.png")              # robot mascotte
 # DA — palette + type (source: klaris_ios/lib/core/theme/klaris_colors.dart)
 # ----------------------------------------------------------------------------
 
-TERRACOTTA       = RGBColor(0xFF, 0x5A, 0x36)   # match site --primary (favicon literal)
-TERRACOTTA_STRONG= RGBColor(0xCC, 0x48, 0x28)   # site --primary-strong (hover)
-TERRACOTTA_SOFT  = RGBColor(0xFF, 0xE2, 0xD6)   # ~10% terracotta on cream
+TERRACOTTA       = RGBColor(0xC2, 0x5A, 0x36)   # site --primary oklch(0.55 0.18 30)
+TERRACOTTA_STRONG= RGBColor(0xA8, 0x4A, 0x2A)   # site --primary-strong oklch(0.45 0.20 28)
+TERRACOTTA_SOFT  = RGBColor(0xF4, 0xDB, 0xCE)   # ~10% terracotta on cream
 CREAM            = RGBColor(0xFA, 0xF9, 0xF5)
 CREAM_DEEP       = RGBColor(0xEE, 0xEA, 0xE2)   # muted
 CHARCOAL         = RGBColor(0x2A, 0x25, 0x21)
@@ -429,7 +429,7 @@ def slide_01_cover(prs):
              font=BODY_FONT, size=18, color=CHARCOAL_60, line_spacing=1.4)
 
     # Eyebrow bas-gauche (style web: "Live · ... · v2.1")
-    add_eyebrow(slide, "Live  ·  pilote courtiers Grand Montreal  ·  v2.1",
+    add_eyebrow(slide, "Live  ·  pilote courtiers Grand Montréal  ·  v2.1",
                 Inches(0.6), Inches(SLIDE_H_IN - 0.95))
 
     # Credit bas-droite — domain klarisapp.ai
@@ -440,22 +440,22 @@ def slide_01_cover(prs):
              align=PP_ALIGN.RIGHT)
 
     set_notes(slide,
-              "Bonjour, je vous presente Klaris. C'est l'adjointe IA des courtiers "
+              "Bonjour, je vous présente Klaris. C'est l'adjointe IA des courtiers "
               "immobiliers. Elle qualifie tes prospects par SMS — pendant que toi, "
-              "tu vends. (Pause apres la tagline. Laisse landing.)")
+              "tu vends. (Pause après la tagline. Laisse landing.)")
     return slide
 
 
 def slide_02_probleme(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
-    add_eyebrow(slide, "Le probleme", Inches(0.6), Inches(0.6))
-    add_h2(slide, "L'admin tue les courtiers. Pas le marche.",
+    add_eyebrow(slide, "Le problème", Inches(0.6), Inches(0.6))
+    add_h2(slide, "L'admin tue les courtiers. Pas le marché.",
            Inches(0.6), Inches(1.0), Inches(11), size=28)
 
     cards = [
-        ("30-60 min", "pour rediger une offre d'achat a la main"),
-        ("+24h", "de delai moyen avant de repondre a un nouveau lead"),
+        ("30-60 min", "pour rédiger une offre d'achat à la main"),
+        ("+24h", "de délai moyen avant de répondre à un nouveau lead"),
         ("80%", "des CRMs de franchise sont vides — saisie manuelle = adoption nulle"),
     ]
     card_w = Inches(3.8)
@@ -492,25 +492,25 @@ def slide_02_probleme(prs):
 
     add_footer(slide, 2)
     set_notes(slide,
-              "Avant de parler de Klaris, parlons du probleme. On a interviewe 4 "
+              "Avant de parler de Klaris, parlons du problème. On a interviewé 4 "
               "courtiers terrain en mars. Tous les quatre, sans exception, nous "
-              "ont dit la meme chose : leur probleme n1 n'est pas le marche, c'est "
-              "l'admin. Ce n'est pas un probleme d'effort. C'est un probleme de "
-              "systeme.")
+              "ont dit la même chose : leur problème n°1 n'est pas le marché, c'est "
+              "l'admin. Ce n'est pas un problème d'effort. C'est un problème de "
+              "système.")
     return slide
 
 
 def slide_03_cout_inaction(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
-    add_eyebrow(slide, "Cout de l'inaction", Inches(0.6), Inches(0.6))
+    add_eyebrow(slide, "Coût de l'inaction", Inches(0.6), Inches(0.6))
     add_h2(slide, "Le courtier perd ce qu'il fait le mieux.",
            Inches(0.6), Inches(1.0), Inches(11), size=28)
 
     cards = [
-        ("Temps perdu", "2h+/jour en admin = 10h+/semaine = 1 transaction/mois ratee", "icon_clock"),
-        ("Prospects perdus", "Un lead chaud sans reponse en 1h se refroidit, parle a la concurrence", "icon_thermo"),
-        ("Plafond impose", "Sans systemes, impossible de scaler de 3 a 10 transactions/mois", "icon_chart"),
+        ("Temps perdu", "2h+/jour en admin = 10h+/semaine = 1 transaction/mois ratée", "icon_clock"),
+        ("Prospects perdus", "Un lead chaud sans réponse en 1h se refroidit, parle à la concurrence", "icon_thermo"),
+        ("Plafond imposé", "Sans systèmes, impossible de scaler de 3 à 10 transactions/mois", "icon_chart"),
     ]
     card_w = Inches(3.8)
     card_h = Inches(3.7)
@@ -544,8 +544,8 @@ def slide_03_cout_inaction(prs):
 
     add_footer(slide, 3)
     set_notes(slide,
-              "Concretement, ca coute quoi ? Premier cout: le temps. Deuxieme: les "
-              "prospects. Troisieme: le plafond. Sans systeme, pas moyen de scaler.")
+              "Concrètement, ça coûte quoi ? Premier coût : le temps. Deuxième : les "
+              "prospects. Troisième : le plafond. Sans système, pas moyen de scaler.")
     return slide
 
 
@@ -573,7 +573,7 @@ def slide_04_solution(prs):
              line_spacing=1.3)
 
     add_text(slide,
-             "Un seul outil. Un seul abonnement. Conformite OACIQ par defaut. Bilingue FR / EN.",
+             "Un seul outil. Un seul abonnement. Conformité OACIQ par défaut. Bilingue FR / EN.",
              rx, Inches(4.85), Inches(6.0), Inches(1.0),
              font=BODY_FONT, size=14, color=CHARCOAL_60, line_spacing=1.45)
 
@@ -594,10 +594,10 @@ def slide_04_solution(prs):
 
     add_footer(slide, 4)
     set_notes(slide,
-              "Notre solution s'appelle Klaris. C'est une assistante IA specialisee "
+              "Notre solution s'appelle Klaris. C'est une assistante IA spécialisée "
               "pour les courtiers immo. Trois principes : un seul outil, un seul "
-              "abonnement, conformite OACIQ par defaut. Et — detail important — "
-              "Klaris se presente toujours comme l'assistante du courtier. Jamais "
+              "abonnement, conformité OACIQ par défaut. Et — détail important — "
+              "Klaris se présente toujours comme l'assistante du courtier. Jamais "
               "comme un robot.")
     return slide
 
@@ -605,14 +605,14 @@ def slide_04_solution(prs):
 def slide_05_comment(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
-    add_eyebrow(slide, "Comment ca marche", Inches(0.6), Inches(0.6))
+    add_eyebrow(slide, "Comment ça marche", Inches(0.6), Inches(0.6))
     add_h2(slide, "SMS arrive. Klaris qualifie. Tu fermes.",
            Inches(0.6), Inches(1.0), Inches(11), size=28)
 
     steps = [
-        ("1", "Le prospect texte", "ton numero habituel."),
-        ("2", "Klaris pose 5 questions cles", "et resume — ton chaleureux Quebecois."),
-        ("3", "Le lead chaud apparait", "dans ton dashboard avec un score de temperature."),
+        ("1", "Le prospect texte", "ton numéro habituel."),
+        ("2", "Klaris pose 5 questions clés", "et résume — ton chaleureux québécois."),
+        ("3", "Le lead chaud apparaît", "dans ton dashboard avec un score de température."),
     ]
     circle_d = Inches(1.0)
     col_w = Inches(3.6)
@@ -663,17 +663,17 @@ def slide_05_comment(prs):
 
     add_footer(slide, 5)
     set_notes(slide,
-              "Trois etapes. Un : le prospect texte ton numero habituel. Pas de QR "
-              "code, pas d'app a installer. Deux : Klaris pose 5 questions cles. "
+              "Trois étapes. Un : le prospect texte ton numéro habituel. Pas de QR "
+              "code, pas d'app à installer. Deux : Klaris pose 5 questions clés. "
               "Trois : le lead arrive dans ton dashboard avec un score de "
-              "temperature. Tu rappelles quand le moment est bon.")
+              "température. Tu rappelles quand le moment est bon.")
     return slide
 
 
 def slide_06_demo_sms(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
-    add_eyebrow(slide, "Demo", Inches(0.6), Inches(0.6))
+    add_eyebrow(slide, "Démo", Inches(0.6), Inches(0.6))
     add_h2(slide, "Une vraie conversation. Pas un formulaire.",
            Inches(0.6), Inches(1.0), Inches(7.5), size=26)
 
@@ -686,9 +686,9 @@ def slide_06_demo_sms(prs):
              font=BODY_FONT, size=15, color=CHARCOAL, line_spacing=1.4)
 
     bullets = [
-        ("Le prospect texte ton numero a 19h47", left_y + Inches(0.7)),
-        ("Klaris repond en moins de 10 secondes", left_y + Inches(1.4)),
-        ("Tu recois la fiche prospect prete au prochain coup d'oeil", left_y + Inches(2.1)),
+        ("Le prospect texte ton numéro à 19h47", left_y + Inches(0.7)),
+        ("Klaris répond en moins de 10 secondes", left_y + Inches(1.4)),
+        ("Tu reçois la fiche prospect prête au prochain coup d'œil", left_y + Inches(2.1)),
     ]
     for b, by in bullets:
         # Bullet dot
@@ -698,7 +698,7 @@ def slide_06_demo_sms(prs):
                  Inches(6.5), Pt(28),
                  font=BODY_FONT, size=14, color=CHARCOAL, line_spacing=1.4)
 
-    add_text(slide, "C O N V E R S A T I O N   R E E L L E   ·   P I L O T E   T E R R A I N",
+    add_text(slide, "C O N V E R S A T I O N   R É E L L E   ·   P I L O T E   T E R R A I N",
              left_x, left_y + Inches(3.0), Inches(7), Pt(20),
              font=MONO_FONT, size=9, bold=True, color=TERRACOTTA)
 
@@ -711,10 +711,10 @@ def slide_06_demo_sms(prs):
 
     add_footer(slide, 6)
     set_notes(slide,
-              "Voila a quoi ressemble une vraie conversation. Une question a la "
-              "fois. Pas de mur de texte. Ton naturel. C'est calibre sur les "
-              "courtiers du terrain. Et pendant que tu visites une autre propriete, "
-              "Klaris fait tout ca.")
+              "Voilà à quoi ressemble une vraie conversation. Une question à la "
+              "fois. Pas de mur de texte. Ton naturel. C'est calibré sur les "
+              "courtiers du terrain. Et pendant que tu visites une autre propriété, "
+              "Klaris fait tout ça.")
     return slide
 
 
@@ -773,11 +773,11 @@ def draw_iphone_sms(slide, x, y, w, h):
 
     # Bubbles
     bubbles = [
-        ("Bonsoir, je cherche un duplex a Verdun, budget 450K", "in",  "19:47"),
+        ("Bonsoir, je cherche un duplex à Verdun, budget 450K", "in",  "19:47"),
         ("Bonsoir ! Merci de contacter Joanel. Je suis son assistante. Acheter ou vendre ?", "out", "19:47"),
         ("Acheter", "in",  "19:48"),
         ("Super ! Dans quel secteur tu cherches ?", "out", "19:48"),
-        ("Verdun ou Saint-Henri idealement", "in", "19:49"),
+        ("Verdun ou Saint-Henri idéalement", "in", "19:49"),
     ]
     bub_y = header_y + header_h + Inches(0.18)
     bub_max_w = sw - Inches(0.6)
@@ -848,10 +848,10 @@ def slide_07_crm_scoring(prs):
     add_bg(slide)
     add_eyebrow(slide, "CRM intelligent", Inches(0.6), Inches(0.6))
     add_h2(slide,
-           "Chaque prospect, une temperature. Tu sais qui rappeler en premier.",
+           "Chaque prospect, une température. Tu sais qui rappeler en premier.",
            Inches(0.6), Inches(1.0), Inches(12), size=24)
     add_body(slide,
-             "5 niveaux calcules automatiquement depuis la conversation SMS, le delai de reponse, et le budget.",
+             "5 niveaux calculés automatiquement depuis la conversation SMS, le délai de réponse, et le budget.",
              Inches(0.6), Inches(2.0), Inches(12), Inches(0.6),
              size=14, color=CHARCOAL_60)
 
@@ -871,7 +871,7 @@ def slide_07_crm_scoring(prs):
     heat_w = add_heat_dots(slide, cx + cw - Inches(2.0), cy + Inches(0.4), level=4)
 
     # Mono caption
-    add_text(slide, "R E C U   ·   V E R D U N   ·   4 2 5 K   ·   D U P L E X",
+    add_text(slide, "R E Ç U   ·   V E R D U N   ·   4 2 5 K   ·   D U P L E X",
              cx + Inches(0.4), cy + Inches(0.95),
              Inches(7), Inches(0.3),
              font=MONO_FONT, size=8, bold=True, color=CHARCOAL_60)
@@ -885,7 +885,7 @@ def slide_07_crm_scoring(prs):
     sep.line.fill.background()
 
     # 3 mini-tiles
-    tiles = [("Budget", "425 000 $"), ("Secteur", "Verdun, St-Henri"), ("Delai", "< 60 jours")]
+    tiles = [("Budget", "425 000 $"), ("Secteur", "Verdun, St-Henri"), ("Délai", "< 60 jours")]
     tile_w = (cw - Inches(0.8)) / 3
     for i, (label, value) in enumerate(tiles):
         tx = cx + Inches(0.4) + i * tile_w
@@ -1052,7 +1052,7 @@ def slide_09_features(prs):
         ("C", "Calendrier RDV",   "Strip 14 jours, sync iOS native"),
         ("V", "Voicemail intake", "Appel manque -> fiche prospect auto"),
         ("M", "Templates SMS",    "Placeholders {nom} {secteur} {budget}"),
-        ("P", "Stats + PDF",      "Auto-genere chaque mois"),
+        ("P", "Stats + PDF",      "Auto-généré chaque mois"),
     ]
 
     cell_w = Inches(5.8)
@@ -1087,8 +1087,8 @@ def slide_09_features(prs):
 
     add_footer(slide, 9)
     set_notes(slide,
-              "Voici l'inventaire des fonctionnalites livrees. Les 4 premieres "
-              "sont les coeurs metier. Les 4 suivantes sont des outils du "
+              "Voici l'inventaire des fonctionnalités livrées. Les 4 premières "
+              "sont les cœurs métier. Les 4 suivantes sont des outils du "
               "quotidien — calendrier, voicemail intake, templates SMS, stats et "
               "rapports PDF mensuels.")
     return slide
@@ -1099,7 +1099,7 @@ def slide_10_voicemail_calendrier(prs):
     add_bg(slide)
     add_eyebrow(slide, "Intake complet", Inches(0.6), Inches(0.6))
     add_h2(slide,
-           "Un appel manque ne se perd plus. Un RDV se prend en deux taps.",
+           "Un appel manqué ne se perd plus. Un RDV se prend en deux taps.",
            Inches(0.6), Inches(1.0), Inches(12), size=24)
 
     # 2 colonnes mockups
@@ -1113,7 +1113,7 @@ def slide_10_voicemail_calendrier(prs):
     # GAUCHE — Voicemail
     lx = start_x
     add_card(slide, lx, y, col_w, col_h)
-    add_text(slide, "A P P E L   M A N Q U E   ·   1 4 : 2 3   ·   3 8 s",
+    add_text(slide, "A P P E L   M A N Q U É   ·   1 4 : 2 3   ·   3 8 s",
              lx + Inches(0.35), y + Inches(0.3),
              col_w - Inches(0.7), Pt(18),
              font=MONO_FONT, size=9, bold=True, color=TERRACOTTA)
@@ -1158,7 +1158,7 @@ def slide_10_voicemail_calendrier(prs):
     fc.fill.fore_color.rgb = CREAM
     fc.line.color.rgb = BORDER
     fc.line.width = Pt(0.75)
-    add_text(slide, "FICHE GENEREE  ->  David Mercier · Hochelaga · triplex",
+    add_text(slide, "FICHE GÉNÉRÉE  →  David Mercier · Hochelaga · triplex",
              lx + Inches(0.55), fc_y + Inches(0.13),
              col_w - Inches(2.0), Inches(0.25),
              font=MONO_FONT, size=8, bold=True, color=CHARCOAL)
@@ -1243,20 +1243,20 @@ def slide_10_voicemail_calendrier(prs):
 
     add_footer(slide, 10)
     set_notes(slide,
-              "Deux modules supplementaires. A gauche, le voicemail intake : "
-              "quand un prospect appelle et que tu ne reponds pas, on transcrit en "
-              "francais via Whisper, on qualifie via Claude, et la fiche est creee. "
-              "A droite, le calendrier des RDV avec sync iOS native. Tout reste "
-              "dans ton ecosysteme habituel.")
+              "Deux modules supplémentaires. À gauche, le voicemail intake : "
+              "quand un prospect appelle et que tu ne réponds pas, on transcrit en "
+              "français via Whisper, on qualifie via Claude, et la fiche est créée. "
+              "À droite, le calendrier des RDV avec sync iOS native. Tout reste "
+              "dans ton écosystème habituel.")
     return slide
 
 
 def slide_11_stats_conformite(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
-    add_eyebrow(slide, "Stats et conformite", Inches(0.6), Inches(0.6))
+    add_eyebrow(slide, "Stats et conformité", Inches(0.6), Inches(0.6))
     add_h2(slide,
-           "Tu vois ta progression. La regie ne t'inquiete plus.",
+           "Tu vois ta progression. La régie ne t'inquiète plus.",
            Inches(0.6), Inches(1.0), Inches(12), size=26)
 
     # Bloc gauche — chart
@@ -1272,7 +1272,7 @@ def slide_11_stats_conformite(prs):
              font=BODY_FONT, size=14, bold=True, color=CHARCOAL)
 
     # 4 mini KPI top row
-    kpis = [("47", "Nouveaux"), ("28", "Qualifies"),
+    kpis = [("47", "Nouveaux"), ("28", "Qualifiés"),
             ("8", "Conclus"), ("34%", "Taux close")]
     kpi_w = (lw - Inches(0.7)) / 4
     for i, (n, lab) in enumerate(kpis):
@@ -1349,7 +1349,7 @@ def slide_11_stats_conformite(prs):
 
     # Legende dots (sous month labels, au-dessus de la caption)
     leg_y = ly + lh - Inches(0.85)
-    leg_items = [(CREAM_DEEP, "Nouveaux"), (TERRACOTTA_SOFT, "Qualifies"),
+    leg_items = [(CREAM_DEEP, "Nouveaux"), (TERRACOTTA_SOFT, "Qualifiés"),
                  (TERRACOTTA, "Conclus")]
     leg_x = lx + Inches(0.6)
     for col, lab in leg_items:
@@ -1367,15 +1367,15 @@ def slide_11_stats_conformite(prs):
     rh = Inches(4.6)
     add_card(slide, rx, ry, rw, rh)
 
-    add_text(slide, "C O N F O R M I T E   B A K E E",
+    add_text(slide, "C O N F O R M I T É   B A K É E",
              rx + Inches(0.35), ry + Inches(0.3),
              rw - Inches(0.7), Inches(0.3),
              font=MONO_FONT, size=9, bold=True, color=TERRACOTTA)
 
     items = [
-        ("OACIQ", "Regles metier integrees, pas un patch"),
-        ("Loi 25", "Consentement, audit log, droits d'acces"),
-        ("CASL", "Opt-out auto, horaires QC, frequence encadree"),
+        ("OACIQ", "Règles métier intégrées, pas un patch"),
+        ("Loi 25", "Consentement, audit log, droits d'accès"),
+        ("CASL", "Opt-out auto, horaires QC, fréquence encadrée"),
     ]
     iy = ry + Inches(1.0)
     for title, body in items:
@@ -1403,7 +1403,7 @@ def slide_11_stats_conformite(prs):
 
     # Mention legale bas
     add_text(slide,
-             "DONNEES HEBERGEES CA-CENTRAL-1  ·  RLS POSTGRES",
+             "DONNÉES HÉBERGÉES CA-CENTRAL-1  ·  RLS POSTGRES",
              rx + Inches(0.35), ry + rh - Inches(0.45),
              rw - Inches(0.7), Inches(0.3),
              font=MONO_FONT, size=7, bold=True, color=CHARCOAL_60)
@@ -1418,10 +1418,10 @@ def slide_11_stats_conformite(prs):
 
     add_footer(slide, 11)
     set_notes(slide,
-              "Tu vois ta progression mois apres mois. 4 KPIs en haut. Chart 6 mois "
-              "avec 3 niveaux : nouveaux, qualifies, conclus. Et un rapport PDF "
-              "auto-genere chaque 1er du mois. A droite : la conformite. OACIQ, "
-              "Loi 25, CASL — bakee dans l'archi, pas patchee apres.")
+              "Tu vois ta progression mois après mois. 4 KPIs en haut. Chart 6 mois "
+              "avec 3 niveaux : nouveaux, qualifiés, conclus. Et un rapport PDF "
+              "auto-généré chaque 1er du mois. À droite : la conformité. OACIQ, "
+              "Loi 25, CASL — bakée dans l'archi, pas patchée après.")
     return slide
 
 
@@ -1430,7 +1430,7 @@ def slide_12_pourquoi(prs):
     add_bg(slide)
     add_eyebrow(slide, "Momentum", Inches(0.6), Inches(0.6))
     add_h2(slide,
-           "L'IA touche enfin les metiers terrain. Klaris est construit ici, par ici, pour ici.",
+           "L'IA touche enfin les métiers terrain. Klaris est construit ici, par ici, pour ici.",
            Inches(0.6), Inches(1.0), Inches(12), size=22)
 
     # 2 colonnes
@@ -1455,9 +1455,9 @@ def slide_12_pourquoi(prs):
              lx, y, col_w, Pt(28),
              font=BODY_FONT, size=18, bold=True, color=TERRACOTTA)
     pm = [
-        ("Cout d'usage", "divise par 100 en 2 ans — l'IA est devenue accessible sur abonnement"),
-        ("Adoption SMS", "95% des QC textent quotidiennement, 0% lit ses emails de courtiers a temps"),
-        ("Pression reglementaire", "Loi 25, CASL, OACIQ — les outils non-conformes vont etre bannis"),
+        ("Coût d'usage", "divisé par 100 en 2 ans — l'IA est devenue accessible sur abonnement"),
+        ("Adoption SMS", "95% des QC textent quotidiennement, 0% lit ses emails de courtiers à temps"),
+        ("Pression réglementaire", "Loi 25, CASL, OACIQ — les outils non-conformes vont être bannis"),
     ]
     iy = y + Inches(0.7)
     for title, body in pm:
@@ -1478,9 +1478,9 @@ def slide_12_pourquoi(prs):
              rx, y, col_w, Pt(28),
              font=BODY_FONT, size=18, bold=True, color=TERRACOTTA)
     pn = [
-        ("Methodologie JTBD", "4 personas valides, 12 patterns terrain, 0 hypothese"),
-        ("Conformite d'abord", "bakee dans l'archi, pas patchee apres"),
-        ("Klaris parle ton vocabulaire", "Centris, plex, hypotheque, secteur. Pas un CRM generique traduit."),
+        ("Méthodologie JTBD", "4 personas validés, 12 patterns terrain, 0 hypothèse"),
+        ("Conformité d'abord", "bakée dans l'archi, pas patchée après"),
+        ("Klaris parle ton vocabulaire", "Centris, plex, hypothèque, secteur. Pas un CRM générique traduit."),
     ]
     iy = y + Inches(0.7)
     for title, body in pn:
@@ -1496,10 +1496,10 @@ def slide_12_pourquoi(prs):
 
     add_footer(slide, 12)
     set_notes(slide,
-              "Pourquoi maintenant : l'IA est accessible, le SMS est le canal n1 "
-              "au QC, et la pression reglementaire bannit bientot les outils non "
-              "conformes. Pourquoi nous : methodologie JTBD basee sur 4 courtiers "
-              "interviewes en profondeur, conformite first, et vocabulaire local.")
+              "Pourquoi maintenant : l'IA est accessible, le SMS est le canal n°1 "
+              "au QC, et la pression réglementaire bannit bientôt les outils non "
+              "conformes. Pourquoi nous : méthodologie JTBD basée sur 4 courtiers "
+              "interviewés en profondeur, conformité first, et vocabulaire local.")
     return slide
 
 
@@ -1532,7 +1532,7 @@ def slide_13_tarifs(prs):
     border.line.color.rgb = TERRACOTTA
     border.line.width = Pt(2.5)
 
-    # Badge "RECOMMANDE POUR TOI" — style site (top: -12px, right: 24px)
+    # Badge "RECOMMANDÉ POUR TOI" — style site (top: -12px, right: 24px)
     badge_w = Inches(2.0)
     badge_h = Inches(0.32)
     bx = sx + card_w - badge_w - Inches(0.25)
@@ -1564,8 +1564,8 @@ def slide_13_tarifs(prs):
              font=BODY_FONT, size=12, color=CHARCOAL_60)
 
     # Features
-    feats = ["Chatbot SMS illimite",
-             "CRM avec scoring temperature",
+    feats = ["Chatbot SMS illimité",
+             "CRM avec scoring température",
              "Relances automatiques J+2 / J+5 / J+10",
              "Briefing quotidien 7h30",
              "Bilingue FR / EN"]
@@ -1603,8 +1603,8 @@ def slide_13_tarifs(prs):
 
     feats_a = ["Tout du Solo",
                "Dashboard direction",
-               "Templates personnalises",
-               "SLA 99.9% + onboarding dedie"]
+               "Templates personnalisés",
+               "SLA 99.9% + onboarding dédié"]
     fy = y + Inches(2.25)
     for f in feats_a:
         add_text(slide, "v", ax + Inches(0.4), fy,
@@ -1629,9 +1629,9 @@ def slide_13_tarifs(prs):
     add_footer(slide, 13)
     set_notes(slide,
               "Solo : 100$ par mois. Tout inclus. Pas de frais de mise en route, "
-              "annulable a tout moment, hebergement Canada inclus. Agence : 200$ "
-              "par courtier par mois pour les franchises. Compare a 2500-3000$ "
-              "pour une assistante temps plein QC, c'est divise par 25-30.")
+              "annulable à tout moment, hébergement Canada inclus. Agence : 200$ "
+              "par courtier par mois pour les franchises. Comparé à 2500-3000$ "
+              "pour une assistante temps plein QC, c'est divisé par 25-30.")
     return slide
 
 
@@ -1649,10 +1649,10 @@ def slide_14_temoignage_contact(prs):
              font=BODY_FONT, size=110, bold=True, color=TERRACOTTA_SOFT,
              line_spacing=1.0)
 
-    quote = ("Une IA qui genere une offre d'achat en un rien de temps. Pendant "
-             "que je suis en visite, Klaris parle a mes prospects et me sort une "
-             "fiche prete. Avant, je rentrais au bureau et je perdais 30-60 "
-             "minutes par offre. La, c'est secondes.")
+    quote = ("Une IA qui génère une offre d'achat en un rien de temps. Pendant "
+             "que je suis en visite, Klaris parle à mes prospects et me sort une "
+             "fiche prête. Avant, je rentrais au bureau et je perdais 30-60 "
+             "minutes par offre. Là, c'est en secondes.")
     add_text(slide, quote,
              Inches(2.0), Inches(1.3),
              Inches(SLIDE_W_IN - 2.6), Inches(2.3),
@@ -1661,7 +1661,7 @@ def slide_14_temoignage_contact(prs):
 
     # Attribution (sans letterspaced pour eviter wrap)
     add_text(slide,
-             "JOANEL D.  ·  COURTIER IMMOBILIER  ·  GRAND MONTREAL  ·  90% CLOSE RATE  ·  PILOTE KLARIS",
+             "JOANEL D.  ·  COURTIER IMMOBILIER  ·  GRAND MONTRÉAL  ·  90% CLOSE RATE  ·  PILOTE KLARIS",
              Inches(2.0), Inches(3.65),
              Inches(SLIDE_W_IN - 2.6), Inches(0.4),
              font=MONO_FONT, size=9, bold=True, color=TERRACOTTA)
@@ -1675,11 +1675,11 @@ def slide_14_temoignage_contact(prs):
     sep.line.fill.background()
 
     # === BOTTOM — Contact ===
-    add_eyebrow(slide, "Prochaines etapes", Inches(0.6), Inches(4.55))
-    add_h2(slide, "Reservons 15 minutes.",
+    add_eyebrow(slide, "Prochaines étapes", Inches(0.6), Inches(4.55))
+    add_h2(slide, "Réservons 15 minutes.",
            Inches(0.6), Inches(4.95), Inches(12), size=26)
     add_text(slide,
-             "Demo personnalisee, sur ton cas reel. Pas de pression. Pas de carte de credit.",
+             "Démo personnalisée, sur ton cas réel. Pas de pression. Pas de carte de crédit.",
              Inches(0.6), Inches(5.6), Inches(SLIDE_W_IN - 1.2), Inches(0.5),
              font=BODY_FONT, size=14, color=CHARCOAL_60)
 
@@ -1713,10 +1713,10 @@ def slide_14_temoignage_contact(prs):
              align=PP_ALIGN.CENTER)
 
     set_notes(slide,
-              "Temoignage de Joanel, pilote actuel. Lis lentement, laisse "
+              "Témoignage de Joanel, pilote actuel. Lis lentement, laisse "
               "respirer. Puis : on ne te demande pas de t'engager. On te demande "
-              "15 minutes. Demo personnalisee sur ton cas reel. Pas de pression, "
-              "pas de carte de credit. Mon email est sur l'ecran. A toi de jouer.")
+              "15 minutes. Démo personnalisée sur ton cas réel. Pas de pression, "
+              "pas de carte de crédit. Mon email est sur l'écran. À toi de jouer.")
     return slide
 
 
