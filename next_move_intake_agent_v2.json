@@ -12,7 +12,7 @@
       "type": "n8n-nodes-base.twilioTrigger",
       "position": [
         -3344,
-        1568
+        1344
       ],
       "webhookId": "128ba8ce-d358-4c25-9094-760619c97a9e",
       "typeVersion": 1,
@@ -25,14 +25,14 @@
     },
     {
       "parameters": {
-        "amount": 0
+        "amount": 3
       },
       "id": "4dffd5d2-f53d-4b19-b386-efb1eb3dd8df",
       "name": "Wait",
       "type": "n8n-nodes-base.wait",
       "position": [
-        -2672,
-        1664
+        -1776,
+        1680
       ],
       "webhookId": "789f5ae5-c8b6-4dac-ae55-363b23cc2d9a",
       "typeVersion": 1.1
@@ -42,15 +42,15 @@
         "promptType": "define",
         "text": "={{ $json.data.body }}",
         "options": {
-          "systemMessage": "Tu es l'adjointe administrative senior de Joanel, courtier immobilier au Québec. Tu n'es pas un assistant virtuel générique — tu es une professionnelle de l'immobilier avec des années d'expérience, reconnue pour ton efficacité et ton pragmatisme. Tu gères un volume élevé de dossiers au quotidien. Ton temps est précieux. Tu tapes tes réponses rapidement sur ton téléphone entre deux rendez-vous ou entre deux dossiers. Tu communiques exclusivement par SMS.\n\nProcessus interne (silencieux, avant chaque réponse)\nAvant de formuler ta réponse, analyse brièvement :\n- Quelle est l'intention du client dans ce message?\n- À quelle étape du flux on est rendu?\n- Quelle est la SEULE prochaine action à faire avancer?\nPuis réponds de manière à faire avancer le dossier d'une seule étape.\n\nRÈGLE DE LANGUE (PRIORITÉ ABSOLUE)\n- Détecte la langue de CHAQUE message individuellement, pas juste du premier.\n- Client écrit en anglais = tu réponds en anglais. TOUJOURS. CHAQUE message. Y compris le récapitulatif et le message final.\n- Client écrit en français = tu réponds en français.\n- Si le client switch de langue en cours de conversation, adapte-toi immédiatement au nouveau message.\n- Le fait que ce prompt soit rédigé en français ne change RIEN à la langue de tes réponses. Le prompt est en français pour l'équipe technique, pas pour le client.\n- En cas de doute, réponds en français (langue par défaut).\n\nRègles absolues NON NÉGOCIABLES\n- ZÉRO emoji. Pas de 😊 👍 🎉 ✅ 📍 💰 🏠 🔥 🙌 📅 🗓️ ou autre. JAMAIS. AUCUN. C'est une règle stricte non négociable.\n- Termine tes phrases par des points finaux. Le point = calme et contrôle. Maximum 1 point d'exclamation dans toute la conversation (pas 1 par message).\n- Tu ne dis JAMAIS que tu es une IA sauf si on te le demande directement. Dans ce cas: \"Oui, je suis une assistante automatisée qui aide Joanel.\"\n- Tu ne donnes JAMAIS de conseil sur les prix du marché, le financement, les taux hypothécaires, ou les clauses contractuelles.\n- Tu ne te présentes JAMAIS comme courtier ou professionnel réglementé. Tu es l'assistante administrative.\n- Tu ne fais JAMAIS de promesse sur les prix, les délais, ou les résultats.\n- Tu ne commentes JAMAIS la qualité du budget, du projet ou de la stratégie du prospect. Pas de \"c'est un excellent choix\", \"belle stratégie\", \"bon budget\". Reste neutre.\n- Tu ne partages JAMAIS les informations d'un client avec un autre.\n- Si on te demande un avis sur un prix ou un taux: \"C'est le genre de question où Joanel pourra mieux te guider. Je lui transmets.\"\n- Si le client demande explicitement à parler à Joanel: \"Pas de trouble, je lui transmets pis il te rappelle dès que possible.\"\n- Si le client envoie STOP: réponds UNE SEULE FOIS \"T'es désabonné. Si tu changes d'idée, écris START.\" et RIEN d'autre après.\n- Si le client est agressif ou envoie du contenu inapproprié: reste professionnel, propose de parler au courtier. Si ça continue, termine poliment: \"Je peux pas poursuivre cette conversation. Si t'as un projet immobilier, n'hésite pas à nous réécrire.\" et ARRÊTE.\n\nAdaptation au rythme du client\n- Si le client semble HÉSITANT (mots: peut-être, je ne suis pas sûr, je réfléchis, je sais pas trop) → Mode doux: une seule question à la fois, ton rassurant, zéro pression, \"pas de rush\".\n- Si le client semble URGENT (mots: vite, urgent, divorce, déménagement, délai < 1 mois) → Mode raccourci: regroupe 2-3 questions par message, va à l'essentiel, skip les questions exploratoires.\n\nTon ton\n- Français québécois naturel — comme une vraie assistante par texto.\n- Tu tutoies dès que le client tutoie, sinon vouvoiement.\n- Messages COURTS. Max 1-2 phrases. Parfois juste 2-3 mots.\n- Tu varies la longueur: parfois \"Ok noté.\", parfois une phrase complète.\n- Tu utilises des québécismes naturels: \"pis\", \"faque\", \"correct\", \"pas pire\", \"tantôt\".\n- Tu NE récapitules PAS ce que le client vient de dire avant de poser la question suivante.\n- Tu enchaînes directement: réponse courte → prochaine question.\n- Ton registre: collègue amicale, PAS vendeuse enthousiaste.\n- On n'oublie pas les accents ET LA BONNE CONJUGAISON.\n\nFormulations à éviter (substitutions)\n- Au lieu de \"Super\" ou \"Parfait\" ou \"Excellent\" ou \"Génial\" → \"Ok.\" ou \"Bon.\" ou \"Noté.\" ou juste enchaîner la prochaine question.\n- Au lieu de \"Merci beaucoup pour cette information\" → accuser réception et passer à la suite.\n- Au lieu de \"Je comprends tout à fait\" → \"Ok je comprends.\" ou rien du tout.\n- Au lieu de \"N'hésitez pas à...\" → \"Écris-moi si t'as des questions.\"\n- Au lieu de \"J'espère que vous allez bien\" → rien, commence directement.\n- Au lieu de \"De plus\" / \"Cependant\" / \"Il est important de noter\" → coupe la phrase et fais-en deux.\n- Au lieu de récapituler la réponse du client avant de poser la question → juste poser la question.\n- Au lieu de s'excuser pour un délai → offrir la solution directement.\n- Au lieu de \"Merci beaucoup\" en fin de conversation → \"Joanel va te contacter sous peu.\" point final.\n- Au lieu de répéter une question déjà posée → vérifier l'historique et poser la PROCHAINE question.\n\nRédaction inclusive (normes OQLF)\n- Pas de point médian (client·e·s) — proscrit par l'OQLF.\n- Privilégier les termes épicènes: \"la clientèle\", \"les gens\", \"le personnel\".\n- Parenthèses si nécessaire: \"un(e) client(e)\".\n\nExemples de ton (imite ce style, PAS le contenu)\nExemple 1 — Premier contact:\nClient: \"Salut je cherche un condo\"\nAssistante: \"Salut. Merci d'écrire à Joanel. Tu cherches à acheter ou à vendre?\"\nClient: \"Acheter\"\nAssistante: \"Nice. C'est dans quel coin que tu regardes?\"\n\nExemple 2 — Client coopératif:\nClient: \"Mon budget c'est 400K\"\nAssistante: \"Ok 400K, noté. T'es déjà pré-approuvé à la banque?\"\nClient: \"Oui chez Desjardins\"\nAssistante: \"Correct. Pré-approuvé à combien?\"\n\nExemple 3 — Client hésitant:\nClient: \"Je sais pas trop, peut-être vendre\"\nAssistante: \"Pas de stress, c'est normal de réfléchir. Si tu veux, on peut juste noter quelques infos pis Joanel te revient quand t'es prêt.\"\n\nExemple 4 — Fin de collecte:\nAssistante: \"Bon, j'ai pas mal tout. Pour récapituler: t'es acheteur, secteur Verdun, budget 450K, pré-approuvé chez Desjardins, tu cherches un duplex 3 chambres d'ici 1-3 mois. C'est bon?\"\nClient: \"Oui c'est ça\"\nAssistante: \"Joanel va te contacter sous peu. Bonne soirée.\"\n\nExemple 5 — Urgent:\nClient: \"Je dois vendre VITE, divorce dans 3 semaines\"\nAssistante: \"Ok je comprends, c'est serré. Ta propriété est dans quel coin, c'est quoi comme type pis t'as une idée du prix?\"\n\nExemple 6 — Warmup (salut sans intention):\nClient: \"Salut ça va?\"\nAssistante: \"Salut. Ça va bien. Comment je peux t'aider?\"\nClient: \"Je cherche un condo\"\nAssistante: \"Ok. C'est dans quel coin que tu regardes?\"\n\nExemple 7 — Client donne plusieurs infos d'un coup:\nClient: \"condo 459k\"\nAssistante: \"Ok, condo à 459K, noté. C'est dans quel secteur que tu regardes?\"\n\nExemple 8 — Switch de langue:\nClient (en anglais): \"I don't speak French\"\nAssistante: \"Got it. Are you looking to buy or to sell?\"\nClient (switch au français): \"Bonjour comment ça va?\"\nAssistante: \"Salut. Ça va bien. Comment je peux t'aider?\"\n\nTon objectif principal\nTu suis un FLUX de conversation pour collecter les informations. Tu ne poses PAS toutes les questions d'un coup. Tu as une conversation naturelle, une question à la fois (sauf mode raccourci).\n\nSi l'intention acheteur/vendeur n'est pas claire, pose la question directement: \"Tu cherches à acheter ou à vendre?\"\n\nNe re-demande JAMAIS une information que le prospect a déjà donnée dans un message précédent. Si le client donne plusieurs infos en un seul message (ex: \"condo 459k\"), note TOUTES les infos données et pose la PROCHAINE question que ces infos ne couvrent pas.\n\nWarmup (premier message)\nSi le client commence par un salut simple (\"salut\", \"ça va\", \"bonjour\", \"hey\", \"hi\", \"hello\", \"allo\") SANS mentionner d'intention immobilière:\n→ Miroir social d'abord. Réponds au salut naturellement.\n→ Puis demande comment tu peux aider: \"Salut. Ça va bien. Comment je peux t'aider?\"\n→ Attends que le client exprime son besoin AVANT de demander acheteur/vendeur.\n→ NE SAUTE PAS directement à \"Tu cherches à acheter ou à vendre?\" après un simple \"salut\".\nSi le client commence avec une intention (\"je cherche un condo\", \"je veux vendre\", \"duplex verdun 450k\"):\n→ Accueil court et passe direct au flux. Pas besoin de warmup.\n\nFlux — Premier contact\n1. Warmup si salut simple (voir section ci-dessus)\n2. Détecter: acheteur ou vendeur? (demander si pas clair)\n3. Suivre le flux acheteur OU vendeur\n4. Récapituler les infos et demander confirmation\n5. Confirmer que Joanel va les contacter\n\nFlux Acheteur (une question à la fois, enchaîner naturellement)\n1. \"C'est dans quel coin que tu regardes?\"\n2. \"Ton budget c'est quoi approximativement?\"\n3. \"C'est pour une première maison ou t'es déjà proprio?\"\n4. \"T'es déjà pré-approuvé à la banque?\"\n   Si NON → \"C'est une étape importante. Joanel travaille avec un courtier hypothécaire de confiance, on va te mettre en contact.\"\n   Si OUI → \"Pré-approuvé à combien?\"\n5. \"Tu cherches quoi comme type? Maison, condo, duplex...?\"\n6. \"Combien de chambres minimum?\"\n7. \"C'est pour quand idéalement? 1 mois, 3 mois, 6 mois?\"\n8. \"Tes dispos pour une première rencontre avec Joanel? Jour, soir, weekend?\"\n9. Récapituler + confirmer + annoncer la suite\n\nFlux Vendeur (une question à la fois)\n1. \"Ta propriété est dans quel secteur?\"\n2. \"C'est quoi comme type de propriété?\"\n3. \"C'est pour quand idéalement la vente?\"\n4. \"T'as une idée du prix que tu voudrais?\"\n5. \"Tes dispos pour une rencontre avec Joanel?\"\n6. Récapituler + confirmer + annoncer la suite\n\nCalcul du score de chaleur\n- CHAUD-URGENT (9-10): Situation personnelle urgente (divorce, décès, déménagement forcé) OU délai < 1 mois ET client pressé.\n- CHAUD (7-8): Pré-qualifié + budget défini + délai < 3 mois + disponible bientôt.\n- TIÈDE (4-6): Intéressé mais sans urgence, financement en cours ou pas démarré.\n- FROID (0-3): Exploration, délai > 6 mois, pas de budget défini, \"juste regarde\".\n\nQuand tu as collecté toutes les informations nécessaires, fais le récapitulatif, confirme avec le client, puis termine en disant que Joanel va le contacter sous peu. Ajoute le mot QUALIFIED à la toute fin de ton dernier message."
+          "systemMessage": "Tu t'appelles Nadia. Tu es l'adjointe administrative senior de Joanel, courtier immobilier au Québec. Si on te demande ton nom, réponds simplement: \"Nadia, l'assistante de Joanel.\" Tu n'es pas un assistant virtuel générique — tu es une professionnelle de l'immobilier avec des années d'expérience, reconnue pour ton efficacité et ton pragmatisme. Tu gères un volume élevé de dossiers au quotidien. Ton temps est précieux. Tu tapes tes réponses rapidement sur ton téléphone entre deux rendez-vous ou entre deux dossiers. Tu communiques exclusivement par SMS.\n\nProcessus interne (silencieux, avant chaque réponse)\nAvant de formuler ta réponse, analyse brièvement :\n- Quelle est l'intention du client dans ce message?\n- À quelle étape du flux on est rendu?\n- Quelle est la SEULE prochaine action à faire avancer?\nPuis réponds de manière à faire avancer le dossier d'une seule étape.\n\nRÈGLE DE LANGUE (PRIORITÉ ABSOLUE)\n- Détecte la langue de CHAQUE message individuellement, pas juste du premier.\n- Client écrit en anglais = tu réponds en anglais. TOUJOURS. CHAQUE message. Y compris le récapitulatif et le message final.\n- Client écrit en français = tu réponds en français.\n- Si le client switch de langue en cours de conversation, adapte-toi immédiatement au nouveau message.\n- Le fait que ce prompt soit rédigé en français ne change RIEN à la langue de tes réponses. Le prompt est en français pour l'équipe technique, pas pour le client.\n- En cas de doute, réponds en français (langue par défaut).\n\nRègles absolues NON NÉGOCIABLES\n- ZÉRO emoji. Pas de 😊 👍 🎉 ✅ 📍 💰 🏠 🔥 🙌 📅 🗓️ ou autre. JAMAIS. AUCUN. C'est une règle stricte non négociable.\n- Termine tes phrases par des points finaux. Le point = calme et contrôle. Maximum 1 point d'exclamation dans toute la conversation (pas 1 par message).\n- Tu ne dis JAMAIS que tu es une IA sauf si on te le demande directement. Dans ce cas: \"Oui, je suis une assistante automatisée qui aide Joanel.\"\n- Tu ne donnes JAMAIS de conseil sur les prix du marché, le financement, les taux hypothécaires, ou les clauses contractuelles.\n- Tu ne te présentes JAMAIS comme courtier ou professionnel réglementé. Tu es l'assistante administrative.\n- Tu ne fais JAMAIS de promesse sur les prix, les délais, ou les résultats.\n- Tu ne commentes JAMAIS la qualité du budget, du projet ou de la stratégie du prospect. Pas de \"c'est un excellent choix\", \"belle stratégie\", \"bon budget\". Reste neutre.\n- Tu ne partages JAMAIS les informations d'un client avec un autre.\n- Si on te demande un avis sur un prix ou un taux: \"C'est le genre de question où Joanel pourra mieux te guider. Je lui transmets.\"\n- Si le client demande explicitement à parler à Joanel: \"Pas de trouble, je lui transmets pis il te rappelle dès que possible.\"\n- Si le client envoie STOP: réponds UNE SEULE FOIS \"T'es désabonné. Si tu changes d'idée, écris START.\" et RIEN d'autre après.\n- Si le client est agressif ou envoie du contenu inapproprié: reste professionnel, propose de parler au courtier. Si ça continue, termine poliment: \"Je peux pas poursuivre cette conversation. Si t'as un projet immobilier, n'hésite pas à nous réécrire.\" et ARRÊTE.\n\nAdaptation au rythme du client\n- Si le client semble HÉSITANT (mots: peut-être, je ne suis pas sûr, je réfléchis, je sais pas trop) → Mode doux: une seule question à la fois, ton rassurant, zéro pression, \"pas de rush\".\n- Si le client semble URGENT (mots: vite, urgent, divorce, déménagement, délai < 1 mois) → Mode raccourci: regroupe 2-3 questions par message, va à l'essentiel, skip les questions exploratoires.\n\nTon ton\n- Français québécois naturel — comme une vraie assistante par texto.\n- Tu tutoies dès que le client tutoie, sinon vouvoiement.\n- Messages COURTS. Max 1-2 phrases. Parfois juste 2-3 mots.\n- Tu varies la longueur: parfois \"Ok noté.\", parfois une phrase complète.\n- Tu utilises des québécismes naturels: \"pis\", \"faque\", \"correct\", \"pas pire\", \"tantôt\".\n- Tu NE récapitules PAS ce que le client vient de dire avant de poser la question suivante.\n- Tu enchaînes directement: réponse courte → prochaine question.\n- Ton registre: collègue amicale, PAS vendeuse enthousiaste.\n- On n'oublie pas les accents ET LA BONNE CONJUGAISON.\n\nFormulations à éviter (substitutions)\n- Au lieu de \"Super\" ou \"Parfait\" ou \"Excellent\" ou \"Génial\" → \"Ok.\" ou \"Bon.\" ou \"Noté.\" ou juste enchaîner la prochaine question.\n- Au lieu de \"Merci beaucoup pour cette information\" → accuser réception et passer à la suite.\n- Au lieu de \"Je comprends tout à fait\" → \"Ok je comprends.\" ou rien du tout.\n- Au lieu de \"N'hésitez pas à...\" → \"Écris-moi si t'as des questions.\"\n- Au lieu de \"J'espère que vous allez bien\" → rien, commence directement.\n- Au lieu de \"De plus\" / \"Cependant\" / \"Il est important de noter\" → coupe la phrase et fais-en deux.\n- Au lieu de récapituler la réponse du client avant de poser la question → juste poser la question.\n- Au lieu de s'excuser pour un délai → offrir la solution directement.\n- Au lieu de \"Merci beaucoup\" en fin de conversation → \"Joanel va te contacter sous peu.\" point final.\n- Au lieu de répéter une question déjà posée → vérifier l'historique et poser la PROCHAINE question.\n\nRédaction inclusive (normes OQLF)\n- Pas de point médian (client·e·s) — proscrit par l'OQLF.\n- Privilégier les termes épicènes: \"la clientèle\", \"les gens\", \"le personnel\".\n- Parenthèses si nécessaire: \"un(e) client(e)\".\n\nExemples de ton (imite ce style, PAS le contenu)\nExemple 1 — Premier contact:\nClient: \"Salut je cherche un condo\"\nAssistante: \"Salut. Merci d'écrire à Joanel. Tu cherches à acheter ou à vendre?\"\nClient: \"Acheter\"\nAssistante: \"Nice. C'est dans quel coin que tu regardes?\"\n\nExemple 2 — Client coopératif:\nClient: \"Mon budget c'est 400K\"\nAssistante: \"Ok 400K, noté. T'es déjà pré-approuvé à la banque?\"\nClient: \"Oui chez Desjardins\"\nAssistante: \"Correct. Pré-approuvé à combien?\"\n\nExemple 3 — Client hésitant:\nClient: \"Je sais pas trop, peut-être vendre\"\nAssistante: \"Pas de stress, c'est normal de réfléchir. Si tu veux, on peut juste noter quelques infos pis Joanel te revient quand t'es prêt.\"\n\nExemple 4 — Fin de collecte:\nAssistante: \"Bon, j'ai pas mal tout. Pour récapituler: t'es acheteur, secteur Verdun, budget 450K, pré-approuvé chez Desjardins, tu cherches un duplex 3 chambres d'ici 1-3 mois. C'est bon?\"\nClient: \"Oui c'est ça\"\nAssistante: \"Joanel va te contacter sous peu. Bonne soirée.\"\n\nExemple 5 — Urgent:\nClient: \"Je dois vendre VITE, divorce dans 3 semaines\"\nAssistante: \"Ok je comprends, c'est serré. Ta propriété est dans quel coin, c'est quoi comme type pis t'as une idée du prix?\"\n\nExemple 6 — Warmup (salut sans intention):\nClient: \"Salut ça va?\"\nAssistante: \"Salut. Ça va bien. Comment je peux t'aider?\"\nClient: \"Je cherche un condo\"\nAssistante: \"Ok. C'est dans quel coin que tu regardes?\"\n\nExemple 7 — Client donne plusieurs infos d'un coup:\nClient: \"condo 459k\"\nAssistante: \"Ok, condo à 459K, noté. C'est dans quel secteur que tu regardes?\"\n\nExemple 8 — Switch de langue:\nClient (en anglais): \"I don't speak French\"\nAssistante: \"Got it. Are you looking to buy or to sell?\"\nClient (switch au français): \"Bonjour comment ça va?\"\nAssistante: \"Salut. Ça va bien. Comment je peux t'aider?\"\n\nTon objectif principal\nTu suis un FLUX de conversation pour collecter les informations. Tu ne poses PAS toutes les questions d'un coup. Tu as une conversation naturelle, une question à la fois (sauf mode raccourci).\n\nSi l'intention acheteur/vendeur n'est pas claire, pose la question directement: \"Tu cherches à acheter ou à vendre?\"\n\nNe re-demande JAMAIS une information que le prospect a déjà donnée dans un message précédent. Si le client donne plusieurs infos en un seul message (ex: \"condo 459k\"), note TOUTES les infos données et pose la PROCHAINE question que ces infos ne couvrent pas.\n\nWarmup (premier message)\nSi le client commence par un salut simple (\"salut\", \"ça va\", \"bonjour\", \"hey\", \"hi\", \"hello\", \"allo\") SANS mentionner d'intention immobilière:\n→ Miroir social d'abord. Réponds au salut naturellement.\n→ Puis demande comment tu peux aider: \"Salut. Ça va bien. Comment je peux t'aider?\"\n→ Attends que le client exprime son besoin AVANT de demander acheteur/vendeur.\n→ NE SAUTE PAS directement à \"Tu cherches à acheter ou à vendre?\" après un simple \"salut\".\nSi le client commence avec une intention (\"je cherche un condo\", \"je veux vendre\", \"duplex verdun 450k\"):\n→ Accueil court et passe direct au flux. Pas besoin de warmup.\n\nFlux — Premier contact\n1. Warmup si salut simple (voir section ci-dessus)\n2. Détecter: acheteur ou vendeur? (demander si pas clair)\n3. Suivre le flux acheteur OU vendeur\n4. Récapituler les infos et demander confirmation\n5. Confirmer que Joanel va les contacter\n\nFlux Acheteur (une question à la fois, enchaîner naturellement)\n1. \"C'est quoi ton prénom?\" (demande-le tôt, naturellement, pas comme un formulaire)\n2. \"C'est dans quel coin que tu regardes?\"\n2. \"Ton budget c'est quoi approximativement?\"\n3. \"C'est pour une première maison ou t'es déjà proprio?\"\n4. \"T'es déjà pré-approuvé à la banque?\"\n   Si NON → \"C'est une étape importante. Joanel travaille avec un courtier hypothécaire de confiance, on va te mettre en contact.\"\n   Si OUI → \"Pré-approuvé à combien?\"\n   Si le montant de pré-approbation est significativement inférieur au budget mentionné (ex: budget 1M$ mais pré-approuvé à 200K), soulève le point naturellement: \"Ok, juste pour être sûr, t'es pré-approuvé à 200K mais ton budget c'est 1M. C'est correct ou t'attends une mise à jour de ta pré-approbation?\"\n5. \"Tu cherches quoi comme type? Maison, condo, duplex...?\"\n6. \"Combien de chambres minimum?\"\n7. \"C'est pour quand idéalement? 1 mois, 3 mois, 6 mois?\"\n8. \"Tes dispos pour une première rencontre avec Joanel? Jour, soir, weekend?\"\n9. Récapituler + confirmer + annoncer la suite\n\nFlux Vendeur (une question à la fois)\n1. \"C'est quoi ton prénom?\" (si pas encore collecté)\n2. \"Ta propriété est dans quel secteur?\"\n2. \"C'est quoi comme type de propriété?\"\n3. \"C'est pour quand idéalement la vente?\"\n4. \"T'as une idée du prix que tu voudrais?\"\n5. \"Tes dispos pour une rencontre avec Joanel?\"\n6. Récapituler + confirmer + annoncer la suite\n\nCalcul du score de chaleur\n- CHAUD-URGENT (9-10): Situation personnelle urgente (divorce, décès, déménagement forcé) OU délai < 1 mois ET client pressé.\n  Critères: urgence confirmée + disponible immédiatement + prêt à agir.\n- CHAUD (7-8): Pré-qualifié + budget défini + délai < 3 mois + disponible bientôt.\n  Critères: pré-approbation cohérente avec le budget + type de bien défini + secteur précis.\n- TIÈDE (4-6): Intéressé mais sans urgence, financement en cours ou pas démarré.\n  Critères: pas de pré-approbation OU pré-approbation incohérente avec le budget OU délai > 3 mois OU secteur vague.\n- FROID (0-3): Exploration, délai > 6 mois, pas de budget défini, \"juste regarde\".\n  Critères: aucun financement + aucun délai + demande très vague.\n\nQuand tu as collecté toutes les informations nécessaires, fais le récapitulatif, confirme avec le client, puis termine en disant que Joanel va le contacter sous peu. Ajoute le mot QUALIFIED à la toute fin de ton dernier message.\n\nDétection de perte de prospect\nSi le prospect indique qu'il a acheté ou vendu avec un autre courtier, qu'il n'est plus intéressé, qu'il a annulé son projet, ou qu'il a trouvé ailleurs:\n→ Réponds naturellement et professionnellement: \"Ok, pas de problème. Félicitations pour ton achat. Si t'as besoin de quoi que ce soit dans le futur, hésite pas à nous réécrire.\"\n→ Ajoute le mot LOST à la toute fin de ton message.\n→ Ne pose plus de questions après. La conversation est terminée."
         }
       },
       "id": "53ecc0f7-43a7-4570-b1ce-3b50ad365828",
       "name": "Real Estate Qualifier",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "position": [
-        -2448,
-        1664
+        -1328,
+        1680
       ],
       "typeVersion": 1.6
     },
@@ -70,8 +70,8 @@
       "name": "Anthropic Chat Model",
       "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
       "position": [
-        -2448,
-        1888
+        -1320,
+        1904
       ],
       "typeVersion": 1.3,
       "credentials": {
@@ -90,8 +90,8 @@
       "name": "Postgres Chat Memory",
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "position": [
-        -2320,
-        1888
+        -1192,
+        1904
       ],
       "typeVersion": 1,
       "credentials": {
@@ -105,10 +105,10 @@
       "parameters": {
         "conditions": {
           "options": {
-            "version": 2,
-            "leftValue": "",
             "caseSensitive": true,
-            "typeValidation": "strict"
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
           },
           "combinator": "and",
           "conditions": [
@@ -129,8 +129,8 @@
       "name": "Check if Conversation Completed",
       "type": "n8n-nodes-base.if",
       "position": [
-        -2096,
-        1664
+        -976,
+        1680
       ],
       "typeVersion": 2.3
     },
@@ -138,15 +138,15 @@
       "parameters": {
         "from": "+12722825614",
         "to": "={{ $('Wait for Text Response').item.json.data.from }}",
-        "message": "Merci beaucoup! Joanel va te contacter sous peu.",
+        "message": "={{ $('Real Estate Qualifier').item.json.output.replace('QUALIFIED', '').replace('LOST', '').trim() }}",
         "options": {}
       },
       "id": "c1d78c94-e4ac-44be-ac8f-957b338b89cb",
       "name": "Thank Your Text",
       "type": "n8n-nodes-base.twilio",
       "position": [
-        -1872,
-        1472
+        -752,
+        1488
       ],
       "typeVersion": 1,
       "credentials": {
@@ -154,21 +154,22 @@
           "id": "mgpqsMa0wm6Pq6XS",
           "name": "Twilio Eliot account"
         }
-      }
+      },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
         "from": "+12722825614",
         "to": "={{ $('Wait for Text Response').item.json.data.from }}",
-        "message": "={{ $('Delai Humain').item.json.output }}",
+        "message": "={{ $('Delai Humain').item.json.output.replace('QUALIFIED', '').replace('LOST', '').trim() }}",
         "options": {}
       },
       "id": "b01e4aec-ce25-465d-97f0-e1b35e076249",
       "name": "Response Text from Agent",
       "type": "n8n-nodes-base.twilio",
       "position": [
-        -1872,
-        1856
+        720,
+        2116
       ],
       "typeVersion": 1,
       "credentials": {
@@ -188,8 +189,8 @@
       "name": "Query Supabase for conversation history",
       "type": "n8n-nodes-base.postgres",
       "position": [
-        -1872,
-        1664
+        -752,
+        1680
       ],
       "typeVersion": 2.6,
       "credentials": {
@@ -208,8 +209,8 @@
       "name": "Combine Rows",
       "type": "n8n-nodes-base.aggregate",
       "position": [
-        -1648,
-        1664
+        -528,
+        1680
       ],
       "typeVersion": 1
     },
@@ -219,15 +220,15 @@
         "text": "={{ $json.data }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "Genere deux champs: un transcript propre de la conversation et un resume des informations collectees sur le prospect (type de projet, zone, budget, delai, etc). Reponds en francais."
+          "systemMessage": "Analyse cette conversation entre un prospect et l'assistante d'un courtier immobilier. Génère six champs:\n1. transcript: un transcript propre et complet de la conversation\n2. summary: un résumé structuré des informations collectées (type de projet, zone, budget, délai, pré-approbation, disponibilités, etc.)\n3. prospect_name: le prénom du prospect. Si pas donné, chaîne vide. JAMAIS le nom de l'assistante (Nadia) ou du courtier (Joanel).\n4. budget: le budget maximum en nombre entier (ex: 450000). Si pas mentionné, 0.\n5. secteur: le quartier ou secteur recherché (ex: \"Verdun\", \"Rosemont\"). Si pas mentionné, chaîne vide.\n6. type_bien: le type de propriété (ex: \"Condo 4½\", \"Duplex\", \"Maison unifamiliale\", \"Triplex\", \"Penthouse\", \"Plex\"). Si pas mentionné, chaîne vide.\n\nRéponds en français."
         }
       },
       "id": "8cbed657-22f6-4c4a-bc62-c7e2bfe383de",
       "name": "Summarize Transcript",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "position": [
-        -1424,
-        1664
+        -304,
+        1680
       ],
       "typeVersion": 1.6
     },
@@ -246,8 +247,8 @@
       "name": "Anthropic Summarizer",
       "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
       "position": [
-        -1424,
-        1888
+        -296,
+        1904
       ],
       "typeVersion": 1.3,
       "credentials": {
@@ -259,14 +260,14 @@
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n\t\"transcript\": \"transcript\",\n\t\"summary\": \"summary\"\n}"
+        "jsonSchemaExample": "{\n\t\"transcript\": \"transcript\",\n\t\"summary\": \"summary\",\n\t\"prospect_name\": \"Pierre\",\n\t\"budget\": 450000,\n\t\"secteur\": \"Verdun\",\n\t\"type_bien\": \"Condo 4½\"\n}"
       },
       "id": "7c2d3782-03d8-4f92-8b3f-9ad4bb080594",
       "name": "Structured Output Parser1",
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "position": [
-        -1296,
-        1888
+        -168,
+        1904
       ],
       "typeVersion": 1.3
     },
@@ -274,15 +275,15 @@
       "parameters": {
         "from": "+12722825614",
         "to": "+14506260481",
-        "message": "=Nouveau lead qualifie! Tel: {{ $('Wait for Text Response').item.json.data.from }}\n\nResume: {{ $('Summarize Transcript').item.json.output.summary }}",
+        "message": "={{ ($('Build Upsert Query').item.json.score >= 9 ? '🔥 URGENT' : 'Nouveau lead') }} — {{ $('Build Upsert Query').item.json.prenom || 'Sans nom' }} ({{ $('Build Upsert Query').item.json.typeProjet }})\nScore: {{ $('Build Upsert Query').item.json.score }}/10 · {{ $('Build Upsert Query').item.json.typeBien || 'Type ?' }} · {{ $('Build Upsert Query').item.json.secteur || 'Secteur ?' }}{{ $('Build Upsert Query').item.json.budget > 0 ? ' · ' + ($('Build Upsert Query').item.json.budget >= 1000000 ? ($('Build Upsert Query').item.json.budget/1000000).toFixed(1) + 'M$' : Math.round($('Build Upsert Query').item.json.budget/1000) + 'K$') : '' }}\nTel: {{ $('Wait for Text Response').item.json.data.from }}\n\n{{ $('Summarize Transcript').item.json.output.summary }}",
         "options": {}
       },
       "id": "50dbd5e4-3b38-4448-aa58-2e44974d9875",
       "name": "Send Lead to owner",
       "type": "n8n-nodes-base.twilio",
       "position": [
-        -624,
-        1664
+        496,
+        1680
       ],
       "typeVersion": 1,
       "credentials": {
@@ -290,7 +291,8 @@
           "id": "mgpqsMa0wm6Pq6XS",
           "name": "Twilio Eliot account"
         }
-      }
+      },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -323,13 +325,58 @@
                 "type": "string"
               },
               "rightValue": "unsubscribe"
+            },
+            {
+              "id": "stop4",
+              "leftValue": "={{ $json.data.body.trim().toLowerCase() }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "arrêt"
+            },
+            {
+              "id": "stop5",
+              "leftValue": "={{ $json.data.body.trim().toLowerCase() }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "arrêtez"
+            },
+            {
+              "id": "stop6",
+              "leftValue": "={{ $json.data.body.trim().toLowerCase() }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "stopper"
+            },
+            {
+              "id": "stop7",
+              "leftValue": "={{ $json.data.body.trim().toLowerCase() }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "desabonner"
+            },
+            {
+              "id": "stop8",
+              "leftValue": "={{ $json.data.body.trim().toLowerCase() }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "désabonner"
             }
           ],
           "options": {
-            "version": 2,
-            "leftValue": "",
             "caseSensitive": true,
-            "typeValidation": "strict"
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
           }
         },
         "options": {}
@@ -340,7 +387,7 @@
       "typeVersion": 2.3,
       "position": [
         -3120,
-        1568
+        1344
       ]
     },
     {
@@ -355,19 +402,20 @@
       "type": "n8n-nodes-base.twilio",
       "typeVersion": 1,
       "position": [
-        -2896,
-        1472
+        -2672,
+        1272
       ],
       "credentials": {
         "twilioApi": {
           "id": "mgpqsMa0wm6Pq6XS",
           "name": "Twilio Eliot account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
-        "jsCode": "// Dedup: check if this messageSid was already processed\nconst sid = $input.first().json?.data?.messageSid;\nif (!sid) return []; // no sid = skip\n\n// Pass through - the Wait node debounce handles timing\n// This node ensures we only process unique message IDs\nconst seen = $getWorkflowStaticData('global');\nif (seen[sid]) {\n  return []; // Already processed, skip\n}\nseen[sid] = Date.now();\n\n// Cleanup old entries (keep last 100)\nconst keys = Object.keys(seen);\nif (keys.length > 100) {\n  const oldest = keys.slice(0, keys.length - 100);\n  oldest.forEach(k => delete seen[k]);\n}\n\nreturn [$input.first()];"
+        "jsCode": "// Dedup: bloque (a) les retries Twilio (meme messageSid)\n// et (b) les doubles envois utilisateur (meme from+body dans DEDUP_WINDOW_MS).\nconst data = $input.first().json?.data || {};\nconst sid = data.messageSid;\nconst from = data.from || '';\nconst body = (data.body || '').trim().toLowerCase();\n\nconst seen = $getWorkflowStaticData('global');\nconst now = Date.now();\nconst DEDUP_WINDOW_MS = 3000;\nconst TTL_MS = 60000;\n\nif (sid && seen[sid]) return [];\nif (sid) seen[sid] = now;\n\nif (from && body) {\n  const key = 'dup:' + from + ':' + body;\n  const last = seen[key];\n  if (last && (now - last) < DEDUP_WINDOW_MS) return [];\n  seen[key] = now;\n}\n\nconst cutoff = now - TTL_MS;\nfor (const k of Object.keys(seen)) {\n  if (typeof seen[k] === 'number' && seen[k] < cutoff) delete seen[k];\n}\n\nreturn [$input.first()];"
       },
       "id": "dedup_check_1",
       "name": "Dedup by messageSid",
@@ -375,33 +423,33 @@
       "typeVersion": 2,
       "position": [
         -2896,
-        1664
+        1776
       ]
     },
     {
       "parameters": {
-        "jsCode": "// Get data from upstream nodes\nconst phone = $('Wait for Text Response').item.json.data.from;\nconst summary = $('Summarize Transcript').item.json.output.summary || '';\nconst transcript = $('Summarize Transcript').item.json.output.transcript || '';\n\n// Determine type_projet from summary\nconst isVendeur = summary.toLowerCase().includes('vendeur') || summary.toLowerCase().includes('vente');\nconst typeProjet = isVendeur ? 'vendeur' : 'acheteur';\n\n// Extract name from transcript (look for patterns like \"Je m'appelle X\" or \"Mon nom est X\" or \"C'est X\")\n// Also check chat history for the prospect's first message that looks like a name\nlet nom = '';\nlet prenom = '';\nconst namePatterns = [\n  /(?:je m'appelle|my name is|c'est|moi c'est|je suis)\\s+([A-ZÀ-Ü][a-zà-ü]+(?:\\s+[A-ZÀ-Ü][a-zà-ü]+)?)/i,\n  /(?:nom|name)[:\\s]+([A-ZÀ-Ü][a-zà-ü]+(?:\\s+[A-ZÀ-Ü][a-zà-ü]+)?)/i,\n];\nfor (const pattern of namePatterns) {\n  const match = transcript.match(pattern);\n  if (match) {\n    const parts = match[1].trim().split(/\\s+/);\n    prenom = parts[0] || '';\n    nom = parts.slice(1).join(' ') || '';\n    break;\n  }\n}\n\n// Extract score from summary keywords\nlet score = 7; // default chaud\nif (summary.toLowerCase().includes('urgent') || summary.toLowerCase().includes('divorce') || summary.toLowerCase().includes('décès')) {\n  score = 9;\n} else if (summary.toLowerCase().includes('pré-approuv') || summary.toLowerCase().includes('pre-approv')) {\n  score = 8;\n} else if (summary.toLowerCase().includes('exploration') || summary.toLowerCase().includes('juste regarde')) {\n  score = 3;\n}\n\n// Detect language\nconst isEnglish = transcript.toLowerCase().includes('english') || \n  summary.toLowerCase().includes('anglophone') || \n  summary.toLowerCase().includes('english');\nconst langue = isEnglish ? 'en' : 'fr';\n\n// Escape single quotes for SQL safety\nconst esc = (s) => s.replace(/'/g, \"''\");\n\nconst query = `\nINSERT INTO prospects (\n  canal_source, statut, telephone, courtier_id, type_projet,\n  score_chaleur, nom, prenom, langue_preferee, created_at, updated_at\n)\nVALUES (\n  'sms', 'qualifie', '${esc(phone)}',\n  (SELECT id FROM courtiers LIMIT 1),\n  '${typeProjet}', ${score}, '${esc(nom)}', '${esc(prenom)}', '${langue}', NOW(), NOW()\n)\nON CONFLICT (telephone) WHERE telephone IS NOT NULL\nDO UPDATE SET\n  statut = 'qualifie',\n  score_chaleur = ${score},\n  type_projet = '${typeProjet}',\n  nom = CASE WHEN '${esc(nom)}' != '' THEN '${esc(nom)}' ELSE prospects.nom END,\n  prenom = CASE WHEN '${esc(prenom)}' != '' THEN '${esc(prenom)}' ELSE prospects.prenom END,\n  langue_preferee = '${langue}',\n  updated_at = NOW()\nRETURNING id, telephone, statut, prenom, nom, score_chaleur, created_at;\n`;\n\nreturn [{ json: { query, phone, typeProjet, prenom, nom, score, langue, summary: esc(summary) } }];"
+        "jsCode": "const phone = $('Wait for Text Response').item.json.data.from;\nconst summary = $('Summarize Transcript').item.json.output.summary || '';\nconst prospectName = $('Summarize Transcript').item.json.output.prospect_name || '';\nconst budget = parseInt($('Summarize Transcript').item.json.output.budget) || 0;\nconst secteur = $('Summarize Transcript').item.json.output.secteur || '';\nconst typeBien = $('Summarize Transcript').item.json.output.type_bien || '';\n\nconst isVendeur = summary.toLowerCase().includes('vendeur') || summary.toLowerCase().includes('vente');\nconst typeProjet = isVendeur ? 'vendeur' : 'acheteur';\n\nconst blacklist = ['nadia', 'joanel', 'assistante', 'assistant', 'courtier'];\nlet prenom = '', nom = '';\nif (prospectName && !blacklist.includes(prospectName.toLowerCase().split(/\\s+/)[0])) {\n  const parts = prospectName.trim().split(/\\s+/);\n  prenom = parts[0] || '';\n  nom = parts.slice(1).join(' ') || '';\n}\n\nlet score = 7;\nif (summary.toLowerCase().includes('urgent') || summary.toLowerCase().includes('divorce') || summary.toLowerCase().includes('d\\u00e9c\\u00e8s')) score = 9;\nelse if (summary.toLowerCase().includes('pr\\u00e9-approuv') || summary.toLowerCase().includes('pre-approv')) score = 8;\nelse if (summary.toLowerCase().includes('exploration') || summary.toLowerCase().includes('juste regarde')) score = 3;\n\nconst isEnglish = summary.toLowerCase().includes('anglophone') || summary.toLowerCase().includes('english');\nconst langue = isEnglish ? 'en' : 'fr';\n\nconst esc = s => s.replace(/'/g, \"''\");\n\nconst query = `\nINSERT INTO prospects (\n  canal_source, statut, telephone, courtier_id, type_projet,\n  score_chaleur, nom, prenom, langue_preferee, resume_ia,\n  budget_max, secteur, type_bien, created_at, updated_at\n)\nVALUES (\n  'sms', 'qualifie', '${esc(phone)}',\n  (SELECT id FROM courtiers LIMIT 1),\n  '${typeProjet}', ${score}, '${esc(nom)}', '${esc(prenom)}', '${langue}',\n  '${esc(summary)}',\n  ${budget > 0 ? budget : 'NULL'},\n  ${secteur ? \"'\" + esc(secteur) + \"'\" : 'NULL'},\n  ${typeBien ? \"'\" + esc(typeBien) + \"'\" : 'NULL'},\n  NOW(), NOW()\n)\nON CONFLICT (telephone) WHERE telephone IS NOT NULL\nDO UPDATE SET\n  statut = 'qualifie',\n  score_chaleur = ${score},\n  type_projet = '${typeProjet}',\n  nom = CASE WHEN '${esc(nom)}' != '' THEN '${esc(nom)}' ELSE prospects.nom END,\n  prenom = CASE WHEN '${esc(prenom)}' != '' THEN '${esc(prenom)}' ELSE prospects.prenom END,\n  langue_preferee = '${langue}',\n  resume_ia = '${esc(summary)}',\n  budget_max = CASE WHEN ${budget} > 0 THEN ${budget} ELSE prospects.budget_max END,\n  secteur = CASE WHEN '${esc(secteur)}' != '' THEN '${esc(secteur)}' ELSE prospects.secteur END,\n  type_bien = CASE WHEN '${esc(typeBien)}' != '' THEN '${esc(typeBien)}' ELSE prospects.type_bien END,\n  updated_at = NOW()\nRETURNING id, telephone, statut, prenom, nom, score_chaleur, budget_max, secteur, type_bien, resume_ia, created_at;\n`;\n\nreturn [{ json: { query, phone, typeProjet, prenom, nom, score, langue, budget, secteur, typeBien, summary: esc(summary) } }];"
       },
       "id": "upsert_prospect_1",
       "name": "Build Upsert Query",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1072,
-        1664
+        48,
+        1680
       ]
     },
     {
       "parameters": {
-        "jsCode": "// Calculate human-like typing delay based on response length\nconst output = $json.output || '';\nconst charCount = output.length;\n\n// readTime (3s) + typing proportional to length + random jitter\nconst readTime = 3;\nconst jitter = Math.random() * 5;\nlet delay = Math.round(readTime + (charCount * 0.15) + jitter);\n\n// Clamp between 5 and 50 seconds\ndelay = Math.max(5, Math.min(50, delay));\n\nreturn [{ json: { _delay: delay, output: $json.output } }];"
+        "jsCode": "// Calculate human-like typing delay based on response length\nconst originalOutput = $json.output || '';\nlet output = originalOutput;\n\n// Strip any emojis that slipped through\noutput = output.replace(/[\\u{1F600}-\\u{1F64F}\\u{1F300}-\\u{1F5FF}\\u{1F680}-\\u{1F6FF}\\u{1F1E0}-\\u{1F1FF}\\u{2600}-\\u{26FF}\\u{2700}-\\u{27BF}\\u{FE00}-\\u{FE0F}\\u{1F900}-\\u{1F9FF}\\u{1FA00}-\\u{1FA6F}\\u{1FA70}-\\u{1FAFF}\\u{200D}\\u{20E3}\\u{E0020}-\\u{E007F}]/gu, '').trim();\n\n// Strip self-correction lines (\"Attends\" / \"Je retire\" only — \"Désolé\" was too aggressive, it killed legitimate apology messages)\noutput = output.replace(/\\n?Attends[^\\n]*\\n?/gi, '').replace(/\\n?Je retire[^\\n]*\\n?/gi, '').trim();\n\n// Clean double spaces and double periods\noutput = output.replace(/\\s{2,}/g, ' ').replace(/\\.{2,}/g, '.').trim();\n\n// SAFETY: if cleaning emptied the message, fall back to original (without emojis)\nif (!output || output.length < 2) {\n  output = originalOutput.replace(/[\\u{1F600}-\\u{1F64F}\\u{1F300}-\\u{1F5FF}\\u{1F680}-\\u{1F6FF}\\u{1F1E0}-\\u{1F1FF}\\u{2600}-\\u{26FF}\\u{2700}-\\u{27BF}\\u{FE00}-\\u{FE0F}\\u{1F900}-\\u{1F9FF}\\u{1FA00}-\\u{1FA6F}\\u{1FA70}-\\u{1FAFF}\\u{200D}\\u{20E3}\\u{E0020}-\\u{E007F}]/gu, '').trim();\n}\n\n// Final safety: never return empty\nif (!output) {\n  output = 'Salut, peux-tu reformuler ta question?';\n}\n\nconst charCount = output.length;\nconst readTime = 3;\nconst jitter = Math.random() * 5;\nlet delay = Math.round(readTime + (charCount * 0.15) + jitter);\ndelay = Math.max(5, Math.min(50, delay));\n\nreturn [{ json: { _delay: delay, output } }];"
       },
       "id": "a2b1955d-43de-450f-92c5-6e75638dcb8f",
       "name": "Delai Humain",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1984,
-        1856
+        -752,
+        2116
       ]
     },
     {
@@ -413,8 +461,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -1760,
-        1856
+        -528,
+        2116
       ],
       "webhookId": "ae666a91-b400-41f1-96b0-fcf6dbb715d3"
     },
@@ -429,8 +477,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -848,
-        1664
+        272,
+        1680
       ],
       "credentials": {
         "postgres": {
@@ -438,21 +486,503 @@
           "name": "Supabase Postgres - Next Move"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "lost_check",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              },
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "LOST"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6577f1df-9614-4973-825d-f63e88dea3be",
+      "name": "Check if Lost",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -240,
+        2116
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE prospects SET statut = 'perdu', score_chaleur = 0, resume_ia = COALESCE(resume_ia, '') || ' | PERDU: ' || '{{ $('Delai Humain').item.json.output.replace('LOST', '').trim().substring(0, 200).replace(/'/g, \"''\") }}', updated_at = NOW() WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}' RETURNING id, telephone, statut, resume_ia;",
+        "options": {}
+      },
+      "id": "a26551e4-3fcf-4f3d-8313-4a6133eaa00c",
+      "name": "Update Prospect Lost",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        48,
+        2188
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO blacklist (phone, reason) VALUES ('={{ $('Wait for Text Response').item.json.data.from }}', 'stop_keyword') ON CONFLICT (phone) DO NOTHING;\nUPDATE prospects SET opted_out_at = NOW(), statut = 'perdu', updated_at = NOW() WHERE telephone = '={{ $('Wait for Text Response').item.json.data.from }}' AND opted_out_at IS NULL;",
+        "options": {}
+      },
+      "id": "blacklist_insert_1",
+      "name": "Insert Blacklist",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -2896,
+        1200
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE prospects SET last_inbound_at = NOW(), updated_at = NOW() WHERE telephone = '={{ $('Wait for Text Response').item.json.data.from }}';",
+        "options": {}
+      },
+      "id": "update_inbound_1",
+      "name": "Update Inbound Timestamp",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -2672,
+        2088
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE prospects SET last_outbound_at = NOW() WHERE telephone = '={{ $('Wait for Text Response').item.json.data.from }}';",
+        "options": {}
+      },
+      "id": "update_outbound_1",
+      "name": "Update Outbound Timestamp",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        944,
+        2212
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const body = (($json && $json.data && $json.data.body) || '').toString().trim().toLowerCase().replace(/[!?.…]+$/, '').trim();\nlet keyword = 'default';\nif (['help', 'aide'].includes(body)) keyword = 'help';\nelse if (['continuer', 'reprendre', 'start'].includes(body)) keyword = 'continuer';\nreturn { json: { ...$json, keyword } };"
+      },
+      "id": "kw_detect",
+      "name": "Detect Keyword",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2672,
+        1512
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "is_help",
+              "leftValue": "={{ $json.keyword }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "help"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "kw_if_help",
+      "name": "Help?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2448,
+        1512
+      ]
+    },
+    {
+      "parameters": {
+        "from": "+12722825614",
+        "to": "={{ $('Wait for Text Response').item.json.data.from }}",
+        "message": "NextMove : commandes disponibles. STOP = se desabonner. CONTINUER = reprendre la conversation. Pour parler directement a votre courtier, appelez-le.",
+        "options": {}
+      },
+      "id": "kw_send_help",
+      "name": "Send Help SMS",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        -1776,
+        1296
+      ],
+      "credentials": {
+        "twilioApi": {
+          "id": "mgpqsMa0wm6Pq6XS",
+          "name": "Twilio Eliot account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "is_continuer",
+              "leftValue": "={{ $json.keyword }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "continuer"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "kw_if_continuer",
+      "name": "Continuer?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2224,
+        1584
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE prospects SET opted_out_at = NULL, statut = 'en_qualification', pause_relances = false, updated_at = NOW() WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}'; DELETE FROM blacklist WHERE phone = '{{ $('Wait for Text Response').item.json.data.from }}';",
+        "options": {}
+      },
+      "id": "kw_reactivate",
+      "name": "Reactivate Prospect",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -2000,
+        1488
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "from": "+12722825614",
+        "to": "={{ $('Wait for Text Response').item.json.data.from }}",
+        "message": "Bienvenue de retour ! Vous etes a nouveau abonne. Ecrivez-nous votre demande, on prend la suite.",
+        "options": {}
+      },
+      "id": "kw_send_continuer",
+      "name": "Send Continuer Ack",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        -1776,
+        1488
+      ],
+      "credentials": {
+        "twilioApi": {
+          "id": "mgpqsMa0wm6Pq6XS",
+          "name": "Twilio Eliot account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO prospects (telephone, courtier_id, canal_source, type_projet, statut, langue_preferee, created_at, updated_at, last_inbound_at) VALUES ('{{ $json.data.from }}', '0d99b83a-91db-42cd-a19b-2e88384c67a7', 'sms', 'acheteur', 'en_qualification', 'fr', NOW(), NOW(), NOW()) ON CONFLICT (telephone) DO NOTHING RETURNING id, telephone, statut;",
+        "options": {}
+      },
+      "id": "d42054db-3945-47a8-91a1-87ed7433ff40",
+      "name": "Upsert Prospect Early",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -2672,
+        1896
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT (EXISTS(SELECT 1 FROM blacklist WHERE phone = '{{ $('Wait for Text Response').item.json.data.from }}') OR EXISTS(SELECT 1 FROM prospects WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}' AND opted_out_at IS NOT NULL)) as is_blocked;",
+        "options": {}
+      },
+      "id": "90820cf9-8303-4ee6-b527-269cd76a5be7",
+      "name": "Check Optout Status",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        272,
+        2116
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cond-is-blocked",
+              "leftValue": "={{ $json.is_blocked }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a08d2670-c3b6-474b-8044-5bec8e163ea2",
+      "name": "Skip if Opted Out",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        496,
+        2116
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT (EXISTS(SELECT 1 FROM blacklist WHERE phone = '{{ $('Wait for Text Response').item.json.data.from }}') OR EXISTS(SELECT 1 FROM prospects WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}' AND opted_out_at IS NOT NULL)) as is_blocked;",
+        "options": {}
+      },
+      "id": "da5236d8-eae2-4d48-a739-56d4ba8b1406",
+      "name": "Check Optout HELP",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -2224,
+        1296
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cond-help-blocked",
+              "leftValue": "={{ $json.is_blocked }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "416201ef-a7a6-425e-af89-d42427c9cd4a",
+      "name": "Skip HELP if Opted Out",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2000,
+        1296
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO conversations (prospect_id, role, contenu, canal, courtier_id, metadata) SELECT p.id, 'prospect', $body${{ ($json.data.body || '').replace(/\\$body\\$/g, '') }}$body$, 'sms', p.courtier_id, jsonb_build_object('twilio_message_sid', '{{ $json.data.messageSid }}', 'from_city', '{{ $json.data.fromCity }}', 'from_state', '{{ $json.data.fromState }}') FROM prospects p WHERE p.telephone = '{{ $json.data.from }}' LIMIT 1;",
+        "options": {}
+      },
+      "id": "d0310e61-7397-42fa-b399-344cfad59ccb",
+      "name": "Log Conv Inbound",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -2672,
+        1704
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO conversations (prospect_id, role, contenu, canal, courtier_id, metadata) SELECT p.id, 'assistant', $body${{ ($('Delai Humain').item.json.output || '').replace('QUALIFIED', '').replace('LOST', '').trim().replace(/\\$body\\$/g, '') }}$body$, 'sms', p.courtier_id, jsonb_build_object('twilio_response_sid', '{{ $json.sid }}', 'is_automated', true) FROM prospects p WHERE p.telephone = '{{ $('Wait for Text Response').item.json.data.from }}' LIMIT 1;",
+        "options": {}
+      },
+      "id": "3775982f-9b1b-4039-a5df-8d1521e5bc75",
+      "name": "Log Conv Outbound",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        944,
+        2020
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO conversations (prospect_id, role, contenu, canal, courtier_id, metadata) SELECT p.id, 'assistant', $body${{ ($json.body || '').replace(/\\$body\\$/g, '') }}$body$, 'sms', p.courtier_id, jsonb_build_object('twilio_response_sid', '{{ $json.sid }}', 'is_automated', true, 'kind', 'thank_you') FROM prospects p WHERE p.telephone = '{{ $('Wait for Text Response').item.json.data.from }}' LIMIT 1;",
+        "options": {}
+      },
+      "id": "0290fb8d-807a-4a50-83f2-ffebaf6047ba",
+      "name": "Log Conv Thank",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -528,
+        1488
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "j8tW7NxEVFbEQLqS",
+          "name": "Supabase Postgres - Next Move"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Buffer chaque message dans un tampon par numero, puis stampe l'execution.\n// La porte 'Flush If Latest' (apres le Wait) ne laissera passer que la derniere.\nconst item = $input.first().json;\nconst data = item?.data || {};\nconst from = data.from || '';\nconst body = (data.body || '').trim();\n\nif (!from || !body) return [$input.first()];\n\nconst store = $getWorkflowStaticData('global');\nstore.buffers = store.buffers || {};\nconst buf = store.buffers[from] || { parts: [] };\nbuf.parts.push(body);\nbuf.stamp = Date.now();\nstore.buffers[from] = buf;\n\nreturn [{ json: Object.assign({}, item, { _aggStamp: buf.stamp }) }];"
+      },
+      "id": "005907fa-d1c0-4622-bb54-d3f736ce9afb",
+      "name": "Aggregate Buffer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2000,
+        1680
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Apres le Wait: si une execution plus recente est arrivee pour ce 'from',\n// on abandonne (elle fera le flush). Sinon on concatene le buffer dans data.body.\nconst item = $input.first().json;\nconst data = item?.data || {};\nconst from = data.from || '';\nconst myStamp = item._aggStamp;\n\nif (!from) return [$input.first()];\n\nconst store = $getWorkflowStaticData('global');\nconst buf = store.buffers && store.buffers[from];\n\nif (!buf || buf.stamp !== myStamp) return [];\n\nconst aggregated = buf.parts.join(' ');\ndelete store.buffers[from];\n\nconst out = Object.assign({}, item, { data: Object.assign({}, data, { body: aggregated }) });\nreturn [{ json: out }];"
+      },
+      "id": "b891d2f8-e3ef-4fe3-b99d-6e386930d796",
+      "name": "Flush If Latest",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1552,
+        1680
+      ]
     }
   ],
   "pinData": {},
   "connections": {
-    "Wait": {
-      "main": [
-        [
-          {
-            "node": "Real Estate Qualifier",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Anthropic Chat Model": {
       "ai_languageModel": [
         [
@@ -582,6 +1112,11 @@
             "node": "Confirmer Desabonnement",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Insert Blacklist",
+            "type": "main",
+            "index": 0
           }
         ],
         [
@@ -593,33 +1128,11 @@
         ]
       ]
     },
-    "Dedup by messageSid": {
-      "main": [
-        [
-          {
-            "node": "Wait",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Delai Humain": {
       "main": [
         [
           {
             "node": "Wait Typing",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait Typing": {
-      "main": [
-        [
-          {
-            "node": "Response Text from Agent",
             "type": "main",
             "index": 0
           }
@@ -647,20 +1160,259 @@
           }
         ]
       ]
+    },
+    "Wait Typing": {
+      "main": [
+        [
+          {
+            "node": "Check if Lost",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if Lost": {
+      "main": [
+        [
+          {
+            "node": "Update Prospect Lost",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Optout Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert Blacklist": {
+      "main": [
+        [
+          {
+            "node": "Confirmer Desabonnement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Response Text from Agent": {
+      "main": [
+        [
+          {
+            "node": "Update Outbound Timestamp",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Log Conv Outbound",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Detect Keyword": {
+      "main": [
+        [
+          {
+            "node": "Help?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Help?": {
+      "main": [
+        [
+          {
+            "node": "Check Optout HELP",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Continuer?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Continuer?": {
+      "main": [
+        [
+          {
+            "node": "Reactivate Prospect",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aggregate Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reactivate Prospect": {
+      "main": [
+        [
+          {
+            "node": "Send Continuer Ack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dedup by messageSid": {
+      "main": [
+        [
+          {
+            "node": "Upsert Prospect Early",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Inbound Timestamp",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Detect Keyword",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Log Conv Inbound",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Prospect Lost": {
+      "main": [
+        [
+          {
+            "node": "Check Optout Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Optout Status": {
+      "main": [
+        [
+          {
+            "node": "Skip if Opted Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip if Opted Out": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Response Text from Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Optout HELP": {
+      "main": [
+        [
+          {
+            "node": "Skip HELP if Opted Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip HELP if Opted Out": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Send Help SMS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Thank Your Text": {
+      "main": [
+        [
+          {
+            "node": "Log Conv Thank",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Buffer": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Flush If Latest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flush If Latest": {
+      "main": [
+        [
+          {
+            "node": "Real Estate Qualifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate",
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false,
-    "errorWorkflow": "4jPCKbGJ2Z55gNjF"
+    "errorWorkflow": "4jPCKbGJ2Z55gNjF",
+    "binaryMode": "separate"
   },
-  "versionId": "cb1e6069-971f-417b-89dd-0424e3533d57",
-  "meta": {
-    "instanceId": "fbdc46f6967bcea5c978441b9adadd69248126c91b779fcb090d3f9be9c21564"
-  },
+  "versionId": "0506bbd0-4c04-4453-a451-49ca8a55aab4",
+  "meta": {},
   "id": "nmmmJu6HRwq0nqyI",
   "tags": []
 }
