@@ -1,4 +1,4 @@
-# Cléa — Color System
+# Klaris — Color System
 
 > All colors in OKLCH (perceptually uniform). Hex equivalents provided for tools that don't support OKLCH yet (Canva, older browsers).
 > Source of truth: [tokens.css](tokens.css).
@@ -7,7 +7,7 @@
 
 ## Primary palette
 
-### Terracotta — Cléa's signature color
+### Terracotta — Klaris's signature color
 
 | Token | OKLCH | Hex (approx) | Use |
 |-------|-------|--------------|-----|

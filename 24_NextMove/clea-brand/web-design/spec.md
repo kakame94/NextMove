@@ -1,6 +1,6 @@
-# Cléa — Landing Page Specification
+# Klaris — Landing Page Specification
 
-> Architecture, copy, components, interactions for the Cléa marketing site.
+> Architecture, copy, components, interactions for the Klaris marketing site.
 > Files: [landing-fr.html](landing-fr.html), [landing-en.html](landing-en.html).
 > Both are single-file (HTML + inline CSS + ESM script). Vanilla. No build step.
 
@@ -53,7 +53,7 @@ All cards use `border-radius: var(--radius)` (12px) and `border: 1px solid var(-
 |----|-----|
 | **Eyebrow:** Lancement Q2 2026 · Beta accessible | Q2 2026 launch · Beta open |
 | **H1:** L'**adjointe IA** des courtiers immo. Elle qualifie. Toi, tu vends. | The **AI assistant** for real estate brokers. She qualifies. You sell. |
-| **Sub:** Cléa répond à tes prospects par SMS, recueille leurs besoins, les classe par température dans ton dashboard. Tu reprends la main quand le lead est mûr. | Cléa replies to your prospects via SMS, gathers their needs, and ranks them by temperature in your dashboard. You take over when the lead is ready. |
+| **Sub:** Klaris répond à tes prospects par SMS, recueille leurs besoins, les classe par température dans ton dashboard. Tu reprends la main quand le lead est mûr. | Klaris replies to your prospects via SMS, gathers their needs, and ranks them by temperature in your dashboard. You take over when the lead is ready. |
 | **CTA primary:** Réserver une démo gratuite | Book a free demo |
 | **CTA secondary:** Voir comment ça marche → | See how it works → |
 | **Trust:** Conforme OACIQ + Loi 25 + CASL · Bilingue FR/EN dès le départ · Tu signes chaque action | OACIQ + Law 25 + CASL compliant · Bilingual EN/FR from day one · You sign every action |
@@ -62,7 +62,7 @@ All cards use `border-radius: var(--radius)` (12px) and `border: 1px solid var(-
 | FR | EN |
 |----|-----|
 | **Eyebrow:** Le problème | The problem |
-| **H2:** L'admin tue tes ventes. Cléa s'en occupe. | Admin kills your sales. Cléa handles it. |
+| **H2:** L'admin tue tes ventes. Klaris s'en occupe. | Admin kills your sales. Klaris handles it. |
 | **Sub:** Issu de 4 entretiens approfondis avec des courtiers terrain. Les douleurs sont les mêmes partout. | From in-depth interviews with field brokers. The pain points are universal. |
 | **Stat 1:** 30-60 min — par offre d'achat rédigée à la main | 30-60 min — per offer drafted by hand |
 | **Stat 2:** > 24h — délai moyen de réponse aux nouveaux leads | > 24h — average response time on new leads |
@@ -71,9 +71,9 @@ All cards use `border-radius: var(--radius)` (12px) and `border: 1px solid var(-
 ### How
 | FR | EN |
 |----|-----|
-| **H2:** SMS arrive. Cléa qualifie. Tu fermes. | SMS comes in. Cléa qualifies. You close. |
+| **H2:** SMS arrive. Klaris qualifie. Tu fermes. | SMS comes in. Klaris qualifies. You close. |
 | **Step 1:** Le prospect texte ton numéro | Prospect texts your number |
-| **Step 2:** Cléa pose les bonnes questions | Cléa asks the right questions |
+| **Step 2:** Klaris pose les bonnes questions | Klaris asks the right questions |
 | **Step 3:** Tu vois le lead chaud dans ton dashboard | Hot lead in your dashboard |
 
 ### Features
@@ -87,7 +87,7 @@ All cards use `border-radius: var(--radius)` (12px) and `border: 1px solid var(-
 ### Testimonial
 | FR | EN |
 |----|-----|
-| « *Une IA qui génère une offre d'achat en un rien de temps.* Pendant que je suis en visite, Cléa parle à mes prospects et me sort une fiche prête. Avant, je rentrais au bureau et je perdais 30-60 minutes par offre. Là, c'est secondes. » | « *An AI that drafts an offer in seconds.* While I'm out showing, Cléa talks to my prospects and hands me a clean record. I used to lose 30-60 minutes per offer at the office. Now it's seconds. » |
+| « *Une IA qui génère une offre d'achat en un rien de temps.* Pendant que je suis en visite, Klaris parle à mes prospects et me sort une fiche prête. Avant, je rentrais au bureau et je perdais 30-60 minutes par offre. Là, c'est secondes. » | « *An AI that drafts an offer in seconds.* While I'm out showing, Klaris talks to my prospects and hands me a clean record. I used to lose 30-60 minutes per offer at the office. Now it's seconds. » |
 
 ### Pricing
 | FR | EN |

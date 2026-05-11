@@ -1,4 +1,4 @@
-# Cléa — Social Media Pack
+# Klaris — Social Media Pack
 
 > Profile pictures, banners, and 10 launch posts × 2 languages = full social kit, ready to publish.
 > All files are SVG (vector, infinitely scalable, editable in Canva or any vector tool).
@@ -15,7 +15,7 @@ social-media/
 ├── banner-instagram-1500x500.svg          # IG bio header (used as Twitter X header too)
 ├── banner-facebook-820x312.svg            # Facebook cover
 └── posts/
-    ├── 01-launch-announce-{fr,en}.svg     # "Cléa is here"
+    ├── 01-launch-announce-{fr,en}.svg     # "Klaris is here"
     ├── 02-pain-admin-{fr,en}.svg          # 30-60 min stat
     ├── 03-solution-chatbot-{fr,en}.svg    # SMS demo
     ├── 04-heat-scoring-{fr,en}.svg        # 5-level temperature

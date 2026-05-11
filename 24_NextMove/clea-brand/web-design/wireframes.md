@@ -1,4 +1,4 @@
-# Cléa — Landing Page Wireframes (low-fi ASCII)
+# Klaris — Landing Page Wireframes (low-fi ASCII)
 
 > Section-by-section structure. Use alongside [spec.md](spec.md) for copy and [landing-fr.html](landing-fr.html) for the live result.
 
@@ -8,7 +8,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│ [logo] Cléa     How · Features · Pricing · EN/FR    [☼] [Book demo] │
+│ [logo] Klaris     How · Features · Pricing · EN/FR    [☼] [Book demo] │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -20,8 +20,8 @@
 │                                                                     │
 │  L'adjointe IA des courtiers immo.       ┌─────────────────────────┐│
 │  Elle qualifie. Toi, tu vends.           │   ┌──────┐  →  ●  →     ││
-│                                          │   │ SMS  │     Cléa     ││
-│  Cléa répond à tes prospects par         │   │thread│              ││
+│                                          │   │ SMS  │     Klaris     ││
+│  Klaris répond à tes prospects par         │   │thread│              ││
 │  SMS, recueille leurs besoins, les       │   │ mock │     ┌────────││
 │  classe par température...               │   │      │     │ pros-  ││
 │                                          │   └──────┘     │ pect   ││
@@ -38,7 +38,7 @@
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                       — Le problème —                               │
-│             L'admin tue tes ventes. Cléa s'en occupe.               │
+│             L'admin tue tes ventes. Klaris s'en occupe.               │
 │                                                                     │
 │   ┌──────────────┐    ┌──────────────┐    ┌──────────────┐          │
 │   │ ████ red bar │    │ ████ red bar │    │ ████ red bar │          │
@@ -56,11 +56,11 @@
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                    — Comment ça marche —                            │
-│              SMS arrive. Cléa qualifie. Tu fermes.                  │
+│              SMS arrive. Klaris qualifie. Tu fermes.                  │
 │                                                                     │
 │       (1)─ ─ ─ ─ ─ ─ ─ ─(2)─ ─ ─ ─ ─ ─ ─ ─(3)                       │
 │                                                                     │
-│   Le prospect texte    Cléa pose les       Tu vois le lead          │
+│   Le prospect texte    Klaris pose les       Tu vois le lead          │
 │   ton numéro           bonnes questions    chaud dans ton dash      │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -82,7 +82,7 @@
 │   │ [🔄] Relances auto-      │   │ [🌐] Bilingue FR/EN —    │         │
 │   │      matiques           │   │      détection auto     │         │
 │   │ Si pas de réponse,      │   │ Detects language of     │         │
-│   │ Cléa relance…           │   │ first message…          │         │
+│   │ Klaris relance…           │   │ first message…          │         │
 │   └─────────────────────────┘   └─────────────────────────┘         │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -115,7 +115,7 @@
 ┌─────────────────────────────────────────────────────────────────────┐
 │                                                                     │
 │   « Une IA qui génère une offre d'achat en un rien de temps.        │
-│     Pendant que je suis en visite, Cléa parle à mes prospects       │
+│     Pendant que je suis en visite, Klaris parle à mes prospects       │
 │     et me sort une fiche prête. Avant, je perdais 30-60 min         │
 │     par offre. Là, c'est secondes. »                                │
 │                                                                     │
@@ -169,9 +169,9 @@
 ┌─────────────────────────────────────────────────────────────────────┐
 │  ╔═══════════════════════════════════════════════════════════════╗  │
 │  ║                                                               ║  │
-│  ║  Prêt à laisser Cléa s'occuper du reste?                      ║  │
+│  ║  Prêt à laisser Klaris s'occuper du reste?                      ║  │
 │  ║                                                               ║  │
-│  ║  15 minutes de démo. On te montre Cléa avec un cas réel.      ║  │
+│  ║  15 minutes de démo. On te montre Klaris avec un cas réel.      ║  │
 │  ║  Pas de pression, pas de carte de crédit.                     ║  │
 │  ║                                                               ║  │
 │  ║              [   Réserver une démo →   ]                      ║  │
@@ -184,7 +184,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│  [logo] Cléa            PRODUIT       COMPAGNIE       LÉGAL          │
+│  [logo] Klaris            PRODUIT       COMPAGNIE       LÉGAL          │
 │  L'adjointe IA des      How           Next Move       Loi 25        │
 │  courtiers. Une marque  Features      Équipe          ToS           │
 │  Next Move.             Pricing       Carrières       CASL          │

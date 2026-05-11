@@ -1,6 +1,6 @@
-# Cléa — Brand Guidelines
+# Klaris — Brand Guidelines
 
-> Brand identity for Cléa, the AI assistant for real estate brokers.
+> Brand identity for Klaris, the AI assistant for real estate brokers.
 > One source of truth — all marketing, product, sales materials follow this.
 > Version 1.0 — 2026-04-29
 
@@ -10,7 +10,7 @@
 
 **Free brokers from admin so they can do what they love: visit, negotiate, sell.**
 
-Cléa is the AI sidekick that fields prospect SMS, qualifies leads, scores them, and hands the broker a clean dashboard. The broker keeps every relationship — Cléa just clears the runway.
+Klaris is the AI sidekick that fields prospect SMS, qualifies leads, scores them, and hands the broker a clean dashboard. The broker keeps every relationship — Klaris just clears the runway.
 
 ## 2. Positioning
 
@@ -23,7 +23,7 @@ Cléa is the AI sidekick that fields prospect SMS, qualifies leads, scores them,
 2. **Bilingual FR/EN by default** — non-negotiable for QC market
 3. **Human-in-the-loop, OACIQ-compliant** — every action traceable, reversible, signed off
 
-**What Cléa is NOT:**
+**What Klaris is NOT:**
 - Not a replacement for the broker — it positions Joanel (or whoever) as the human taking over
 - Not a generic CRM — it's vertical-specific, built from broker interviews
 - Not a black-box AI — every conversation logged, every score explainable
@@ -48,10 +48,10 @@ Cléa is the AI sidekick that fields prospect SMS, qualifies leads, scores them,
 - **Quebecois-natural** — no rigid vouvoiement when not needed (in product). Marketing FR can use vous when addressing strangers.
 
 **Signature line in product:**
-> *« Je suis son assistante. »* — never say "Je suis Cléa, l'IA de NextMove". Cléa positions herself as Joanel's assistant.
+> *« Je suis son assistante. »* — never say "Je suis Klaris, l'IA de NextMove". Klaris positions herself as Joanel's assistant.
 
 **Do**
-- "Cléa qualifie tes prospects pendant que tu visites."
+- "Klaris qualifie tes prospects pendant que tu visites."
 - "Tu reprends la main quand tu veux. Tout est tracé."
 - "Bilingue FR/EN, sans frais supplémentaires."
 
@@ -62,7 +62,7 @@ Cléa is the AI sidekick that fields prospect SMS, qualifies leads, scores them,
 
 ## 5. Logo
 
-**Concept** — The « C » of Cléa drawn as a curved SMS conversation bubble that loops back into a cocoon. The bubble = the chatbot. The cocoon = the assistant who shelters the broker's workflow.
+**Concept** — The « C » of Klaris drawn as a curved SMS conversation bubble that loops back into a cocoon. The bubble = the chatbot. The cocoon = the assistant who shelters the broker's workflow.
 
 **Variants** (in [`logo/`](logo/)):
 | File | Use |
@@ -78,7 +78,7 @@ Cléa is the AI sidekick that fields prospect SMS, qualifies leads, scores them,
 **Minimum size:** 24px tall (primary), 16px (favicon).
 
 **Don't:**
-- Don't recolor outside the palette (no green Cléa, no rainbow)
+- Don't recolor outside the palette (no green Klaris, no rainbow)
 - Don't stretch / squish (preserve aspect ratio)
 - Don't add effects (no drop shadows, no gradients beyond the prescribed primary)
 - Don't place the wordmark on busy photo backgrounds — use mono-dark over a 60% scrim instead
@@ -124,9 +124,9 @@ Default icon library: **Lucide** (matches dashboard's existing icons). Custom ic
 
 ## 11. Naming & language
 
-- **Product name:** Cléa (always with the accent, capital C)
+- **Product name:** Klaris (always with the accent, capital C)
 - **Parent company:** Next Move (two words, capitalized)
-- **Avoid:** "Cléa AI", "Cléa.ai", "the Cléa app" — just "Cléa"
+- **Avoid:** "Klaris AI", "Klaris.ai", "the Klaris app" — just "Klaris"
 - **Brokers in QC:** "courtiers immobiliers" (not "agents", which has different OACIQ meaning)
 - **Brokers in EN:** "real estate brokers" (not "real estate agents")
 

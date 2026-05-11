@@ -1,5 +1,32 @@
 # Next Move — Architecture
 
+## Elevator Pitch (source de vérité Vision)
+
+> **Brique Vision du Business Model Canvas — formulation Geoffrey Moore (cf. *The Professional Product Owner*, Ch2).**
+> Toute communication produit (deck, landing, onboarding, sprint planning) doit dériver de ce pitch. Mise à jour : trimestrielle, lors du Sprint Review Q1/Q2/Q3/Q4.
+
+```
+POUR              les courtiers immobiliers solo du Québec
+QUI               perdent 2-3 h/jour à qualifier des prospects par SMS
+                  et ratent les leads non-rappelés sous 1 h
+KLARIS            EST UNE adjointe IA bilingue FR/EN, conforme OACIQ + Loi 25
+QUI               qualifie tes prospects par SMS 24/7 pendant que tu vends,
+                  et te livre une fiche prête + un score de température
+CONTRAIREMENT À   un CRM franchise générique (80 % d'adoption nulle, saisie manuelle)
+                  ou une assistante humaine à 2 500 $/mois
+NOTRE PRODUIT     te rend tes soirées en famille
+                  et te fait scaler de 3 à 10 transactions/mois
+```
+
+**Test 2×2 Practical/Emotional (Ch2 Fig 2-9).**
+- Practical : HIGH (action concrète : qualifier par SMS, livrer fiche).
+- Emotional : HIGH (soirées en famille, scale, libération admin).
+
+**Tagline courte (deck slide 01) :** *« L'adjointe IA des courtiers immo. Elle qualifie. Toi, tu vends. »*
+**Tagline étendue (deck slide 04) :** *« Tes soirées en famille pendant que Klaris fait l'admin. »*
+
+---
+
 ## System Flow
 
 ```

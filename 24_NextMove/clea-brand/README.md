@@ -1,6 +1,6 @@
-# Cléa — Design Package
+# Klaris — Design Package
 
-> Complete brand identity, marketing site, pitch deck, and social media kit for Cléa — the AI assistant for real estate brokers.
+> Complete brand identity, marketing site, pitch deck, and social media kit for Klaris — the AI assistant for real estate brokers.
 > A Next Move product. Quebec-first, FR/EN bilingual.
 
 ---
@@ -24,7 +24,7 @@ Replaces the **7 800 €** designer quote (Brand On Fire + Web Design + Social M
 | [`logo/clea-mono-light.svg`](brand-identity/logo/clea-mono-light.svg) | Single color for light backgrounds |
 | [`logo/clea-mono-dark.svg`](brand-identity/logo/clea-mono-dark.svg) | Single color for dark/colored backgrounds |
 | [`graphic-elements/icon-set.svg`](brand-identity/graphic-elements/icon-set.svg) | 6 custom icons (chatbot, scoring, follow-up, FR/EN, compliance, dashboard) |
-| [`graphic-elements/illustration-hero.svg`](brand-identity/graphic-elements/illustration-hero.svg) | SMS thread → Cléa → dashboard hero illustration |
+| [`graphic-elements/illustration-hero.svg`](brand-identity/graphic-elements/illustration-hero.svg) | SMS thread → Klaris → dashboard hero illustration |
 | [`graphic-elements/pattern-grid.svg`](brand-identity/graphic-elements/pattern-grid.svg) | Subtle dot + bubble pattern for backgrounds |
 
 ### 2. Web Design — [`web-design/`](web-design/)

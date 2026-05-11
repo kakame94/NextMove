@@ -1,6 +1,6 @@
 # Mockups — Generation guide
 
-> PNG mockups of the Cléa landing pages. Generated via Chrome headless.
+> PNG mockups of the Klaris landing pages. Generated via Chrome headless.
 
 ---
 

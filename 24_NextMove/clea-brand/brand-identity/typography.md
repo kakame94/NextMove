@@ -1,4 +1,4 @@
-# Cléa — Typography System
+# Klaris — Typography System
 
 > Single typeface across product + marketing for cohesion: **Geist** (display + body) and **Geist Mono** (data, code, SMS extracts).
 > Source: Google Fonts (free, open-source by Vercel).
@@ -28,7 +28,7 @@
 | 600 | semibold | Headings, card titles |
 | 700 | bold | Display H1, hero headlines, key stats |
 
-Don't use 300 (light) or 800/900 (extra-bold). Off-brand for Cléa's warm/professional balance.
+Don't use 300 (light) or 800/900 (extra-bold). Off-brand for Klaris's warm/professional balance.
 
 ## Scale
 
