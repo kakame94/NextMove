@@ -1,114 +1,90 @@
 # Refactor : Dedup + Aggregation backed par Postgres
 
-> Statut : backlog Sprint 2
-> Date d'identification : 2026-05-11
+> Statut : **IMPLEMENTÉ** au cours de la session du 2026-05-11 (continuation après commit `a879816`)
+> Test S5 (dedup identique) : **VALIDÉ** (conv_in=1, memory cohérente)
+> Test 3 (burst aggregation) : **À VALIDER** dans la prochaine session
 > Workflow concerné : `next_move_intake_agent_v2` (id `nmmmJu6HRwq0nqyI`)
+> Supabase project : NextMoveMVP (id `fhqybnkxqfvbsjvwrcob`)
 
-## Contexte
+## Architecture finale
 
-Le Sprint 1 a livré un mécanisme de dedup `from+body` et un Aggregate Buffer + Wait 3s + Flush If Latest pour gérer les bursts de SMS d'un même prospect. Le mécanisme s'appuie sur le **staticData n8n** (`$getWorkflowStaticData('global')`).
-
-Tests de pilote (2026-05-11) ont révélé une **limitation architecturale** :
-
-- `$getWorkflowStaticData` n'est **pas** partagé en temps réel entre exécutions concurrentes.
-- Les writes sont committés à la fin de l'exécution.
-- 2 webhooks Twilio quasi-simultanés (gigue de délivrance ~2-4s) → 2 exécutions parallèles → chacune lit un staticData vide → toutes deux passent le dedup → agent répond 2 fois.
-
-Observation concrète : 2 SMS identiques `Maison à Verdun` envoyés en <2s → délivrés à n8n à 2.06s d'écart → dedup window 15s actif, mais les 2 execs ont lu staticData avant que l'autre ne commit → **2 réponses agent** envoyées à l'utilisateur.
-
-## Solution : déplacer dedup + aggregation vers Postgres
-
-### Migration
+Migration appliquée : `intake_state_for_atomic_dedup_aggregation`
 
 ```sql
 CREATE TABLE intake_state (
   message_sid TEXT PRIMARY KEY,
   from_phone TEXT NOT NULL,
-  body TEXT NOT NULL, -- normalisé : .trim().toLowerCase()
+  body TEXT NOT NULL, -- normalisé : LOWER(TRIM(body))
   received_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   flushed BOOLEAN NOT NULL DEFAULT FALSE
 );
-CREATE INDEX idx_intake_state_dedup
-  ON intake_state (from_phone, body, received_at DESC)
-  WHERE NOT flushed;
-CREATE INDEX idx_intake_state_buffer
-  ON intake_state (from_phone, received_at DESC)
-  WHERE NOT flushed;
-
--- TTL cleanup (cron quotidien)
-DELETE FROM intake_state WHERE received_at < NOW() - INTERVAL '24 hours';
+CREATE INDEX idx_intake_state_dedup ON intake_state (from_phone, body, received_at DESC) WHERE NOT flushed;
+CREATE INDEX idx_intake_state_buffer ON intake_state (from_phone, received_at DESC) WHERE NOT flushed;
 ```
 
-### Refactor du workflow n8n
+### Nouvelle topologie n8n (4 nouveaux nodes)
 
-**Remplacer 3 Code nodes par des Postgres nodes** (ou Code nodes appelant Supabase REST API avec credentials gérés).
+```
+Filtre STOP [false]
+  → Atomic Dedup (Postgres)           ← lock advisory + check 15s window + INSERT conditionnel
+  → Should Process? (IF)              ← branche sur should_continue
+      ├─ true  → [Upsert Prospect Early, Update Inbound Timestamp, Detect Keyword]
+      └─ false → exit
 
-#### 1. `Dedup by messageSid` → `Atomic Dedup`
+Continuer? [false]
+  → Wait (3s)
+  → Atomic Flush (Postgres)           ← lock advisory + check am_latest + UPDATE...RETURNING
+  → Should Flush? (IF)                ← branche sur should_continue
+      ├─ true  → Real Estate Qualifier (avec data.body = aggregated_body)
+      └─ false → exit
+```
 
-Query (Postgres node) :
+**Nodes retirés** : `Dedup by messageSid`, `Aggregate Buffer`, `Flush If Latest` (Code nodes race-y avec `$getWorkflowStaticData`).
+
+### Query Atomic Dedup (clé du fix)
+
 ```sql
-WITH inserted AS (
-  INSERT INTO intake_state (message_sid, from_phone, body)
-  VALUES (
-    '{{ $('Wait for Text Response').item.json.data.messageSid }}',
-    '{{ $('Wait for Text Response').item.json.data.from }}',
-    LOWER(TRIM('{{ $('Wait for Text Response').item.json.data.body }}'))
-  )
-  ON CONFLICT (message_sid) DO NOTHING
-  RETURNING received_at
+WITH lock_held AS (
+  SELECT pg_advisory_xact_lock(hashtext('{from}'))
 ),
-my_arrival AS (
-  SELECT COALESCE(
-    (SELECT received_at FROM inserted),
-    (SELECT received_at FROM intake_state WHERE message_sid = '{{ ... }}')
-  ) AS ts
-),
-is_first AS (
-  SELECT NOT EXISTS (
+recent_dup AS (
+  SELECT EXISTS (
     SELECT 1 FROM intake_state
-    WHERE from_phone = '{{ ... }}'
-      AND body = LOWER(TRIM('{{ ... }}'))
-      AND received_at < (SELECT ts FROM my_arrival)
-      AND received_at > (SELECT ts FROM my_arrival) - INTERVAL '15 seconds'
+    WHERE from_phone = '{from}'
+      AND body = LOWER(TRIM($body${body}$body$))
+      AND received_at > NOW() - INTERVAL '15 seconds'
       AND NOT flushed
-  ) AS should_continue
+  ) AS exists_dup FROM lock_held
+),
+inserted AS (
+  INSERT INTO intake_state (message_sid, from_phone, body)
+  SELECT '{sid}', '{from}', LOWER(TRIM($body${body}$body$))
+  FROM recent_dup WHERE NOT exists_dup
+  ON CONFLICT (message_sid) DO NOTHING RETURNING 1
 )
-SELECT
-  (SELECT should_continue FROM is_first) AS should_continue,
-  '{{ ... }}'::text AS message_sid,
-  '{{ ... }}'::text AS from_phone,
-  '{{ ... }}'::text AS body,
-  '{{ ... }}'::jsonb AS original_data;
+SELECT EXISTS (SELECT 1 FROM inserted) AS should_continue;
 ```
 
-Suivi d'un IF node `should_continue` → branche `true` continue, `false` exit.
+**Clés du design** :
+- `pg_advisory_xact_lock(hashtext(from_phone))` sérialise les transactions concurrentes pour le même expéditeur — sans bloquer les transactions d'autres expéditeurs.
+- Check `recent_dup` AVANT INSERT (pas après). Sinon T1's Atomic Flush voit la row dup de T2 comme "newer" et n'aggrège jamais.
+- `NOW() - INTERVAL '15 seconds'` au lieu d'un `my_record` CTE qui ne voit pas l'INSERT à cause du snapshot partagé du WITH.
 
-#### 2. `Aggregate Buffer` → no-op (l'INSERT est déjà fait par Atomic Dedup)
+### Query Atomic Flush
 
-Supprimer le node ; le Wait 3s reste.
-
-#### 3. `Flush If Latest` → `Atomic Flush`
-
-Query (Postgres node) après le Wait 3s :
 ```sql
-WITH my_arrival AS (
-  SELECT received_at FROM intake_state
-  WHERE message_sid = '{{ ... }}'
+WITH my_record AS (
+  SELECT received_at FROM intake_state WHERE message_sid = '{sid}'
 ),
 am_latest AS (
   SELECT NOT EXISTS (
     SELECT 1 FROM intake_state
-    WHERE from_phone = '{{ ... }}'
-      AND received_at > (SELECT received_at FROM my_arrival)
-      AND NOT flushed
+    WHERE from_phone = '{from}' AND received_at > (SELECT received_at FROM my_record) AND NOT flushed
   ) AS is_latest
 ),
 flush_action AS (
-  UPDATE intake_state
-  SET flushed = TRUE
-  WHERE from_phone = '{{ ... }}'
-    AND NOT flushed
-    AND (SELECT is_latest FROM am_latest)
+  UPDATE intake_state SET flushed = TRUE
+  WHERE from_phone = '{from}' AND NOT flushed AND (SELECT is_latest FROM am_latest)
   RETURNING body, received_at
 )
 SELECT
@@ -117,44 +93,42 @@ SELECT
 FROM flush_action;
 ```
 
-Suivi d'un IF node `should_continue` → branche `true` continue vers `Real Estate Qualifier` avec `data.body = aggregated_body`, `false` exit.
+Real Estate Qualifier reçoit `data.body = $json.aggregated_body` (au lieu de `$json.data.body`).
 
-#### 4. Mise à jour de `Real Estate Qualifier`
+## Validation des tests (session 2026-05-11)
 
-Changer son input `text` de `={{ $json.data.body }}` à `={{ $json.aggregated_body }}` (ou injecter dans data via SET node intermédiaire).
-
-#### 5. Cleanup downstream
-
-Les nodes `Upsert Prospect Early`, `Update Inbound Timestamp`, `Detect Keyword`, `Log Conv Inbound` qui consomment `$json.data.*` continuent à fonctionner via `$('Wait for Text Response').item.json.data.*` (ils utilisent déjà cette référence après le fix race condition).
-
-## Atomicité garantie
-
-- `INSERT ... ON CONFLICT DO NOTHING` est atomique au niveau Postgres.
-- `UPDATE ... WHERE ... AND (CTE_condition)` est atomique dans une seule transaction.
-- Deux exécutions concurrentes verront **toujours** un état cohérent — soit l'une "gagne" l'INSERT, soit elle voit le row de l'autre.
-
-## Estimation
-
-- Migration DB : 5 min
-- Refactor 3 nodes + 2 IF nodes + rewiring : 30-45 min
-- Tests de non-régression (S5, burst, sanity) : 15-30 min
-- **Total : ~1h-1h30**
-
-## Tests d'acceptation après refactor
-
-| ID | Scénario | Attendu |
+| Test | Statut | Observations |
 |---|---|---|
-| S5 | 2 SMS identiques en <5s | 1 seule ligne `conv_in`, 1 seule réponse agent, 1 seule entry dans `n8n_chat_histories` (user+agent) |
-| Burst | 3 SMS différents en <3s | 3 lignes `conv_in`, 1 seule réponse agent qui voit le body concaténé, n8n_chat_histories montre 1 user (body concaténé) + 1 agent |
-| Sanity | 1 SMS solo | Comportement identique à aujourd'hui, latence ~15s |
-| Retry Twilio | Même messageSid rejoué | Bloqué (premier passe seulement) |
-| Spam 60s | 2 SMS identiques à 60s d'écart | Les DEUX passent (fenêtre de 15s expirée) |
+| Sanity (1 SMS solo) | ✅ | Agent répond ~15s plus tard. conv_in=1, memory=2 turns. |
+| **S5 dedup identique** | **✅** | 2× `Maison à Verdun` en <2s → conv_in=**1** (le 2ᵉ bloqué via lock+recent_dup), memory cohérente, 1 SMS reçu par testeuse. |
+| Burst aggregation (3 different) | ⏳ | À tester dans prochaine session — devrait passer car aggregation par Atomic Flush déjà validée sur petit cas (test S5 ter avant fix : flush UPDATE...RETURNING fonctionne, just aggregait des dups). |
 
-## Bug parking lot (à fixer pendant le refactor)
+## Bug ouvert (parking lot)
 
-Découverts pendant la session du 2026-05-11 — déjà corrigés mais à valider :
+**`Log Conv Outbound` + `Update Outbound Timestamp` insèrent 0 row mais retournent `success: true`** — depuis le début de la session. Plusieurs tentatives :
+- Changement `$('Wait for Text Response')` → `$json.to` → fonctionne **une fois** puis retombe en échec
+- Revert vers `$('Wait for Text Response')` après le refactor
 
-- ✅ `Log Conv Inbound` race condition (resequenced après `Upsert Prospect Early`)
-- ✅ Check constraint `conversations.role` accepte maintenant `'assistant'`
-- ✅ `=` parasite retiré de 3 queries (`Insert Blacklist`, `Update Inbound/Outbound Timestamp`)
-- ✅ `Log Conv Outbound` / `Update Outbound Timestamp` utilisent maintenant `$json.to` au lieu de `$('Wait for Text Response')` pour éviter staleness
+Symptôme : exec n8n retourne success, mais query manuelle (même body+sid+to) insère bien quand exécutée à la main. Suggère que **n8n n'envoie pas la query que le node UI affiche**, ou que les valeurs sont undefined/empty au runtime.
+
+Hypothèses non testées :
+- `continueOnFail: true` + `onError: continueRegularOutput` masquent l'erreur réelle
+- Activer Postgres `log_statement = 'all'` pour capturer la SQL réelle
+- Ajouter une `RETURNING id` au query pour forcer n8n à retourner la row (au lieu de juste success)
+- Vérifier si `pairedItem` est mal résolu (output Log Conv Outbound montre `pairedItem: [{item: 0}]` — array, alors que Upsert montre `pairedItem: {item: 0}` — object)
+
+Workaround possible : remplacer Log Conv Outbound par un Code node qui utilise `$('Response Text from Agent').first().json.to` explicitement.
+
+## État DB après session
+
+À la fin de la session :
+- prospect `+15794216910` toujours en DB (testeuse — femme de Dennis)
+- `intake_state` peut contenir des rows de test (flushed=true majoritairement)
+- `conversations` peut être vide ou contenir 1 row inbound selon le dernier test
+
+## Reprise prochaine session
+
+1. Wipe DB : `DELETE FROM conversations; DELETE FROM prospects; DELETE FROM blacklist; DELETE FROM n8n_chat_histories; DELETE FROM intake_state;`
+2. Désactiver/réactiver workflow `nmmmJu6HRwq0nqyI` dans n8n
+3. **Test burst** : testeuse envoie 3 SMS différents en <3s → valider 1 réponse agent, aggregated_body correct dans memory
+4. **Debug Log Conv Outbound** : tenter Code node ou logging Postgres pour capturer la query réelle
