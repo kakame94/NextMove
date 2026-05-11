@@ -182,7 +182,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT *\nFROM n8n_chat_histories\nWHERE session_id = '{{ $('Wait for Text Response').item.json.data.from }}';\n",
+        "query": "=SELECT *\nFROM n8n_chat_histories\nWHERE session_id = '{{ $('Wait for Text Response').item.json.data.from }}';\n",
         "options": {}
       },
       "id": "b232d078-8780-490a-9389-e30eca969ec8",
@@ -415,7 +415,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Dedup: bloque (a) les retries Twilio (meme messageSid)\n// et (b) les doubles envois utilisateur (meme from+body dans DEDUP_WINDOW_MS).\nconst data = $input.first().json?.data || {};\nconst sid = data.messageSid;\nconst from = data.from || '';\nconst body = (data.body || '').trim().toLowerCase();\n\nconst seen = $getWorkflowStaticData('global');\nconst now = Date.now();\nconst DEDUP_WINDOW_MS = 3000;\nconst TTL_MS = 60000;\n\nif (sid && seen[sid]) return [];\nif (sid) seen[sid] = now;\n\nif (from && body) {\n  const key = 'dup:' + from + ':' + body;\n  const last = seen[key];\n  if (last && (now - last) < DEDUP_WINDOW_MS) return [];\n  seen[key] = now;\n}\n\nconst cutoff = now - TTL_MS;\nfor (const k of Object.keys(seen)) {\n  if (typeof seen[k] === 'number' && seen[k] < cutoff) delete seen[k];\n}\n\nreturn [$input.first()];"
+        "jsCode": "// Dedup: bloque (a) les retries Twilio (meme messageSid)\n// et (b) les doubles envois utilisateur (meme from+body dans DEDUP_WINDOW_MS).\nconst data = $input.first().json?.data || {};\nconst sid = data.messageSid;\nconst from = data.from || '';\nconst body = (data.body || '').trim().toLowerCase();\n\nconst seen = $getWorkflowStaticData('global');\nconst now = Date.now();\nconst DEDUP_WINDOW_MS = 15000;\nconst TTL_MS = 60000;\n\nif (sid && seen[sid]) return [];\nif (sid) seen[sid] = now;\n\nif (from && body) {\n  const key = 'dup:' + from + ':' + body;\n  const last = seen[key];\n  if (last && (now - last) < DEDUP_WINDOW_MS) return [];\n  seen[key] = now;\n}\n\nconst cutoff = now - TTL_MS;\nfor (const k of Object.keys(seen)) {\n  if (typeof seen[k] === 'number' && seen[k] < cutoff) delete seen[k];\n}\n\nreturn [$input.first()];"
       },
       "id": "dedup_check_1",
       "name": "Dedup by messageSid",
@@ -469,7 +469,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "{{ $json.query }}",
+        "query": "={{ $json.query }}",
         "options": {}
       },
       "id": "1144e7a7-2e1e-497e-a28b-1385802cd01f",
@@ -523,7 +523,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "UPDATE prospects SET statut = 'perdu', score_chaleur = 0, resume_ia = COALESCE(resume_ia, '') || ' | PERDU: ' || '{{ $('Delai Humain').item.json.output.replace('LOST', '').trim().substring(0, 200).replace(/'/g, \"''\") }}', updated_at = NOW() WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}' RETURNING id, telephone, statut, resume_ia;",
+        "query": "=UPDATE prospects SET statut = 'perdu', score_chaleur = 0, resume_ia = COALESCE(resume_ia, '') || ' | PERDU: ' || '{{ $('Delai Humain').item.json.output.replace('LOST', '').trim().substring(0, 200).replace(/'/g, \"''\") }}', updated_at = NOW() WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}' RETURNING id, telephone, statut, resume_ia;",
         "options": {}
       },
       "id": "a26551e4-3fcf-4f3d-8313-4a6133eaa00c",
@@ -544,7 +544,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "INSERT INTO blacklist (phone, reason) VALUES ('={{ $('Wait for Text Response').item.json.data.from }}', 'stop_keyword') ON CONFLICT (phone) DO NOTHING;\nUPDATE prospects SET opted_out_at = NOW(), statut = 'perdu', updated_at = NOW() WHERE telephone = '={{ $('Wait for Text Response').item.json.data.from }}' AND opted_out_at IS NULL;",
+        "query": "=INSERT INTO blacklist (phone, reason) VALUES ('{{ $('Wait for Text Response').item.json.data.from }}', 'stop_keyword') ON CONFLICT (phone) DO NOTHING;\nUPDATE prospects SET opted_out_at = NOW(), statut = 'perdu', updated_at = NOW() WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}' AND opted_out_at IS NULL;",
         "options": {}
       },
       "id": "blacklist_insert_1",
@@ -565,7 +565,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "UPDATE prospects SET last_inbound_at = NOW(), updated_at = NOW() WHERE telephone = '={{ $('Wait for Text Response').item.json.data.from }}';",
+        "query": "=UPDATE prospects SET last_inbound_at = NOW(), updated_at = NOW() WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}';",
         "options": {}
       },
       "id": "update_inbound_1",
@@ -587,7 +587,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "UPDATE prospects SET last_outbound_at = NOW() WHERE telephone = '={{ $('Wait for Text Response').item.json.data.from }}';",
+        "query": "=UPDATE prospects SET last_outbound_at = NOW() WHERE telephone = '{{ $json.to }}';",
         "options": {}
       },
       "id": "update_outbound_1",
@@ -712,7 +712,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "UPDATE prospects SET opted_out_at = NULL, statut = 'en_qualification', pause_relances = false, updated_at = NOW() WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}'; DELETE FROM blacklist WHERE phone = '{{ $('Wait for Text Response').item.json.data.from }}';",
+        "query": "=UPDATE prospects SET opted_out_at = NULL, statut = 'en_qualification', pause_relances = false, updated_at = NOW() WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}'; DELETE FROM blacklist WHERE phone = '{{ $('Wait for Text Response').item.json.data.from }}';",
         "options": {}
       },
       "id": "kw_reactivate",
@@ -757,7 +757,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "INSERT INTO prospects (telephone, courtier_id, canal_source, type_projet, statut, langue_preferee, created_at, updated_at, last_inbound_at) VALUES ('{{ $json.data.from }}', '0d99b83a-91db-42cd-a19b-2e88384c67a7', 'sms', 'acheteur', 'en_qualification', 'fr', NOW(), NOW(), NOW()) ON CONFLICT (telephone) DO NOTHING RETURNING id, telephone, statut;",
+        "query": "=INSERT INTO prospects (telephone, courtier_id, canal_source, type_projet, statut, langue_preferee, created_at, updated_at, last_inbound_at) VALUES ('{{ $json.data.from }}', '0d99b83a-91db-42cd-a19b-2e88384c67a7', 'sms', 'acheteur', 'en_qualification', 'fr', NOW(), NOW(), NOW()) ON CONFLICT (telephone) DO NOTHING RETURNING id, telephone, statut;",
         "options": {}
       },
       "id": "d42054db-3945-47a8-91a1-87ed7433ff40",
@@ -779,7 +779,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT (EXISTS(SELECT 1 FROM blacklist WHERE phone = '{{ $('Wait for Text Response').item.json.data.from }}') OR EXISTS(SELECT 1 FROM prospects WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}' AND opted_out_at IS NOT NULL)) as is_blocked;",
+        "query": "=SELECT (EXISTS(SELECT 1 FROM blacklist WHERE phone = '{{ $('Wait for Text Response').item.json.data.from }}') OR EXISTS(SELECT 1 FROM prospects WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}' AND opted_out_at IS NOT NULL)) as is_blocked;",
         "options": {}
       },
       "id": "90820cf9-8303-4ee6-b527-269cd76a5be7",
@@ -835,7 +835,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT (EXISTS(SELECT 1 FROM blacklist WHERE phone = '{{ $('Wait for Text Response').item.json.data.from }}') OR EXISTS(SELECT 1 FROM prospects WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}' AND opted_out_at IS NOT NULL)) as is_blocked;",
+        "query": "=SELECT (EXISTS(SELECT 1 FROM blacklist WHERE phone = '{{ $('Wait for Text Response').item.json.data.from }}') OR EXISTS(SELECT 1 FROM prospects WHERE telephone = '{{ $('Wait for Text Response').item.json.data.from }}' AND opted_out_at IS NOT NULL)) as is_blocked;",
         "options": {}
       },
       "id": "da5236d8-eae2-4d48-a739-56d4ba8b1406",
@@ -891,7 +891,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "INSERT INTO conversations (prospect_id, role, contenu, canal, courtier_id, metadata) SELECT p.id, 'prospect', $body${{ ($json.data.body || '').replace(/\\$body\\$/g, '') }}$body$, 'sms', p.courtier_id, jsonb_build_object('twilio_message_sid', '{{ $json.data.messageSid }}', 'from_city', '{{ $json.data.fromCity }}', 'from_state', '{{ $json.data.fromState }}') FROM prospects p WHERE p.telephone = '{{ $json.data.from }}' LIMIT 1;",
+        "query": "=INSERT INTO conversations (prospect_id, role, contenu, canal, courtier_id, metadata) SELECT p.id, 'prospect', $body${{ ($('Wait for Text Response').item.json.data.body || '').replace(/\\$body\\$/g, '') }}$body$, 'sms', p.courtier_id, jsonb_build_object('twilio_message_sid', '{{ $('Wait for Text Response').item.json.data.messageSid }}', 'from_city', '{{ $('Wait for Text Response').item.json.data.fromCity }}', 'from_state', '{{ $('Wait for Text Response').item.json.data.fromState }}') FROM prospects p WHERE p.telephone = '{{ $('Wait for Text Response').item.json.data.from }}' LIMIT 1;",
         "options": {}
       },
       "id": "d0310e61-7397-42fa-b399-344cfad59ccb",
@@ -913,7 +913,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "INSERT INTO conversations (prospect_id, role, contenu, canal, courtier_id, metadata) SELECT p.id, 'assistant', $body${{ ($('Delai Humain').item.json.output || '').replace('QUALIFIED', '').replace('LOST', '').trim().replace(/\\$body\\$/g, '') }}$body$, 'sms', p.courtier_id, jsonb_build_object('twilio_response_sid', '{{ $json.sid }}', 'is_automated', true) FROM prospects p WHERE p.telephone = '{{ $('Wait for Text Response').item.json.data.from }}' LIMIT 1;",
+        "query": "=INSERT INTO conversations (prospect_id, role, contenu, canal, courtier_id, metadata) SELECT p.id, 'assistant', $body${{ ($('Delai Humain').item.json.output || '').replace('QUALIFIED', '').replace('LOST', '').trim().replace(/\\$body\\$/g, '') }}$body$, 'sms', p.courtier_id, jsonb_build_object('twilio_response_sid', '{{ $json.sid }}', 'is_automated', true) FROM prospects p WHERE p.telephone = '{{ $json.to }}' LIMIT 1;",
         "options": {}
       },
       "id": "3775982f-9b1b-4039-a5df-8d1521e5bc75",
@@ -935,7 +935,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "INSERT INTO conversations (prospect_id, role, contenu, canal, courtier_id, metadata) SELECT p.id, 'assistant', $body${{ ($json.body || '').replace(/\\$body\\$/g, '') }}$body$, 'sms', p.courtier_id, jsonb_build_object('twilio_response_sid', '{{ $json.sid }}', 'is_automated', true, 'kind', 'thank_you') FROM prospects p WHERE p.telephone = '{{ $('Wait for Text Response').item.json.data.from }}' LIMIT 1;",
+        "query": "=INSERT INTO conversations (prospect_id, role, contenu, canal, courtier_id, metadata) SELECT p.id, 'assistant', $body${{ ($json.body || '').replace(/\\$body\\$/g, '') }}$body$, 'sms', p.courtier_id, jsonb_build_object('twilio_response_sid', '{{ $json.sid }}', 'is_automated', true, 'kind', 'thank_you') FROM prospects p WHERE p.telephone = '{{ $('Wait for Text Response').item.json.data.from }}' LIMIT 1;",
         "options": {}
       },
       "id": "0290fb8d-807a-4a50-83f2-ffebaf6047ba",
@@ -1292,11 +1292,6 @@
             "node": "Detect Keyword",
             "type": "main",
             "index": 0
-          },
-          {
-            "node": "Log Conv Inbound",
-            "type": "main",
-            "index": 0
           }
         ]
       ]
@@ -1401,6 +1396,17 @@
           }
         ]
       ]
+    },
+    "Upsert Prospect Early": {
+      "main": [
+        [
+          {
+            "node": "Log Conv Inbound",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -1411,7 +1417,7 @@
     "errorWorkflow": "4jPCKbGJ2Z55gNjF",
     "binaryMode": "separate"
   },
-  "versionId": "0506bbd0-4c04-4453-a451-49ca8a55aab4",
+  "versionId": "a7276252-9758-4cb1-a236-172ab35ee13f",
   "meta": {},
   "id": "nmmmJu6HRwq0nqyI",
   "tags": []
