@@ -594,8 +594,8 @@ async function load(){
   document.getElementById('dash-date').textContent=now.toLocaleDateString('fr-CA',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
   P=await q('prospects','select=*&order=created_at.desc');if(!Array.isArray(P))P=[];
-  const c=await q('n8n_chat_histories','select=id,session_id,message&order=id.asc');
-  if(Array.isArray(c)){const m={};c.forEach(x=>{if(!m[x.session_id])m[x.session_id]=[];m[x.session_id].push(x)});S=Object.entries(m).map(([sid,msgs])=>({sid,msgs,p:P.find(p=>p.telephone===sid)||null}))}
+  const c=await q('conversations','select=id,prospect_id,role,contenu,created_at&order=created_at.asc');
+  if(Array.isArray(c)){const m={};c.forEach(x=>{const p=P.find(pp=>pp.id===x.prospect_id);if(!p)return;const sid=p.telephone||x.prospect_id;if(!m[sid])m[sid]=[];m[sid].push(x)});S=Object.entries(m).map(([sid,msgs])=>({sid,msgs,p:P.find(p=>p.telephone===sid)||null}))}
   R=await q('relances','select=*,prospects(prenom,nom,telephone)&order=date_prevue.asc');if(!Array.isArray(R))R=[];
   QA=await q('eval_results','select=*&order=created_at.desc&limit=100');if(!Array.isArray(QA))QA=[];
 
@@ -702,7 +702,7 @@ function renderDetail(p){
 function renderConvList(){
   const el=document.getElementById('conv-items');
   if(!S.length){el.innerHTML='<div class="empty"><p>Aucune conversation.</p></div>';return}
-  el.innerHTML=S.map(s=>`<div class="conv-item ${conv===s.sid?'sel':''}" onclick="conv='${s.sid}';renderConvList();renderConvChat()"><div class="avatar">${s.p?ini(s.p):'??'}</div><div class="conv-item-main"><div class="conv-item-top"><span class="conv-item-name">${s.p?nm(s.p):s.sid}</span><span class="conv-item-time">${s.msgs.length}</span></div><div class="conv-item-prev">${esc((s.msgs[s.msgs.length-1]?.message?.content||'').substring(0,50))}</div></div></div>`).join('');
+  el.innerHTML=S.map(s=>`<div class="conv-item ${conv===s.sid?'sel':''}" onclick="conv='${s.sid}';renderConvList();renderConvChat()"><div class="avatar">${s.p?ini(s.p):'??'}</div><div class="conv-item-main"><div class="conv-item-top"><span class="conv-item-name">${s.p?nm(s.p):s.sid}</span><span class="conv-item-time">${s.msgs.length}</span></div><div class="conv-item-prev">${esc((s.msgs[s.msgs.length-1]?.contenu||'').substring(0,50))}</div></div></div>`).join('');
   renderConvChat();
 }
 function renderConvChat(){
@@ -711,7 +711,7 @@ function renderConvChat(){
   const p=s.p;
   document.getElementById('conv-head').innerHTML=`<div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3>${p?nm(p):s.sid}</h3>${p?heatCell(p.score_chaleur):''}</div><div class="meta"><span class="mono">${s.sid}</span>${p?'<span>· '+statusBadge(p.statut)+'</span>':''}</div>${p?.resume_ia?`<div class="resume">${esc(p.resume_ia.substring(0,200))}${p.resume_ia.length>200?'...':''}</div>`:''}</div>`;
   const el=document.getElementById('conv-msgs');
-  el.innerHTML=s.msgs.map(m=>`<div class="msg ${m.message?.type==='human'?'msg-in':'msg-out'}">${esc(m.message?.content||'')}</div>`).join('');
+  el.innerHTML=s.msgs.map(m=>`<div class="msg ${m.role==='prospect'?'msg-in':'msg-out'}">${esc(m.contenu||'')}</div>`).join('');
   el.scrollTop=el.scrollHeight;
 }
 
