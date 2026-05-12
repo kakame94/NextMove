@@ -35,6 +35,10 @@ dist/
 build/
 .next/
 
+# Playwright MCP artifacts
+.playwright-mcp/
+dashboard-home.png
+
 # Legacy
 openclaw-immo/
 
