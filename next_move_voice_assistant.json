@@ -197,6 +197,18 @@
       }
     },
     {
+      "id": "memory",
+      "name": "Conversation Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [1380, 360],
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger').first().json.message.from.id }}",
+        "contextWindowLength": 8
+      }
+    },
+    {
       "id": "toolProspects",
       "name": "Tool: Query Prospects",
       "type": "n8n-nodes-base.supabaseTool",
@@ -291,6 +303,9 @@
     },
     "Anthropic Chat Model": {
       "ai_languageModel": [[{ "node": "AI Agent", "type": "ai_languageModel", "index": 0 }]]
+    },
+    "Conversation Memory": {
+      "ai_memory": [[{ "node": "AI Agent", "type": "ai_memory", "index": 0 }]]
     },
     "Tool: Query Prospects": {
       "ai_tool": [[{ "node": "AI Agent", "type": "ai_tool", "index": 0 }]]
