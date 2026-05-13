@@ -13,8 +13,8 @@
 
 ### Stack vérifications (1 min)
 - [ ] Dashboard ouvert sur la **bonne URL selon le client** :
-  - **Démo Maxime** → `http://localhost:8765/index.html?courtier=Maxime%20Tremblay`
-  - **Démo Joanel** → `http://localhost:8765/index.html` (default Joanel Dupart)
+  - **Démo Maxime** → `http://localhost:8765/index.html?courtier=Maxime%20Belma`
+  - **Démo Joanel** → `http://localhost:8765/index.html` (default = "Joanel" avatar JO)
 - [ ] Server local lancé : `python3 -m http.server 8765` dans le repo
 - [ ] Workflow n8n `next_move_intake_agent_v2` → **actif** ✅
 - [ ] Workflow n8n `next_move_voice_assistant` → **actif** ✅
