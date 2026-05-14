@@ -89,9 +89,8 @@ class _RelanceCard extends ConsumerWidget {
     final fg = context.klFg();
     final mutedFg = context.klMutedFg();
     final stepColor = switch (relance.step) {
-      RelanceStep.j2  => KlarisColors.info,
-      RelanceStep.j5  => KlarisColors.warning,
-      RelanceStep.j10 => KlarisColors.destructive,
+      RelanceStep.j2 => KlarisColors.info,
+      RelanceStep.j5 => KlarisColors.warning,
     };
     final dueLabel = relance.isOverdue
         ? ref.s('relance.overdue')

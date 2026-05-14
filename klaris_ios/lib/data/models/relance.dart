@@ -42,14 +42,13 @@ class Relance {
   bool get isOverdue => untilDue.isNegative && status == RelanceStatus.pending;
 }
 
-/// J+2, J+5, J+10 sequence as per spec.
-enum RelanceStep { j2, j5, j10 }
+/// J+2, J+5 sequence per spec v1.1 (T3 J+10 retired post-Figma).
+enum RelanceStep { j2, j5 }
 
 extension RelanceStepX on RelanceStep {
   String get label => switch (this) {
         RelanceStep.j2 => 'J+2',
         RelanceStep.j5 => 'J+5',
-        RelanceStep.j10 => 'J+10',
       };
 }
 
@@ -58,7 +57,6 @@ enum RelanceStatus { pending, awaitingApproval, sent, skipped, stopped }
 RelanceStep? _parseStep(String? s) => switch (s) {
       'j2' => RelanceStep.j2,
       'j5' => RelanceStep.j5,
-      'j10' => RelanceStep.j10,
       _ => null,
     };
 

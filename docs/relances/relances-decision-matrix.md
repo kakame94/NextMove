@@ -3,9 +3,9 @@
 > Document maître du système de relance automatisé.
 > Définit quoi, quand, comment, et pourquoi NextMove envoie des messages aux prospects et courtiers.
 
-**Version :** 1.1 (recalibré post-Figma)
-**Date :** 2026-04-17
-**Audience :** Propriétaire produit, Eliot (architecture), équipe dev Sprint 2
+**Version :** 1.2 (réconciliation pseudo-code J+2/J+5 · drop J+10 + j7/j14/j21)
+**Date :** 2026-05-13
+**Audience :** Propriétaire produit, Eliot (architecture), équipe dev Sprint 7
 
 > ⚠️ **Recalibration post-Figma (v1.2)** — Ajustée suite aux 3 extractions Figma (Sprint MVP Board, Personas, Wireframes SMS node 62:2). Voir [`contexte-sprint-figma.md`](./contexte-sprint-figma.md) et [`templates-sms-figma-extraits.md`](./templates-sms-figma-extraits.md).
 >
@@ -96,7 +96,7 @@ stateDiagram-v2
 
 **Notes importantes :**
 
-- **T1-T3 forment une séquence progressive**, pas 3 relances indépendantes.
+- **T1-T2 forment une séquence progressive** (J+2 → J+5), pas 2 relances indépendantes. T3 retiré v1.1.
 - Si le prospect répond à n'importe quelle étape, toute la séquence est **annulée** et remise à zéro.
 - **T9 exige un opt-in email explicite** au moment de la collecte du prospect. Sans opt-in, T9 **ne se déclenche jamais**.
 - **T10 est purement optionnel** — à activer si Joanel souhaite du marketing relationnel.
@@ -435,28 +435,31 @@ def can_send_relance(prospect, type_relance, now):
 ### Constantes associées
 
 ```python
+# v1.2 — Réconcilié avec spec post-Figma (J+10 retiré, séquence J+2 → J+5 uniquement).
 CADENCE_MIN = {
-    'inactif_7j': timedelta(days=14),
-    'inactif_14j': timedelta(days=14),
-    'inactif_21j_final': timedelta(days=30),
-    'nudge_courtier_chaud': timedelta(hours=48),
+    'inactif_j2':            timedelta(days=5),   # 5j entre 2 envois mêmes type
+    'inactif_j5':            timedelta(days=30),  # 1 seul J+5 par séquence
+    'nudge_courtier_chaud':  timedelta(hours=48),
     'nudge_courtier_urgent': timedelta(hours=4),
-    'rdv_confirmation': timedelta(days=1),  # max 2 par RDV
-    'post_rdv_feedback': timedelta(days=30),
-    'etape_financement': timedelta(days=7),
+    'rdv_rappel_j1':         timedelta(days=1),   # max 1 par RDV
+    'rdv_rappel_j7':         timedelta(days=1),
+    'post_rdv_feedback':     timedelta(days=30),
+    'etape_financement':     timedelta(days=5),
     'reactivation_longterme': timedelta(days=180),
+    'briefing_quotidien':    timedelta(hours=24),
 }
 
 MAX_ATTEMPTS = {
-    'inactif_7j': 1,
-    'inactif_14j': 1,
-    'inactif_21j_final': 1,
-    'nudge_courtier_chaud': 3,
+    'inactif_j2':            1,
+    'inactif_j5':            1,
+    'nudge_courtier_chaud':  3,
     'nudge_courtier_urgent': 5,
-    'rdv_confirmation': 2,
-    'post_rdv_feedback': 1,
-    'etape_financement': 2,
+    'rdv_rappel_j1':         1,
+    'rdv_rappel_j7':         1,
+    'post_rdv_feedback':     1,
+    'etape_financement':     2,
     'reactivation_longterme': 1,
+    'briefing_quotidien':    1,  # 1 par jour
 }
 
 BUDGET_MAX_CAD = 500  # À valider avec Joanel

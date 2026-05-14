@@ -23,10 +23,14 @@ void main() {
       expect(r.isOverdue, false);
     });
 
-    test('step labels', () {
-      expect(RelanceStep.j2.label,  'J+2');
-      expect(RelanceStep.j5.label,  'J+5');
-      expect(RelanceStep.j10.label, 'J+10');
+    test('step labels — spec v1.1 (j2 + j5 only)', () {
+      expect(RelanceStep.j2.label, 'J+2');
+      expect(RelanceStep.j5.label, 'J+5');
+      expect(
+        RelanceStep.values.length,
+        2,
+        reason: 'j10 retired post-Figma — should be exactly 2 steps',
+      );
     });
 
     test('parses Supabase row', () {
@@ -45,6 +49,24 @@ void main() {
       expect(r.status, RelanceStatus.awaitingApproval);
       expect(r.prospectName, 'M. Tremblay');
       expect(r.content, 'Bonjour...');
+    });
+
+    test('legacy "j10" step in Supabase row falls back to default j2', () {
+      // Defensive: if old rows still exist with step='j10', parser must not crash.
+      final r = Relance.fromJson({
+        'id': 'r2',
+        'prospect_id': 'p2',
+        'prospect_score': 4,
+        'step': 'j10',
+        'status': 'pending',
+        'scheduled_for': '2026-05-10T14:00:00Z',
+        'created_at': '2026-05-01T10:00:00Z',
+      });
+      expect(
+        r.step,
+        RelanceStep.j2,
+        reason: 'Unknown step must fallback to j2 — see Relance.fromJson',
+      );
     });
   });
 }
