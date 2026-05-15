@@ -60,3 +60,54 @@ body {
   font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
   font-feature-settings: "tnum", "zero";
 }
+
+/* ════════════════════════════════════════════════════════
+   Cadastre Solitaire — splash (entry animation, web + iOS mirror)
+   DA: concentric rings, surveyor ticks, prospects by temperature
+   ════════════════════════════════════════════════════════ */
+.cad-splash {
+  position: fixed;
+  inset: 0;
+  background: oklch(0.97 0.008 75);
+  color: oklch(0.20 0.02 30);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: cadFade 3.4s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes cadFade { 0%, 85% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+.cad-svg { width: min(680px, 86vw); height: auto; font-family: 'Geist Mono', ui-monospace, monospace; }
+.cad-svg .ring {
+  fill: none;
+  stroke: oklch(var(--primary));
+  stroke-dasharray: 3 4;
+  stroke-dashoffset: 1200;
+  stroke-width: 1;
+  opacity: 0;
+  animation: cadRing 1.4s ease-out forwards;
+}
+.cad-svg .ring:nth-of-type(1) { animation-delay: 0.4s; stroke-opacity: 0.75; }
+.cad-svg .ring:nth-of-type(2) { animation-delay: 0.55s; stroke-opacity: 0.55; }
+.cad-svg .ring:nth-of-type(3) { animation-delay: 0.7s; stroke-opacity: 0.40; }
+.cad-svg .ring:nth-of-type(4) { animation-delay: 0.85s; stroke-opacity: 0.28; }
+.cad-svg .ring:nth-of-type(5) { animation-delay: 1.0s; stroke-opacity: 0.20; }
+@keyframes cadRing { to { stroke-dashoffset: 0; opacity: 1; } }
+.cad-svg .axis { stroke: oklch(0.30 0.02 30); stroke-width: 0.6; stroke-opacity: 0.4; opacity: 0; animation: cadFadeIn 0.6s ease-out 0.2s forwards; }
+.cad-svg .tick { stroke: oklch(0.30 0.02 30); stroke-width: 0.8; opacity: 0; animation: cadFadeIn 0.5s ease-out forwards; }
+.cad-svg .dot { opacity: 0; transform-origin: center; animation: cadDot 0.6s cubic-bezier(.3,1.4,.5,1) forwards; }
+@keyframes cadDot { 0% { opacity: 0; transform: scale(0); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes cadFadeIn { to { opacity: 1; } }
+.cad-svg .cad-K { transform-origin: 400px 480px; transform: scale(0); opacity: 0; animation: cadK 0.8s cubic-bezier(.2,.9,.3,1.15) 1.8s forwards; }
+@keyframes cadK { to { transform: scale(1); opacity: 1; } }
+.cad-svg .label, .cad-svg .title, .cad-svg .subtitle, .cad-svg .tag, .cad-svg .coord, .cad-svg .stamp, .cad-svg .legend { opacity: 0; animation: cadFadeIn 0.6s ease-out forwards; }
+.cad-svg .title { animation-delay: 0.05s; }
+.cad-svg .subtitle { animation-delay: 0.25s; }
+.cad-svg .coord, .cad-svg .stamp { animation-delay: 0.15s; }
+.cad-svg .tag { animation-delay: 2.3s; }
+.cad-svg .legend { animation-delay: 2.4s; }
+@media (prefers-reduced-motion: reduce) {
+  .cad-splash { animation-duration: 0.5s; }
+  .cad-svg * { animation-duration: 0.25s !important; animation-delay: 0s !important; }
+}

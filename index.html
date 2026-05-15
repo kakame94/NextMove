@@ -312,9 +312,141 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 .qa-ok{color:var(--success)}
 .qa-warn{color:var(--warning)}
 .qa-bad{color:var(--destructive)}
+
+/* ═══════════ CADASTRE SOLITAIRE — SPLASH ═══════════ */
+.cad-splash{position:fixed;inset:0;background:oklch(0.97 0.008 75);z-index:9999;display:flex;align-items:center;justify-content:center;animation:cadFade 3.4s ease-out forwards;pointer-events:none;color:oklch(0.20 0.02 30)}
+@keyframes cadFade{0%,85%{opacity:1}100%{opacity:0;visibility:hidden}}
+.cad-svg{width:min(680px,86vw);height:auto;font-family:'Geist Mono',ui-monospace,monospace}
+.cad-svg .ring{fill:none;stroke:var(--primary);stroke-dasharray:3 4;stroke-dashoffset:1200;stroke-width:1;opacity:0;animation:cadRing 1.4s ease-out forwards}
+.cad-svg .ring:nth-of-type(1){animation-delay:0.4s;stroke-opacity:0.75}
+.cad-svg .ring:nth-of-type(2){animation-delay:0.55s;stroke-opacity:0.55}
+.cad-svg .ring:nth-of-type(3){animation-delay:0.7s;stroke-opacity:0.40}
+.cad-svg .ring:nth-of-type(4){animation-delay:0.85s;stroke-opacity:0.28}
+.cad-svg .ring:nth-of-type(5){animation-delay:1.0s;stroke-opacity:0.20}
+@keyframes cadRing{to{stroke-dashoffset:0;opacity:1}}
+.cad-svg .axis{stroke:oklch(0.30 0.02 30);stroke-width:0.6;stroke-opacity:0.4;opacity:0;animation:cadFadeIn 0.6s ease-out 0.2s forwards}
+.cad-svg .tick{stroke:oklch(0.30 0.02 30);stroke-width:0.8;opacity:0;animation:cadFadeIn 0.5s ease-out forwards}
+.cad-svg .dot{opacity:0;transform-origin:center;animation:cadDot 0.6s cubic-bezier(.3,1.4,.5,1) forwards}
+@keyframes cadDot{0%{opacity:0;transform:scale(0)}100%{opacity:1;transform:scale(1)}}
+@keyframes cadFadeIn{to{opacity:1}}
+.cad-svg .cad-K{transform-origin:400px 480px;transform:scale(0);opacity:0;animation:cadK 0.8s cubic-bezier(.2,.9,.3,1.15) 1.8s forwards}
+@keyframes cadK{to{transform:scale(1);opacity:1}}
+.cad-svg .label,.cad-svg .title,.cad-svg .subtitle,.cad-svg .tag,.cad-svg .coord,.cad-svg .stamp,.cad-svg .legend{opacity:0;animation:cadFadeIn 0.6s ease-out forwards}
+.cad-svg .title{animation-delay:0.05s}
+.cad-svg .subtitle{animation-delay:0.25s}
+.cad-svg .coord,.cad-svg .stamp{animation-delay:0.15s}
+.cad-svg .tag{animation-delay:2.3s}
+.cad-svg .legend{animation-delay:2.4s}
+@media (prefers-reduced-motion: reduce){.cad-splash{animation-duration:0.5s}.cad-svg *{animation-duration:0.25s !important;animation-delay:0s !important}}
 </style>
 </head>
 <body>
+
+<!-- ═══════════ CADASTRE SOLITAIRE — SPLASH ═══════════ -->
+<div class="cad-splash" id="cadSplash" aria-hidden="true">
+  <svg class="cad-svg" viewBox="0 0 800 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <!-- Coord top-left -->
+    <text class="coord" x="40" y="40" font-size="10" letter-spacing="2" fill="oklch(0.30 0.02 30)" opacity="0.7">45°30′12″N · 73°33′48″O</text>
+    <!-- Stamp top-right -->
+    <g class="stamp" transform="translate(620,30)">
+      <rect width="140" height="60" fill="none" stroke="oklch(0.30 0.02 30)" stroke-width="0.6" opacity="0.5"/>
+      <text x="70" y="20" text-anchor="middle" font-size="9" letter-spacing="2" fill="oklch(0.30 0.02 30)" opacity="0.75">CADASTRE</text>
+      <text x="70" y="34" text-anchor="middle" font-size="9" letter-spacing="2" fill="oklch(0.30 0.02 30)" opacity="0.75">SOLITAIRE</text>
+      <text x="70" y="50" text-anchor="middle" font-size="9" letter-spacing="2" fill="var(--primary)" font-weight="600">LEVÉ N° 2026</text>
+    </g>
+    <!-- Title -->
+    <text class="title" x="400" y="130" text-anchor="middle" font-family="Geist, serif" font-size="54" letter-spacing="14" fill="oklch(0.20 0.02 30)" font-weight="300">CADASTRE  SOLITAIRE</text>
+    <text class="subtitle" x="400" y="170" text-anchor="middle" font-size="10" letter-spacing="6" fill="var(--primary)">TERRITOIRE  ·  KLARIS  ·  SOLO  ·  QUÉBEC</text>
+
+    <!-- Cross axis -->
+    <line class="axis" x1="400" y1="155" x2="400" y2="820"/>
+    <line class="axis" x1="55" y1="480" x2="745" y2="480"/>
+
+    <!-- Cardinal labels -->
+    <text class="label" x="400" y="180" text-anchor="middle" font-size="8" letter-spacing="3" fill="oklch(0.30 0.02 30)" opacity="0.7">FROID</text>
+    <text class="label" x="400" y="838" text-anchor="middle" font-size="8" letter-spacing="3" fill="oklch(0.30 0.02 30)" opacity="0.7">CHAUD</text>
+
+    <!-- Concentric rings -->
+    <circle class="ring" cx="400" cy="480" r="60"/>
+    <circle class="ring" cx="400" cy="480" r="130"/>
+    <circle class="ring" cx="400" cy="480" r="200"/>
+    <circle class="ring" cx="400" cy="480" r="270"/>
+    <circle class="ring" cx="400" cy="480" r="340"/>
+
+    <!-- Compass ticks generated in JS below -->
+    <g id="cadTicks"></g>
+
+    <!-- Prospect dots (12, by temperature bucket) -->
+    <g id="cadDots"></g>
+
+    <!-- K center -->
+    <g class="cad-K">
+      <circle cx="400" cy="480" r="42" fill="none" stroke="var(--primary)" stroke-width="1.5"/>
+      <path d="M385 460 V500 M385 480 L410 460 M385 480 L410 500" stroke="oklch(0.25 0.02 30)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="416" cy="463" r="2.2" fill="var(--primary)"/>
+    </g>
+
+    <!-- Poetic tagline -->
+    <text class="tag" x="40" y="860" font-family="Geist, serif" font-style="italic" font-size="16" fill="oklch(0.30 0.02 30)">Où le silence</text>
+    <text class="tag" x="40" y="882" font-family="Geist, serif" font-style="italic" font-size="16" fill="var(--primary)">devient territoire.</text>
+
+    <!-- Legend bottom-right -->
+    <g class="legend" transform="translate(620,820)">
+      <text x="100" y="0" text-anchor="end" font-size="8" letter-spacing="2" fill="oklch(0.30 0.02 30)" opacity="0.8">BRÛLANT · 50°+</text><circle cx="112" cy="-3" r="3.5" fill="#c2533a"/>
+      <text x="100" y="14" text-anchor="end" font-size="8" letter-spacing="2" fill="oklch(0.30 0.02 30)" opacity="0.8">TRÈS CHAUD · 40°</text><circle cx="112" cy="11" r="3.5" fill="#d77a4a"/>
+      <text x="100" y="28" text-anchor="end" font-size="8" letter-spacing="2" fill="oklch(0.30 0.02 30)" opacity="0.8">CHAUD · 30°</text><circle cx="112" cy="25" r="3.5" fill="#d4a574"/>
+      <text x="100" y="42" text-anchor="end" font-size="8" letter-spacing="2" fill="oklch(0.30 0.02 30)" opacity="0.8">TIÈDE · 20°</text><circle cx="112" cy="39" r="3.5" fill="#93b1cc"/>
+      <text x="100" y="56" text-anchor="end" font-size="8" letter-spacing="2" fill="oklch(0.30 0.02 30)" opacity="0.8">FROID · 10°</text><circle cx="112" cy="53" r="3.5" fill="#6a8fbf"/>
+    </g>
+  </svg>
+</div>
+<script>
+(function(){
+  var ticksG = document.getElementById('cadTicks');
+  if(ticksG){
+    var cx=400, cy=480, rIn=345, rOut=362;
+    for(var i=0;i<32;i++){
+      var a = (i/32)*Math.PI*2 - Math.PI/2;
+      var x1 = cx+Math.cos(a)*rIn, y1 = cy+Math.sin(a)*rIn;
+      var x2 = cx+Math.cos(a)*rOut, y2 = cy+Math.sin(a)*rOut;
+      var t = document.createElementNS('http://www.w3.org/2000/svg','line');
+      t.setAttribute('class','tick'); t.setAttribute('x1',x1); t.setAttribute('y1',y1); t.setAttribute('x2',x2); t.setAttribute('y2',y2);
+      t.style.animationDelay = (0.6 + i*0.02)+'s';
+      ticksG.appendChild(t);
+    }
+  }
+  var dotsG = document.getElementById('cadDots');
+  if(dotsG){
+    var dots=[
+      {id:'P-001',x:160,y:360,c:'#6a8fbf',temp:'18°'},
+      {id:'P-002',x:640,y:290,c:'#6a8fbf',temp:'24°'},
+      {id:'P-003',x:610,y:640,c:'#93b1cc',temp:'22°'},
+      {id:'P-004',x:300,y:740,c:'#d4a574',temp:'31°'},
+      {id:'P-005',x:200,y:540,c:'#d4a574',temp:'33°'},
+      {id:'P-006',x:520,y:360,c:'#d77a4a',temp:'38°'},
+      {id:'P-007',x:420,y:340,c:'#d77a4a',temp:'41°'},
+      {id:'P-008',x:430,y:620,c:'#c2533a',temp:'47°'},
+      {id:'P-009',x:368,y:450,c:'#c2533a',temp:'52°'},
+      {id:'P-010',x:455,y:455,c:'#c2533a',temp:'58°'},
+      {id:'P-011',x:440,y:528,c:'#c2533a',temp:'54°'},
+      {id:'P-012',x:350,y:548,c:'#c2533a',temp:'49°'}
+    ];
+    dots.forEach(function(d,i){
+      var g = document.createElementNS('http://www.w3.org/2000/svg','g');
+      g.setAttribute('class','dot');
+      g.style.animationDelay = (1.3 + i*0.06)+'s';
+      var c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx',d.x); c.setAttribute('cy',d.y); c.setAttribute('r',4.5); c.setAttribute('fill',d.c);
+      g.appendChild(c);
+      var t = document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',d.x+9); t.setAttribute('y',d.y-6); t.setAttribute('font-size','7'); t.setAttribute('letter-spacing','1'); t.setAttribute('fill','oklch(0.30 0.02 30)'); t.setAttribute('opacity','0.7');
+      t.textContent = d.id+' · '+d.temp;
+      g.appendChild(t);
+      dotsG.appendChild(g);
+    });
+  }
+})();
+</script>
 
 <div class="app">
 

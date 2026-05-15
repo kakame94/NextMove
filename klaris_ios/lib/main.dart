@@ -23,6 +23,7 @@ import 'features/map/map_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'features/prospects/prospect_detail_screen.dart';
 import 'features/search/search_screen.dart';
+import 'features/splash/cadastre_splash_overlay.dart';
 
 final _navKey = GlobalKey<NavigatorState>();
 
@@ -76,7 +77,9 @@ class KlarisApp extends ConsumerWidget {
       theme: brightness == Brightness.dark ? KlarisColors.dark : KlarisColors.light,
       routerConfig: _router,
       debugShowCheckedModeBanner: false,
-      builder: (_, child) => KlarisA11yShell(child: child ?? const SizedBox.shrink()),
+      builder: (_, child) => KlarisA11yShell(
+        child: CadastreSplashOverlay(child: child ?? const SizedBox.shrink()),
+      ),
     );
   }
 }
