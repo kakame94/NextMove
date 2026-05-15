@@ -338,6 +338,30 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 .cad-svg .tag{animation-delay:2.3s}
 .cad-svg .legend{animation-delay:2.4s}
 @media (prefers-reduced-motion: reduce){.cad-splash{animation-duration:0.5s}.cad-svg *{animation-duration:0.25s !important;animation-delay:0s !important}}
+
+/* ═══════════ CADASTRE SOLITAIRE — PAGE ═══════════ */
+.cad-canvas-wrap{position:relative;margin:24px 0;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:24px}
+.cad-canvas{width:100%;max-width:680px;height:auto;font-family:'Geist Mono',monospace;flex:1 1 320px}
+.cad-axis{stroke:var(--foreground);stroke-opacity:0.25;stroke-width:0.6}
+.cad-axis-lbl{font-size:9px;letter-spacing:3px;fill:var(--muted-foreground);opacity:0.7}
+.cad-ring{fill:none;stroke:var(--primary);stroke-dasharray:3 4;stroke-width:1}
+.cad-ring:nth-of-type(1){stroke-opacity:0.75}
+.cad-ring:nth-of-type(2){stroke-opacity:0.55}
+.cad-ring:nth-of-type(3){stroke-opacity:0.40}
+.cad-ring:nth-of-type(4){stroke-opacity:0.28}
+.cad-ring:nth-of-type(5){stroke-opacity:0.20}
+.cad-tick{stroke:var(--foreground);stroke-opacity:0.4;stroke-width:0.8}
+.cad-prospect{cursor:pointer;transition:transform 0.15s ease-out}
+.cad-prospect:hover .cad-prospect-dot{r:7;filter:drop-shadow(0 0 6px currentColor)}
+.cad-prospect:hover .cad-prospect-lbl{opacity:1;font-weight:600}
+.cad-prospect-dot{transition:r 0.15s ease-out}
+.cad-prospect-lbl{font-size:8px;letter-spacing:0.5px;fill:var(--foreground);opacity:0.65;pointer-events:none;font-family:'Geist Mono',monospace}
+.cad-legend{align-self:flex-end;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:10px 14px;font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--muted-foreground);box-shadow:0 2px 12px rgba(0,0,0,0.04);min-width:170px}
+.cad-leg-row{display:flex;align-items:center;gap:8px;padding:2px 0}
+.cad-leg-dot{display:inline-block;width:8px;height:8px;border-radius:50%}
+.cad-leg-foot{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-style:italic;font-family:'Geist',serif;font-size:11px;letter-spacing:0;color:var(--primary)}
+.cad-K-static circle:first-child{transition:r 0.3s ease}
+.cad-canvas:hover .cad-K-static circle:first-child{r:54}
 </style>
 </head>
 <body>
@@ -460,7 +484,8 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
   </div>
   <div class="sb-sep"></div>
   <div class="sb-nav">
-    <a href="#" class="nav-item active" id="n-dash" onclick="go('dash')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg>Cadastre Solitaire</a>
+    <a href="#" class="nav-item active" id="n-dash" onclick="go('dash')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Tableau</a>
+    <a href="#" class="nav-item" id="n-cad" onclick="go('cad')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg>Cadastre Solitaire</a>
     <a href="#" class="nav-item" id="n-pros" onclick="go('pros')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Prospects<span class="nav-badge" id="n-pros-badge">—</span></a>
     <a href="#" class="nav-item" id="n-conv" onclick="go('conv')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Conversations<span class="nav-badge" id="n-conv-badge" style="display:none">0</span></a>
     <a href="#" class="nav-item" id="n-rel" onclick="go('rel')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>Relances<span class="nav-badge" id="n-rel-badge" style="display:none">0</span></a>
@@ -486,7 +511,6 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 <!-- ── DASHBOARD ── -->
 <div id="v-dash" class="view on">
   <div class="page-head">
-    <p style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--primary);text-transform:uppercase;margin-bottom:4px">Cadastre Solitaire · Levé n° 2026</p>
     <h1 class="page-title">Bonjour, Joanel</h1>
     <p class="page-sub" id="dash-date"></p>
   </div>
@@ -514,6 +538,63 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
     <div class="card-body">
       <div class="chart" id="chart"></div>
       <div class="chart-legend"><span><span class="legend-dot" style="background:var(--primary)"></span>Prospects</span><span><span class="legend-dot" style="background:var(--success)"></span>Qualifiés</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CADASTRE SOLITAIRE ── -->
+<div id="v-cad" class="view">
+  <div class="page-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px">
+    <div>
+      <p style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--primary);text-transform:uppercase;margin-bottom:6px">Levé n° 2026 · Feuille 14/14</p>
+      <h1 class="page-title">Cadastre Solitaire</h1>
+      <p class="page-sub">Carte des prospects par tempérament — plus proche du K, plus chaud.</p>
+    </div>
+    <div style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted-foreground);text-align:right">
+      <div>45°30′12″N · 73°33′48″O</div>
+      <div id="cad-count" style="margin-top:4px">— prospects relevés</div>
+    </div>
+  </div>
+
+  <div class="cad-canvas-wrap">
+    <svg id="cadMap" class="cad-canvas" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <!-- Axes -->
+      <line class="cad-axis" x1="400" y1="60" x2="400" y2="740"/>
+      <line class="cad-axis" x1="60" y1="400" x2="740" y2="400"/>
+      <text class="cad-axis-lbl" x="400" y="50" text-anchor="middle">FROID</text>
+      <text class="cad-axis-lbl" x="400" y="760" text-anchor="middle">CHAUD</text>
+      <text class="cad-axis-lbl" x="48" y="404" text-anchor="end">TIÈDE</text>
+      <text class="cad-axis-lbl" x="752" y="404" text-anchor="start">TIÈDE</text>
+
+      <!-- Concentric rings (5) -->
+      <circle class="cad-ring" cx="400" cy="400" r="60"/>
+      <circle class="cad-ring" cx="400" cy="400" r="130"/>
+      <circle class="cad-ring" cx="400" cy="400" r="200"/>
+      <circle class="cad-ring" cx="400" cy="400" r="270"/>
+      <circle class="cad-ring" cx="400" cy="400" r="340"/>
+
+      <!-- Compass ticks -->
+      <g id="cadMapTicks"></g>
+
+      <!-- Prospects dots (rendered by renderCad) -->
+      <g id="cadMapDots"></g>
+
+      <!-- K center -->
+      <g class="cad-K-static">
+        <circle cx="400" cy="400" r="48" fill="none" stroke="var(--primary)" stroke-width="1.5"/>
+        <path d="M385 378 V422 M385 400 L412 378 M385 400 L412 422" stroke="var(--foreground)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="418" cy="381" r="2.5" fill="var(--primary)"/>
+      </g>
+    </svg>
+
+    <!-- Legend overlay -->
+    <div class="cad-legend">
+      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#c2533a"></span><span>BRÛLANT · score 9-10</span></div>
+      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#d77a4a"></span><span>TRÈS CHAUD · 7-8</span></div>
+      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#d4a574"></span><span>CHAUD · 5-6</span></div>
+      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#93b1cc"></span><span>TIÈDE · 3-4</span></div>
+      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#6a8fbf"></span><span>FROID · 0-2</span></div>
+      <div class="cad-leg-foot"><em>Où le silence devient territoire.</em></div>
     </div>
   </div>
 </div>
@@ -869,6 +950,60 @@ function go(v){
   if(v==='conv')renderConvList();
   if(v==='rel')renderRelTable();
   if(v==='qa')renderQA();
+  if(v==='cad')renderCad();
+}
+
+/* ══════════ CADASTRE SOLITAIRE — Page ══════════ */
+function cadColorForScore(s){
+  if(s>=9)return'#c2533a'; if(s>=7)return'#d77a4a';
+  if(s>=5)return'#d4a574'; if(s>=3)return'#93b1cc';
+  return'#6a8fbf';
+}
+function cadHash(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}return Math.abs(h)}
+function cadEnsureTicks(){
+  const g=document.getElementById('cadMapTicks');if(!g||g.children.length)return;
+  const cx=400,cy=400,rIn=345,rOut=362;
+  for(let i=0;i<32;i++){
+    const a=(i/32)*Math.PI*2-Math.PI/2;
+    const x1=cx+Math.cos(a)*rIn,y1=cy+Math.sin(a)*rIn;
+    const x2=cx+Math.cos(a)*rOut,y2=cy+Math.sin(a)*rOut;
+    const l=document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('class','cad-tick');l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
+    g.appendChild(l);
+  }
+}
+function renderCad(){
+  cadEnsureTicks();
+  const g=document.getElementById('cadMapDots');if(!g)return;
+  g.innerHTML='';
+  const list=(P||[]).slice().sort((a,b)=>(b.score||0)-(a.score||0));
+  document.getElementById('cad-count').textContent=`${list.length} prospects relevés`;
+  const cx=400,cy=400,rMin=70,rMax=335;
+  list.forEach((p,i)=>{
+    const sc=Math.max(0,Math.min(10,p.score||0));
+    const r=rMin+(1-sc/10)*(rMax-rMin);
+    const seed=cadHash((p.id||'')+(p.nom||'')+(p.prenom||'')+i);
+    const baseA=(seed%360)*Math.PI/180;
+    const jitter=((seed>>9)%21-10)*0.008;
+    const a=baseA+jitter-Math.PI/2;
+    const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
+    const col=cadColorForScore(sc);
+    const grp=document.createElementNS('http://www.w3.org/2000/svg','g');
+    grp.setAttribute('class','cad-prospect');grp.style.color=col;
+    grp.setAttribute('transform',`translate(${x.toFixed(1)},${y.toFixed(1)})`);
+    grp.addEventListener('click',()=>{if(p.id){sel=p.id;go('pros')}});
+    const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('class','cad-prospect-dot');dot.setAttribute('r','4.5');dot.setAttribute('fill',col);
+    grp.appendChild(dot);
+    const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+    lbl.setAttribute('class','cad-prospect-lbl');lbl.setAttribute('x','9');lbl.setAttribute('y','-7');
+    lbl.textContent=`${nm(p)} · ${sc}/10`;
+    grp.appendChild(lbl);
+    const title=document.createElementNS('http://www.w3.org/2000/svg','title');
+    title.textContent=`${nm(p)} — score ${sc}/10\n${p.secteur||'—'} · ${p.type||'—'}`;
+    grp.appendChild(title);
+    g.appendChild(grp);
+  });
 }
 
 /* ══════════ THEME ══════════ */
