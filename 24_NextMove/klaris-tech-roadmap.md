@@ -104,6 +104,7 @@ Stack **pragmatique, conformité-first, IA-orientée**. Anthropic en moteur prin
 | Dashboard web v1 — fiches qualifiées + score | Courtier doit voir le lead chaud en < 1 clic | TECH-3 | 80% |
 | Observabilité (Sentry + Logflare + alertes) | MTTR < 30 min sur incident SMS | TECH-1 | 70% |
 | Abstraction couche modèle (Anthropic + stub fallback) | Préparer multi-provider avant scale | TECH-5 | 65% |
+| **RAG V1 — base de connaissances agence** (templates, FAQ, OACIQ regs) indexée pgvector | Klaris répond à 80% des questions courtier sans aller-retour humain | TECH-5 | 65% |
 
 ### Next — scaler à l'agence, gagner Centris
 
@@ -113,10 +114,12 @@ Stack **pragmatique, conformité-first, IA-orientée**. Anthropic en moteur prin
 | Intégration Centris (lecture fiches MLS) | Pas de re-saisie pour le courtier | TECH-3 | 50% |
 | Rédaction offres OACIQ (template + variables + PDF signable) | 30–60 min/offre récupérées | TECH-3 | 55% |
 | Intégration Notarius + DocuSign | Signature électronique conforme QC | TECH-3 | 60% |
-| Cléa EN — modèle + prompts + eval suite anglo | Pré-requis expansion Toronto/Ottawa | TECH-5 | 55% |
+| Klaris EN — modèle + prompts + eval suite anglo | Pré-requis expansion Toronto/Ottawa | TECH-5 | 55% |
 | Mistral fallback opérationnel (failover + cost arb.) | Indépendance fournisseur + 30% COGS | TECH-5 | 50% |
 | Pipeline analytics (events → Supabase → Metabase) | Mesurer NPS, retention, $/lead par courtier | TECH-1 | 55% |
 | SLA 99.9% + status page publique | Engagement contractuel agence | TECH-1 | 50% |
+| **RAG V2 — multi-source hybrid** (conversations + besoins + listings, BM25 + vector, rerank Voyage) | Klaris cite la bonne fiche Centris ou le bon historique client en réponse | TECH-5 | 55% |
+| **RAG agentique V3** — Claude tool-calls `search_listings`, `search_clients`, `search_templates` + self-correction | Réponses fondées sur retrieval, pas hallucinées | TECH-5 | 45% |
 
 ### Later — plateforme, copilote complet, Series A
 
@@ -125,13 +128,60 @@ Stack **pragmatique, conformité-first, IA-orientée**. Anthropic en moteur prin
 | API publique v1 (OAuth, rate-limit, docs) | Partenaires CRM/prêteurs intègrent Klaris | TECH-4 | 40% |
 | SDK Web embeddable (widget) | Sites courtiers/franchises | TECH-4 | 35% |
 | Migrer orchestration n8n → service Python dédié | n8n freine au-dessus de 500 courtiers/jour | TECH-1 | 40% |
-| RAG sur historique transactions courtier | Personnaliser ton + suggestions par courtier | TECH-5 | 30% |
+| **RAG V4 — embeddings fine-tunés QC** (vocabulaire local: plex, condo, semi, secteurs) | Précision retrieval +20% vs embeddings génériques sur jargon QC | TECH-5 | 30% |
+| **RAG V5 — multimodal** (images listings via CLIP, transcriptions vocales indexées) | Recherche par photo + mémo "trouve-moi un duplex comme celui-là" | TECH-5 | 25% |
+| Fine-tuning génération sur style courtier (LoRA adapters par broker) | Ton personnalisé par courtier sans inflation coût | TECH-5 | 25% |
 | SOC 2 Type I → Type II | Vente entreprise + Series A | TECH-2 | 35% |
 | Marketplace prospects qualifiés (matching + paiement) | Monétiser leads froids | TECH-4 | 25% |
 | Module post-closing (touchpoints + références) | Garder relation client après deal | TECH-3 | 30% |
-| Fine-tuning modèle sur corpus QC | Coût/qualité — quand volume justifie | TECH-5 | 25% |
 
 ---
+
+## Évolution RAG — feuille spécifique
+
+Klaris devient un copilote utile dans la mesure où il **récupère le bon contexte**, pas seulement par la qualité de ses prompts. La progression RAG est versionnée pour clarifier ce qui est en prod, ce qui est en discovery, ce qui est spéculatif.
+
+| Version | Horizon | Architecture | Sources indexées | Modèle embedding | Retrieval | Confiance |
+|---------|---------|--------------|------------------|------------------|-----------|-----------|
+| **V0** (actuel) | livré | Postgres Chat Memory par téléphone, pas de retrieval externe | — | — | aucun | 100% (en prod) |
+| **V1** | Now | pgvector sur Supabase, retrieval top-3 chunks | Templates SMS, FAQ broker, OACIQ regs digestés (≈ 200 docs) | OpenAI `text-embedding-3-small` (1536 dims) | Cosine top-k=3 | 65% |
+| **V2** | Next | Hybrid search BM25 (`tsvector`) + vector + rerank | + conversations historiques + besoins prospects + listings Centris | OpenAI `text-embedding-3-large` ou Voyage `voyage-3` | BM25 → vector → rerank Voyage `rerank-2` | 55% |
+| **V3** | Next / Later | RAG agentique — Claude tool-calls dédiés | `search_listings`, `search_clients`, `search_templates`, `search_conversations` | identique V2 | Agent décide quoi chercher · self-correction si retrieval pauvre | 45% |
+| **V4** | Later | Embeddings fine-tunés sur corpus QC | + jargon local (plex, condo, semi, secteur Centris) + 50k conversations anonymisées | Fine-tune `text-embedding-3-small` ou Voyage finetune | identique V3 + caching sémantique | 30% |
+| **V5** | Later (spéculatif) | RAG multimodal | + images listings (CLIP), transcriptions notes vocales, plans cadastraux | CLIP ViT-L/14 + texte | Cross-modal retrieval (texte → image, image → texte) | 25% |
+
+### Métriques cibles par version
+
+| Métrique | V1 (Now) | V2 (Next) | V3 (Next/Later) | V4+ (Later) |
+|----------|---------:|----------:|----------------:|------------:|
+| Recall@5 | 0.65 | 0.80 | 0.85 | 0.90 |
+| Precision@3 | 0.55 | 0.75 | 0.85 | 0.90 |
+| Hallucination rate (% réponses inventées) | < 8% | < 3% | < 1% | < 0.5% |
+| Latence p95 retrieval | < 400 ms | < 600 ms | < 1.2 s | < 800 ms |
+| Coût retrieval / conversation (CAD) | ~0,002 $ | ~0,004 $ | ~0,008 $ | ~0,003 $ |
+
+### Stack RAG retenu
+
+- **Vector store :** pgvector (Supabase Postgres) — pas de DB séparée tant que < 1M vecteurs.
+- **Embeddings principaux :** OpenAI `text-embedding-3-small` (Now → Next) · upgrade `voyage-3` ou `text-embedding-3-large` si précision plafonne.
+- **Reranker :** Voyage AI `rerank-2` (Next) — alternative Cohere `rerank-3` si Voyage indispo.
+- **Pipeline ingestion :** Edge Function Supabase `ingest-docs/` — chunking par paragraphe (overlap 50 tokens), embed batch, upsert pgvector.
+- **Caching sémantique :** Redis (Upstash) avec clé = embedding hash, TTL 7 j (Next/Later).
+- **Eval framework :** `ragas` ou eval maison — dataset 200 paires (question, réponse attendue) labellisé par Joanel + 2 pilotes.
+
+### Gouvernance & conformité RAG
+
+- **Loi 25 :** seuls les chunks scope-`broker_id` sont retournés au courtier — RLS appliquée sur la table `documents`.
+- **OACIQ :** chaque réponse RAG-fondée loggue les `source_doc_ids` dans `audit_log` (traçabilité conseil).
+- **Hallucinations :** Claude reçoit consigne stricte « cite ou refuse » si retrieval pauvre — eval suite vérifie taux de refus correct.
+- **Données prospects :** *jamais* dans l'index agence — silos par `broker_id` strictement.
+
+### Risques RAG spécifiques
+
+- **Drift index** → réindexation hebdomadaire des listings Centris, mensuelle des FAQ/regs.
+- **Coût embeddings explose à scale** → batching 100 docs/call, cache, dégrader vers `text-embedding-3-small` si nécessaire.
+- **Privacy leak inter-courtier** → RLS auditée trimestriellement, tests automatiques `test_rag_no_cross_tenant_leak`.
+- **Régulateur jugeant RAG non-conforme** → fallback prompt-only avec disclaimer toujours disponible.
 
 ## SLOs cibles par horizon
 
