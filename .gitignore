@@ -7,6 +7,10 @@
 # Node modules
 node_modules/
 package-lock.json
+*.tsbuildinfo
+coverage/
+.next/
+out/
 
 # OS files
 .DS_Store
@@ -34,6 +38,23 @@ __pycache__/
 dist/
 build/
 .next/
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+**/.gradle/
+**/Pods/
+
+# n8n credentials (NEVER commit)
+*.credentials.json
+
+# BMAD generated artifacts
+_bmad-output/
+24_NextMove/_bmad-output/
 
 # Legacy
 openclaw-immo/

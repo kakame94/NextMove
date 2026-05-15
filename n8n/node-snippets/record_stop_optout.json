@@ -1,0 +1,19 @@
+{
+  "name": "Record STOP in sms_optout",
+  "type": "n8n-nodes-base.postgres",
+  "typeVersion": 2.5,
+  "parameters": {
+    "operation": "executeQuery",
+    "query": "INSERT INTO public.sms_optout (telephone, reason, source_message) VALUES ('{{ $('Wait for Text Response').item.json.data.from }}', 'stop_keyword', $$ {{ $('Wait for Text Response').item.json.data.body }} $$) ON CONFLICT (telephone) DO UPDATE SET created_at = now(), source_message = EXCLUDED.source_message;",
+    "options": {}
+  },
+  "retryOnFail": true,
+  "maxTries": 3,
+  "waitBetweenTries": 1000,
+  "credentials": {
+    "postgres": {
+      "id": "REPLACE_WITH_SUPABASE_CRED_ID",
+      "name": "Supabase Postgres"
+    }
+  }
+}

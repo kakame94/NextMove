@@ -9,11 +9,31 @@ export default async function DashboardPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const { data: prospects, error } = await supabase
+  const { data: rows, error } = await supabase
     .from('prospects')
-    .select('id, nom, score, secteur, budget, delai, type')
-    .order('score', { ascending: false })
+    .select(`
+      id, nom, type_projet, score_chaleur,
+      besoins_acheteur ( localisation_souhaitee, budget_min, budget_max, delai_projet )
+    `)
+    .is('deleted_at', null)
+    .order('score_chaleur', { ascending: false })
     .limit(100);
+
+  const prospects: ProspectRowData[] = (rows ?? []).map((p) => {
+    const besoins = Array.isArray(p.besoins_acheteur)
+      ? p.besoins_acheteur[0]
+      : p.besoins_acheteur;
+    const locations = besoins?.localisation_souhaitee;
+    return {
+      id: p.id,
+      nom: p.nom,
+      score: p.score_chaleur ?? 0,
+      type: p.type_projet,
+      secteur: Array.isArray(locations) ? locations[0] ?? null : null,
+      budget: besoins?.budget_max ?? besoins?.budget_min ?? null,
+      delai: besoins?.delai_projet ?? null,
+    };
+  });
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
@@ -29,13 +49,13 @@ export default async function DashboardPage() {
 
       {error && <p className="text-sm text-destructive">Erreur : {error.message}</p>}
 
-      {!error && (!prospects || prospects.length === 0) && (
+      {!error && prospects.length === 0 && (
         <p className="text-sm text-muted-fg">Aucun prospect pour l’instant.</p>
       )}
 
-      {prospects && prospects.length > 0 && (
+      {prospects.length > 0 && (
         <ul className="space-y-2">
-          {(prospects as ProspectRowData[]).map((p) => (
+          {prospects.map((p) => (
             <li key={p.id}>
               <ProspectRow p={p} />
             </li>

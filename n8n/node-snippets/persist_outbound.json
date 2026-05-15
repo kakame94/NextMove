@@ -1,0 +1,20 @@
+{
+  "name": "Persist Outbound Message",
+  "type": "n8n-nodes-base.postgres",
+  "typeVersion": 2.5,
+  "parameters": {
+    "operation": "executeQuery",
+    "query": "INSERT INTO public.conversations (prospect_id, direction, sender, content, sent_at) SELECT p.id, 'outbound', 'klaris', $$ {{ $('Delai Humain').item.json.output }} $$, now() FROM public.prospects p WHERE p.telephone = '{{ $('Wait for Text Response').item.json.data.from }}' AND p.deleted_at IS NULL LIMIT 1 RETURNING id;",
+    "options": {}
+  },
+  "retryOnFail": true,
+  "maxTries": 3,
+  "continueOnFail": true,
+  "waitBetweenTries": 1000,
+  "credentials": {
+    "postgres": {
+      "id": "REPLACE_WITH_SUPABASE_CRED_ID",
+      "name": "Supabase Postgres"
+    }
+  }
+}
