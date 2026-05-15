@@ -980,7 +980,7 @@ function renderCad(){
   document.getElementById('cad-count').textContent=`${list.length} prospects relevés`;
   const cx=400,cy=400,rMin=70,rMax=335;
   list.forEach((p,i)=>{
-    const sc=Math.max(0,Math.min(10,p.score||0));
+    const sc=Math.max(0,Math.min(10,p.score_chaleur||0));
     const r=rMin+(1-sc/10)*(rMax-rMin);
     const seed=cadHash((p.id||'')+(p.nom||'')+(p.prenom||'')+i);
     const baseA=(seed%360)*Math.PI/180;
