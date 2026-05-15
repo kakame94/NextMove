@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klaris — Feuille de route 18 mois</title>
+<link rel="icon" type="image/svg+xml" href="clea-brand/brand-identity/logo/clea-favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --background:oklch(0.98 0.005 60);
+  --foreground:oklch(0.20 0.02 30);
+  --card:oklch(1 0 0);
+  --primary:oklch(0.55 0.18 30);
+  --primary-foreground:oklch(0.99 0 0);
+  --primary-soft:oklch(0.55 0.18 30 / 0.10);
+  --primary-strong:oklch(0.45 0.20 28);
+  --muted:oklch(0.94 0.015 60);
+  --muted-foreground:oklch(0.50 0.02 30);
+  --border:oklch(0.90 0.02 60);
+  --success:oklch(0.60 0.15 145);
+  --radius:0.6rem;
+  --now-bg:oklch(0.55 0.18 30 / 0.07);
+  --now-bd:oklch(0.55 0.18 30 / 0.35);
+  --next-bg:oklch(0.75 0.12 60 / 0.10);
+  --next-bd:oklch(0.65 0.12 60 / 0.35);
+  --later-bg:oklch(0.65 0.06 220 / 0.08);
+  --later-bd:oklch(0.55 0.06 220 / 0.30);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--muted);color:var(--foreground);font-family:'Geist','Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.mono{font-family:'Geist Mono',monospace}
+
+.page{
+  width:297mm;min-height:420mm;
+  margin:24px auto;background:var(--background);
+  padding:16mm 14mm;
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+  display:flex;flex-direction:column;gap:12px;
+}
+
+/* ── Header ── */
+.head{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;padding-bottom:10px;border-bottom:2px solid var(--primary)}
+.brand{display:flex;align-items:center;gap:14px}
+.mark{width:46px;height:46px;border-radius:12px;background:var(--primary);color:var(--primary-foreground);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:24px;letter-spacing:-0.04em}
+.brand-text h1{font-size:28px;font-weight:700;letter-spacing:-0.02em;line-height:1}
+.brand-text .sub{font-size:13px;color:var(--muted-foreground);margin-top:4px}
+.meta{text-align:right;font-size:11px;color:var(--muted-foreground);line-height:1.6}
+.meta .eyebrow{display:inline-block;padding:3px 10px;border-radius:999px;background:var(--primary-soft);color:var(--primary);font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px}
+.meta strong{color:var(--foreground)}
+
+/* ── Section ── */
+.section-title{font-size:10px;font-weight:600;color:var(--primary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+
+/* ── Vision band ── */
+.hero{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-strong) 100%);color:var(--primary-foreground);border-radius:var(--radius);padding:16px 20px;display:grid;grid-template-columns:1.5fr 1fr;gap:20px;align-items:center}
+.hero .vision{font-size:17px;font-weight:500;line-height:1.4;letter-spacing:-0.005em}
+.hero .vision strong{font-weight:700;border-bottom:2px solid rgba(255,255,255,0.5);padding-bottom:1px}
+.hero .vision .tag{display:block;font-size:12px;font-weight:400;opacity:0.85;margin-top:6px;font-style:italic}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.hero-stat{background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.20);border-radius:8px;padding:8px 10px}
+.hero-stat .num{font-size:18px;font-weight:700;line-height:1;letter-spacing:-0.02em}
+.hero-stat .lbl{font-size:10px;opacity:0.85;margin-top:4px;line-height:1.3}
+
+/* ── Today snapshot ── */
+.today{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chip{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+.chip .k{font-size:9px;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-bottom:3px}
+.chip .v{font-size:12px;font-weight:500;line-height:1.35}
+
+/* ── Objectives ── */
+.obj-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.obj{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--primary);border-radius:6px;padding:8px 10px}
+.obj .obj-id{font-size:10px;font-family:'Geist Mono',monospace;color:var(--primary);font-weight:600}
+.obj .obj-name{font-size:11px;font-weight:600;line-height:1.3;margin-top:2px}
+.obj .obj-kr{font-size:10px;color:var(--muted-foreground);line-height:1.35;margin-top:4px}
+
+/* ── Themes (Now/Next/Later) ── */
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.col{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.col.now{background:var(--now-bg);border-color:var(--now-bd)}
+.col.next{background:var(--next-bg);border-color:var(--next-bd)}
+.col.later{background:var(--later-bg);border-color:var(--later-bd)}
+.col-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:2px}
+.col-head .name{font-size:14px;font-weight:700;letter-spacing:-0.01em}
+.col-head .conf{font-size:10px;color:var(--muted-foreground);font-family:'Geist Mono',monospace}
+.theme{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:8px 10px;display:flex;flex-direction:column;gap:3px}
+.theme .t-head{display:flex;align-items:baseline;justify-content:space-between;gap:6px}
+.theme .t-name{font-size:11.5px;font-weight:600;line-height:1.3;flex:1}
+.theme .t-conf{font-size:10px;color:var(--primary);font-family:'Geist Mono',monospace;font-weight:600;background:var(--primary-soft);padding:1px 6px;border-radius:999px;white-space:nowrap}
+.theme .t-need{font-size:10.5px;color:var(--muted-foreground);line-height:1.35;font-style:italic}
+.theme .t-obj{font-size:9.5px;color:var(--primary);font-family:'Geist Mono',monospace;font-weight:600;margin-top:2px}
+
+/* ── Phasing + risks ── */
+.bottom{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}
+.phasing{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted-foreground);font-weight:600;text-align:left;padding:5px 6px;border-bottom:1px solid var(--border)}
+td{padding:6px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums;line-height:1.35}
+tr:last-child td{border-bottom:none}
+td.phase-now{color:var(--primary);font-weight:600}
+.tag-raise{display:inline-block;font-size:9px;font-weight:600;padding:2px 7px;border-radius:999px;background:var(--primary-soft);color:var(--primary);white-space:nowrap}
+.tag-raise.muted{background:var(--muted);color:var(--muted-foreground)}
+.phasing-note{font-size:10px;color:var(--muted-foreground);font-style:italic;margin-top:6px;line-height:1.4}
+
+.risks{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px}
+.risk-item{padding:6px 0;border-bottom:1px solid var(--border);font-size:11px;line-height:1.4}
+.risk-item:last-child{border-bottom:none}
+.risk-item strong{display:block;font-weight:600;color:var(--foreground);font-size:11px;margin-bottom:2px}
+.risk-item span{color:var(--muted-foreground);font-size:10px}
+
+/* ── Disclaimer ── */
+.disclaimer{background:var(--muted);border-left:3px solid var(--primary);border-radius:5px;padding:8px 12px;font-size:10.5px;color:var(--muted-foreground);line-height:1.45;font-style:italic}
+.disclaimer strong{color:var(--foreground);font-style:normal;font-weight:600}
+
+/* ── Footer ── */
+.foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--muted-foreground)}
+.foot strong{color:var(--foreground)}
+
+@media print{
+  html,body{background:#fff}
+  .page{margin:0;box-shadow:none;width:auto;min-height:auto;padding:10mm 10mm}
+  @page{size:A3 portrait;margin:0}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header class="head">
+    <div class="brand">
+      <div class="mark">K</div>
+      <div class="brand-text">
+        <h1>Klaris — Feuille de route</h1>
+        <div class="sub">L'adjointe IA des courtiers immobiliers · une marque Next Move</div>
+      </div>
+    </div>
+    <div class="meta">
+      <span class="eyebrow">Horizon 18 mois</span><br>
+      <strong>Now / Next / Later</strong><br>
+      Revue trimestrielle<br>
+      v1.0 · 15 mai 2026
+    </div>
+  </header>
+
+  <!-- Vision -->
+  <section class="hero">
+    <div class="vision">
+      Pour les courtiers immobiliers <strong>indépendants et de petite agence au Canada</strong>, Klaris est une <strong>adjointe IA</strong> qui qualifie, relance et prépare les transactions — pour que le courtier passe sa journée à fermer, pas à taper.
+      <span class="tag">Klaris n'est pas un CRM de plus. C'est un copilote du quotidien.</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">1 000+</div><div class="lbl">courtiers cibles<br>fin Later</div></div>
+      <div class="hero-stat"><div class="num">~1,5 M$</div><div class="lbl">ARR cible<br>indicatif</div></div>
+      <div class="hero-stat"><div class="num">1,75 M$</div><div class="lbl">levées cumulées<br>pré-Seed → Seed</div></div>
+    </div>
+  </section>
+
+  <!-- Today snapshot -->
+  <section>
+    <div class="section-title">Position aujourd'hui · Mai 2026</div>
+    <div class="today">
+      <div class="chip"><div class="k">Pilote</div><div class="v">Joanel D. · 90% close · Grand Montréal</div></div>
+      <div class="chip"><div class="k">Stack prod</div><div class="v">n8n · Supabase · Claude · Twilio</div></div>
+      <div class="chip"><div class="k">Conformité</div><div class="v">OACIQ · Loi 25 · CASL — intégrées</div></div>
+      <div class="chip"><div class="k">Équipe</div><div class="v">4 co-fondateurs · 1 conseiller broker</div></div>
+    </div>
+  </section>
+
+  <!-- Objectives -->
+  <section>
+    <div class="section-title">Objectifs (OKRs)</div>
+    <div class="obj-grid">
+      <div class="obj">
+        <div class="obj-id">OBJ-1</div>
+        <div class="obj-name">Indispensable au courtier solo QC</div>
+        <div class="obj-kr">200 payants · rétention 90 j ≥ 85% · NPS &gt; 50</div>
+      </div>
+      <div class="obj">
+        <div class="obj-id">OBJ-2</div>
+        <div class="obj-name">Gagner le segment agence QC</div>
+        <div class="obj-kr">3 contrats · 1 pilote franchise · ≥ 30% MRR Agence</div>
+      </div>
+      <div class="obj">
+        <div class="obj-id">OBJ-3</div>
+        <div class="obj-name">Prouver l'opportunité EN-CA</div>
+        <div class="obj-kr">100 courtiers hors QC · Toronto + Ottawa · OREA</div>
+      </div>
+      <div class="obj">
+        <div class="obj-id">OBJ-4</div>
+        <div class="obj-name">Devenir copilote de transaction</div>
+        <div class="obj-kr">Rédac. offres OACIQ · 50% pilotes l'utilisent · Notarius + DocuSign</div>
+      </div>
+      <div class="obj">
+        <div class="obj-id">OBJ-5</div>
+        <div class="obj-name">Rails de la Series A</div>
+        <div class="obj-kr">API partenaires · marketplace MVP · term sheet</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Themes -->
+  <section>
+    <div class="section-title" style="display:flex;justify-content:space-between;align-items:center"><span>Thèmes — orientés résultat (pas fonctionnalités)</span><span style="font-size:9.5px;font-weight:500;color:var(--muted-foreground);letter-spacing:0.02em;text-transform:none;font-style:italic">% = confiance : probabilité que le thème sorte tel qu'écrit · jamais 100% (règle prr)</span></div>
+    <div class="themes">
+
+      <!-- NOW -->
+      <div class="col now">
+        <div class="col-head">
+          <div class="name">Now</div>
+          <div class="conf">conf. 65–80%</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire que les pilotes convertissent leurs leads sans admin manuel</div><div class="t-conf">80%</div></div>
+          <div class="t-need">Le courtier perd 30–60 min/offre et &gt; 24 h pour répondre.</div>
+          <div class="t-obj">→ OBJ-1</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire reconnaître Klaris comme conforme par défaut (OACIQ)</div><div class="t-conf">75%</div></div>
+          <div class="t-need">Crainte d'être rappelé à l'ordre si l'outil n'est pas revu.</div>
+          <div class="t-obj">→ OBJ-1</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire rester les pilotes payants au-delà de 90 jours</div><div class="t-conf">70%</div></div>
+          <div class="t-need">Adoption outils admin s'effondre à 4–6 semaines sans effet visible.</div>
+          <div class="t-obj">→ OBJ-1</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire voir aux investisseurs pré-amorçage un signal commercial clair</div><div class="t-conf">65%</div></div>
+          <div class="t-need">Anges QC investissent sur la traction, pas la promesse produit.</div>
+          <div class="t-obj">→ OBJ-1 · OBJ-2</div>
+        </div>
+      </div>
+
+      <!-- NEXT -->
+      <div class="col next">
+        <div class="col-head">
+          <div class="name">Next</div>
+          <div class="conf">conf. 50–60%</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire piloter une équipe de courtiers depuis un seul tableau de bord (direction d'agence)</div><div class="t-conf">60%</div></div>
+          <div class="t-need">Direction n'a aucune visibilité lead-to-close temps réel.</div>
+          <div class="t-obj">→ OBJ-2</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire atteindre les fiches Centris sans re-saisie</div><div class="t-conf">55%</div></div>
+          <div class="t-need">Même fiche ressaisie dans 3 outils — adoption nulle.</div>
+          <div class="t-obj">→ OBJ-1 · OBJ-4</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire passer l'offre du chat à la e-signature en un seul flux</div><div class="t-conf">55%</div></div>
+          <div class="t-need">30–60 min de mise en forme + chasse aux signatures par offre.</div>
+          <div class="t-obj">→ OBJ-4</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire voir aux VCs Seed une thèse Canada défendable</div><div class="t-conf">50%</div></div>
+          <div class="t-need">25–50 k$ MRR + expansion claire hors QC requis avant Seed.</div>
+          <div class="t-obj">→ OBJ-2 · OBJ-3</div>
+        </div>
+      </div>
+
+      <!-- LATER -->
+      <div class="col later">
+        <div class="col-head">
+          <div class="name">Later</div>
+          <div class="conf">conf. 25–40%</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire que les courtiers anglo-canadiens sentent que Klaris parle leur marché</div><div class="t-conf">40%</div></div>
+          <div class="t-need">Produit "francophone traduit" rejeté en ON/BC — ton + conformité diffèrent.</div>
+          <div class="t-obj">→ OBJ-3</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire garder la relation client après le closing (référencements)</div><div class="t-conf">35%</div></div>
+          <div class="t-need">Moitié des références perdues faute de touchpoints post-closing.</div>
+          <div class="t-obj">→ OBJ-4</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire intégrer Klaris dans le flux des partenaires (CRMs franchises, prêteurs)</div><div class="t-conf">30%</div></div>
+          <div class="t-need">Franchises veulent du levier IA sans changer leur stack.</div>
+          <div class="t-obj">→ OBJ-5</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Faire monétiser les leads froids via un marché de prospects qualifiés</div><div class="t-conf">25%</div></div>
+          <div class="t-need">60–70% des leads d'un courtier ne convertiront jamais avec lui.</div>
+          <div class="t-obj">→ OBJ-5</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Phasing + risks -->
+  <section class="bottom">
+    <div class="phasing">
+      <div class="section-title">Phasage indicatif &amp; levées — cadrage investisseurs</div>
+      <table>
+        <thead>
+          <tr><th>Horizon ~</th><th>Phase</th><th>Levée</th><th>Signaux à atteindre</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Trim. courant</td><td class="phase-now">Now</td><td><span class="tag-raise">Pré-amorçage 250 k$</span></td><td>10 courtiers payants · OACIQ revue · NPS pilote &gt; 50</td></tr>
+          <tr><td>~T+2 / T+3</td><td>Next</td><td><span class="tag-raise">Seed 1,5 M$</span></td><td>OBJ-1 atteint · OBJ-2 démarré · 1ᵉʳ contrat agence</td></tr>
+          <tr><td>~T+4 / T+5</td><td>Later (entrée)</td><td><span class="tag-raise muted">—</span></td><td>OBJ-2 atteint · OBJ-3 démarré · ~500 courtiers · ~60 k$ MRR</td></tr>
+          <tr><td>~T+6 / T+7</td><td>Later (fin)</td><td><span class="tag-raise">Prép. Series A 6–8 M$</span></td><td>OBJ-4 atteint · OBJ-5 démarré · 1 000+ courtiers · ~1,5 M$ ARR</td></tr>
+        </tbody>
+      </table>
+      <div class="phasing-note">Le phasage est une <strong>intention de séquencement</strong>, pas un engagement de livraison. Les thèmes priment ; les dates suivent les signaux marché et les fenêtres réglementaires.</div>
+    </div>
+
+    <div class="risks">
+      <div class="section-title">Risques &amp; mitigations</div>
+      <div class="risk-item">
+        <strong>Adoption courtier</strong>
+        <span>Onboarding humain 30 j · garantie 60 j · animation par pilotes terrain.</span>
+      </div>
+      <div class="risk-item">
+        <strong>Conformité régulateur</strong>
+        <span>Revue OACIQ Now · comité conformité interne · audit Loi 25 trimestriel.</span>
+      </div>
+      <div class="risk-item">
+        <strong>Concurrence US (Lofty, Sierra)</strong>
+        <span>Moat = ton QC + intégrations locales + JTBD terrain.</span>
+      </div>
+      <div class="risk-item">
+        <strong>Dépendance pilote unique</strong>
+        <span>Diversification : Maxime · Walkens · Seydou en pilotes complémentaires.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <section>
+    <div class="disclaimer">
+      <strong>Avertissement.</strong> Cette feuille de route décrit une <em>intention stratégique</em>, pas un engagement de livraison. Thèmes, priorités et horizons sont susceptibles d'évoluer au fil des apprentissages marché, pilote et réglementaires. Les pourcentages de confiance reflètent l'incertitude — aucun thème ne sort à 100% de certitude. Méthodologie : <em>Product Roadmaps Relaunched</em> (Lombardo et al., O'Reilly, 2017).
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="foot">
+    <div><strong>Contact</strong> · contact@nextmove.app · klaris.app</div>
+    <div>Klaris — une marque <strong>Next Move</strong> · 2026 · Confidentiel</div>
+  </footer>
+
+</div>
+</body>
+</html>
