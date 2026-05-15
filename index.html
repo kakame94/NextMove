@@ -340,28 +340,43 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 @media (prefers-reduced-motion: reduce){.cad-splash{animation-duration:0.5s}.cad-svg *{animation-duration:0.25s !important;animation-delay:0s !important}}
 
 /* ═══════════ CADASTRE SOLITAIRE — PAGE ═══════════ */
-.cad-canvas-wrap{position:relative;margin:24px 0;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:24px}
-.cad-canvas{width:100%;max-width:680px;height:auto;font-family:'Geist Mono',monospace;flex:1 1 320px}
-.cad-axis{stroke:var(--foreground);stroke-opacity:0.25;stroke-width:0.6}
-.cad-axis-lbl{font-size:9px;letter-spacing:3px;fill:var(--muted-foreground);opacity:0.7}
+.cad-filters{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:16px 0 0;font-family:'Geist Mono',monospace}
+.cad-chip{appearance:none;background:transparent;border:1px solid var(--border);border-radius:999px;padding:5px 12px;font-family:inherit;font-size:11px;letter-spacing:1.2px;color:var(--muted-foreground);cursor:pointer;transition:all 0.15s ease;text-transform:uppercase}
+.cad-chip:hover{border-color:var(--foreground);color:var(--foreground)}
+.cad-chip.active{background:var(--primary);border-color:var(--primary);color:var(--primary-foreground)}
+.cad-chip-sep{width:1px;height:18px;background:var(--border);margin:0 4px}
+.cad-canvas-wrap{position:relative;margin:20px 0 24px;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:24px}
+.cad-canvas{width:100%;max-width:720px;height:auto;font-family:'Geist Mono',monospace;flex:1 1 320px}
+.cad-axis{stroke:var(--foreground);stroke-opacity:0.22;stroke-width:0.6}
+.cad-axis-lbl{font-size:9px;letter-spacing:3px;fill:var(--muted-foreground);opacity:0.75;font-family:'Geist Mono',monospace}
 .cad-ring{fill:none;stroke:var(--primary);stroke-dasharray:3 4;stroke-width:1}
-.cad-ring:nth-of-type(1){stroke-opacity:0.75}
-.cad-ring:nth-of-type(2){stroke-opacity:0.55}
-.cad-ring:nth-of-type(3){stroke-opacity:0.40}
-.cad-ring:nth-of-type(4){stroke-opacity:0.28}
-.cad-ring:nth-of-type(5){stroke-opacity:0.20}
-.cad-tick{stroke:var(--foreground);stroke-opacity:0.4;stroke-width:0.8}
-.cad-prospect{cursor:pointer;transition:transform 0.15s ease-out}
-.cad-prospect:hover .cad-prospect-dot{r:7;filter:drop-shadow(0 0 6px currentColor)}
-.cad-prospect:hover .cad-prospect-lbl{opacity:1;font-weight:600}
-.cad-prospect-dot{transition:r 0.15s ease-out}
-.cad-prospect-lbl{font-size:8px;letter-spacing:0.5px;fill:var(--foreground);opacity:0.65;pointer-events:none;font-family:'Geist Mono',monospace}
-.cad-legend{align-self:flex-end;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:10px 14px;font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--muted-foreground);box-shadow:0 2px 12px rgba(0,0,0,0.04);min-width:170px}
-.cad-leg-row{display:flex;align-items:center;gap:8px;padding:2px 0}
-.cad-leg-dot{display:inline-block;width:8px;height:8px;border-radius:50%}
-.cad-leg-foot{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-style:italic;font-family:'Geist',serif;font-size:11px;letter-spacing:0;color:var(--primary)}
-.cad-K-static circle:first-child{transition:r 0.3s ease}
-.cad-canvas:hover .cad-K-static circle:first-child{r:54}
+.cad-ring:nth-of-type(1){stroke-opacity:0.85}
+.cad-ring:nth-of-type(2){stroke-opacity:0.62}
+.cad-ring:nth-of-type(3){stroke-opacity:0.45}
+.cad-ring:nth-of-type(4){stroke-opacity:0.30}
+.cad-ring:nth-of-type(5){stroke-opacity:0.22}
+.cad-tick{stroke:var(--foreground);stroke-opacity:0.45;stroke-width:0.8}
+.cad-prospect{cursor:pointer}
+.cad-prospect-dot{transition:r 0.18s cubic-bezier(.3,1.4,.5,1),filter 0.18s ease}
+.cad-prospect-ring{fill:none;stroke:currentColor;stroke-width:1.2;opacity:0;transition:opacity 0.18s ease}
+.cad-prospect:hover .cad-prospect-dot{r:9;filter:drop-shadow(0 0 8px currentColor)}
+.cad-prospect:hover .cad-prospect-ring{opacity:0.6}
+.cad-prospect.active .cad-prospect-dot{r:9;filter:drop-shadow(0 0 10px currentColor)}
+.cad-prospect.active .cad-prospect-ring{opacity:0.8}
+.cad-legend{align-self:flex-start;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--muted-foreground);box-shadow:0 2px 12px rgba(0,0,0,0.04);min-width:190px}
+.cad-leg-row{display:flex;align-items:center;gap:10px;padding:3px 0}
+.cad-leg-dot{display:inline-block;width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.cad-leg-foot{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-style:italic;font-family:'Geist',serif;font-size:12px;letter-spacing:0;color:var(--primary)}
+.cad-hover{position:absolute;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 16px;min-width:240px;max-width:280px;box-shadow:0 8px 28px rgba(0,0,0,0.10);font-family:'Geist',sans-serif;pointer-events:none;z-index:10;transition:opacity 0.12s ease}
+.cad-hover-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.cad-hover-avatar{width:32px;height:32px;border-radius:50%;background:var(--primary);color:var(--primary-foreground);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;letter-spacing:0.5px;flex-shrink:0}
+.cad-hover-name{font-weight:600;font-size:13px;color:var(--foreground);line-height:1.2}
+.cad-hover-meta{font-size:10px;color:var(--muted-foreground);font-family:'Geist Mono',monospace;letter-spacing:0.5px;margin-top:2px}
+.cad-hover-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;padding-top:10px;border-top:1px solid var(--border)}
+.cad-hover-grid > div{display:flex;flex-direction:column;gap:1px}
+.cad-hover-grid span{font-size:9px;letter-spacing:1.5px;color:var(--muted-foreground);font-family:'Geist Mono',monospace;text-transform:uppercase}
+.cad-hover-grid b{font-size:12px;color:var(--foreground);font-weight:600}
+.cad-hover-foot{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;letter-spacing:1px;color:var(--primary);text-transform:uppercase;font-family:'Geist Mono',monospace;text-align:center}
 </style>
 </head>
 <body>
@@ -544,57 +559,84 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 
 <!-- ── CADASTRE SOLITAIRE ── -->
 <div id="v-cad" class="view">
-  <div class="page-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px">
+  <div class="page-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap">
     <div>
       <p style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--primary);text-transform:uppercase;margin-bottom:6px">Levé n° 2026 · Feuille 14/14</p>
       <h1 class="page-title">Cadastre Solitaire</h1>
       <p class="page-sub">Carte des prospects par tempérament — plus proche du K, plus chaud.</p>
     </div>
-    <div style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted-foreground);text-align:right">
+    <div style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted-foreground);text-align:right;white-space:nowrap">
       <div>45°30′12″N · 73°33′48″O</div>
       <div id="cad-count" style="margin-top:4px">— prospects relevés</div>
     </div>
   </div>
 
+  <!-- Filters -->
+  <div class="cad-filters" id="cadFilters">
+    <button class="cad-chip active" data-cad-f="all">Tous</button>
+    <button class="cad-chip" data-cad-f="hot">Chauds (≥7)</button>
+    <button class="cad-chip" data-cad-f="warm">Tièdes (3–6)</button>
+    <button class="cad-chip" data-cad-f="cold">Froids (≤2)</button>
+    <span class="cad-chip-sep"></span>
+    <button class="cad-chip" data-cad-f="buyer">Acheteurs</button>
+    <button class="cad-chip" data-cad-f="seller">Vendeurs</button>
+  </div>
+
   <div class="cad-canvas-wrap">
     <svg id="cadMap" class="cad-canvas" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-      <!-- Axes -->
       <line class="cad-axis" x1="400" y1="60" x2="400" y2="740"/>
       <line class="cad-axis" x1="60" y1="400" x2="740" y2="400"/>
       <text class="cad-axis-lbl" x="400" y="50" text-anchor="middle">FROID</text>
-      <text class="cad-axis-lbl" x="400" y="760" text-anchor="middle">CHAUD</text>
+      <text class="cad-axis-lbl" x="400" y="760" text-anchor="middle">BRÛLANT</text>
       <text class="cad-axis-lbl" x="48" y="404" text-anchor="end">TIÈDE</text>
       <text class="cad-axis-lbl" x="752" y="404" text-anchor="start">TIÈDE</text>
 
-      <!-- Concentric rings (5) -->
-      <circle class="cad-ring" cx="400" cy="400" r="60"/>
-      <circle class="cad-ring" cx="400" cy="400" r="130"/>
-      <circle class="cad-ring" cx="400" cy="400" r="200"/>
-      <circle class="cad-ring" cx="400" cy="400" r="270"/>
+      <circle class="cad-ring" cx="400" cy="400" r="70"/>
+      <circle class="cad-ring" cx="400" cy="400" r="140"/>
+      <circle class="cad-ring" cx="400" cy="400" r="210"/>
+      <circle class="cad-ring" cx="400" cy="400" r="280"/>
       <circle class="cad-ring" cx="400" cy="400" r="340"/>
 
-      <!-- Compass ticks -->
       <g id="cadMapTicks"></g>
-
-      <!-- Prospects dots (rendered by renderCad) -->
       <g id="cadMapDots"></g>
 
-      <!-- K center -->
       <g class="cad-K-static">
-        <circle cx="400" cy="400" r="48" fill="none" stroke="var(--primary)" stroke-width="1.5"/>
-        <path d="M385 378 V422 M385 400 L412 378 M385 400 L412 422" stroke="var(--foreground)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <circle cx="418" cy="381" r="2.5" fill="var(--primary)"/>
+        <circle cx="400" cy="400" r="62" fill="var(--background)" stroke="var(--primary)" stroke-width="1.5"/>
+        <circle cx="400" cy="400" r="56" fill="none" stroke="var(--primary)" stroke-width="0.6" stroke-opacity="0.4"/>
+        <path d="M381 372 V428 M381 400 L417 372 M381 400 L417 428" stroke="var(--foreground)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="424" cy="376" r="3" fill="var(--primary)"/>
+      </g>
+
+      <g id="cadEmpty" style="display:none">
+        <text x="400" y="400" text-anchor="middle" font-family="Geist Mono,monospace" font-size="11" letter-spacing="2" fill="var(--muted-foreground)">AUCUN PROSPECT RELEVÉ</text>
       </g>
     </svg>
 
-    <!-- Legend overlay -->
     <div class="cad-legend">
-      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#c2533a"></span><span>BRÛLANT · score 9-10</span></div>
-      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#d77a4a"></span><span>TRÈS CHAUD · 7-8</span></div>
-      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#d4a574"></span><span>CHAUD · 5-6</span></div>
-      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#93b1cc"></span><span>TIÈDE · 3-4</span></div>
-      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#6a8fbf"></span><span>FROID · 0-2</span></div>
+      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#c2533a"></span><span>BRÛLANT · 9–10</span></div>
+      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#d77a4a"></span><span>TRÈS CHAUD · 7–8</span></div>
+      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#d4a574"></span><span>CHAUD · 5–6</span></div>
+      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#93b1cc"></span><span>TIÈDE · 3–4</span></div>
+      <div class="cad-leg-row"><span class="cad-leg-dot" style="background:#6a8fbf"></span><span>FROID · 0–2</span></div>
       <div class="cad-leg-foot"><em>Où le silence devient territoire.</em></div>
+    </div>
+
+    <!-- Hover card -->
+    <div class="cad-hover" id="cadHover" style="display:none">
+      <div class="cad-hover-head">
+        <div class="cad-hover-avatar" id="cadHoverAvatar">—</div>
+        <div>
+          <div class="cad-hover-name" id="cadHoverName">—</div>
+          <div class="cad-hover-meta" id="cadHoverMeta">—</div>
+        </div>
+      </div>
+      <div class="cad-hover-grid">
+        <div><span>Score</span><b id="cadHoverScore">—</b></div>
+        <div><span>Budget</span><b id="cadHoverBudget">—</b></div>
+        <div><span>Secteur</span><b id="cadHoverSecteur">—</b></div>
+        <div><span>Maj</span><b id="cadHoverMaj">—</b></div>
+      </div>
+      <div class="cad-hover-foot">Clic pour voir le détail →</div>
     </div>
   </div>
 </div>
@@ -972,39 +1014,128 @@ function cadEnsureTicks(){
     g.appendChild(l);
   }
 }
-function renderCad(){
-  cadEnsureTicks();
-  const g=document.getElementById('cadMapDots');if(!g)return;
-  g.innerHTML='';
-  const list=(P||[]).slice().sort((a,b)=>(b.score||0)-(a.score||0));
-  document.getElementById('cad-count').textContent=`${list.length} prospects relevés`;
-  const cx=400,cy=400,rMin=70,rMax=335;
-  list.forEach((p,i)=>{
+let cadFilter='all';
+function cadPassesFilter(p,f){
+  const s=p.score_chaleur||0;
+  if(f==='hot')return s>=7;
+  if(f==='warm')return s>=3&&s<=6;
+  if(f==='cold')return s<=2;
+  if(f==='buyer')return p.type_projet==='acheteur';
+  if(f==='seller')return p.type_projet==='vendeur';
+  return true;
+}
+function cadLayout(list){
+  const cx=400,cy=400,rMin=82,rMax=335;
+  const pts=list.map((p,i)=>{
     const sc=Math.max(0,Math.min(10,p.score_chaleur||0));
     const r=rMin+(1-sc/10)*(rMax-rMin);
     const seed=cadHash((p.id||'')+(p.nom||'')+(p.prenom||'')+i);
-    const baseA=(seed%360)*Math.PI/180;
-    const jitter=((seed>>9)%21-10)*0.008;
-    const a=baseA+jitter-Math.PI/2;
-    const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
+    const ang=(seed%360)*Math.PI/180-Math.PI/2;
+    return{p,sc,r,ang,x:cx+Math.cos(ang)*r,y:cy+Math.sin(ang)*r};
+  });
+  const minDist=24,tol=18,passes=40;
+  for(let it=0;it<passes;it++){
+    let moved=false;
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const a=pts[i],b=pts[j];
+        const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy);
+        if(d<minDist&&d>0.001){
+          const overlap=(minDist-d)/2;
+          const tax=-Math.sin(a.ang),tay=Math.cos(a.ang);
+          const tbx=-Math.sin(b.ang),tby=Math.cos(b.ang);
+          const sign=(dx*tbx+dy*tby)>=0?1:-1;
+          a.x-=tax*overlap*sign*0.5;a.y-=tay*overlap*sign*0.5;
+          b.x+=tbx*overlap*sign*0.5;b.y+=tby*overlap*sign*0.5;
+          const ra=Math.hypot(a.x-cx,a.y-cy);
+          if(Math.abs(ra-a.r)>tol&&ra>0){const k=a.r/ra;a.x=cx+(a.x-cx)*k;a.y=cy+(a.y-cy)*k}
+          const rb=Math.hypot(b.x-cx,b.y-cy);
+          if(Math.abs(rb-b.r)>tol&&rb>0){const k=b.r/rb;b.x=cx+(b.x-cx)*k;b.y=cy+(b.y-cy)*k}
+          a.ang=Math.atan2(a.y-cy,a.x-cx);b.ang=Math.atan2(b.y-cy,b.x-cx);
+          moved=true;
+        }
+      }
+    }
+    if(!moved)break;
+  }
+  return pts;
+}
+function cadPositionHover(card,x,y,wrapRect){
+  const W=card.offsetWidth||260,H=card.offsetHeight||160;
+  const pad=14;
+  let cx=x+pad,cy=y-H/2;
+  if(cx+W>wrapRect.width-8)cx=x-W-pad;
+  if(cx<8)cx=Math.max(8,(wrapRect.width-W)/2);
+  if(cy<8)cy=8;
+  if(cy+H>wrapRect.height-8)cy=wrapRect.height-H-8;
+  card.style.left=cx+'px';card.style.top=cy+'px';
+}
+function cadShowHover(p,sc,el){
+  const card=document.getElementById('cadHover');if(!card)return;
+  document.getElementById('cadHoverAvatar').textContent=ini(p);
+  document.getElementById('cadHoverName').textContent=nm(p);
+  const tier=scoreTier(sc).label;
+  document.getElementById('cadHoverMeta').textContent=`${tier.toUpperCase()} · ${p.type_projet==='vendeur'?'Vendeur':'Acheteur'}`;
+  document.getElementById('cadHoverScore').textContent=`${sc}/10`;
+  document.getElementById('cadHoverBudget').textContent=fmtB(p.budget_max);
+  document.getElementById('cadHoverSecteur').textContent=p.secteur||'—';
+  document.getElementById('cadHoverMaj').textContent=ago(p.updated_at||p.created_at);
+  card.style.display='block';
+  const wrap=card.parentElement.getBoundingClientRect();
+  const dotRect=el.getBoundingClientRect();
+  const x=dotRect.left+dotRect.width/2-wrap.left;
+  const y=dotRect.top+dotRect.height/2-wrap.top;
+  cadPositionHover(card,x,y,{width:wrap.width,height:wrap.height});
+}
+function cadHideHover(){const card=document.getElementById('cadHover');if(card)card.style.display='none'}
+function cadSetFilter(f){
+  cadFilter=f;
+  document.querySelectorAll('#cadFilters .cad-chip').forEach(b=>b.classList.toggle('active',b.dataset.cadF===f));
+  renderCad();
+}
+function renderCad(){
+  cadEnsureTicks();
+  const g=document.getElementById('cadMapDots');if(!g)return;
+  g.innerHTML='';cadHideHover();
+  const all=(P||[]).filter(p=>cadPassesFilter(p,cadFilter));
+  const list=all.slice().sort((a,b)=>(b.score_chaleur||0)-(a.score_chaleur||0));
+  const totalAll=(P||[]).length;
+  const lblMap={hot:'chauds',warm:'tièdes',cold:'froids',buyer:'acheteurs',seller:'vendeurs'};
+  document.getElementById('cad-count').textContent=
+    cadFilter==='all'?`${list.length} prospects relevés`:`${list.length}/${totalAll} ${lblMap[cadFilter]}`;
+  document.getElementById('cadEmpty').style.display=list.length?'none':'block';
+  const pts=cadLayout(list);
+  pts.forEach(pt=>{
+    const{p,sc,x,y}=pt;
     const col=cadColorForScore(sc);
     const grp=document.createElementNS('http://www.w3.org/2000/svg','g');
     grp.setAttribute('class','cad-prospect');grp.style.color=col;
     grp.setAttribute('transform',`translate(${x.toFixed(1)},${y.toFixed(1)})`);
+    grp.setAttribute('role','button');grp.setAttribute('tabindex','0');
+    grp.setAttribute('aria-label',`${nm(p)}, score ${sc} sur 10`);
     grp.addEventListener('click',()=>{if(p.id){sel=p.id;go('pros')}});
+    grp.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&p.id){e.preventDefault();sel=p.id;go('pros')}});
+    grp.addEventListener('mouseenter',()=>{grp.classList.add('active');cadShowHover(p,sc,grp)});
+    grp.addEventListener('mouseleave',()=>{grp.classList.remove('active');cadHideHover()});
+    grp.addEventListener('focus',()=>{grp.classList.add('active');cadShowHover(p,sc,grp)});
+    grp.addEventListener('blur',()=>{grp.classList.remove('active');cadHideHover()});
+    const halo=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    halo.setAttribute('class','cad-prospect-ring');halo.setAttribute('r','12');
+    grp.appendChild(halo);
     const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    dot.setAttribute('class','cad-prospect-dot');dot.setAttribute('r','4.5');dot.setAttribute('fill',col);
+    dot.setAttribute('class','cad-prospect-dot');dot.setAttribute('r','6');dot.setAttribute('fill',col);
     grp.appendChild(dot);
-    const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
-    lbl.setAttribute('class','cad-prospect-lbl');lbl.setAttribute('x','9');lbl.setAttribute('y','-7');
-    lbl.textContent=`${nm(p)} · ${sc}/10`;
-    grp.appendChild(lbl);
-    const title=document.createElementNS('http://www.w3.org/2000/svg','title');
-    title.textContent=`${nm(p)} — score ${sc}/10\n${p.secteur||'—'} · ${p.type||'—'}`;
-    grp.appendChild(title);
+    const hit=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    hit.setAttribute('r','16');hit.setAttribute('fill','transparent');
+    grp.appendChild(hit);
     g.appendChild(grp);
   });
 }
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('#cadFilters .cad-chip').forEach(b=>{
+    b.addEventListener('click',()=>cadSetFilter(b.dataset.cadF));
+  });
+});
 
 /* ══════════ THEME ══════════ */
 function tog(){const h=document.documentElement;if(h.classList.contains('dark')){h.classList.remove('dark');localStorage.setItem('nm-theme','light')}else{h.classList.add('dark');localStorage.setItem('nm-theme','dark')}}
