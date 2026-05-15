@@ -1,0 +1,19 @@
+{
+  "name": "Check SMS Opt-out",
+  "type": "n8n-nodes-base.postgres",
+  "typeVersion": 2.5,
+  "parameters": {
+    "operation": "executeQuery",
+    "query": "SELECT public.is_phone_optout('{{ $('Wait for Text Response').item.json.data.from }}'::text) AS is_optout;",
+    "options": {}
+  },
+  "retryOnFail": true,
+  "maxTries": 3,
+  "waitBetweenTries": 1000,
+  "credentials": {
+    "postgres": {
+      "id": "REPLACE_WITH_SUPABASE_CRED_ID",
+      "name": "Supabase Postgres"
+    }
+  }
+}
