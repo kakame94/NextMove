@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klaris — Feuille de livraison technologique</title>
+<link rel="icon" type="image/svg+xml" href="clea-brand/brand-identity/logo/clea-favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --background:oklch(0.98 0.005 60);
+  --foreground:oklch(0.20 0.02 30);
+  --card:oklch(1 0 0);
+  --primary:oklch(0.55 0.18 30);
+  --primary-foreground:oklch(0.99 0 0);
+  --primary-soft:oklch(0.55 0.18 30 / 0.10);
+  --primary-strong:oklch(0.45 0.20 28);
+  --muted:oklch(0.94 0.015 60);
+  --muted-foreground:oklch(0.50 0.02 30);
+  --border:oklch(0.90 0.02 60);
+  --success:oklch(0.60 0.15 145);
+  --radius:0.6rem;
+  --now-bg:oklch(0.55 0.18 30 / 0.07);
+  --now-bd:oklch(0.55 0.18 30 / 0.35);
+  --next-bg:oklch(0.75 0.12 60 / 0.10);
+  --next-bd:oklch(0.65 0.12 60 / 0.35);
+  --later-bg:oklch(0.65 0.06 220 / 0.08);
+  --later-bd:oklch(0.55 0.06 220 / 0.30);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--muted);color:var(--foreground);font-family:'Geist','Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.mono{font-family:'Geist Mono',monospace}
+code{font-family:'Geist Mono',monospace;font-size:0.92em;background:var(--muted);padding:1px 5px;border-radius:4px;color:var(--primary-strong)}
+
+.page{
+  width:297mm;min-height:450mm;
+  margin:24px auto;background:var(--background);
+  padding:16mm 14mm;
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+  display:flex;flex-direction:column;gap:12px;
+}
+
+/* ── Header ── */
+.head{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;padding-bottom:10px;border-bottom:2px solid var(--primary)}
+.brand{display:flex;align-items:center;gap:14px}
+.mark{width:46px;height:46px;border-radius:12px;background:var(--primary);color:var(--primary-foreground);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:24px;letter-spacing:-0.04em}
+.brand-text h1{font-size:26px;font-weight:700;letter-spacing:-0.02em;line-height:1}
+.brand-text .sub{font-size:13px;color:var(--muted-foreground);margin-top:4px}
+.meta{text-align:right;font-size:11px;color:var(--muted-foreground);line-height:1.6}
+.meta .eyebrow{display:inline-block;padding:3px 10px;border-radius:999px;background:var(--primary-soft);color:var(--primary);font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px}
+.meta strong{color:var(--foreground)}
+
+/* ── Section ── */
+.section-title{font-size:10px;font-weight:600;color:var(--primary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.section-title .hint{font-size:9.5px;font-weight:500;color:var(--muted-foreground);letter-spacing:0.02em;text-transform:none;font-style:italic}
+
+/* ── Vision band ── */
+.hero{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-strong) 100%);color:var(--primary-foreground);border-radius:var(--radius);padding:14px 18px;display:grid;grid-template-columns:1.6fr 1fr;gap:18px;align-items:center}
+.hero .vision{font-size:15.5px;font-weight:500;line-height:1.4;letter-spacing:-0.005em}
+.hero .vision strong{font-weight:700;border-bottom:2px solid rgba(255,255,255,0.5);padding-bottom:1px}
+.hero .vision .tag{display:block;font-size:11px;font-weight:400;opacity:0.85;margin-top:6px;font-style:italic}
+.hero-principles{display:flex;flex-direction:column;gap:5px}
+.hero-principles div{font-size:11px;line-height:1.35;display:flex;gap:6px}
+.hero-principles div::before{content:"▸";opacity:0.7;flex-shrink:0}
+
+/* ── Stack snapshot ── */
+.stack{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.stack-cell{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:7px 9px;display:flex;flex-direction:column;gap:2px}
+.stack-cell .layer{font-size:8.5px;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:0.06em;font-weight:600}
+.stack-cell .tech{font-size:11px;font-weight:600;line-height:1.2}
+.stack-cell .state{font-size:9px;color:var(--muted-foreground);margin-top:1px}
+.stack-cell.prod{border-top:2px solid var(--success)}
+.stack-cell.demo{border-top:2px solid #d6a13a}
+
+/* ── Objectives ── */
+.obj-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.obj{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--primary);border-radius:6px;padding:7px 9px}
+.obj .obj-id{font-size:9.5px;font-family:'Geist Mono',monospace;color:var(--primary);font-weight:600}
+.obj .obj-name{font-size:10.5px;font-weight:600;line-height:1.3;margin-top:2px}
+.obj .obj-kr{font-size:9.5px;color:var(--muted-foreground);line-height:1.35;margin-top:3px}
+
+/* ── Capabilities (Now/Next/Later) ── */
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.col{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.col.now{background:var(--now-bg);border-color:var(--now-bd)}
+.col.next{background:var(--next-bg);border-color:var(--next-bd)}
+.col.later{background:var(--later-bg);border-color:var(--later-bd)}
+.col-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:2px}
+.col-head .name{font-size:13px;font-weight:700;letter-spacing:-0.01em}
+.col-head .conf{font-size:9.5px;color:var(--muted-foreground);font-family:'Geist Mono',monospace}
+.theme{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:6px 8px;display:flex;flex-direction:column;gap:2px}
+.theme .t-head{display:flex;align-items:baseline;justify-content:space-between;gap:6px}
+.theme .t-name{font-size:10.5px;font-weight:600;line-height:1.3;flex:1}
+.theme .t-conf{font-size:9.5px;color:var(--primary);font-family:'Geist Mono',monospace;font-weight:600;background:var(--primary-soft);padding:1px 6px;border-radius:999px;white-space:nowrap}
+.theme .t-need{font-size:9.5px;color:var(--muted-foreground);line-height:1.35;font-style:italic}
+.theme .t-obj{font-size:9px;color:var(--primary);font-family:'Geist Mono',monospace;font-weight:600;margin-top:1px}
+
+/* ── SLO table ── */
+.bottom{display:grid;grid-template-columns:1.4fr 1fr;gap:12px}
+.slos,.deps{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px}
+table{width:100%;border-collapse:collapse;font-size:10.5px}
+th{font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted-foreground);font-weight:600;text-align:left;padding:5px 6px;border-bottom:1px solid var(--border)}
+td{padding:5px 6px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums;line-height:1.35}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-family:'Geist Mono',monospace}
+th.now,td.now{color:var(--primary)}
+.risk-item{padding:5px 0;border-bottom:1px solid var(--border);font-size:10.5px;line-height:1.4}
+.risk-item:last-child{border-bottom:none}
+.risk-item strong{display:block;font-weight:600;color:var(--foreground);font-size:10.5px;margin-bottom:1px}
+.risk-item span{color:var(--muted-foreground);font-size:9.5px}
+
+/* ── Compliance band ── */
+.compliance{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.comp-card{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--primary);border-radius:6px;padding:8px 10px}
+.comp-card .h{font-size:11px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+.comp-card .h .horizon{font-size:9px;font-family:'Geist Mono',monospace;color:var(--primary);background:var(--primary-soft);padding:1px 6px;border-radius:999px}
+.comp-card ul{margin-top:5px;list-style:none;display:flex;flex-direction:column;gap:3px}
+.comp-card li{font-size:10px;color:var(--foreground);line-height:1.35;padding-left:10px;position:relative}
+.comp-card li::before{content:"";position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;background:var(--primary)}
+
+/* ── Disclaimer ── */
+.disclaimer{background:var(--muted);border-left:3px solid var(--primary);border-radius:5px;padding:7px 11px;font-size:10px;color:var(--muted-foreground);line-height:1.45;font-style:italic}
+.disclaimer strong{color:var(--foreground);font-style:normal;font-weight:600}
+
+/* ── Footer ── */
+.foot{margin-top:auto;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--muted-foreground)}
+.foot strong{color:var(--foreground)}
+
+@media print{
+  html,body{background:#fff}
+  .page{margin:0;box-shadow:none;width:auto;min-height:auto;padding:10mm 10mm}
+  @page{size:A3 portrait;margin:0}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header class="head">
+    <div class="brand">
+      <div class="mark">K</div>
+      <div class="brand-text">
+        <h1>Klaris — Livraison technologique</h1>
+        <div class="sub">Capacités tech, conformité, infra · une marque Next Move</div>
+      </div>
+    </div>
+    <div class="meta">
+      <span class="eyebrow">Horizon 18 mois</span><br>
+      <strong>Now / Next / Later</strong><br>
+      Revue mensuelle<br>
+      v1.0 · 15 mai 2026
+    </div>
+  </header>
+
+  <!-- Vision + principes -->
+  <section class="hero">
+    <div class="vision">
+      Stack <strong>pragmatique, conformité-first, IA-orientée</strong>. Anthropic en moteur, Supabase en source de vérité, n8n tant que ça scale. On remplace les composants <em>quand</em> ils freinent le scale ou l'audit — pas avant.
+      <span class="tag">De 10 à 1 000+ courtiers sans re-plateformer. OACIQ + Loi 25 + CASL sans bolt-on.</span>
+    </div>
+    <div class="hero-principles">
+      <div>Conformité bakée, jamais ajoutée après coup.</div>
+      <div>Multi-provider IA dès Now — pas de single-vendor lock.</div>
+      <div>Coût par courtier visible, mesuré, optimisé.</div>
+      <div>Boring tech d'abord — Postgres + n8n &gt; micro-services.</div>
+      <div>Audit trail PII par défaut, traçable au prompt.</div>
+    </div>
+  </section>
+
+  <!-- Stack actuel -->
+  <section>
+    <div class="section-title"><span>Stack actuel · Mai 2026</span><span class="hint">Vert = production · Ambre = démo/dev</span></div>
+    <div class="stack">
+      <div class="stack-cell prod"><div class="layer">Orchestration</div><div class="tech">n8n</div><div class="state">self-hosted</div></div>
+      <div class="stack-cell prod"><div class="layer">Base</div><div class="tech">Supabase</div><div class="state">Postgres · ca-central-1</div></div>
+      <div class="stack-cell prod"><div class="layer">IA</div><div class="tech">Anthropic</div><div class="state">Claude Sonnet</div></div>
+      <div class="stack-cell prod"><div class="layer">SMS</div><div class="tech">Twilio</div><div class="state">1 numéro QC</div></div>
+      <div class="stack-cell demo"><div class="layer">Web</div><div class="tech">Next.js</div><div class="state">dashboard démo</div></div>
+      <div class="stack-cell demo"><div class="layer">Mobile</div><div class="tech">Flutter</div><div class="state">iOS showcase</div></div>
+      <div class="stack-cell prod"><div class="layer">Mémoire</div><div class="tech">PG Chat Mem.</div><div class="state">par téléphone</div></div>
+    </div>
+  </section>
+
+  <!-- Objectifs tech -->
+  <section>
+    <div class="section-title"><span>Objectifs techniques (TECH-KRs)</span></div>
+    <div class="obj-grid">
+      <div class="obj">
+        <div class="obj-id">TECH-1</div>
+        <div class="obj-name">Stack prod fiable au coût cible</div>
+        <div class="obj-kr">p95 SMS &lt; 3 s · COGS &lt; 8 $/courtier · uptime 99.5 → 99.9%</div>
+      </div>
+      <div class="obj">
+        <div class="obj-id">TECH-2</div>
+        <div class="obj-name">Conformité auditable jour 1</div>
+        <div class="obj-kr">Audit Loi 25 · revue OACIQ · SOC 2 Type I en scope</div>
+      </div>
+      <div class="obj">
+        <div class="obj-id">TECH-3</div>
+        <div class="obj-name">Copilote de transaction</div>
+        <div class="obj-kr">Rédac. offres GA · Notarius + DocuSign · Centris API</div>
+      </div>
+      <div class="obj">
+        <div class="obj-id">TECH-4</div>
+        <div class="obj-name">Couche plateforme</div>
+        <div class="obj-kr">API v1 publique · multi-tenant · SDK iOS/Web</div>
+      </div>
+      <div class="obj">
+        <div class="obj-id">TECH-5</div>
+        <div class="obj-name">Réduire risque LLM</div>
+        <div class="obj-kr">Multi-provider · eval FR + EN · $/lead &lt; 1 $</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities Now/Next/Later -->
+  <section>
+    <div class="section-title"><span>Capacités — par horizon de livraison</span><span class="hint">% = confiance : probabilité que la capacité sorte telle qu'écrite · jamais 100% (règle prr)</span></div>
+    <div class="themes">
+
+      <!-- NOW -->
+      <div class="col now">
+        <div class="col-head">
+          <div class="name">Now · socle + OACIQ</div>
+          <div class="conf">conf. 65–85%</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Audit log PII complet (Loi 25)</div><div class="t-conf">85%</div></div>
+          <div class="t-need">Régulateur exige traçabilité accès PII.</div>
+          <div class="t-obj">→ TECH-2</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Backups + DR Supabase (PITR + restore drill mensuel)</div><div class="t-conf">80%</div></div>
+          <div class="t-need">Aucune perte de données acceptable.</div>
+          <div class="t-obj">→ TECH-1</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Dashboard web v1 (fiches qualifiées + score chaleur)</div><div class="t-conf">80%</div></div>
+          <div class="t-need">Courtier doit voir lead chaud en &lt; 1 clic.</div>
+          <div class="t-obj">→ TECH-3</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Eval suite IA — ton QC + accuracy qualification</div><div class="t-conf">75%</div></div>
+          <div class="t-need">Pas de régression sur ton Joanel quand on bouge le prompt.</div>
+          <div class="t-obj">→ TECH-5</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">App iOS TestFlight pour pilotes</div><div class="t-conf">75%</div></div>
+          <div class="t-need">Pilotes veulent app native, pas SMS only.</div>
+          <div class="t-obj">→ TECH-3</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Observabilité (Sentry + Logflare + alertes)</div><div class="t-conf">70%</div></div>
+          <div class="t-need">MTTR &lt; 30 min sur incident SMS.</div>
+          <div class="t-obj">→ TECH-1</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Abstraction couche modèle IA (provider-agnostic)</div><div class="t-conf">65%</div></div>
+          <div class="t-need">Préparer multi-provider avant scale.</div>
+          <div class="t-obj">→ TECH-5</div>
+        </div>
+      </div>
+
+      <!-- NEXT -->
+      <div class="col next">
+        <div class="col-head">
+          <div class="name">Next · agence + Centris</div>
+          <div class="conf">conf. 50–60%</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Multi-tenant agence (RBAC, isolation, dashboard direction)</div><div class="t-conf">60%</div></div>
+          <div class="t-need">Vendre offre Agence 200 $/courtier.</div>
+          <div class="t-obj">→ TECH-4</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Intégration Notarius + DocuSign</div><div class="t-conf">60%</div></div>
+          <div class="t-need">Signature électronique conforme QC.</div>
+          <div class="t-obj">→ TECH-3</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Rédaction offres OACIQ (template + variables + PDF signable)</div><div class="t-conf">55%</div></div>
+          <div class="t-need">30–60 min/offre récupérées.</div>
+          <div class="t-obj">→ TECH-3</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Klaris EN — modèle + prompts + eval anglo</div><div class="t-conf">55%</div></div>
+          <div class="t-need">Pré-requis expansion Toronto/Ottawa.</div>
+          <div class="t-obj">→ TECH-5</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Pipeline analytics (events → Supabase → Metabase)</div><div class="t-conf">55%</div></div>
+          <div class="t-need">Mesurer NPS, retention, $/lead par courtier.</div>
+          <div class="t-obj">→ TECH-1</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Intégration Centris (lecture fiches MLS)</div><div class="t-conf">50%</div></div>
+          <div class="t-need">Pas de re-saisie pour le courtier.</div>
+          <div class="t-obj">→ TECH-3</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Mistral fallback opérationnel (failover + cost arb.)</div><div class="t-conf">50%</div></div>
+          <div class="t-need">Indépendance fournisseur + −30% COGS.</div>
+          <div class="t-obj">→ TECH-5</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">SLA 99.9% + status page publique</div><div class="t-conf">50%</div></div>
+          <div class="t-need">Engagement contractuel agence.</div>
+          <div class="t-obj">→ TECH-1</div>
+        </div>
+      </div>
+
+      <!-- LATER -->
+      <div class="col later">
+        <div class="col-head">
+          <div class="name">Later · plateforme + Series A</div>
+          <div class="conf">conf. 25–40%</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">API publique v1 (OAuth, rate-limit, docs)</div><div class="t-conf">40%</div></div>
+          <div class="t-need">Partenaires CRM/prêteurs intègrent Klaris.</div>
+          <div class="t-obj">→ TECH-4</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Migrer orchestration n8n → service Python dédié</div><div class="t-conf">40%</div></div>
+          <div class="t-need">n8n freine au-dessus de 500 courtiers/jour.</div>
+          <div class="t-obj">→ TECH-1</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">SDK Web embeddable (widget sites courtiers)</div><div class="t-conf">35%</div></div>
+          <div class="t-need">Franchises veulent intégrer dans leur site.</div>
+          <div class="t-obj">→ TECH-4</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">SOC 2 Type I → Type II</div><div class="t-conf">35%</div></div>
+          <div class="t-need">Vente entreprise + Series A.</div>
+          <div class="t-obj">→ TECH-2</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Module post-closing (touchpoints + références)</div><div class="t-conf">30%</div></div>
+          <div class="t-need">Garder relation client après deal.</div>
+          <div class="t-obj">→ TECH-3</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">RAG sur historique transactions par courtier</div><div class="t-conf">30%</div></div>
+          <div class="t-need">Personnaliser ton + suggestions par courtier.</div>
+          <div class="t-obj">→ TECH-5</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Marketplace prospects qualifiés (matching + paiement)</div><div class="t-conf">25%</div></div>
+          <div class="t-need">Monétiser leads froids inter-courtiers.</div>
+          <div class="t-obj">→ TECH-4</div>
+        </div>
+        <div class="theme">
+          <div class="t-head"><div class="t-name">Fine-tuning modèle sur corpus QC</div><div class="t-conf">25%</div></div>
+          <div class="t-need">Coût/qualité — quand volume justifie.</div>
+          <div class="t-obj">→ TECH-5</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SLOs + deps -->
+  <section class="bottom">
+    <div class="slos">
+      <div class="section-title"><span>SLOs cibles par horizon</span></div>
+      <table>
+        <thead>
+          <tr><th>Métrique</th><th class="num now">Now</th><th class="num">Next</th><th class="num">Later</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Uptime mensuel</td><td class="num now">99.5%</td><td class="num">99.9%</td><td class="num">99.95%</td></tr>
+          <tr><td>p95 SMS round-trip</td><td class="num now">&lt; 5 s</td><td class="num">&lt; 3 s</td><td class="num">&lt; 2 s</td></tr>
+          <tr><td>p95 dashboard TTFB</td><td class="num now">&lt; 1.5 s</td><td class="num">&lt; 800 ms</td><td class="num">&lt; 500 ms</td></tr>
+          <tr><td>MTTR incidents</td><td class="num now">&lt; 60 min</td><td class="num">&lt; 30 min</td><td class="num">&lt; 15 min</td></tr>
+          <tr><td>Backup RPO</td><td class="num now">24 h</td><td class="num">1 h</td><td class="num">5 min</td></tr>
+          <tr><td>COGS/courtier/mois</td><td class="num now">&lt; 35 $</td><td class="num">&lt; 15 $</td><td class="num">&lt; 8 $</td></tr>
+          <tr><td>$ / qualified lead</td><td class="num now">&lt; 2 $</td><td class="num">&lt; 1 $</td><td class="num">&lt; 0,50 $</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="deps">
+      <div class="section-title"><span>Dépendances externes critiques</span></div>
+      <div class="risk-item">
+        <strong>Anthropic (Claude)</strong>
+        <span>Outage / rate-limit / pricing → abstraction Now · Mistral fallback Next.</span>
+      </div>
+      <div class="risk-item">
+        <strong>Twilio (SMS QC)</strong>
+        <span>Coût / dispo numéro local → Bandwidth ou Plivo évalués en repli Next.</span>
+      </div>
+      <div class="risk-item">
+        <strong>Centris</strong>
+        <span>API pas publique → négociation + lobbying OACIQ · scraping conforme repli.</span>
+      </div>
+      <div class="risk-item">
+        <strong>Supabase</strong>
+        <span>Vendor lock-in → SQL standard, sortie Postgres self-hosted en 90 j si besoin.</span>
+      </div>
+      <div class="risk-item">
+        <strong>n8n self-hosted</strong>
+        <span>Plateau ~500 courtiers/jour → migration service Python planifiée Later.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compliance jalons -->
+  <section>
+    <div class="section-title"><span>Sécurité &amp; conformité — jalons</span></div>
+    <div class="compliance">
+      <div class="comp-card">
+        <div class="h"><span>Now</span><span class="horizon">socle</span></div>
+        <ul>
+          <li>Chiffrement repos (Supabase défaut)</li>
+          <li>RLS sur toutes tables</li>
+          <li>Audit trail PII complet</li>
+          <li>Secret management <code>n8n credentials</code></li>
+          <li>Revue OACIQ formelle (lettre)</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="h"><span>Next</span><span class="horizon">scale</span></div>
+        <ul>
+          <li>Pen-test externe annuel</li>
+          <li>DPIA Loi 25 publié</li>
+          <li>Registre sous-traitants</li>
+          <li>SOC 2 Type I en scope</li>
+          <li>Politique rétention/suppression données</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="h"><span>Later</span><span class="horizon">entreprise</span></div>
+        <ul>
+          <li>SOC 2 Type II certifié</li>
+          <li>ISO 27001 si franchise exige</li>
+          <li>Audit IA (biais, explicabilité)</li>
+          <li>Pen-test trimestriel</li>
+          <li>Bug bounty privé</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <section>
+    <div class="disclaimer">
+      <strong>Avertissement.</strong> Cette feuille de livraison technologique décrit une <em>séquence d'intention</em>, pas un calendrier de releases. Capacités, dépendances et niveaux de confiance sont susceptibles d'évoluer avec la disponibilité fournisseurs, le retour régulateur et la découverte ingénierie. Méthodologie : <em>Product Roadmaps Relaunched</em> (Lombardo et al., O'Reilly, 2017) — priorisation critical-path.
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="foot">
+    <div><strong>Contact</strong> · tech@nextmove.app · klaris.app</div>
+    <div>Klaris — une marque <strong>Next Move</strong> · 2026 · Confidentiel</div>
+  </footer>
+
+</div>
+</body>
+</html>
