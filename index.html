@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NextMove — Joanel Dupart</title>
+<title>NextMove — Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -336,8 +336,8 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
   <div class="sb-footer">
     <div class="sb-user">
       <div class="sb-user-info">
-        <div class="avatar">JD</div>
-        <div class="sb-user-text"><div class="sb-user-name">Joanel Dupart</div><div class="sb-user-role">Courtier</div></div>
+        <div class="avatar" id="sb-avatar">JO</div>
+        <div class="sb-user-text"><div class="sb-user-name" id="sb-name">Joanel</div><div class="sb-user-role">Courtier</div></div>
       </div>
       <button class="theme-btn" onclick="tog()" title="Changer thème">
         <svg class="sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -353,7 +353,7 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 <!-- ── DASHBOARD ── -->
 <div id="v-dash" class="view on">
   <div class="page-head">
-    <h1 class="page-title">Bonjour, Joanel</h1>
+    <h1 class="page-title" id="page-greeting">Bonjour, Joanel</h1>
     <p class="page-sub" id="dash-date"></p>
   </div>
 
@@ -506,6 +506,24 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 </div>
 
 <script>
+/* ══════════ COURTIER OVERRIDE (URL ?courtier=Maxime%20Tremblay) ══════════ */
+(function(){
+  const qp = new URLSearchParams(location.search).get('courtier');
+  if (!qp) return;
+  const full = qp.trim();
+  if (!full) return;
+  const parts = full.split(/\s+/);
+  const prenom = parts[0];
+  const initials = parts.length >= 2
+    ? (parts[0][0] + parts[1][0]).toUpperCase()
+    : (parts[0][0] + (parts[0][1]||'')).toUpperCase();
+  const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+  setText('sb-name', full);
+  setText('sb-avatar', initials);
+  setText('page-greeting', `Bonjour, ${prenom}`);
+  document.title = `NextMove — ${full}`;
+})();
+
 /* ══════════ SUPABASE ══════════ */
 const SB='https://fhqybnkxqfvbsjvwrcob.supabase.co';
 const K='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZocXlibmt4cWZ2YnNqdndyY29iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MjA1MDksImV4cCI6MjA5MTQ5NjUwOX0.X90HjDpeuQiYNYIbM5j87hL1TfYvsT8Xq2th8-U8Jfg';
@@ -576,8 +594,8 @@ async function load(){
   document.getElementById('dash-date').textContent=now.toLocaleDateString('fr-CA',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
   P=await q('prospects','select=*&order=created_at.desc');if(!Array.isArray(P))P=[];
-  const c=await q('n8n_chat_histories','select=id,session_id,message&order=id.asc');
-  if(Array.isArray(c)){const m={};c.forEach(x=>{if(!m[x.session_id])m[x.session_id]=[];m[x.session_id].push(x)});S=Object.entries(m).map(([sid,msgs])=>({sid,msgs,p:P.find(p=>p.telephone===sid)||null}))}
+  const c=await q('conversations','select=id,prospect_id,role,contenu,created_at&order=created_at.asc');
+  if(Array.isArray(c)){const m={};c.forEach(x=>{const p=P.find(pp=>pp.id===x.prospect_id);if(!p)return;const sid=p.telephone||x.prospect_id;if(!m[sid])m[sid]=[];m[sid].push(x)});S=Object.entries(m).map(([sid,msgs])=>({sid,msgs,p:P.find(p=>p.telephone===sid)||null}))}
   R=await q('relances','select=*,prospects(prenom,nom,telephone)&order=date_prevue.asc');if(!Array.isArray(R))R=[];
   QA=await q('eval_results','select=*&order=created_at.desc&limit=100');if(!Array.isArray(QA))QA=[];
 
@@ -684,7 +702,7 @@ function renderDetail(p){
 function renderConvList(){
   const el=document.getElementById('conv-items');
   if(!S.length){el.innerHTML='<div class="empty"><p>Aucune conversation.</p></div>';return}
-  el.innerHTML=S.map(s=>`<div class="conv-item ${conv===s.sid?'sel':''}" onclick="conv='${s.sid}';renderConvList();renderConvChat()"><div class="avatar">${s.p?ini(s.p):'??'}</div><div class="conv-item-main"><div class="conv-item-top"><span class="conv-item-name">${s.p?nm(s.p):s.sid}</span><span class="conv-item-time">${s.msgs.length}</span></div><div class="conv-item-prev">${esc((s.msgs[s.msgs.length-1]?.message?.content||'').substring(0,50))}</div></div></div>`).join('');
+  el.innerHTML=S.map(s=>`<div class="conv-item ${conv===s.sid?'sel':''}" onclick="conv='${s.sid}';renderConvList();renderConvChat()"><div class="avatar">${s.p?ini(s.p):'??'}</div><div class="conv-item-main"><div class="conv-item-top"><span class="conv-item-name">${s.p?nm(s.p):s.sid}</span><span class="conv-item-time">${s.msgs.length}</span></div><div class="conv-item-prev">${esc((s.msgs[s.msgs.length-1]?.contenu||'').substring(0,50))}</div></div></div>`).join('');
   renderConvChat();
 }
 function renderConvChat(){
@@ -693,7 +711,7 @@ function renderConvChat(){
   const p=s.p;
   document.getElementById('conv-head').innerHTML=`<div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3>${p?nm(p):s.sid}</h3>${p?heatCell(p.score_chaleur):''}</div><div class="meta"><span class="mono">${s.sid}</span>${p?'<span>· '+statusBadge(p.statut)+'</span>':''}</div>${p?.resume_ia?`<div class="resume">${esc(p.resume_ia.substring(0,200))}${p.resume_ia.length>200?'...':''}</div>`:''}</div>`;
   const el=document.getElementById('conv-msgs');
-  el.innerHTML=s.msgs.map(m=>`<div class="msg ${m.message?.type==='human'?'msg-in':'msg-out'}">${esc(m.message?.content||'')}</div>`).join('');
+  el.innerHTML=s.msgs.map(m=>`<div class="msg ${m.role==='prospect'?'msg-in':'msg-out'}">${esc(m.contenu||'')}</div>`).join('');
   el.scrollTop=el.scrollHeight;
 }
 
