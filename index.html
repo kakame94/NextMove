@@ -527,8 +527,21 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 /* ══════════ SUPABASE ══════════ */
 const SB='https://fhqybnkxqfvbsjvwrcob.supabase.co';
 const K='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZocXlibmt4cWZ2YnNqdndyY29iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MjA1MDksImV4cCI6MjA5MTQ5NjUwOX0.X90HjDpeuQiYNYIbM5j87hL1TfYvsT8Xq2th8-U8Jfg';
-const H={'apikey':K,'Authorization':`Bearer ${K}`,'Accept':'application/json'};
-async function q(t,p=''){try{return await(await fetch(`${SB}/rest/v1/${t}?${p}`,{headers:H})).json()}catch(e){return[]}}
+/* Auth: anon key is only the gateway `apikey`; the bearer is the
+   logged-in courtier's session token. Without a session, reads resolve
+   as `anon` and RLS returns nothing (see 009_security_lockdown_anon.sql). */
+let _token=null,_refresh=null,_loopId=null;
+const authHeaders=()=>({'apikey':K,'Authorization':`Bearer ${_token||K}`,'Accept':'application/json'});
+async function q(t,p=''){
+  try{
+    let res=await fetch(`${SB}/rest/v1/${t}?${p}`,{headers:authHeaders()});
+    if(res.status===401){
+      if(await refreshSession()){res=await fetch(`${SB}/rest/v1/${t}?${p}`,{headers:authHeaders()});}
+      else{showLogin('Session expirée — reconnectez-vous.');return[];}
+    }
+    return await res.json();
+  }catch(e){return[]}
+}
 
 /* ══════════ STATE ══════════ */
 let P=[],S=[],R=[],QA=[],sel=null,conv=null;
@@ -759,8 +772,73 @@ function go(v){
 function tog(){const h=document.documentElement;if(h.classList.contains('dark')){h.classList.remove('dark');localStorage.setItem('nm-theme','light')}else{h.classList.add('dark');localStorage.setItem('nm-theme','dark')}}
 (function(){const t=localStorage.getItem('nm-theme');if(t==='dark')document.documentElement.classList.add('dark')})();
 
+/* ══════════ AUTH GATE ══════════ */
+function showLogin(msg){
+  let ov=document.getElementById('nm-login');
+  if(!ov){
+    ov=document.createElement('div');
+    ov.id='nm-login';
+    ov.style.cssText='position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(8,10,18,.88);backdrop-filter:blur(6px)';
+    ov.innerHTML='<form id="nm-login-form" style="background:var(--card,#fff);color:var(--card-foreground,#111);padding:32px;border-radius:16px;width:340px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.45);font-family:inherit">'
+      +'<div style="font-size:18px;font-weight:700;margin-bottom:4px">Klaris — Connexion</div>'
+      +'<div style="font-size:13px;opacity:.7;margin-bottom:20px">Accès réservé au courtier.</div>'
+      +'<input id="nm-email" type="email" placeholder="Courriel" autocomplete="username" required style="width:100%;padding:10px 12px;margin-bottom:10px;border:1px solid var(--border,#ccc);border-radius:8px;font-size:14px;box-sizing:border-box;background:transparent;color:inherit">'
+      +'<input id="nm-pass" type="password" placeholder="Mot de passe" autocomplete="current-password" required style="width:100%;padding:10px 12px;margin-bottom:14px;border:1px solid var(--border,#ccc);border-radius:8px;font-size:14px;box-sizing:border-box;background:transparent;color:inherit">'
+      +'<button type="submit" style="width:100%;padding:11px;border:0;border-radius:8px;background:var(--primary,#c2603f);color:#fff;font-weight:600;font-size:14px;cursor:pointer">Se connecter</button>'
+      +'<div id="nm-login-err" style="color:#d9534f;font-size:12px;margin-top:10px;min-height:14px"></div></form>';
+    document.body.appendChild(ov);
+    document.getElementById('nm-login-form').addEventListener('submit',doLogin);
+  }
+  ov.style.display='flex';
+  if(msg)document.getElementById('nm-login-err').textContent=msg;
+}
+function hideLogin(){const ov=document.getElementById('nm-login');if(ov)ov.style.display='none';}
+
+function setSession(d){
+  _token=d.access_token;_refresh=d.refresh_token;
+  try{sessionStorage.setItem('nm-sess',JSON.stringify({access_token:_token,refresh_token:_refresh}));}catch(_){}
+}
+function clearSession(){_token=null;_refresh=null;try{sessionStorage.removeItem('nm-sess');}catch(_){}}
+
+async function doLogin(e){
+  e.preventDefault();
+  const email=document.getElementById('nm-email').value.trim();
+  const password=document.getElementById('nm-pass').value;
+  const errEl=document.getElementById('nm-login-err');errEl.textContent='…';
+  try{
+    const r=await fetch(`${SB}/auth/v1/token?grant_type=password`,{method:'POST',headers:{'apikey':K,'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    const d=await r.json();
+    if(!r.ok||!d.access_token){errEl.textContent=d.error_description||d.msg||'Identifiants invalides';return;}
+    setSession(d);hideLogin();startApp();
+  }catch(_){errEl.textContent='Erreur réseau.';}
+}
+
+async function refreshSession(){
+  if(!_refresh)return false;
+  try{
+    const r=await fetch(`${SB}/auth/v1/token?grant_type=refresh_token`,{method:'POST',headers:{'apikey':K,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:_refresh})});
+    const d=await r.json();
+    if(r.ok&&d.access_token){setSession(d);return true;}
+  }catch(_){}
+  clearSession();return false;
+}
+
+function startApp(){load();if(_loopId)clearInterval(_loopId);_loopId=setInterval(load,30000);}
+
+async function initAuth(){
+  try{const s=JSON.parse(sessionStorage.getItem('nm-sess')||'null');if(s&&s.access_token){_token=s.access_token;_refresh=s.refresh_token;}}catch(_){}
+  if(_token){
+    try{
+      const r=await fetch(`${SB}/auth/v1/user`,{headers:{'apikey':K,'Authorization':`Bearer ${_token}`}});
+      if(r.ok){startApp();return;}
+    }catch(_){}
+    if(await refreshSession()){startApp();return;}
+  }
+  showLogin();
+}
+
 /* ══════════ INIT ══════════ */
-load();setInterval(load,30000);
+initAuth();
 </script>
 </body>
 </html>

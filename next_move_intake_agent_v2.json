@@ -136,7 +136,7 @@
     },
     {
       "parameters": {
-        "from": "+12722825614",
+        "from": "+1XXXXXXXXXX",
         "to": "={{ $('Wait for Text Response').item.json.data.from }}",
         "message": "Merci beaucoup! Joanel va te contacter sous peu.",
         "options": {}
@@ -158,7 +158,7 @@
     },
     {
       "parameters": {
-        "from": "+12722825614",
+        "from": "+1XXXXXXXXXX",
         "to": "={{ $('Wait for Text Response').item.json.data.from }}",
         "message": "={{ $('Delai Humain').item.json.output }}",
         "options": {}
@@ -181,8 +181,10 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT *\nFROM n8n_chat_histories\nWHERE session_id = '{{ $('Wait for Text Response').item.json.data.from }}';\n",
-        "options": {}
+        "query": "SELECT *\nFROM n8n_chat_histories\nWHERE session_id = $1;\n",
+        "options": {
+          "queryReplacement": "={{ $('Wait for Text Response').item.json.data.from }}"
+        }
       },
       "id": "b232d078-8780-490a-9389-e30eca969ec8",
       "name": "Query Supabase for conversation history",
@@ -272,8 +274,8 @@
     },
     {
       "parameters": {
-        "from": "+12722825614",
-        "to": "+14506260481",
+        "from": "+1XXXXXXXXXX",
+        "to": "+1XXXXXXXXXX",
         "message": "=Nouveau lead qualifie! Tel: {{ $('Wait for Text Response').item.json.data.from }}\n\nResume: {{ $('Summarize Transcript').item.json.output.summary }}",
         "options": {}
       },
@@ -345,7 +347,7 @@
     },
     {
       "parameters": {
-        "from": "+12722825614",
+        "from": "+1XXXXXXXXXX",
         "to": "={{ $('Wait for Text Response').item.json.data.from }}",
         "message": "Vous avez ete desabonne. Vous ne recevrez plus de messages. Pour vous reabonner, ecrivez START.",
         "options": {}

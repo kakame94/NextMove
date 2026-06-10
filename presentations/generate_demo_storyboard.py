@@ -171,7 +171,7 @@ def main():
     add_bullets(s, Inches(0.7), Inches(1.85), Inches(5.8), Inches(2.5), [
         "Laptop chargé, mode « Ne pas déranger » ON",
         "Téléphone perso + Telegram sur @nextmove_voice_bot",
-        "Téléphone testeuse pour SMS vers +1 272 282 5614",
+        "Téléphone testeuse pour SMS vers +1 XXX XXX XXXX",
         "Wi-Fi solide + plan B 4G",
     ], size=12)
 
@@ -279,7 +279,7 @@ def main():
     section_slide(prs, 6, total, "2:30 → 5:00",
                   "Scénario LIVE 1 — SMS",
                   "SMS testeuse → bot répond → nouveau prospect dans dashboard",
-                  ["SMS depuis testeuse vers +1 272 282 5614 : « Bonjour, je cherche un condo à Mercier-Est, budget 380k, on est 2 »",
+                  ["SMS depuis testeuse vers +1 XXX XXX XXXX : « Bonjour, je cherche un condo à Mercier-Est, budget 380k, on est 2 »",
                    "Pendant les 10-30s d'attente : commenter le flux Twilio → n8n → Claude → Supabase",
                    "Bot répond par SMS naturel → montrer sur le téléphone",
                    "F5 dashboard → nouveau prospect avec budget / secteur / type déjà extraits"],
@@ -381,9 +381,9 @@ def main():
                  subtitle="À avoir sous la main pendant la démo")
     refs = [
         ("Bot Telegram", "@nextmove_voice_bot · allowlist user_id 7326149684 (toi)"),
-        ("Numéro Twilio NextMove", "+1 272 282 5614 (envoyer SMS ici pour démo)"),
+        ("Numéro Twilio NextMove", "+1 XXX XXX XXXX (envoyer SMS ici pour démo)"),
         ("Testeuse SMS (femme)", "+1 579 421 6910"),
-        ("Téléphone Dennis", "+1 450 626 0481 (reçoit briefing SMS 7h30)"),
+        ("Téléphone Dennis", "+1 XXX XXX XXXX (reçoit briefing SMS 7h30)"),
         ("Supabase project", "fhqybnkxqfvbsjvwrcob · ca-central-1"),
         ("Workflow voice (n8n)", "id 0UNAKGRciurrtlez"),
         ("Workflow intake (n8n)", "id nmmmJu6HRwq0nqyI"),

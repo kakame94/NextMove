@@ -1,16 +1,26 @@
 # Environment variables & secrets
 .env
+.env.*
 .env.local
 .env.production
 *.env
+!.env.example
+!*.env.example
+
+# Credentials & keys (never commit — defends against `git add .`)
+*token.json
+*credentials.json
+client_secret*.json
+service-account*.json
+secrets.json
+*.pem
+*.key
+*.p12
+*.keystore
 
 # Node modules
 node_modules/
-package-lock.json
-*.tsbuildinfo
-coverage/
-.next/
-out/
+# NB: package-lock.json is intentionally TRACKED for reproducible/auditable installs.
 
 # OS files
 .DS_Store
@@ -38,6 +48,9 @@ __pycache__/
 dist/
 build/
 .next/
+out/
+coverage/
+*.tsbuildinfo
 
 # Flutter / Dart
 .dart_tool/
@@ -49,7 +62,7 @@ build/
 **/.gradle/
 **/Pods/
 
-# n8n credentials (NEVER commit)
+# n8n exported credentials (NEVER commit)
 *.credentials.json
 
 # BMAD generated artifacts
@@ -69,3 +82,8 @@ openclaw-immo/
 24_NextMove/slide-*.jpg
 24_NextMove/slide_new-*.jpg
 24_NextMove/~$*
+
+# Third-party PII — real interview recordings/transcripts, signed agreements.
+# Never publish to a public repo (Law 25 / confidentiality).
+transcripts/
+atelier_resultats/NDA_*.docx
