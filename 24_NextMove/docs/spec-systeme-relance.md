@@ -94,22 +94,53 @@ candidats T1/T2, déclenche G4 et remet le compteur G7 à zéro).
 
 ## 4. Architecture
 
-```
-                       ┌──────────────────────────────────────────────┐
-                       │ Supabase Postgres (ca-central-1)             │
- n8n W1 (cron */15) ──▶│  get_relance_candidates()   ── candidats     │
-   │                   │    hydratés (T1/T2/T4/T6)                    │
-   │ SEND              │  can_send_relance(p,t,c,r)  ── G0..G13       │
-   ▼                   │  acquire_relance_lock(p)    ── anti-doublon  │
- Twilio (SMS) ────────▶│  relances / relance_templates / sms_optout / │
-   │ sid               │  consentements / relances_blocked_log /      │
-   ▼                   │  relance_config / rendez_vous                │
- INSERT relances (sent|failed)                                        │
- + INSERT n8n_chat_histories (mémoire agent)                          │
-                       └──────────────────────────────────────────────┘
- n8n W2 (cron 7h30) ──▶ briefing courtier (SendGrid email, SMS optionnel)
- n8n W3 = intake modifié ──▶ upsert prospect dès 1er SMS, last_inbound_message_at,
-                             STOP→sms_optout, START, HELP, consentements
+```mermaid
+flowchart TB
+    P((Prospect)) -- "SMS entrant" --> TWIN["Twilio webhook"]
+    TWIN --> W3
+
+    subgraph N8N["n8n self-hosted"]
+        W1["W1 relances_scheduler<br/>cron */15 min"]
+        W2["W2 briefing_quotidien<br/>cron 7h30"]
+        W3["W3 intake agent (existant, modifié)<br/>qualification Claude + STOP/START/HELP"]
+    end
+
+    subgraph SUPA["Supabase Postgres — ca-central-1"]
+        FN1["get_relance_candidates()<br/>T1/T2/T4/T6 hydratés"]
+        FN2["can_send_relance()<br/>garde-fous G0-G13<br/>SEND / BLOCK / DEFER"]
+        FN3["acquire_relance_lock()<br/>verrou 5 min"]
+        REL[("relances<br/>journal + file approbation")]
+        TPL[("relance_templates")]
+        OPT[("sms_optout<br/>opt-out permanent")]
+        CST[("consentements<br/>journal CASL")]
+        BLK[("relances_blocked_log")]
+        CFG[("relance_config")]
+        PRO[("prospects · courtiers<br/>rendez_vous")]
+        CHAT[("n8n_chat_histories<br/>mémoire agent")]
+    end
+
+    W1 -- "1 candidats" --> FN1
+    W1 -- "2 verdict par candidat" --> FN2
+    FN2 -. consulte .-> OPT
+    FN2 -. consulte .-> CFG
+    FN2 -. consulte .-> REL
+    W1 -- "BLOCK / DEFER (dédup 1/jour)" --> BLK
+    W1 -- "3 lock si SEND" --> FN3
+    W1 -- "4 template + rendu" --> TPL
+    W1 -- "5 envoi SMS" --> TWOUT["Twilio API"]
+    TWOUT -- "T1 / T2 / T6" --> P
+    TWOUT -- "T4 nudge + notif envoi" --> C((Courtier))
+    W1 -- "6 journal sent / failed" --> REL
+    W1 -- "7 mémoire relance (D12)" --> CHAT
+
+    W2 -- "RDV jour · en attente · alertes · coût" --> PRO
+    W2 -- "dédup 1/jour + journal" --> REL
+    W2 -- email --> SG["SendGrid"] -- "T11 briefing" --> C
+
+    W3 -- "upsert dès 1er SMS<br/>last_inbound_message_at" --> PRO
+    W3 -- "consentement implicite 6 mois" --> CST
+    W3 -- "STOP → opt-out · START → retrait" --> OPT
+    W3 -- "historique conversation" --> CHAT
 ```
 
 Principes :
