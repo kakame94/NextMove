@@ -23,6 +23,8 @@ Vérifié en live le 2026-06-09 avec la seule clé anon publique :
 L'écriture anon est bloquée (RLS `42501`) — seule la **lecture** est ouverte. C'est une
 violation de la Loi 25 (Québec) / PIPEDA : donnée personnelle de tiers déjà divulguée.
 
+> 📋 **Guide pas-à-pas** : [`docs/security/REMEDIATION_RUNBOOK.md`](docs/security/REMEDIATION_RUNBOOK.md)
+
 ### Actions immédiates (infra live — non faisables depuis le dépôt)
 
 1. **Appliquer `009_security_lockdown_anon.sql`** dans le SQL editor Supabase (service_role).
