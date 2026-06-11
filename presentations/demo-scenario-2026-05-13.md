@@ -8,7 +8,7 @@
 ### Matériel
 - [ ] Laptop branché, batterie > 50%, mode "ne pas déranger" activé
 - [ ] Téléphone (le tien) chargé + Telegram ouvert sur `@nextmove_voice_bot`
-- [ ] Téléphone testeuse (femme) accessible OU 2e téléphone avec SMS vers `+1 272 282 5614`
+- [ ] Téléphone testeuse (femme) accessible OU 2e téléphone avec SMS vers `+1 XXX XXX XXXX`
 - [ ] Connexion Wi-Fi solide + plan B 4G (Twilio + n8n cloud + Supabase)
 
 ### Stack vérifications (1 min)
@@ -56,7 +56,7 @@
 
 ### 2:30 — 5:00 · Scénario LIVE 1 — SMS → qualification temps réel
 **Action** :
-1. Sortir le téléphone testeuse → envoyer un SMS à **+1 272 282 5614** :
+1. Sortir le téléphone testeuse → envoyer un SMS à **+1 XXX XXX XXXX** :
    > *"Bonjour, je cherche un condo à Mercier-Est, budget 380k, on est 2"*
 2. **Pendant que Twilio livre** (10-30s), commenter :
    - *"Là, Twilio reçoit le SMS, n8n se déclenche, déduplique pour gérer les rafales, sauvegarde en DB Supabase, et Claude Sonnet 4.6 prend le relais."*
@@ -168,7 +168,7 @@ Mêmes étapes mais **sans Q&A**, donc plus condensé :
 ## 📞 Numéros & accès
 
 - Bot Telegram : `@nextmove_voice_bot` (allowlist : `telegram_user_id = 7326149684` (toi))
-- Twilio NextMove : `+1 272 282 5614`
+- Twilio NextMove : `+1 XXX XXX XXXX`
 - Testeuse SMS (femme) : `+1 579 421 6910`
 - Supabase project : `fhqybnkxqfvbsjvwrcob` (ca-central-1)
 - Workflow voice : id `0UNAKGRciurrtlez`

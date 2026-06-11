@@ -812,7 +812,7 @@ L'idée : si OpenAI TTS échoue, on fallback sur un envoi texte. Si une étape a
 
 - [ ] **Step 2: Sauvegarder dans le repo**
 
-  Écrire le JSON formaté dans `/Users/dennismarfo/Documents/NextMove/NextMove/next_move_voice_assistant.json`
+  Écrire le JSON formaté dans `<PROJECT_PATH>/next_move_voice_assistant.json`
 
   ⚠️ Avant commit, vérifier que :
   - Le `<TELEGRAM_BOT_TOKEN>` n'apparaît pas en clair (doit être dans un credential reference, pas inline)

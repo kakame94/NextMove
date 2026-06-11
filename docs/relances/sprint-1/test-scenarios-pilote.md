@@ -2,7 +2,7 @@
 
 > **Objectif** : valider l'adjointe IA SMS (intake + relances + briefing) avant l'embarquement de Joanel cette semaine.
 > **Durée estimée** : 45-60 min par testeur.
-> **Reporter** : Dennis Marfo — `dennismarfo@gmail.com`.
+> **Reporter** : Dennis Marfo — `courtier.com`.
 > **Date cible** : du 28 avril au 3 mai 2026.
 
 ---
@@ -15,7 +15,7 @@
 2. **Gardez le tableau de rapport (§ 13) ouvert** dans un autre onglet et remplissez au fur et à mesure.
 3. **Avant chaque scénario qui demande un reset**, écrivez à Dennis sur Slack : *« Peux-tu me reset ? »*. Dennis confirme par **« GO »** quand c'est fait.
 4. **Filmez en Loom** si vous tombez sur un comportement bizarre — c'est plus facile à débugger.
-5. **Numéro Twilio à contacter** : `+1 272-282-5614` (le numéro de l'adjointe IA).
+5. **Numéro Twilio à contacter** : `+1 XXX-XXX-XXXX` (le numéro de l'adjointe IA).
 
 ---
 
@@ -23,9 +23,9 @@
 
 | Testeur | Numéro | Reset initial fait ? | Date début |
 |---|---|---|---|
-| Eliot | +1 514-568-6995 | ✅ 28 avr | |
-| Walkens | +1 438-506-5804 | ✅ 28 avr | |
-| Seydou | +1 613-762-0939 | ✅ 28 avr | |
+| Eliot | +1 XXX-XXX-XXXX | ✅ 28 avr | |
+| Walkens | +1 XXX-XXX-XXXX | ✅ 28 avr | |
+| Seydou | +1 XXX-XXX-XXXX | ✅ 28 avr | |
 
 ---
 

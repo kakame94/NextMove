@@ -51,7 +51,8 @@ create policy "broker marks read" on public.conversations
 -- ────────────────────────────────────────────────────────────
 -- 2. Conversation summaries view (powering iOS list)
 -- ────────────────────────────────────────────────────────────
-create or replace view public.conversation_summaries as
+create or replace view public.conversation_summaries
+  with (security_invoker = on) as
 select
   p.id as prospect_id,
   p.nom as prospect_name,
@@ -77,7 +78,9 @@ left join lateral (
 ) unread on true
 where last_msg.sent_at is not null;
 
--- View inherits RLS via underlying tables.
+-- security_invoker = on => the view runs with the QUERYING user's rights,
+-- so RLS on prospects/conversations is enforced. Without it a view runs as
+-- its owner (superuser) and silently bypasses RLS (cross-tenant PII leak).
 
 -- ────────────────────────────────────────────────────────────
 -- 3. Relances (J+2, J+5, J+10 sequence)
@@ -120,7 +123,9 @@ create policy "broker approves/skips relances" on public.relances
   );
 
 -- View enrichment (add prospect name + score for iOS card display)
-create or replace view public.relances_enriched as
+-- security_invoker = on => RLS of the calling user is enforced (see note above).
+create or replace view public.relances_enriched
+  with (security_invoker = on) as
 select
   r.*,
   p.nom as prospect_name,
@@ -168,18 +173,19 @@ create policy "users read own audit" on public.audit_log
   for select using (user_id = auth.uid());
 
 -- Trigger: log every relance state change for OACIQ
-create or replace function public.log_relance_change() returns trigger as $$
+create or replace function public.log_relance_change() returns trigger
+  language plpgsql security definer set search_path = '' as $$
 begin
   insert into public.audit_log (user_id, prospect_id, action, payload)
   values (
     auth.uid(),
     new.prospect_id,
     'relance_' || new.status,
-    jsonb_build_object('step', new.step, 'old_status', old.status, 'new_status', new.status)
+    pg_catalog.jsonb_build_object('step', new.step, 'old_status', old.status, 'new_status', new.status)
   );
   return new;
 end;
-$$ language plpgsql security definer;
+$$;
 
 drop trigger if exists trg_relance_audit on public.relances;
 create trigger trg_relance_audit

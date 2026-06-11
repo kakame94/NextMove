@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -46,13 +47,13 @@ class AppleAuthService {
   }
 
   String _generateNonce({int length = 32}) {
+    // Anti-replay nonce MUST come from a CSPRNG — a time-seeded LCG is
+    // predictable and defeats the OIDC nonce binding.
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._';
-    final r = DateTime.now().microsecondsSinceEpoch;
-    var seed = r;
+    final r = Random.secure();
     final buf = StringBuffer();
     for (var i = 0; i < length; i++) {
-      seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-      buf.write(chars[seed % chars.length]);
+      buf.write(chars[r.nextInt(chars.length)]);
     }
     return buf.toString();
   }

@@ -151,7 +151,7 @@ def main():
     # Layer 1: Channels (entrée)
     add_text(s, Inches(0.5), Inches(1.3), Inches(3), Inches(0.3),
              "CHANNELS", size=10, bold=True, color=MUTED)
-    for i, (name, color) in enumerate([("SMS Twilio\n+1 272-282-5614", TERRACOTTA),
+    for i, (name, color) in enumerate([("SMS Twilio\n+1 XXX-XXX-XXXX", TERRACOTTA),
                                         ("Telegram\n@nextmove_voice_bot", TEAL)]):
         add_rect(s, Inches(0.5), y + i * Inches(0.85), box_w, box_h, color)
         add_text(s, Inches(0.5), y + i * Inches(0.85) + Inches(0.1), box_w, box_h,
