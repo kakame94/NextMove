@@ -27,6 +27,55 @@ Résultat attendu : **`[]`** (tableau vide). Si tu vois encore des lignes → le
 
 ---
 
+## ✅ Étape 1bis — Rétablir l'accès du courtier (sinon dashboard vide) (10 min)
+
+> ⚠️ **Indispensable.** L'étape 1 coupe TOUT accès `anon`. Les policies réintroduites
+> sont `courtier_id = auth.uid()` : sans utilisateur Auth dont l'`id` correspond, le
+> courtier se connecte mais voit **0 ligne**. Vérifié sur la prod (2026-06) :
+> `auth.users` = **0 compte**, et les **14 prospects** ont tous
+> `courtier_id = 0d99b83a-91db-42cd-a19b-2e88384c67a7` (mono-tenant).
+
+**Pourquoi `auth.uid()` ne matche pas tout seul** : `courtiers.id` est un
+`gen_random_uuid()` **non lié à `auth.users`**. Un compte créé normalement reçoit un
+`id` différent → aucune ligne visible. La solution mono-tenant la plus propre : créer
+le compte avec un `id` **forcé** égal au `courtier_id` existant (aucune donnée à déplacer).
+
+1. **Créer le compte courtier avec l'`id` forcé** (Admin API, clé `service_role`) :
+
+   ```bash
+   URL="https://fhqybnkxqfvbsjvwrcob.supabase.co"
+   SR="<SERVICE_ROLE_KEY>"   # Project Settings → API → service_role (secret)
+   curl -s -X POST "$URL/auth/v1/admin/users" \
+     -H "apikey: $SR" -H "Authorization: Bearer $SR" -H "Content-Type: application/json" \
+     -d '{
+       "id": "0d99b83a-91db-42cd-a19b-2e88384c67a7",
+       "email": "joanel@nextmove.example",
+       "password": "<MOT_DE_PASSE_FORT>",
+       "email_confirm": true
+     }'
+   ```
+
+   > Si l'API refuse l'`id` imposé (selon la version GoTrue), créer le compte
+   > normalement puis re-pointer les données vers le nouvel `uid` :
+   > `update public.prospects set courtier_id = '<NOUVEL_UID>' where courtier_id = '0d99b83a-91db-42cd-a19b-2e88384c67a7';`
+   > (faire de même pour `conversations.courtier_id`, `relances`, `besoins_*` si peuplés ;
+   > la ligne `courtiers` doit exister avec ce même `id`).
+
+2. **Déployer le nouvel `index.html`** (gate d'auth, PR #25) sur **Vercel** — il doit
+   être en ligne **avant** d'annoncer la reconnexion, sinon le dashboard reste cassé.
+
+3. **Vérifier** que le courtier connecté voit ses 14 prospects et **rien d'autre** :
+
+   ```sql
+   -- simule la session du courtier (lecture seule)
+   set local role authenticated;
+   set local request.jwt.claims = '{"sub":"0d99b83a-91db-42cd-a19b-2e88384c67a7","role":"authenticated"}';
+   select count(*) from public.prospects;   -- attendu : 14
+   reset role;
+   ```
+
+---
+
 ## ✅ Étape 2 — Roter la clé anon (5 min)
 
 L'ancienne clé anon est publique (dans l'historique git) et valide jusqu'en 2036. Il faut la remplacer.
@@ -38,7 +87,7 @@ L'ancienne clé anon est publique (dans l'historique git) et valide jusqu'en 203
    - `index.html` (constante `K`, ligne ~529)
    - app Flutter : `klaris_ios` → variable d'env `SUPABASE_ANON_KEY`
    - instance n8n : credentials Supabase
-5. Redéploie ce qui doit l'être (Netlify pour le dashboard, etc.).
+5. Redéploie ce qui doit l'être (**Vercel** pour le dashboard — `nextmove-dashboard.vercel.app`).
 
 > La clé anon n'est pas un secret **une fois RLS verrouillée** (étape 1) — la rotation
 > sert juste à invalider proprement l'ancienne. L'étape 1 est ce qui protège réellement.
