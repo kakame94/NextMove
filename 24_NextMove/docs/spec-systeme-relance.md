@@ -164,10 +164,22 @@ Principes :
 ## 5. Modèle de données
 
 DDL complet : [`010_relances_system.sql`](../../010_relances_system.sql). La migration gère
-les **deux formes de départ** de `relances` (001 française, ou 008/iOS si la convergence a
-tourné — c'est le cas probable de la DB live) et échoue explicitement sur une forme inconnue.
-Exécuter via le **rôle admin propriétaire des tables** (`postgres` sur Supabase, qui a
-BYPASSRLS — les UPDATE de données doivent bypasser RLS). La migration est **ré-exécutable**.
+les **deux formes de départ** de `relances` (001 française, ou 008/iOS) et échoue
+explicitement sur une forme inconnue. Exécuter via le **rôle admin propriétaire des tables**
+(`postgres` sur Supabase, qui a BYPASSRLS — les UPDATE de données doivent bypasser RLS).
+La migration est **ré-exécutable**.
+
+> **État prod confirmé (introspection lecture seule, 2026-06)** : le schéma live est en
+> **forme legacy 001** — 008 n'a jamais été appliqué (son UPDATE de dédoublonnage contient
+> une référence ambiguë `telephone` et ne peut pas s'exécuter tel quel). En prod, 010
+> prendra donc le **chemin legacy**. Les deux chemins (001→002→010 et 001→002→008→010,
+> avec données legacy + iOS, double exécution) sont **validés sur Postgres jetable** :
+> harnais reproductible dans [`tests/relances_migration/run.sh`](../../tests/relances_migration/run.sh).
+
+> **Prérequis dashboard/iOS** : toutes les policies `authenticated` supposent
+> `courtiers.id = auth.uid()`. Tant que le provisioning auth n'est pas fait
+> (`auth.users` = 0 compte en prod — runbook PR #25, étape 1bis), le courtier ne voit
+> **rien** via l'app. n8n (service_role) n'est pas affecté.
 
 ### 5.1 Nouvelles tables
 
