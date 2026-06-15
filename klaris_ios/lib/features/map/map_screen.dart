@@ -19,8 +19,6 @@ class MapScreen extends ConsumerStatefulWidget {
 }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
-  AppleMapController? _ctrl;
-
   static const _initialCamera = CameraPosition(
     target: LatLng(45.5017, -73.5673), // Montréal centre
     zoom: 11,
@@ -75,7 +73,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 AppleMap(
                   initialCameraPosition: _initialCamera,
                   annotations: annotations,
-                  onMapCreated: (ctrl) => _ctrl = ctrl,
                   myLocationEnabled: true,
                   compassEnabled: true,
                 ),

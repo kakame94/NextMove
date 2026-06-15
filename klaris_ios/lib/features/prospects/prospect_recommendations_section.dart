@@ -16,7 +16,6 @@ class ProspectRecommendationsSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final async = ref.watch(recommendationsProvider(prospectId));
-    final fg = context.klFg();
     final mutedFg = context.klMutedFg();
 
     return Column(
@@ -34,7 +33,7 @@ class ProspectRecommendationsSection extends ConsumerWidget {
             ),
             CupertinoButton(
               padding: EdgeInsets.zero,
-              minimumSize: Size.zero,
+              minSize: 0,
               onPressed: () {
                 ref.invalidate(recommendationsProvider(prospectId));
               },

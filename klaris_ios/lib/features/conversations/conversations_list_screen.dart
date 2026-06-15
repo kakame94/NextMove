@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import '../../core/i18n/klaris_strings.dart';
 import '../../core/theme/klaris_colors.dart';
 import '../../core/theme/klaris_typography.dart';
-import '../../core/widgets/heat_indicator.dart';
 import '../../data/models/conversation.dart';
 import '../../data/repositories/conversations_repository.dart';
 

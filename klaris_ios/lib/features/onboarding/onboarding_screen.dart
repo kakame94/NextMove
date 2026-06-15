@@ -46,7 +46,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final fg = context.klFg();
     final mutedFg = context.klMutedFg();
     const slidesCount = 5;
 

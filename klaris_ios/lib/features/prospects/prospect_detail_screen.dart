@@ -8,7 +8,6 @@ import '../notes/voice_memo_sheet.dart';
 import '../../core/theme/klaris_colors.dart';
 import '../../core/theme/klaris_typography.dart';
 import '../../core/widgets/heat_indicator.dart';
-import '../../data/models/prospect.dart';
 import '../../data/repositories/prospects_repository.dart';
 import 'prospect_recommendations_section.dart';
 
