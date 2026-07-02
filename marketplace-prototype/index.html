@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klaris Marketplace — Leads qualifiés</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --background:oklch(0.98 0.005 60);
+  --foreground:oklch(0.20 0.02 30);
+  --card:oklch(1 0 0);
+  --primary:oklch(0.55 0.18 30);
+  --primary-foreground:oklch(0.99 0 0);
+  --primary-soft:oklch(0.55 0.18 30 / 0.10);
+  --primary-mid:oklch(0.55 0.18 30 / 0.15);
+  --secondary:oklch(0.94 0.02 60);
+  --muted:oklch(0.94 0.015 60);
+  --muted-foreground:oklch(0.48 0.02 30);
+  --border:oklch(0.90 0.02 60);
+  --destructive:oklch(0.55 0.22 25);
+  --success:oklch(0.55 0.15 145);
+  --success-soft:oklch(0.55 0.15 145 / 0.12);
+  --warning:oklch(0.72 0.15 75);
+  --gold:oklch(0.72 0.13 85);
+  --radius:0.75rem;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Geist',system-ui,sans-serif;background:var(--background);color:var(--foreground);-webkit-font-smoothing:antialiased;line-height:1.4}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* Topbar */
+.topbar{position:sticky;top:0;z-index:20;background:oklch(0.99 0.005 60 / .82);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px}
+.logo{width:30px;height:30px;border-radius:9px;background:var(--primary);display:grid;place-items:center;color:#fff;font-weight:800;font-size:16px}
+.brand .sub{font-weight:500;color:var(--muted-foreground);font-size:13px;border-left:1px solid var(--border);padding-left:10px;margin-left:2px}
+.wallet{display:flex;align-items:center;gap:14px}
+.balance{text-align:right}
+.balance .lbl{font-size:11px;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:.04em}
+.balance .amt{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--primary-mid);color:var(--primary);display:grid;place-items:center;font-weight:700;font-size:14px}
+
+/* Hero */
+.hero{padding:34px 0 10px}
+.hero h1{font-size:26px;font-weight:800;letter-spacing:-.02em}
+.hero p{color:var(--muted-foreground);margin-top:6px;max-width:640px;font-size:14.5px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 6px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px}
+.kpi .lbl{font-size:12px;color:var(--muted-foreground)}
+.kpi .val{font-size:24px;font-weight:800;margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi .val.p{color:var(--primary)}
+
+/* Toolbar */
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:26px 0 16px;flex-wrap:wrap}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--border);background:var(--card);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;transition:.15s;color:var(--foreground)}
+.chip:hover{border-color:var(--primary)}
+.chip.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+.sortwrap{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted-foreground)}
+select{font-family:inherit;font-size:13px;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--foreground);cursor:pointer}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;padding-bottom:60px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:0;overflow:hidden;display:flex;flex-direction:column;transition:.18s;position:relative}
+.card:hover{box-shadow:0 12px 32px oklch(0.5 0.05 40 / .12);transform:translateY(-2px)}
+.card.unlocked{border-color:var(--success)}
+.ribbon{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
+.tier{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:4px 10px;border-radius:999px}
+.tier.platine{background:oklch(0.55 0.02 280 / .12);color:oklch(0.45 0.03 280)}
+.tier.or{background:oklch(0.72 0.13 85 / .18);color:oklch(0.48 0.10 75)}
+.tier.argent{background:oklch(0.7 0.01 250 / .15);color:oklch(0.42 0.01 250)}
+.heat{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700}
+.dot{width:9px;height:9px;border-radius:50%}
+.h9{background:var(--destructive)} .h8{background:var(--primary)} .h7{background:var(--warning)}
+.body{padding:16px}
+.identity{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.pic{width:46px;height:46px;border-radius:50%;background:var(--muted);display:grid;place-items:center;font-weight:700;color:var(--muted-foreground);position:relative;overflow:hidden}
+.pic.locked{filter:blur(0)}
+.name{font-weight:700;font-size:16px;letter-spacing:.02em}
+.name .masked{filter:blur(5px);user-select:none;color:var(--muted-foreground)}
+.contact{font-size:12.5px;color:var(--muted-foreground);margin-top:2px}
+.contact .masked{filter:blur(4px);user-select:none}
+.lockchip{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--muted-foreground);margin-top:3px}
+
+.value-row{display:flex;gap:10px;margin-bottom:14px}
+.vbox{flex:1;background:var(--primary-soft);border-radius:10px;padding:10px 12px}
+.vbox .l{font-size:11px;color:var(--muted-foreground)}
+.vbox .v{font-size:19px;font-weight:800;color:var(--primary);font-variant-numeric:tabular-nums;margin-top:1px}
+.vbox.comm{background:var(--success-soft)}
+.vbox.comm .v{color:var(--success)}
+
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.tag{font-size:11.5px;background:var(--secondary);border-radius:6px;padding:4px 9px;color:var(--foreground)}
+.tag.consent{background:var(--success-soft);color:var(--success);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+
+.foot{margin-top:auto;padding:14px 16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.price{font-size:13px;color:var(--muted-foreground)}
+.price b{font-size:17px;color:var(--foreground);font-variant-numeric:tabular-nums}
+.btn{border:0;border-radius:9px;padding:10px 16px;font-family:inherit;font-weight:600;font-size:13.5px;cursor:pointer;background:var(--primary);color:#fff;transition:.15s;white-space:nowrap}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{background:var(--muted);color:var(--muted-foreground);cursor:default;filter:none}
+.btn.done{background:var(--success-soft);color:var(--success)}
+
+.legal{font-size:12px;color:var(--muted-foreground);text-align:center;padding:8px 0 40px;max-width:720px;margin:0 auto}
+.legal b{color:var(--foreground)}
+
+/* toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--foreground);color:var(--background);padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;opacity:0;transition:.25s;z-index:50;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:560px){.kpis{grid-template-columns:1fr}.hero h1{font-size:22px}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="brand"><span class="logo">K</span> Klaris <span class="sub">Marketplace courtiers</span></div>
+  <div class="wallet">
+    <div class="balance"><div class="lbl">Solde</div><div class="amt" id="balance">500 $</div></div>
+    <div class="avatar" id="broker-ini">MB</div>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <section class="hero">
+    <h1>Leads qualifiés, triés par valeur</h1>
+    <p>Chaque prospect a été qualifié par l'assistante IA Klaris et <b>a consenti à être mis en relation avec un courtier</b>. Débloquez le contact des dossiers les plus solides — plus le financement est élevé, plus la commission potentielle l'est.</p>
+    <div class="kpis">
+      <div class="kpi"><div class="lbl">Leads disponibles</div><div class="val" id="k-count">—</div></div>
+      <div class="kpi"><div class="lbl">Financement moyen</div><div class="val p" id="k-avg">—</div></div>
+      <div class="kpi"><div class="lbl">Commission potentielle du pipeline</div><div class="val" id="k-comm">—</div></div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <div class="chips" id="chips">
+      <span class="chip on" data-f="all">Tous</span>
+      <span class="chip" data-f="acheteur">Acheteurs</span>
+      <span class="chip" data-f="vendeur">Vendeurs</span>
+      <span class="chip" data-f="en">Anglophone</span>
+    </div>
+    <div class="sortwrap">Trier par
+      <select id="sort">
+        <option value="value">Valeur du dossier</option>
+        <option value="score">Score de qualification</option>
+        <option value="comm">Commission potentielle</option>
+        <option value="recent">Plus récent</option>
+        <option value="price">Prix de révélation</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <p class="legal">🔒 Démo — données fictives. En production, un contact n'apparaît sur la marketplace <b>qu'avec le consentement explicite du prospect</b> (Loi 25 / PIPEDA). Le courtier ne voit ni nom ni coordonnées avant déblocage ; la capacité de financement affichée est une fourchette dérivée de la pré-approbation déclarée.</p>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const BROKER="Maxime Belma";
+let BAL=500;
+
+// Données FICTIVES. valeur = capacité financement (acheteur) ou valeur propriété (vendeur).
+const LEADS=[
+  {id:1,type:'acheteur',prenom:'Mathieu',nom:'Simard',ini:'MS',value:720000,score:9,secteur:'Plateau-Mont-Royal',delai:'< 1 mois',lang:'fr',canal:'SMS',age:'il y a 2 h',tel:'+1 514 555-0142',email:'m.simard@example.com',note:'Pré-approuvé, mise de fonds 20%, veut visiter cette semaine.'},
+  {id:2,type:'vendeur',prenom:'Sophie',nom:'Lavoie',ini:'SL',value:1180000,score:9,secteur:'Westmount',delai:'< 2 mois',lang:'fr',canal:'SMS',age:'il y a 4 h',tel:'+1 514 555-0198',email:'s.lavoie@example.com',note:'Mandat maison unifamiliale, motivée (mutation).'},
+  {id:3,type:'acheteur',prenom:'David',nom:'Chen',ini:'DC',value:640000,score:8,secteur:'Griffintown',delai:'~ 2 mois',lang:'en',canal:'Web',age:'il y a 6 h',tel:'+1 438 555-0111',email:'d.chen@example.com',note:'Pre-approved, first-time buyer, condo.'},
+  {id:4,type:'acheteur',prenom:'Marie-Claude',nom:'Tremblay',ini:'MT',value:540000,score:8,secteur:'Rosemont',delai:'< 3 mois',lang:'fr',canal:'SMS',age:'hier',tel:'+1 514 555-0177',email:'mc.tremblay@example.com',note:'Financement confirmé, cherche plex.'},
+  {id:5,type:'vendeur',prenom:'Patrick',nom:'Côté',ini:'PC',value:890000,score:8,secteur:'Ahuntsic',delai:'~ 3 mois',lang:'fr',canal:'SMS',age:'hier',tel:'+1 514 555-0155',email:'p.cote@example.com',note:'Mandat duplex, estimation notariée en main.'},
+  {id:6,type:'acheteur',prenom:'Amélie',nom:'Roy',ini:'AR',value:480000,score:7,secteur:'Villeray',delai:'3-4 mois',lang:'fr',canal:'Web',age:'il y a 2 j',tel:'+1 514 555-0133',email:'a.roy@example.com',note:'Pré-qualifiée, flexible sur secteur.'},
+  {id:7,type:'acheteur',prenom:'Jonathan',nom:'Bergeron',ini:'JB',value:410000,score:7,secteur:'Hochelaga',delai:'3 mois',lang:'fr',canal:'SMS',age:'il y a 2 j',tel:'+1 438 555-0120',email:'j.bergeron@example.com',note:'Premier achat, budget serré mais financé.'},
+  {id:8,type:'acheteur',prenom:'Laura',nom:'Kim',ini:'LK',value:760000,score:9,secteur:'Le Sud-Ouest',delai:'< 1 mois',lang:'en',canal:'Web',age:'il y a 3 j',tel:'+1 514 555-0188',email:'l.kim@example.com',note:'Relocating, cash + mortgage ready.'},
+  {id:9,type:'vendeur',prenom:'Éric',nom:'Gagnon',ini:'EG',value:520000,score:7,secteur:'Verdun',delai:'flexible',lang:'fr',canal:'SMS',age:'il y a 4 j',tel:'+1 514 555-0166',email:'e.gagnon@example.com',note:'Mandat condo, timing flexible.'},
+];
+const state={};LEADS.forEach(l=>state[l.id]={unlocked:false});
+let filter='all',sortBy='value';
+
+const fmt=n=>n>=1e6?(n/1e6).toFixed(2).replace(/\.?0+$/,'')+' M$':Math.round(n/1e3)+' k$';
+const fmtFull=n=>new Intl.NumberFormat('fr-CA').format(n)+' $';
+// commission potentielle ~ 2% de la valeur du dossier ; prix de révélation ~ indexé sur la valeur
+const commOf=l=>Math.round(l.value*0.02/100)*100;
+const priceOf=l=>Math.round(l.value*0.00012/5)*5; // 720k -> ~85$
+const tierOf=l=>l.value>=900000?['Platine','platine']:l.value>=600000?['Or','or']:['Argent','argent'];
+
+function setBal(){document.getElementById('balance').textContent=fmtFull(BAL)}
+function kpis(){
+  const av=Math.round(LEADS.reduce((s,l)=>s+l.value,0)/LEADS.length);
+  const co=LEADS.reduce((s,l)=>s+commOf(l),0);
+  document.getElementById('k-count').textContent=LEADS.length;
+  document.getElementById('k-avg').textContent=fmt(av);
+  document.getElementById('k-comm').textContent=fmt(co);
+  document.getElementById('broker-ini').textContent=BROKER.split(' ').map(w=>w[0]).join('');
+}
+
+function view(){
+  let arr=LEADS.filter(l=>filter==='all'?true:filter==='en'?l.lang==='en':l.type===filter);
+  const s={value:(a,b)=>b.value-a.value,score:(a,b)=>b.score-a.score,comm:(a,b)=>commOf(b)-commOf(a),price:(a,b)=>priceOf(a)-priceOf(b),recent:(a,b)=>a.id-b.id};
+  arr.sort(s[sortBy]);
+  document.getElementById('grid').innerHTML=arr.map(card).join('');
+}
+
+function card(l){
+  const u=state[l.id].unlocked;
+  const [tl,tc]=tierOf(l);
+  const price=priceOf(l), comm=commOf(l);
+  const valLabel=l.type==='vendeur'?'Valeur propriété':'Capacité de financement';
+  const nameHtml=u?`${l.prenom} ${l.nom}`:`<span class="masked">${l.prenom} ${l.nom}</span>`;
+  const telHtml=u?l.tel:`<span class="masked">+1 514 555-0000</span>`;
+  const emailHtml=u?l.email:`<span class="masked">prenom@example.com</span>`;
+  const btn=u
+    ?`<button class="btn done" disabled>✓ Contact débloqué</button>`
+    :`<button class="btn" onclick="reveal(${l.id})">Révéler le contact — ${price} $</button>`;
+  return `<div class="card ${u?'unlocked':''}">
+    <div class="ribbon">
+      <span class="tier ${tc}">${tl} · ${fmt(l.value)}</span>
+      <span class="heat"><span class="dot h${l.score}"></span>${l.score}/10</span>
+    </div>
+    <div class="body">
+      <div class="identity">
+        <div class="pic">${u?l.ini:'🔒'}</div>
+        <div>
+          <div class="name">${nameHtml}</div>
+          <div class="contact">☎ ${telHtml} · ✉ ${emailHtml}</div>
+          ${u?'':'<div class="lockchip">🔒 Contact masqué jusqu&rsquo;au déblocage</div>'}
+        </div>
+      </div>
+      <div class="value-row">
+        <div class="vbox"><div class="l">${valLabel}</div><div class="v">${fmtFull(l.value)}</div></div>
+        <div class="vbox comm"><div class="l">Commission potentielle</div><div class="v">~ ${fmtFull(comm)}</div></div>
+      </div>
+      <div class="meta">
+        <span class="tag">${l.type==='acheteur'?'Acheteur':'Vendeur'}</span>
+        <span class="tag">${l.secteur}</span>
+        <span class="tag">⏱ ${l.delai}</span>
+        <span class="tag">${l.lang.toUpperCase()}</span>
+        <span class="tag">${l.canal}</span>
+        <span class="tag consent">✓ Consentement vérifié</span>
+      </div>
+      <div class="meta"><span class="tag" style="background:transparent;color:var(--muted-foreground);padding-left:0">${l.note} · ${l.age}</span></div>
+    </div>
+    <div class="foot">
+      <div class="price">Révélation<br><b>${price} $</b></div>
+      ${btn}
+    </div>
+  </div>`;
+}
+
+let pending=null;
+function reveal(id){
+  const l=LEADS.find(x=>x.id===id),price=priceOf(l);
+  if(BAL<price){toast('Solde insuffisant — rechargez votre compte');return;}
+  BAL-=price;setBal();
+  state[id].unlocked=true;view();
+  toast(`Contact de ${l.prenom} ${l.nom} débloqué (−${price} $)`);
+}
+
+let tt;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2600);}
+
+document.getElementById('chips').addEventListener('click',e=>{
+  const c=e.target.closest('.chip');if(!c)return;
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');
+  filter=c.dataset.f;view();
+});
+document.getElementById('sort').addEventListener('change',e=>{sortBy=e.target.value;view();});
+
+kpis();setBal();view();
+</script>
+</body>
+</html>

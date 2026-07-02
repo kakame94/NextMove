@@ -111,30 +111,73 @@ async function saveMessage(supabase, clientId, canal, direction, message) {
 
 // === NOEUD 6: Mettre a jour la fiche client ===
 
+// Actions qui portent un etat de fiche a persister. On accumule les slots a
+// CHAQUE tour (ledger), pas seulement a la fin — sinon {{FICHE_CLIENT}} reste
+// vide mid-flow et l'IA redemande des infos deja donnees.
+const FICHE_ACTIONS = ['creer_fiche', 'fiche_partielle', 'mise_a_jour_fiche', 'alerte_urgente'];
+
+// Le CHECK de la colonne n'accepte que ces valeurs.
+const SCORE_DB = { chaud_urgent: 'chaud', chaud: 'chaud', tiede: 'tiede', froid: 'froid' };
+const TYPE_CLIENT_DB = new Set(['acheteur', 'vendeur']); // pas de 'acheteur_vendeur' en colonne
+
+// Enregistre le consentement EXPRES de mise en relation (finalite marketplace,
+// distincte du consentement implicite et du STOP/CASL). N'ecrit QUE sur un OUI
+// explicite, de maniere idempotente, dans le journal auditable lead_consents.
+// Best-effort : n'interrompt jamais le flux SMS si la table est absente du
+// deploiement courant. NB: en schema canonique, prospectId = prospects.id.
+async function persistMarketplaceConsent(supabase, prospectId, actionData, sourceMessageId) {
+  const c = (actionData && actionData.client) || {};
+  if (c.consentement_mise_en_relation !== true) return; // seulement un OUI explicite
+  try {
+    const { data: existing } = await supabase
+      .from('lead_consents')
+      .select('id')
+      .eq('prospect_id', prospectId)
+      .eq('purpose', 'broker_match')
+      .is('revoked_at', null)
+      .limit(1);
+    if (existing && existing.length) return; // consentement vivant deja enregistre
+    await supabase.from('lead_consents').insert({
+      prospect_id: prospectId,
+      purpose: 'broker_match',
+      capture_channel: 'sms',
+      source_message_id: sourceMessageId || null,
+      consent_text_version: 'v1'
+    });
+  } catch (e) {
+    console.error('persistMarketplaceConsent failed:', e && e.message);
+  }
+}
+
 async function updateClientFromAction(supabase, clientId, actionData) {
-  if (actionData.action !== 'creer_fiche') return;
+  if (!actionData || !FICHE_ACTIONS.includes(actionData.action)) return;
 
-  const clientUpdate = actionData.client;
+  const c = actionData.client || {};
 
+  // `|| undefined` => on n'ecrase jamais un champ deja rempli avec un null/vide.
   await supabase
     .from('clients')
     .update({
-      nom_complet: clientUpdate.nom_complet || undefined,
-      type_client: clientUpdate.type_client || undefined,
-      secteur_recherche: clientUpdate.secteur_recherche || undefined,
-      budget_min: clientUpdate.budget_min || undefined,
-      budget_max: clientUpdate.budget_max || undefined,
-      pre_qualification: clientUpdate.pre_qualification,
-      montant_pre_qualif: clientUpdate.montant_pre_qualif || undefined,
-      type_propriete: clientUpdate.type_propriete || undefined,
-      nb_chambres_min: clientUpdate.nb_chambres_min || undefined,
-      delai_souhaite: clientUpdate.delai_souhaite || undefined,
-      disponibilites: clientUpdate.disponibilites || undefined,
-      premier_achat: clientUpdate.premier_achat,
-      score_chaleur: clientUpdate.score_chaleur || 'tiede',
-      statut: 'en_qualification'
+      nom_complet: c.nom_complet || undefined,
+      courriel: c.courriel || undefined,
+      type_client: TYPE_CLIENT_DB.has(c.type_client) ? c.type_client : undefined,
+      secteur_recherche: c.secteur_recherche || undefined,
+      budget_max: c.budget_max || undefined,
+      pre_qualification: typeof c.pre_qualification === 'boolean' ? c.pre_qualification : undefined,
+      montant_pre_qualif: c.montant_pre_qualif || undefined,
+      type_propriete: c.type_propriete || undefined,
+      nb_chambres_min: c.nb_chambres_min || undefined,
+      delai_souhaite: c.delai_souhaite || undefined,
+      disponibilites: c.disponibilites || undefined,
+      premier_achat: typeof c.premier_achat === 'boolean' ? c.premier_achat : undefined,
+      score_chaleur: SCORE_DB[c.score_chaleur] || undefined,
+      notes: c.notes || undefined,
+      statut: actionData.action === 'creer_fiche' ? 'qualifie' : 'en_qualification'
     })
     .eq('id', clientId);
+
+  // Journaliser le consentement de mise en relation (marketplace) s'il a ete donne.
+  await persistMarketplaceConsent(supabase, clientId, actionData, actionData.source_message_id);
 }
 
 // === NOEUD 7: Generer la notification courtier ===
@@ -198,6 +241,7 @@ module.exports = {
   parseClaudeResponse,
   saveMessage,
   updateClientFromAction,
+  persistMarketplaceConsent,
   buildCourtierNotification,
   scheduleInitialFollowUps
 };
