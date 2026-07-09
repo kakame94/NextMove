@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NextMove — Votre copilote IA, livré en 14 jours</title>
+<meta name="description" content="NextMove automatise le suivi client des PME québécoises : qualification de prospects, relances, prise de rendez-vous. En production en 14 jours. Données au Canada.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF7;
+    --bg-2:#F2F1EC;
+    --bg-3:#E8E6DF;
+    --fg:#0A0A0A;
+    --fg-2:#525252;
+    --fg-3:#8A8A85;
+    --line:#D9D7D0;
+    --line-2:#E5E3DC;
+    --accent:#008C46;
+    --accent-bg:#00FF85;
+    --accent-dim:#D7FBE8;
+    --warn:#A85B00;
+    --danger:#C2362A;
+  }
+  html.dark{
+    --bg:#0A0A0A;
+    --bg-2:#111111;
+    --bg-3:#161616;
+    --fg:#F5F5F4;
+    --fg-2:#A1A1A1;
+    --fg-3:#525252;
+    --line:#262626;
+    --line-2:#1F1F1F;
+    --accent:#00FF85;
+    --accent-bg:#00FF85;
+    --accent-dim:#003D1F;
+    --warn:#FFB800;
+    --danger:#FF4444;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--bg);color:var(--fg);
+    font-size:14px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01","cv11";
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;font-feature-settings:"calt","liga"}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      linear-gradient(var(--line-2) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line-2) 1px,transparent 1px);
+    background-size:48px 48px;
+    mask-image:radial-gradient(ellipse at 50% 0%,black 30%,transparent 80%);
+    opacity:0.4;
+  }
+
+  .wrap{
+    max-width:1280px;margin:0 auto;
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 90%,transparent);
+    position:relative;
+    backdrop-filter:blur(8px);
+  }
+
+  .statusbar{
+    border-bottom:1px solid var(--line);
+    padding:8px 24px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--fg-3);
+    background:var(--bg-2);
+  }
+  .statusbar .left{display:flex;gap:24px}
+  .statusbar .right{display:flex;gap:24px;align-items:center}
+  .statusbar .live::before{
+    content:"";display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 8px var(--accent);
+    margin-right:6px;vertical-align:middle;
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  nav{
+    border-bottom:1px solid var(--line);
+    padding:18px 24px;
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--bg);
+  }
+  .brand{display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700}
+  .brand .glyph{
+    width:24px;height:24px;border:1px solid var(--fg);
+    display:grid;place-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;
+  }
+  .brand .glyph::before{content:"▲"}
+  nav ul{display:flex;gap:32px;list-style:none;font-family:'JetBrains Mono',monospace;font-size:12px}
+  nav ul a{color:var(--fg-2);transition:color .1s}
+  nav ul a:hover{color:var(--accent)}
+  nav ul a::before{content:"./";color:var(--fg-3)}
+  .nav-right{display:flex;gap:10px;align-items:center}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
+    border:1px solid var(--line);background:var(--bg);color:var(--fg);
+    cursor:pointer;transition:all .12s;
+  }
+  .btn:hover{border-color:var(--fg-2)}
+  .btn-accent{background:var(--accent-bg);color:#0A0A0A;border-color:var(--accent-bg);font-weight:700}
+  .btn-accent:hover{background:transparent;color:var(--accent)}
+  .btn-lg{padding:14px 22px;font-size:13px}
+  .btn .arrow{font-size:14px;line-height:1}
+  .icon-btn{padding:9px 11px;color:var(--fg-2)}
+  .icon-btn:hover{color:var(--accent)}
+  .theme-toggle .ico-sun{display:none}
+  .theme-toggle .ico-moon{display:block}
+  html.dark .theme-toggle .ico-sun{display:block}
+  html.dark .theme-toggle .ico-moon{display:none}
+  .lang-toggle{font-weight:700;letter-spacing:0.04em}
+
+  .hero{
+    padding:100px 64px 80px;position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  .hero::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--accent),transparent);
+    opacity:0.5;
+  }
+  .pre{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);
+    margin-bottom:32px;display:flex;align-items:center;gap:10px;
+  }
+  .pre::before{content:"$";color:var(--fg-3)}
+  h1{
+    font-family:'Inter',sans-serif;
+    font-size:clamp(42px,6.5vw,84px);line-height:0.98;letter-spacing:-0.04em;
+    font-weight:800;margin-bottom:32px;max-width:1000px;
+  }
+  h1 .accent{color:var(--accent)}
+  h1 .strike{color:var(--fg-3);text-decoration:line-through;text-decoration-color:var(--danger)}
+  h1 .cursor::after{
+    content:"_";color:var(--accent);
+    animation:blink 1s infinite;font-weight:400;
+  }
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  .lede{font-size:18px;color:var(--fg-2);max-width:680px;margin-bottom:48px;line-height:1.55}
+  .lede strong{color:var(--fg);font-weight:600}
+  .hero-actions{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .hero-note{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg-3);margin-bottom:80px}
+
+  .metrics{
+    border-top:1px solid var(--line);
+    margin:0 -64px;
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  .metric{
+    padding:24px 32px;border-right:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;
+  }
+  .metric:last-child{border-right:none}
+  .metric .k{font-size:11px;color:var(--fg-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+  .metric .v{font-size:28px;font-weight:700;letter-spacing:-0.02em;color:var(--fg)}
+  .metric .v .unit{color:var(--fg-3);font-weight:400;font-size:16px;margin-left:4px}
+  .metric .delta{font-size:11px;color:var(--accent);margin-top:4px}
+
+  section{padding:96px 64px;border-bottom:1px solid var(--line);position:relative}
+  .section-mark{
+    position:absolute;top:24px;left:24px;
+    font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg-3);
+    letter-spacing:0.1em;
+  }
+  .section-head{
+    display:grid;grid-template-columns:200px 1fr;gap:48px;
+    margin-bottom:64px;padding-bottom:32px;border-bottom:1px dashed var(--line);
+  }
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;padding-top:8px}
+  h2{
+    font-size:clamp(32px,4vw,52px);line-height:1.02;letter-spacing:-0.035em;
+    font-weight:700;max-width:760px;
+  }
+  h2 .accent{color:var(--accent)}
+
+  .cols-3{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .col{
+    border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:40px 32px;background:var(--bg);
+    transition:background .15s;
+  }
+  .col:hover{background:var(--bg-2)}
+  .col .num{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg-3);
+    margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;
+  }
+  .col .num .tag{
+    padding:2px 8px;border:1px solid var(--line);
+    color:var(--accent);font-size:10px;
+  }
+  .col h3{font-size:22px;font-weight:700;letter-spacing:-0.02em;margin-bottom:14px;line-height:1.15}
+  .col p{color:var(--fg-2);font-size:14px;line-height:1.55;margin-bottom:24px}
+  .col .read{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);
+    border-top:1px solid var(--line);padding-top:16px;
+  }
+
+  .terminal{
+    background:var(--bg-2);border:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    margin-top:24px;
+  }
+  .term-head{
+    padding:10px 16px;border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--bg-3);
+    font-size:11px;color:var(--fg-3);
+  }
+  .term-head .dots{display:flex;gap:6px}
+  .term-head .dots span{width:10px;height:10px;border-radius:50%;background:var(--line)}
+  .term-body{padding:24px 20px;line-height:1.8}
+  .term-line{display:flex;gap:12px;align-items:baseline}
+  .term-line .ts{color:var(--fg-3);font-size:11px;flex-shrink:0;width:60px}
+  .term-line .lvl{flex-shrink:0;font-size:10px;font-weight:700;padding:1px 6px;border:1px solid;border-radius:2px;text-transform:uppercase}
+  .lvl.info{color:var(--accent);border-color:var(--accent);background:var(--accent-dim)}
+  .lvl.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,transparent);background:color-mix(in srgb,var(--warn) 12%,transparent)}
+  .lvl.ok{color:var(--accent);border-color:var(--accent);background:transparent}
+  .term-line .msg{color:var(--fg-2);font-size:12px}
+  .term-line .msg b{color:var(--fg);font-weight:600}
+  .term-line .msg .arg{color:var(--accent)}
+
+  .product{
+    display:grid;grid-template-columns:1fr 1.2fr;
+    border:1px solid var(--line);background:var(--bg-2);
+  }
+  .product-left{padding:48px 40px;border-right:1px solid var(--line)}
+  .product-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);
+    border:1px solid var(--accent);padding:3px 10px;margin-bottom:24px;
+  }
+  .product-tag::before{content:"●";font-size:8px}
+  .product h3{font-size:36px;font-weight:700;letter-spacing:-0.03em;margin-bottom:14px;line-height:1.05}
+  .product p{color:var(--fg-2);font-size:15px;line-height:1.6;margin-bottom:24px;max-width:480px}
+  .proof-line{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);
+    border-left:3px solid var(--accent);padding:10px 14px;
+    background:var(--accent-dim);margin-bottom:24px;line-height:1.6;
+  }
+  .product-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-bottom:28px}
+  .product-stats > div{background:var(--bg-2);padding:14px 16px}
+  .product-stats .k{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}
+  .product-stats .v{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--fg)}
+  .product-right{
+    background:
+      linear-gradient(135deg,var(--bg) 0%,var(--bg-3) 100%);
+    padding:32px;display:flex;flex-direction:column;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .product-right::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:24px 24px;opacity:0.3;
+  }
+  .product-shot{
+    position:relative;border:1px solid var(--line);
+    background:var(--bg);
+    box-shadow:0 20px 50px -20px rgba(0,0,0,0.4);
+  }
+  .product-shot .sh{
+    padding:8px 12px;border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg-3);
+    background:var(--bg-3);
+  }
+  .product-shot img{width:100%;display:block}
+  .product-shot .caption{
+    padding:8px 12px;border-top:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg-3);
+  }
+  .discovery-note{
+    margin-top:32px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--fg-3);
+  }
+  .discovery-note b{color:var(--fg-2);font-weight:500}
+
+  .pipes{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;
+  }
+  .pipe{
+    padding:32px 28px;border-right:1px solid var(--line);
+    position:relative;
+  }
+  .pipe:last-child{border-right:none}
+  .pipe::after{
+    content:"→";position:absolute;right:-9px;top:50%;transform:translateY(-50%);
+    background:var(--bg);width:18px;height:18px;display:grid;place-items:center;
+    color:var(--accent);font-size:14px;border:1px solid var(--line);
+    z-index:2;
+  }
+  .pipe:last-child::after{display:none}
+  .pipe .id{font-size:10px;color:var(--fg-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:24px}
+  .pipe h4{font-size:20px;font-weight:700;color:var(--fg);margin-bottom:6px;letter-spacing:-0.01em;font-family:'Inter',sans-serif}
+  .pipe .meta{font-size:11px;color:var(--accent);margin-bottom:12px}
+  .pipe p{font-size:12px;color:var(--fg-2);line-height:1.55}
+
+  .team{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border:1px solid var(--line);
+  }
+  .member{
+    padding:32px 28px;border-right:1px solid var(--line);
+    background:var(--bg);transition:background .15s;
+  }
+  .member:last-child{border-right:none}
+  .member:hover{background:var(--bg-2)}
+  .member .ascii{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--accent);font-size:10px;line-height:1.1;margin-bottom:24px;
+    white-space:pre;
+  }
+  .member h4{font-size:18px;font-weight:600;letter-spacing:-0.01em;margin-bottom:4px}
+  .member .role{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg-2)}
+  .member .role::before{content:"// "}
+
+  .cta{
+    padding:80px 64px;text-align:center;
+    background:
+      radial-gradient(ellipse at center,var(--accent-dim) 0%,transparent 60%),
+      var(--bg);
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .cta .pre{justify-content:center;margin-bottom:24px}
+  .cta h2{margin:0 auto 20px;max-width:720px}
+  .cta p{color:var(--fg-2);font-size:16px;max-width:560px;margin:0 auto 36px}
+  .cta-actions{display:flex;flex-direction:column;align-items:center;gap:16px}
+  .cta-mail{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--fg-2);
+  }
+  .cta-mail:hover{color:var(--accent)}
+
+  footer{padding:48px 64px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--fg-3)}
+  footer .wrap-f{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+  footer .brand{font-size:13px}
+  footer a:hover{color:var(--accent)}
+  footer .links{display:flex;gap:24px}
+
+  @media(max-width:880px){
+    body::before{background-size:32px 32px}
+    .hero{padding:60px 24px 40px}
+    section{padding:60px 24px}
+    .metrics{margin:0 -24px;grid-template-columns:repeat(2,1fr)}
+    .metric{border-bottom:1px solid var(--line)}
+    .section-head{grid-template-columns:1fr;gap:16px}
+    .cols-3,.team,.pipes{grid-template-columns:1fr}
+    .col,.member{border-right:none}
+    .pipe{border-right:none;border-bottom:1px solid var(--line)}
+    .pipe::after{display:none}
+    .product{grid-template-columns:1fr}
+    .product-left{border-right:none;border-bottom:1px solid var(--line);padding:32px 24px}
+    .product-right{padding:24px}
+    .cta{padding:60px 24px}
+    nav ul{display:none}
+    .statusbar{padding:6px 16px;font-size:10px}
+    .statusbar .left{gap:12px}
+    footer .wrap-f{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- STATUS BAR -->
+  <div class="statusbar">
+    <div class="left">
+      <span class="mono">nextmove.studio</span>
+      <span class="mono">v0.3.0</span>
+    </div>
+    <div class="right">
+      <span class="mono live" data-i18n="status.live">ON RÉPOND EN &lt; 24 H</span>
+      <span class="mono">Montréal, QC</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="brand">
+      <span class="glyph"></span>
+      <span>NEXTMOVE</span>
+    </a>
+    <ul>
+      <li><a href="#what" data-i18n="nav.what">offre</a></li>
+      <li><a href="#method" data-i18n="nav.method">méthode</a></li>
+      <li><a href="#products" data-i18n="nav.products">preuve</a></li>
+      <li><a href="#stack" data-i18n="nav.stack">stack</a></li>
+      <li><a href="#team" data-i18n="nav.team">équipe</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="btn icon-btn lang-toggle" id="lang-toggle" aria-label="Switch language" title="Switch language">
+        <span id="lang-label">EN</span>
+      </button>
+      <button class="btn icon-btn theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="ico-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="ico-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <!-- TODO: remplacer par ton vrai lien Calendly/Cal.com -->
+      <a href="https://calendly.com/nextmove-studio/diagnostic-30min" class="btn btn-accent" data-i18n-html="nav.cta">réserver_30min <span class="arrow">→</span></a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="pre" data-i18n="hero.pre">cat ./votre_semaine.log | grep "temps_perdu"</div>
+    <h1 data-i18n-html="hero.h1">Le suivi client qui vous <span class="strike">épuise</span>, <span class="accent">automatisé</span>. <span class="cursor"></span></h1>
+    <p class="lede" data-i18n-html="hero.lede">NextMove bâtit votre <strong>copilote IA</strong> : qualification de prospects, relances, prise de rendez-vous — <strong>en production en 14 jours</strong>. Conçu, hébergé et opéré au Québec.</p>
+    <div class="hero-actions">
+      <!-- TODO: remplacer par ton vrai lien Calendly/Cal.com -->
+      <a href="https://calendly.com/nextmove-studio/diagnostic-30min" class="btn btn-accent btn-lg" data-i18n-html="hero.cta1">Réserver un diagnostic gratuit <span class="arrow">→</span></a>
+      <a href="#products" class="btn btn-lg" data-i18n="hero.cta2">voir un exemple concret</a>
+    </div>
+    <div class="hero-note" data-i18n="hero.note">// 30 minutes · sans engagement · on vous dit si on peut aider ou pas</div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="k" data-i18n="metric.1.k">// Livraison</div>
+        <div class="v"><span data-i18n="metric.1.v">14</span><span class="unit" data-i18n="metric.1.unit">jours</span></div>
+        <div class="delta" data-i18n="metric.1.delta">de l'idée à la production</div>
+      </div>
+      <div class="metric">
+        <div class="k" data-i18n="metric.2.k">// Diagnostic</div>
+        <div class="v"><span data-i18n="metric.2.v">30</span><span class="unit" data-i18n="metric.2.unit">min</span></div>
+        <div class="delta" data-i18n="metric.2.delta">gratuit, sans engagement</div>
+      </div>
+      <div class="metric">
+        <div class="k" data-i18n="metric.3.k">// Vos données</div>
+        <div class="v"><span data-i18n="metric.3.v">100</span><span class="unit">%</span></div>
+        <div class="delta" data-i18n="metric.3.delta">hébergées au Canada</div>
+      </div>
+      <div class="metric">
+        <div class="k" data-i18n="metric.4.k">// Votre copilote</div>
+        <div class="v"><span>24/7</span></div>
+        <div class="delta" data-i18n="metric.4.delta">répond même la nuit</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- WHAT -->
+  <section id="what">
+    <span class="section-mark" data-i18n="what.mark">[ 01 / OFFRE ]</span>
+    <div class="section-head">
+      <span class="kicker" data-i18n="what.kicker">ce_quon_fait_pour_vous</span>
+      <h2 data-i18n-html="what.h2">On automatise le travail répétitif qui <span class="accent">gruge vos semaines.</span></h2>
+    </div>
+    <div class="cols-3">
+      <div class="col">
+        <div class="num"><span data-i18n="col1.num">// 01_votre_copilote</span><span class="tag" data-i18n="col1.tag">OFFRE PRINCIPALE</span></div>
+        <h3 data-i18n="col1.title">Votre copilote sur mesure</h3>
+        <p data-i18n="col1.body">Prospects qui attendent des heures, relances oubliées, rendez-vous manqués. On diagnostique votre pire fuite de temps, on livre un copilote IA en 14 jours, on l'opère pour vous. Vous voyez les résultats avant de vous engager plus loin.</p>
+        <div class="read" data-i18n="col1.read">→ réserver un diagnostic</div>
+      </div>
+      <div class="col">
+        <div class="num"><span data-i18n="col2.num">// 02_la_preuve</span><span class="tag" data-i18n="col2.tag">NOS PRODUITS</span></div>
+        <h3 data-i18n="col2.title">On mange notre propre cuisine</h3>
+        <p data-i18n="col2.body">Klaris, notre copilote pour courtiers immobiliers, tourne en production avec de vrais courtiers du Grand Montréal. Même méthode, même stack que ce qu'on bâtit pour vous.</p>
+        <div class="read" data-i18n="col2.read">→ voir klaris en action</div>
+      </div>
+      <div class="col">
+        <div class="num"><span data-i18n="col3.num">// 03_conseil</span><span class="tag" data-i18n="col3.tag">STRATÉGIE</span></div>
+        <h3 data-i18n="col3.title">Décisions, pas transformations</h3>
+        <p data-i18n="col3.body">Vous hésitez sur quoi automatiser en premier? On cadre : diagnostic, priorité unique, plan d'action. Vous repartez avec des décisions exécutables lundi matin — pas un rapport de 60 pages.</p>
+        <div class="read" data-i18n="col3.read">→ parler à l'équipe</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHOD -->
+  <section id="method">
+    <span class="section-mark" data-i18n="method.mark">[ 02 / MÉTHODE ]</span>
+    <div class="section-head">
+      <span class="kicker" data-i18n="method.kicker">comment_ca_se_passe</span>
+      <h2 data-i18n-html="method.h2">Deux semaines. <span class="accent">Pas deux trimestres.</span> Voici le déroulé réel.</h2>
+    </div>
+
+    <div class="terminal">
+      <div class="term-head">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="mono" data-i18n="term.path">~/nextmove/votre_projet.log</div>
+        <div class="mono" data-i18n="term.live">↻ live</div>
+      </div>
+      <div class="term-body">
+        <div class="term-line"><span class="ts mono">J+00</span><span class="lvl info" data-i18n="term.lvl.diag">DIAG</span><span class="msg mono" data-i18n-html="term.l1"><b>On observe votre quotidien</b> · 2-3 jours dans vos opérations réelles. Output : <span class="arg">la fuite de temps qui coûte le plus cher</span>.</span></div>
+        <div class="term-line"><span class="ts mono">J+02</span><span class="lvl info" data-i18n="term.lvl.policy">CAP</span><span class="msg mono" data-i18n-html="term.l2"><b>Une priorité, une phrase.</b> ex : <span class="arg">« répondre à chaque prospect en moins de 60 secondes, 24/7 »</span>. Pas quinze chantiers.</span></div>
+        <div class="term-line"><span class="ts mono">J+03</span><span class="lvl warn" data-i18n="term.lvl.build">BUILD</span><span class="msg mono" data-i18n-html="term.l3"><b>Périmètre gelé, échéance gelée.</b> On bâtit la version qui prouve la valeur — <span class="arg">pas le système parfait</span>.</span></div>
+        <div class="term-line"><span class="ts mono">J+14</span><span class="lvl ok" data-i18n="term.lvl.ship">LIVE</span><span class="msg mono" data-i18n-html="term.l4"><b>En production chez vous.</b> Vrais clients, vraies conversations. Mesuré dès le premier jour : <span class="arg">temps de réponse, leads qualifiés, heures récupérées</span>.</span></div>
+        <div class="term-line"><span class="ts mono">J+30</span><span class="lvl info" data-i18n="term.lvl.learn">BILAN</span><span class="msg mono" data-i18n-html="term.l5"><b>Décision ensemble, chiffres en main :</b> <span class="arg">on continue</span> · <span class="arg">on ajuste</span> · <span class="arg">on arrête</span>. Vous ne payez jamais pour un projet zombie.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS / PROOF -->
+  <section id="products">
+    <span class="section-mark" data-i18n="products.mark">[ 03 / PREUVE ]</span>
+    <div class="section-head">
+      <span class="kicker" data-i18n="products.kicker">en_production</span>
+      <h2 data-i18n-html="products.h2">Klaris. Pas une démo — <span class="accent">un produit qui tourne.</span></h2>
+    </div>
+
+    <div class="product">
+      <div class="product-left">
+        <span class="product-tag mono" data-i18n="product.tag">EN_PRODUCTION</span>
+        <h3>Klaris</h3>
+        <p data-i18n-html="product.body"><strong style="color:var(--fg)">Le copilote des courtiers immobiliers.</strong> Il répond aux prospects par SMS en français québécois, les qualifie (budget, financement, échéance), monte la fiche complète et programme les relances. Le courtier ne rate plus jamais un lead — même à 23 h un dimanche.</p>
+        <div class="proof-line" data-i18n-html="product.proof">// En bêta avec 2 courtiers du Grand Montréal.<br>// Chaque prospect reçoit une réponse en moins de 60 secondes, 24/7.</div>
+        <div class="product-stats">
+          <div><div class="k" data-i18n="product.stat1.k">réponse</div><div class="v" data-i18n="product.stat1.v">&lt; 60 s</div></div>
+          <div><div class="k" data-i18n="product.stat2.k">dispo</div><div class="v">24/7</div></div>
+          <div><div class="k" data-i18n="product.stat3.k">langue</div><div class="v">FR-QC</div></div>
+        </div>
+        <a href="https://klaris.app" class="btn btn-accent">klaris.app <span class="arrow">→</span></a>
+      </div>
+      <div class="product-right">
+        <div class="product-shot">
+          <div class="sh">
+            <span>app.klaris.app — tableau de bord courtier</span>
+            <span>● live</span>
+          </div>
+          <img src="klaris-dashboard.png" alt="Tableau de bord Klaris : prospects chauds scorés, valeur pipeline, relances planifiées" loading="lazy">
+          <div class="caption" data-i18n="shot.caption">// données de démonstration · interface réelle du produit</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="discovery-note" data-i18n-html="discovery.note"><b>Et après?</b> D'autres verticales en exploration — santé, restauration. Une à la fois, quand Klaris aura fini de faire ses preuves.</p>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <span class="section-mark" data-i18n="stack.mark">[ 04 / STACK ]</span>
+    <div class="section-head">
+      <span class="kicker" data-i18n="stack.kicker">sous_le_capot</span>
+      <h2 data-i18n-html="stack.h2">Quatre briques éprouvées. <span class="accent">Vos données restent au Canada.</span></h2>
+    </div>
+    <div class="pipes">
+      <div class="pipe">
+        <div class="id">// IA</div>
+        <h4>Claude</h4>
+        <div class="meta">anthropic</div>
+        <p data-i18n="pipe1.body">Le modèle qui comprend vraiment le français québécois. Fiable en production.</p>
+      </div>
+      <div class="pipe">
+        <div class="id">// AUTOMATISATION</div>
+        <h4>n8n</h4>
+        <div class="meta">self-hosted</div>
+        <p data-i18n="pipe2.body">Chaque étape auditable. On possède l'infrastructure — pas de dépendance opaque.</p>
+      </div>
+      <div class="pipe">
+        <div class="id">// DONNÉES</div>
+        <h4>Supabase</h4>
+        <div class="meta">postgres · canada</div>
+        <p data-i18n="pipe3.body">Serveurs en Ontario (ca-central-1). Vos données clients ne quittent jamais le pays.</p>
+      </div>
+      <div class="pipe">
+        <div class="id">// INTERFACE</div>
+        <h4>Next.js</h4>
+        <div class="meta">web · mobile</div>
+        <p data-i18n="pipe4.body">Votre tableau de bord, accessible partout. Simple, rapide, sans formation requise.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team">
+    <span class="section-mark" data-i18n="team.mark">[ 05 / ÉQUIPE ]</span>
+    <div class="section-head">
+      <span class="kicker" data-i18n="team.kicker">qui_repond_au_telephone</span>
+      <h2 data-i18n-html="team.h2">Quatre cofondateurs. <span class="accent">Vous parlez toujours à quelqu'un qui code.</span></h2>
+    </div>
+    <div class="team">
+      <div class="member">
+<div class="ascii">┌──────┐
+│  D   │
+└──────┘</div>
+        <h4>Dennis</h4>
+        <div class="role" data-i18n="team.r1">tech_lead · n8n · claude</div>
+      </div>
+      <div class="member">
+<div class="ascii">┌──────┐
+│  E   │
+└──────┘</div>
+        <h4>Eliot</h4>
+        <div class="role" data-i18n="team.r2">cofondateur · opérations</div>
+      </div>
+      <div class="member">
+<div class="ascii">┌──────┐
+│  W   │
+└──────┘</div>
+        <h4>Walkens</h4>
+        <div class="role" data-i18n="team.r3">cofondateur · croissance</div>
+      </div>
+      <div class="member">
+<div class="ascii">┌──────┐
+│  S   │
+└──────┘</div>
+        <h4>Seydou</h4>
+        <div class="role" data-i18n="team.r4">cofondateur · design</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contact" class="cta">
+    <div class="pre" data-i18n="cta.pre">echo "30_minutes_pour_voir_clair" | nextmove</div>
+    <h2 data-i18n-html="cta.h2">Dites-nous où <span class="accent">vous perdez du temps.</span></h2>
+    <p data-i18n="cta.body">Diagnostic gratuit de 30 minutes. Si on peut automatiser, on vous montre comment et en combien de temps. Sinon, on vous le dit franchement.</p>
+    <div class="cta-actions">
+      <!-- TODO: remplacer par ton vrai lien Calendly/Cal.com -->
+      <a href="https://calendly.com/nextmove-studio/diagnostic-30min" class="btn btn-accent btn-lg" data-i18n-html="cta.cta1">Choisir un créneau (30 min) <span class="arrow">→</span></a>
+      <a href="mailto:hello@nextmove.studio" class="cta-mail mono" data-i18n="cta.mail">ou par courriel : hello@nextmove.studio</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap-f">
+      <div>
+        <div class="brand" style="margin-bottom:8px">
+          <span class="glyph"></span>
+          <span>NEXTMOVE</span>
+        </div>
+        <div data-i18n="footer.tag">© 2026 NextMove Studio · Montréal, QC</div>
+      </div>
+      <div class="links">
+        <a href="https://klaris.app">klaris</a>
+        <a href="#method" data-i18n="footer.l2">méthode</a>
+        <a href="#contact">contact</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  (function(){
+    const root = document.documentElement;
+
+    // ─── THEME ───
+    const storedTheme = localStorage.getItem('nm-theme');
+    const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+    if(storedTheme === 'dark' || (!storedTheme && prefersDark)) root.classList.add('dark');
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const isDark = root.classList.toggle('dark');
+      localStorage.setItem('nm-theme', isDark ? 'dark' : 'light');
+    });
+
+    // ─── i18n ───
+    const dict = {
+      fr: {
+        'status.live':'ON RÉPOND EN < 24 H',
+        'nav.what':'offre','nav.method':'méthode','nav.products':'preuve','nav.stack':'stack','nav.team':'équipe',
+        'nav.cta':'réserver_30min <span class="arrow">→</span>',
+        'hero.pre':'cat ./votre_semaine.log | grep "temps_perdu"',
+        'hero.h1':'Le suivi client qui vous <span class="strike">épuise</span>, <span class="accent">automatisé</span>. <span class="cursor"></span>',
+        'hero.lede':'NextMove bâtit votre <strong>copilote IA</strong> : qualification de prospects, relances, prise de rendez-vous — <strong>en production en 14 jours</strong>. Conçu, hébergé et opéré au Québec.',
+        'hero.cta1':'Réserver un diagnostic gratuit <span class="arrow">→</span>',
+        'hero.cta2':'voir un exemple concret',
+        'hero.note':'// 30 minutes · sans engagement · on vous dit si on peut aider ou pas',
+        'metric.1.k':'// Livraison','metric.1.v':'14','metric.1.unit':'jours','metric.1.delta':'de l\'idée à la production',
+        'metric.2.k':'// Diagnostic','metric.2.v':'30','metric.2.unit':'min','metric.2.delta':'gratuit, sans engagement',
+        'metric.3.k':'// Vos données','metric.3.v':'100','metric.3.delta':'hébergées au Canada',
+        'metric.4.k':'// Votre copilote','metric.4.delta':'répond même la nuit',
+        'what.mark':'[ 01 / OFFRE ]','what.kicker':'ce_quon_fait_pour_vous',
+        'what.h2':'On automatise le travail répétitif qui <span class="accent">gruge vos semaines.</span>',
+        'col1.num':'// 01_votre_copilote','col1.tag':'OFFRE PRINCIPALE','col1.title':'Votre copilote sur mesure',
+        'col1.body':'Prospects qui attendent des heures, relances oubliées, rendez-vous manqués. On diagnostique votre pire fuite de temps, on livre un copilote IA en 14 jours, on l\'opère pour vous. Vous voyez les résultats avant de vous engager plus loin.',
+        'col1.read':'→ réserver un diagnostic',
+        'col2.num':'// 02_la_preuve','col2.tag':'NOS PRODUITS','col2.title':'On mange notre propre cuisine',
+        'col2.body':'Klaris, notre copilote pour courtiers immobiliers, tourne en production avec de vrais courtiers du Grand Montréal. Même méthode, même stack que ce qu\'on bâtit pour vous.',
+        'col2.read':'→ voir klaris en action',
+        'col3.num':'// 03_conseil','col3.tag':'STRATÉGIE','col3.title':'Décisions, pas transformations',
+        'col3.body':'Vous hésitez sur quoi automatiser en premier? On cadre : diagnostic, priorité unique, plan d\'action. Vous repartez avec des décisions exécutables lundi matin — pas un rapport de 60 pages.',
+        'col3.read':'→ parler à l\'équipe',
+        'method.mark':'[ 02 / MÉTHODE ]','method.kicker':'comment_ca_se_passe',
+        'method.h2':'Deux semaines. <span class="accent">Pas deux trimestres.</span> Voici le déroulé réel.',
+        'term.path':'~/nextmove/votre_projet.log','term.live':'↻ live',
+        'term.lvl.diag':'DIAG','term.lvl.policy':'CAP','term.lvl.build':'BUILD','term.lvl.ship':'LIVE','term.lvl.learn':'BILAN',
+        'term.l1':'<b>On observe votre quotidien</b> · 2-3 jours dans vos opérations réelles. Output : <span class="arg">la fuite de temps qui coûte le plus cher</span>.',
+        'term.l2':'<b>Une priorité, une phrase.</b> ex : <span class="arg">« répondre à chaque prospect en moins de 60 secondes, 24/7 »</span>. Pas quinze chantiers.',
+        'term.l3':'<b>Périmètre gelé, échéance gelée.</b> On bâtit la version qui prouve la valeur — <span class="arg">pas le système parfait</span>.',
+        'term.l4':'<b>En production chez vous.</b> Vrais clients, vraies conversations. Mesuré dès le premier jour : <span class="arg">temps de réponse, leads qualifiés, heures récupérées</span>.',
+        'term.l5':'<b>Décision ensemble, chiffres en main :</b> <span class="arg">on continue</span> · <span class="arg">on ajuste</span> · <span class="arg">on arrête</span>. Vous ne payez jamais pour un projet zombie.',
+        'products.mark':'[ 03 / PREUVE ]','products.kicker':'en_production',
+        'products.h2':'Klaris. Pas une démo — <span class="accent">un produit qui tourne.</span>',
+        'product.tag':'EN_PRODUCTION',
+        'product.body':'<strong style="color:var(--fg)">Le copilote des courtiers immobiliers.</strong> Il répond aux prospects par SMS en français québécois, les qualifie (budget, financement, échéance), monte la fiche complète et programme les relances. Le courtier ne rate plus jamais un lead — même à 23 h un dimanche.',
+        'product.proof':'// En bêta avec 2 courtiers du Grand Montréal.<br>// Chaque prospect reçoit une réponse en moins de 60 secondes, 24/7.',
+        'product.stat1.k':'réponse','product.stat1.v':'< 60 s','product.stat2.k':'dispo','product.stat3.k':'langue',
+        'shot.caption':'// données de démonstration · interface réelle du produit',
+        'discovery.note':'<b>Et après?</b> D\'autres verticales en exploration — santé, restauration. Une à la fois, quand Klaris aura fini de faire ses preuves.',
+        'stack.mark':'[ 04 / STACK ]','stack.kicker':'sous_le_capot',
+        'stack.h2':'Quatre briques éprouvées. <span class="accent">Vos données restent au Canada.</span>',
+        'pipe1.body':'Le modèle qui comprend vraiment le français québécois. Fiable en production.',
+        'pipe2.body':'Chaque étape auditable. On possède l\'infrastructure — pas de dépendance opaque.',
+        'pipe3.body':'Serveurs en Ontario (ca-central-1). Vos données clients ne quittent jamais le pays.',
+        'pipe4.body':'Votre tableau de bord, accessible partout. Simple, rapide, sans formation requise.',
+        'team.mark':'[ 05 / ÉQUIPE ]','team.kicker':'qui_repond_au_telephone',
+        'team.h2':'Quatre cofondateurs. <span class="accent">Vous parlez toujours à quelqu\'un qui code.</span>',
+        'team.r1':'tech_lead · n8n · claude','team.r2':'cofondateur · opérations','team.r3':'cofondateur · croissance','team.r4':'cofondateur · design',
+        'cta.pre':'echo "30_minutes_pour_voir_clair" | nextmove',
+        'cta.h2':'Dites-nous où <span class="accent">vous perdez du temps.</span>',
+        'cta.body':'Diagnostic gratuit de 30 minutes. Si on peut automatiser, on vous montre comment et en combien de temps. Sinon, on vous le dit franchement.',
+        'cta.cta1':'Choisir un créneau (30 min) <span class="arrow">→</span>',
+        'cta.mail':'ou par courriel : hello@nextmove.studio',
+        'footer.tag':'© 2026 NextMove Studio · Montréal, QC',
+        'footer.l2':'méthode',
+      },
+      en: {
+        'status.live':'WE REPLY WITHIN 24 H',
+        'nav.what':'offer','nav.method':'method','nav.products':'proof','nav.stack':'stack','nav.team':'team',
+        'nav.cta':'book_30min <span class="arrow">→</span>',
+        'hero.pre':'cat ./your_week.log | grep "time_lost"',
+        'hero.h1':'The client follow-up that <span class="strike">drains you</span>, <span class="accent">automated</span>. <span class="cursor"></span>',
+        'hero.lede':'NextMove builds your <strong>AI copilot</strong>: lead qualification, follow-ups, appointment booking — <strong>in production in 14 days</strong>. Designed, hosted and operated in Québec.',
+        'hero.cta1':'Book a free diagnostic <span class="arrow">→</span>',
+        'hero.cta2':'see a real example',
+        'hero.note':'// 30 minutes · no commitment · we tell you straight if we can help',
+        'metric.1.k':'// Delivery','metric.1.v':'14','metric.1.unit':'days','metric.1.delta':'from idea to production',
+        'metric.2.k':'// Diagnostic','metric.2.v':'30','metric.2.unit':'min','metric.2.delta':'free, no strings',
+        'metric.3.k':'// Your data','metric.3.v':'100','metric.3.delta':'hosted in Canada',
+        'metric.4.k':'// Your copilot','metric.4.delta':'answers even at night',
+        'what.mark':'[ 01 / OFFER ]','what.kicker':'what_we_do_for_you',
+        'what.h2':'We automate the repetitive work that <span class="accent">eats your weeks.</span>',
+        'col1.num':'// 01_your_copilot','col1.tag':'CORE OFFER','col1.title':'Your custom copilot',
+        'col1.body':'Prospects waiting hours, forgotten follow-ups, missed appointments. We diagnose your worst time leak, ship an AI copilot in 14 days, and operate it for you. You see results before committing further.',
+        'col1.read':'→ book a diagnostic',
+        'col2.num':'// 02_the_proof','col2.tag':'OUR PRODUCTS','col2.title':'We eat our own cooking',
+        'col2.body':'Klaris, our copilot for real estate brokers, runs in production with real brokers in Greater Montréal. Same method, same stack as what we build for you.',
+        'col2.read':'→ see klaris in action',
+        'col3.num':'// 03_advisory','col3.tag':'STRATEGY','col3.title':'Decisions, not transformations',
+        'col3.body':'Not sure what to automate first? We frame it: diagnosis, single priority, action plan. You leave with decisions you can execute Monday morning — not a 60-page report.',
+        'col3.read':'→ talk to the team',
+        'method.mark':'[ 02 / METHOD ]','method.kicker':'how_it_goes',
+        'method.h2':'Two weeks. <span class="accent">Not two quarters.</span> Here\'s the actual play-by-play.',
+        'term.path':'~/nextmove/your_project.log','term.live':'↻ live',
+        'term.lvl.diag':'DIAG','term.lvl.policy':'AIM','term.lvl.build':'BUILD','term.lvl.ship':'LIVE','term.lvl.learn':'REVIEW',
+        'term.l1':'<b>We observe your day-to-day</b> · 2-3 days inside your real operations. Output: <span class="arg">the time leak that costs the most</span>.',
+        'term.l2':'<b>One priority, one sentence.</b> e.g. <span class="arg">"answer every prospect in under 60 seconds, 24/7"</span>. Not fifteen projects.',
+        'term.l3':'<b>Scope frozen, deadline frozen.</b> We build the version that proves value — <span class="arg">not the perfect system</span>.',
+        'term.l4':'<b>In production at your business.</b> Real clients, real conversations. Measured from day one: <span class="arg">response time, qualified leads, hours recovered</span>.',
+        'term.l5':'<b>Decision together, numbers in hand:</b> <span class="arg">continue</span> · <span class="arg">adjust</span> · <span class="arg">stop</span>. You never pay for a zombie project.',
+        'products.mark':'[ 03 / PROOF ]','products.kicker':'in_production',
+        'products.h2':'Klaris. Not a demo — <span class="accent">a product that runs.</span>',
+        'product.tag':'IN_PRODUCTION',
+        'product.body':'<strong style="color:var(--fg)">The real estate broker\'s copilot.</strong> It answers prospects by SMS in Québec French, qualifies them (budget, financing, timeline), builds the full file and schedules follow-ups. The broker never misses a lead again — even at 11pm on a Sunday.',
+        'product.proof':'// In beta with 2 brokers in Greater Montréal.<br>// Every prospect gets a reply in under 60 seconds, 24/7.',
+        'product.stat1.k':'response','product.stat1.v':'< 60 s','product.stat2.k':'uptime','product.stat3.k':'language',
+        'shot.caption':'// demo data · actual product interface',
+        'discovery.note':'<b>What\'s next?</b> Other verticals in exploration — healthcare, restaurants. One at a time, once Klaris has fully proven itself.',
+        'stack.mark':'[ 04 / STACK ]','stack.kicker':'under_the_hood',
+        'stack.h2':'Four proven building blocks. <span class="accent">Your data stays in Canada.</span>',
+        'pipe1.body':'The model that actually understands Québec French. Production-reliable.',
+        'pipe2.body':'Every step auditable. We own the infrastructure — no opaque dependencies.',
+        'pipe3.body':'Servers in Ontario (ca-central-1). Your client data never leaves the country.',
+        'pipe4.body':'Your dashboard, accessible anywhere. Simple, fast, zero training needed.',
+        'team.mark':'[ 05 / TEAM ]','team.kicker':'who_answers_the_phone',
+        'team.h2':'Four co-founders. <span class="accent">You always talk to someone who codes.</span>',
+        'team.r1':'tech_lead · n8n · claude','team.r2':'co_founder · operations','team.r3':'co_founder · growth','team.r4':'co_founder · design',
+        'cta.pre':'echo "30_minutes_of_clarity" | nextmove',
+        'cta.h2':'Tell us where <span class="accent">you\'re losing time.</span>',
+        'cta.body':'Free 30-minute diagnostic. If we can automate it, we show you how and how fast. If not, we tell you straight.',
+        'cta.cta1':'Pick a time slot (30 min) <span class="arrow">→</span>',
+        'cta.mail':'or by email: hello@nextmove.studio',
+        'footer.tag':'© 2026 NextMove Studio · Montréal, QC',
+        'footer.l2':'method',
+      }
+    };
+
+    function applyLang(lang){
+      root.setAttribute('lang', lang);
+      const d = dict[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(d[key] !== undefined) el.textContent = d[key];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if(d[key] !== undefined) el.innerHTML = d[key];
+      });
+      document.getElementById('lang-label').textContent = lang === 'fr' ? 'EN' : 'FR';
+      document.title = lang === 'fr'
+        ? 'NextMove — Votre copilote IA, livré en 14 jours'
+        : 'NextMove — Your AI copilot, shipped in 14 days';
+    }
+
+    // FR par défaut, toujours — cible PME QC (Loi 96). EN = choix explicite.
+    const storedLang = localStorage.getItem('nm-lang');
+    const initLang = storedLang === 'en' ? 'en' : 'fr';
+    applyLang(initLang);
+
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      const current = root.getAttribute('lang') || 'fr';
+      const next = current === 'fr' ? 'en' : 'fr';
+      localStorage.setItem('nm-lang', next);
+      applyLang(next);
+    });
+  })();
+</script>
+
+</body>
+</html>

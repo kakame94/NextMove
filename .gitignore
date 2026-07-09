@@ -69,3 +69,17 @@ openclaw-immo/
 24_NextMove/slide-*.jpg
 24_NextMove/slide_new-*.jpg
 24_NextMove/~$*
+
+# design-sync (staged scripts, build output, machine state — durable inputs under .design-sync/ ARE committed)
+.ds-sync/
+ds-bundle/
+.design-sync/.cache/
+.design-sync/learnings/
+.design-sync/node_modules
+packages/nextmove-ui/dist/
+packages/nextmove-ui/node_modules/
+
+# regenerable deck artifacts (source: nextmove_site/decks/build_deck.js)
+nextmove_site/decks/*.pptx
+nextmove_site/decks/*.pdf
+nextmove_site/decks/slide-*.jpg

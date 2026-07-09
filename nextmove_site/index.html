@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NextMove — Applied AI Studio</title>
+<meta name="description" content="NextMove ship des SaaS boostés à l'IA qui paient leur loyer dès le premier mois. Applied AI studio basé à Montréal. Méthode Lean, livraison Claude + n8n + Supabase.">
+<meta property="og:title" content="NextMove — Applied AI Studio">
+<meta property="og:description" content="On construit des produits IA qui paient leur loyer. Lean, focus, livraison.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --background:oklch(0.98 0.005 60);
+    --foreground:oklch(0.20 0.02 30);
+    --card:oklch(1 0 0);
+    --primary:oklch(0.55 0.18 30);
+    --primary-strong:oklch(0.45 0.20 28);
+    --primary-foreground:oklch(0.99 0 0);
+    --primary-soft:oklch(0.55 0.18 30 / 0.08);
+    --primary-mid:oklch(0.55 0.18 30 / 0.15);
+    --muted:oklch(0.94 0.015 60);
+    --muted-foreground:oklch(0.50 0.02 30);
+    --border:oklch(0.90 0.02 60);
+    --accent:oklch(0.92 0.03 45);
+    --success:oklch(0.60 0.15 145);
+    --warning:oklch(0.75 0.15 75);
+    --info:oklch(0.60 0.15 230);
+    --radius:10px;
+    --max:1180px;
+  }
+  html.dark{
+    --background:oklch(0.13 0 0);
+    --foreground:oklch(0.96 0 0);
+    --card:oklch(0.17 0 0);
+    --primary:oklch(0.68 0.18 28);
+    --primary-strong:oklch(0.75 0.16 28);
+    --primary-foreground:oklch(0.10 0 0);
+    --primary-soft:oklch(0.68 0.18 28 / 0.12);
+    --primary-mid:oklch(0.68 0.18 28 / 0.20);
+    --muted:oklch(0.20 0 0);
+    --muted-foreground:oklch(0.70 0 0);
+    --border:oklch(0.25 0 0);
+    --accent:oklch(0.22 0.02 30);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Geist','Inter',system-ui,sans-serif;
+    background:var(--background);color:var(--foreground);
+    line-height:1.55;-webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01","cv11";
+  }
+  .mono{font-family:'Geist Mono',monospace}
+  .container{max-width:var(--max);margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+
+  /* NAV */
+  nav.top{
+    position:sticky;top:0;z-index:50;
+    background:color-mix(in oklch,var(--background) 85%,transparent);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+  }
+  nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;letter-spacing:-0.01em}
+  .brand-mark{
+    width:28px;height:28px;border-radius:7px;
+    background:linear-gradient(135deg,var(--primary) 0%,var(--primary-strong) 100%);
+    display:grid;place-items:center;color:var(--primary-foreground);
+    font-family:'Geist Mono',monospace;font-size:13px;font-weight:600;
+  }
+  nav.top ul{display:flex;gap:28px;list-style:none;font-size:14px;color:var(--muted-foreground)}
+  nav.top ul a:hover{color:var(--foreground)}
+  .nav-cta{display:flex;align-items:center;gap:10px}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 18px;border-radius:8px;font-size:14px;font-weight:500;
+    border:1px solid transparent;cursor:pointer;transition:all .15s;font-family:inherit;
+  }
+  .btn-primary{background:var(--primary);color:var(--primary-foreground)}
+  .btn-primary:hover{background:var(--primary-strong)}
+  .btn-ghost{border-color:var(--border);background:transparent;color:var(--foreground)}
+  .btn-ghost:hover{background:var(--muted)}
+  .btn-lg{padding:13px 22px;font-size:15px}
+
+  /* HERO */
+  .hero{padding:90px 0 60px;position:relative;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at 70% 0%,var(--primary-soft) 0%,transparent 55%);
+  }
+  .hero .container{position:relative}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 12px;border-radius:99px;
+    background:var(--primary-soft);color:var(--primary);
+    font-size:12px;font-weight:500;letter-spacing:0.02em;
+    border:1px solid color-mix(in oklch,var(--primary) 20%,transparent);
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+  h1{
+    font-size:clamp(40px,6vw,68px);line-height:1.05;letter-spacing:-0.035em;
+    font-weight:600;margin:22px 0 22px;max-width:920px;
+  }
+  h1 em{font-style:normal;color:var(--primary);font-weight:600}
+  .lede{font-size:clamp(17px,1.4vw,20px);color:var(--muted-foreground);max-width:640px;margin-bottom:34px}
+  .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:60px}
+  .hero-meta{
+    display:flex;flex-wrap:wrap;gap:30px;align-items:center;
+    padding-top:30px;border-top:1px solid var(--border);
+    color:var(--muted-foreground);font-size:13px;
+  }
+  .hero-meta strong{color:var(--foreground);font-weight:500}
+
+  /* SECTION */
+  section{padding:80px 0;border-top:1px solid var(--border)}
+  .section-head{display:flex;flex-direction:column;gap:14px;margin-bottom:52px;max-width:720px}
+  .kicker{font-family:'Geist Mono',monospace;font-size:12px;color:var(--primary);text-transform:uppercase;letter-spacing:0.08em}
+  h2{font-size:clamp(28px,3vw,40px);line-height:1.1;letter-spacing:-0.025em;font-weight:600}
+  h3{font-size:18px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px}
+  p.dim{color:var(--muted-foreground)}
+
+  /* WHAT WE DO — grid 3 */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius);padding:28px;
+    transition:border-color .15s,transform .15s;
+  }
+  .card:hover{border-color:color-mix(in oklch,var(--primary) 30%,var(--border))}
+  .card .icon{
+    width:38px;height:38px;border-radius:9px;
+    background:var(--primary-soft);color:var(--primary);
+    display:grid;place-items:center;margin-bottom:18px;
+  }
+  .card p{color:var(--muted-foreground);font-size:14px}
+
+  /* METHOD — Lean kernel */
+  .method{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+  .method-list{list-style:none;display:flex;flex-direction:column;gap:24px}
+  .method-list li{display:flex;gap:18px;padding-bottom:24px;border-bottom:1px dashed var(--border)}
+  .method-list li:last-child{border-bottom:none}
+  .method-num{
+    flex-shrink:0;width:32px;height:32px;border-radius:8px;
+    background:var(--primary);color:var(--primary-foreground);
+    display:grid;place-items:center;font-family:'Geist Mono',monospace;font-size:13px;font-weight:600;
+  }
+  .method-text h4{font-size:16px;font-weight:600;margin-bottom:6px}
+  .method-text p{color:var(--muted-foreground);font-size:14px}
+  .method-text code{
+    background:var(--muted);padding:1px 6px;border-radius:4px;
+    font-family:'Geist Mono',monospace;font-size:12px;color:var(--primary);
+  }
+  .loop-diagram{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius);padding:36px;position:sticky;top:80px;
+  }
+  .loop-stage{
+    display:flex;align-items:center;gap:14px;padding:14px 16px;
+    background:var(--primary-soft);border-left:3px solid var(--primary);
+    border-radius:0 8px 8px 0;margin-bottom:10px;
+  }
+  .loop-stage .mono{color:var(--primary);font-size:11px;letter-spacing:0.06em}
+  .loop-stage h5{font-size:14px;font-weight:600;margin-top:2px}
+  .loop-arrow{text-align:center;color:var(--muted-foreground);font-size:18px;line-height:0;padding:2px 0}
+
+  /* PRODUCTS */
+  .product-card{
+    display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;
+    background:var(--card);border:1px solid var(--border);
+    border-radius:14px;padding:48px;
+  }
+  .product-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:5px 12px;border-radius:99px;
+    background:var(--success);color:white;font-size:11px;font-weight:600;letter-spacing:0.04em;
+    margin-bottom:18px;
+  }
+  .product-card h3{font-size:28px;letter-spacing:-0.02em;margin-bottom:12px}
+  .product-card p{color:var(--muted-foreground);margin-bottom:22px;font-size:15px}
+  .product-meta{display:flex;gap:24px;font-size:13px;color:var(--muted-foreground);margin-bottom:22px}
+  .product-meta div strong{color:var(--foreground);display:block;font-size:18px;font-weight:600;margin-bottom:2px;font-family:'Geist Mono',monospace}
+  .product-mockup{
+    background:linear-gradient(135deg,var(--accent),var(--muted));
+    border-radius:12px;border:1px solid var(--border);
+    aspect-ratio:4/3;display:grid;place-items:center;position:relative;overflow:hidden;
+  }
+  .product-mockup::before{
+    content:"";position:absolute;inset:20px;
+    background:var(--card);border-radius:8px;border:1px solid var(--border);
+    box-shadow:0 8px 24px -8px rgba(0,0,0,0.15);
+  }
+  .product-mockup .label{
+    position:relative;z-index:2;font-family:'Geist Mono',monospace;
+    font-size:13px;color:var(--primary);font-weight:500;
+  }
+  .upcoming{
+    margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  }
+  .upcoming .card{padding:20px;opacity:0.7}
+  .upcoming h4{font-size:15px;font-weight:600;margin-bottom:4px}
+  .upcoming p{font-size:13px;color:var(--muted-foreground)}
+  .upcoming .tag{font-family:'Geist Mono',monospace;font-size:10px;color:var(--muted-foreground);text-transform:uppercase}
+
+  /* STACK */
+  .stack{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+  .stack-item{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:10px;padding:20px;text-align:center;
+  }
+  .stack-item .mono{font-size:11px;color:var(--muted-foreground);letter-spacing:0.06em}
+  .stack-item h4{font-size:16px;font-weight:600;margin:6px 0 4px}
+  .stack-item p{font-size:12px;color:var(--muted-foreground)}
+
+  /* TEAM */
+  .team{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .member{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius);padding:22px;text-align:left;
+  }
+  .avatar{
+    width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--primary),var(--primary-strong));
+    color:var(--primary-foreground);
+    display:grid;place-items:center;font-weight:600;font-size:16px;margin-bottom:14px;
+    font-family:'Geist Mono',monospace;
+  }
+  .member h4{font-size:15px;font-weight:600;margin-bottom:2px}
+  .member .role{font-size:12px;color:var(--muted-foreground);font-family:'Geist Mono',monospace}
+
+  /* CTA */
+  .cta-block{
+    background:linear-gradient(135deg,var(--primary) 0%,var(--primary-strong) 100%);
+    color:var(--primary-foreground);
+    border-radius:16px;padding:56px;text-align:center;
+    position:relative;overflow:hidden;
+  }
+  .cta-block::before{
+    content:"";position:absolute;inset:0;opacity:0.15;
+    background:radial-gradient(circle at 20% 80%,white,transparent 50%),radial-gradient(circle at 80% 20%,white,transparent 50%);
+  }
+  .cta-block h2{position:relative;color:white;max-width:600px;margin:0 auto 14px}
+  .cta-block p{position:relative;color:color-mix(in oklch,white 80%,transparent);max-width:520px;margin:0 auto 28px;font-size:16px}
+  .cta-block .btn{position:relative}
+  .btn-on-dark{background:white;color:var(--primary-strong)}
+  .btn-on-dark:hover{background:color-mix(in oklch,white 90%,black)}
+
+  /* FOOTER */
+  footer{padding:60px 0 40px;border-top:1px solid var(--border);color:var(--muted-foreground);font-size:13px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px}
+  footer .links{display:flex;gap:24px}
+  footer a:hover{color:var(--foreground)}
+
+  @media(max-width:880px){
+    .grid-3,.method,.team,.stack,.upcoming{grid-template-columns:1fr}
+    .product-card{grid-template-columns:1fr;padding:30px}
+    nav.top ul{display:none}
+    .hero{padding:60px 0 40px}
+    section{padding:60px 0}
+    .cta-block{padding:36px 24px}
+    footer .wrap{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="container wrap">
+    <a href="#" class="brand">
+      <span class="brand-mark">N</span>
+      <span>NextMove</span>
+    </a>
+    <ul>
+      <li><a href="#what">Ce qu'on fait</a></li>
+      <li><a href="#method">Méthode</a></li>
+      <li><a href="#products">Produits</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#team">Équipe</a></li>
+    </ul>
+    <div class="nav-cta">
+      <button class="btn btn-ghost" id="theme-toggle" aria-label="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <a href="#contact" class="btn btn-primary">Parler à l'équipe</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <span class="eyebrow"><span class="dot"></span>Applied AI Studio · Montréal</span>
+    <h1>On ship des produits IA qui <em>paient leur loyer</em> dès le premier mois.</h1>
+    <p class="lede">NextMove est un studio applied AI. On construit, déploie et opère des SaaS boostés à l'IA pour des PME et opérateurs qui ont besoin d'un copilote — pas d'une démo.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary btn-lg">Démarrer un projet</a>
+      <a href="#products" class="btn btn-ghost btn-lg">Voir Klaris →</a>
+    </div>
+    <div class="hero-meta">
+      <div><strong>4</strong> co-fondateurs</div>
+      <div><strong>1</strong> produit en production (Klaris)</div>
+      <div><strong>~35 $/mois</strong> coût d'infra par SaaS</div>
+      <div><strong>Claude · n8n · Supabase</strong> stack par défaut</div>
+    </div>
+  </div>
+</header>
+
+<section id="what">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Ce qu'on fait</span>
+      <h2>Un studio, pas une agence. On construit nos propres produits — et on en livre pour vous.</h2>
+      <p class="dim">Trois lignes d'activité. Toutes les trois carburent au même playbook : focus brutal, livraison rapide, mesure obsessionnelle.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <h3>Produits propres</h3>
+        <p>On identifie un goulot d'étranglement opérationnel dans une niche (courtiers immobiliers, cliniques, restos), on build le SaaS, on le vend. Klaris est le premier.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+        <h3>AI Delivery sur mesure</h3>
+        <p>Vous avez un workflow qui saigne du temps ? On le diagnostique, on prototype en 2 semaines, on opère le pipeline en production. Pas de slide, du code qui tourne.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
+        <h3>Conseil applied AI</h3>
+        <p>Cadrage stratégique en mode Rumelt : diagnostic → politique → actions cohérentes. On ne vend pas de transformation, on vend des décisions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="method">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Méthode</span>
+      <h2>Lean Startup, appliqué à l'IA. Pas de PowerPoint, pas de POC mort-né.</h2>
+      <p class="dim">On emprunte le kernel de stratégie de Richard Rumelt (diagnostic / politique / action) et la boucle <em>Build → Measure → Learn</em> d'Eric Ries. Cycle de 2 semaines. Pas plus.</p>
+    </div>
+    <div class="method">
+      <ul class="method-list">
+        <li>
+          <div class="method-num">01</div>
+          <div class="method-text">
+            <h4>Diagnostic — on nomme le vrai problème</h4>
+            <p>On va sur le terrain. On observe un opérateur réel pendant 2-3 jours. On identifie <code>la</code> contrainte qui coûte le plus cher — pas les 15 qui font joli en slide.</p>
+          </div>
+        </li>
+        <li>
+          <div class="method-num">02</div>
+          <div class="method-text">
+            <h4>Politique directrice — un seul angle d'attaque</h4>
+            <p>On formule la stratégie en une phrase. Exemple Klaris : <em>« remplacer l'adjointe administrative humaine pour les courtiers solo, par SMS, en français québécois ».</em></p>
+          </div>
+        </li>
+        <li>
+          <div class="method-num">03</div>
+          <div class="method-text">
+            <h4>MVP en 2 semaines — Build</h4>
+            <p>Stack figée (Claude + n8n + Supabase). On code ce qui est testable avec un vrai utilisateur en J+14, pas le système final.</p>
+          </div>
+        </li>
+        <li>
+          <div class="method-num">04</div>
+          <div class="method-text">
+            <h4>Mesure — on instrumente avant de livrer</h4>
+            <p>Métriques actionnables, pas de vanity metrics. Pour Klaris : <code>lead → qualifié</code>, <code>temps de réponse SMS</code>, <code>coût par lead chaud</code>.</p>
+          </div>
+        </li>
+        <li>
+          <div class="method-num">05</div>
+          <div class="method-text">
+            <h4>Apprentissage validé — pivot ou persévère</h4>
+            <p>À J+30, décision binaire. Soit l'hypothèse est validée et on scale, soit on pivote. Pas de zombie projects qui traînent 6 mois sur des espoirs.</p>
+          </div>
+        </li>
+      </ul>
+      <aside class="loop-diagram">
+        <div style="font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted-foreground);margin-bottom:18px;letter-spacing:0.06em;text-transform:uppercase">Boucle de 2 semaines</div>
+        <div class="loop-stage">
+          <div>
+            <div class="mono">IDEAS</div>
+            <h5>Hypothèse formulée</h5>
+          </div>
+        </div>
+        <div class="loop-arrow">↓</div>
+        <div class="loop-stage">
+          <div>
+            <div class="mono">BUILD</div>
+            <h5>MVP — 2 semaines max</h5>
+          </div>
+        </div>
+        <div class="loop-arrow">↓</div>
+        <div class="loop-stage">
+          <div>
+            <div class="mono">MEASURE</div>
+            <h5>Vrais usagers, vraies métriques</h5>
+          </div>
+        </div>
+        <div class="loop-arrow">↓</div>
+        <div class="loop-stage">
+          <div>
+            <div class="mono">LEARN</div>
+            <h5>Pivot · Persévère · Tue</h5>
+          </div>
+        </div>
+        <div class="loop-arrow">↑ retour au début</div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="products">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Produits</span>
+      <h2>Klaris — premier produit du portfolio.</h2>
+      <p class="dim">Un seul produit en production aujourd'hui. C'est délibéré. On valide la méthode avant de multiplier.</p>
+    </div>
+    <div class="product-card">
+      <div>
+        <span class="product-badge">● EN PRODUCTION</span>
+        <h3>Klaris — copilote IA du courtier immobilier</h3>
+        <p>Adjointe administrative virtuelle pour courtiers solo de la grande région de Montréal. Qualifie les prospects par SMS 24/7 en français québécois, génère les fiches besoins acheteur/vendeur, programme les relances. Le courtier reste sur les visites et les négos.</p>
+        <div class="product-meta">
+          <div><strong>~35 $</strong>coût mensuel d'infra</div>
+          <div><strong>FR-CA</strong>natif</div>
+          <div><strong>2</strong>beta testers actifs</div>
+        </div>
+        <a href="https://klaris.app" class="btn btn-primary">Visiter klaris.app →</a>
+      </div>
+      <div class="product-mockup">
+        <span class="label">klaris.app</span>
+      </div>
+    </div>
+
+    <div class="upcoming">
+      <div class="card">
+        <span class="tag">Q3 2026 · Discovery</span>
+        <h4>Cliniques privées</h4>
+        <p>Prise de RDV + intake patients IA. Hypothèse en validation terrain.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Q4 2026 · Idée</span>
+        <h4>Restaurateurs indépendants</h4>
+        <p>Réservations + gestion des avis Google par IA conversationnelle.</p>
+      </div>
+      <div class="card">
+        <span class="tag">2027 · Watchlist</span>
+        <h4>Notaires &amp; petits cabinets</h4>
+        <p>Pré-qualification dossier + génération de drafts d'actes. Marché à étudier.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Stack par défaut</span>
+      <h2>Quatre briques. On en change pas sans raison forte.</h2>
+      <p class="dim">La discipline sur la stack, c'est ce qui nous permet de livrer un MVP en 2 semaines au lieu de 2 trimestres. Convergence > diversité.</p>
+    </div>
+    <div class="stack">
+      <div class="stack-item">
+        <div class="mono">LLM</div>
+        <h4>Claude Sonnet</h4>
+        <p>Anthropic. Raisonnement long contexte, FR-CA solide.</p>
+      </div>
+      <div class="stack-item">
+        <div class="mono">ORCHESTRATION</div>
+        <h4>n8n</h4>
+        <p>Self-hosted. Workflows visuels, audit clair.</p>
+      </div>
+      <div class="stack-item">
+        <div class="mono">DATA</div>
+        <h4>Supabase</h4>
+        <p>Postgres + RLS. ca-central-1, données au Canada.</p>
+      </div>
+      <div class="stack-item">
+        <div class="mono">FRONT</div>
+        <h4>Next.js</h4>
+        <p>Dashboards opérateur. Vercel pour la prod.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Équipe</span>
+      <h2>Quatre co-fondateurs. Aucun titre de C-suite.</h2>
+      <p class="dim">On code, on vend, on parle aux clients. Les rôles bougent selon ce que le produit demande cette semaine.</p>
+    </div>
+    <div class="team">
+      <div class="member">
+        <div class="avatar">D</div>
+        <h4>Dennis</h4>
+        <div class="role">tech_lead · n8n · claude</div>
+      </div>
+      <div class="member">
+        <div class="avatar">E</div>
+        <h4>Eliot</h4>
+        <div class="role">co_founder · ops</div>
+      </div>
+      <div class="member">
+        <div class="avatar">W</div>
+        <h4>Walkens</h4>
+        <div class="role">co_founder · gtm</div>
+      </div>
+      <div class="member">
+        <div class="avatar">S</div>
+        <h4>Seydou</h4>
+        <div class="role">co_founder · design</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="cta-block">
+      <h2>Un workflow qui saigne du temps ? Parlons-en.</h2>
+      <p>Diagnostic gratuit en 30 minutes. Si on peut aider, on vous dit oui. Sinon, on vous dit où chercher.</p>
+      <a href="mailto:hello@nextmove.studio" class="btn btn-on-dark btn-lg">hello@nextmove.studio →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container wrap">
+    <div>
+      <div class="brand" style="margin-bottom:8px">
+        <span class="brand-mark">N</span>
+        <span>NextMove</span>
+      </div>
+      <div>© 2026 NextMove Studio · Montréal, QC</div>
+    </div>
+    <div class="links">
+      <a href="https://klaris.app">Klaris</a>
+      <a href="#method">Méthode</a>
+      <a href="#contact">Contact</a>
+      <a href="https://github.com">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const root = document.documentElement;
+  const stored = localStorage.getItem('nm-theme');
+  if(stored === 'dark' || (!stored && matchMedia('(prefers-color-scheme: dark)').matches)){
+    root.classList.add('dark');
+  }
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    root.classList.toggle('dark');
+    localStorage.setItem('nm-theme', root.classList.contains('dark') ? 'dark' : 'light');
+  });
+</script>
+
+</body>
+</html>

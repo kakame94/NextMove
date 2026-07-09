@@ -1,0 +1,50 @@
+/* NextMove UI — design tokens
+ * "Studio Engineering" aesthetic. Light mode is default; `.dark` on any
+ * ancestor (typically <html>) flips to dark. All component styles read these
+ * vars — never hard-code a color in a component. */
+
+:root {
+  /* surfaces */
+  --nm-bg: #FAFAF7;
+  --nm-bg-2: #F2F1EC;
+  --nm-bg-3: #E8E6DF;
+  /* text */
+  --nm-fg: #0A0A0A;
+  --nm-fg-2: #525252;
+  --nm-fg-3: #6E6E69;
+  /* lines */
+  --nm-line: #D9D7D0;
+  --nm-line-2: #E5E3DC;
+  /* accent — green. `-accent` is text-safe (AA on light bg); `-accent-bg`
+   * is the vivid fill used behind dark text only. */
+  --nm-accent: #008C46;
+  --nm-accent-bg: #00FF85;
+  --nm-accent-dim: #D7FBE8;
+  --nm-accent-ink: #0A0A0A;
+  /* semantic */
+  --nm-warn: #A85B00;
+  --nm-danger: #C2362A;
+  /* type */
+  --nm-font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --nm-font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+  /* radii + motion */
+  --nm-radius: 0px;
+  --nm-radius-pill: 999px;
+}
+
+.dark {
+  --nm-bg: #0A0A0A;
+  --nm-bg-2: #111111;
+  --nm-bg-3: #161616;
+  --nm-fg: #F5F5F4;
+  --nm-fg-2: #A1A1A1;
+  --nm-fg-3: #8F8F8F;
+  --nm-line: #262626;
+  --nm-line-2: #1F1F1F;
+  --nm-accent: #00FF85;
+  --nm-accent-bg: #00FF85;
+  --nm-accent-dim: #003D1F;
+  --nm-accent-ink: #0A0A0A;
+  --nm-warn: #FFB800;
+  --nm-danger: #FF4444;
+}

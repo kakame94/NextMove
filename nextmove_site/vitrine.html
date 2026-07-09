@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NextMove Studio — On bâtit des produits IA qui paient leur loyer</title>
+<meta name="description" content="NextMove est un studio applied AI indépendant à Montréal. On conçoit, bâtit et opère des SaaS IA verticaux. Klaris, notre premier produit, est live en bêta.">
+<link rel="canonical" href="https://nextmove.studio/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NextMove Studio">
+<meta property="og:title" content="NextMove Studio — On bâtit des produits IA qui paient leur loyer">
+<meta property="og:description" content="Studio applied AI indépendant à Montréal. SaaS IA verticaux, cycle MVP de 14 jours. Klaris, notre premier produit, est live en bêta.">
+<meta property="og:url" content="https://nextmove.studio/">
+<meta property="og:image" content="https://nextmove.studio/klaris-dashboard.png">
+<meta property="og:locale" content="fr_CA">
+<meta property="og:locale:alternate" content="en_CA">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0A0A'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%2300FF85' font-family='monospace'%3E%E2%96%B2%3C/text%3E%3C/svg%3E">
+<script>
+  // Anti-flash : pose le thème et la langue avant le premier paint.
+  (function(){
+    const store = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } } };
+    const t = store.get('nm-theme');
+    if(t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)){
+      document.documentElement.classList.add('dark');
+    }
+    if(store.get('nm-lang') === 'en') document.documentElement.setAttribute('lang','en');
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF7;
+    --bg-2:#F2F1EC;
+    --bg-3:#E8E6DF;
+    --fg:#0A0A0A;
+    --fg-2:#525252;
+    --fg-3:#6E6E69;
+    --line:#D9D7D0;
+    --line-2:#E5E3DC;
+    --accent:#008C46;
+    --accent-bg:#00FF85;
+    --accent-dim:#D7FBE8;
+    --warn:#A85B00;
+  }
+  html.dark{
+    --bg:#0A0A0A;
+    --bg-2:#111111;
+    --bg-3:#161616;
+    --fg:#F5F5F4;
+    --fg-2:#A1A1A1;
+    --fg-3:#8F8F8F;
+    --line:#262626;
+    --line-2:#1F1F1F;
+    --accent:#00FF85;
+    --accent-bg:#00FF85;
+    --accent-dim:#003D1F;
+    --warn:#FFB800;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--bg);color:var(--fg);
+    font-size:14px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01","cv11";
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;font-feature-settings:"calt","liga"}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .statusbar .live::before,h1 .cursor::after{animation:none}
+  }
+
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      linear-gradient(var(--line-2) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line-2) 1px,transparent 1px);
+    background-size:48px 48px;
+    mask-image:radial-gradient(ellipse at 50% 0%,black 30%,transparent 80%);
+    opacity:0.4;
+  }
+
+  .wrap{
+    max-width:1280px;margin:0 auto;
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 90%,transparent);
+    position:relative;
+    backdrop-filter:blur(8px);
+  }
+
+  .statusbar{
+    border-bottom:1px solid var(--line);
+    padding:8px 24px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--fg-3);
+    background:var(--bg-2);
+  }
+  .statusbar .left{display:flex;gap:24px}
+  .statusbar .right{display:flex;gap:24px;align-items:center}
+  .statusbar span{white-space:nowrap}
+  .statusbar .live::before{
+    content:"";display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 8px var(--accent);
+    margin-right:6px;vertical-align:middle;
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  nav{
+    border-bottom:1px solid var(--line);
+    padding:18px 24px;
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--bg);
+  }
+  .brand{display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700}
+  .brand .glyph{
+    width:24px;height:24px;border:1px solid var(--fg);
+    display:grid;place-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;
+  }
+  .brand .glyph::before{content:"▲"}
+  nav ul{display:flex;gap:32px;list-style:none;font-family:'JetBrains Mono',monospace;font-size:12px}
+  nav ul a{color:var(--fg-2);transition:color .1s}
+  nav ul a:hover{color:var(--accent)}
+  nav ul a::before{content:"./";color:var(--fg-3)}
+  .nav-right{display:flex;gap:10px;align-items:center}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
+    border:1px solid var(--line);background:var(--bg);color:var(--fg);
+    cursor:pointer;transition:all .12s;
+  }
+  .btn:hover{border-color:var(--fg-2)}
+  .btn-accent{background:var(--accent-bg);color:#0A0A0A;border-color:var(--accent-bg);font-weight:700}
+  .btn-accent:hover{background:transparent;color:var(--accent)}
+  .btn-lg{padding:14px 22px;font-size:13px}
+  .btn .arrow{font-size:14px;line-height:1}
+  .btn .short{display:none}
+  .icon-btn{padding:9px 11px;color:var(--fg-2)}
+  .icon-btn:hover{color:var(--accent)}
+  .theme-toggle .ico-sun{display:none}
+  .theme-toggle .ico-moon{display:block}
+  html.dark .theme-toggle .ico-sun{display:block}
+  html.dark .theme-toggle .ico-moon{display:none}
+  .lang-toggle{font-weight:700;letter-spacing:0.04em}
+
+  /* HERO — manifesto, editorial scale */
+  .hero{
+    padding:120px 64px 80px;position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  .hero::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--accent),transparent);
+    opacity:0.5;
+  }
+  .pre{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);
+    margin-bottom:36px;display:flex;align-items:center;gap:10px;
+  }
+  .pre::before{content:"$";color:var(--fg-3)}
+  h1{
+    font-family:'Inter',sans-serif;
+    font-size:clamp(46px,8vw,104px);line-height:0.96;letter-spacing:-0.045em;
+    font-weight:800;margin-bottom:40px;max-width:1050px;
+  }
+  h1 .accent{color:var(--accent)}
+  h1 .cursor::after{
+    content:"_";color:var(--accent);
+    animation:blink 1s infinite;font-weight:400;
+  }
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  .lede{font-size:19px;color:var(--fg-2);max-width:640px;margin-bottom:48px;line-height:1.6}
+  .lede strong{color:var(--fg);font-weight:600}
+  .hero-actions{display:flex;gap:12px;margin-bottom:80px;flex-wrap:wrap}
+
+  .metrics{
+    border-top:1px solid var(--line);
+    margin:0 -64px;
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  .metric{
+    padding:24px 32px;border-right:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;
+  }
+  .metric:last-child{border-right:none}
+  .metric .k{font-size:11px;color:var(--fg-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+  .metric .v{font-size:28px;font-weight:700;letter-spacing:-0.02em;color:var(--fg);white-space:nowrap}
+  .metric .v .unit{color:var(--fg-3);font-weight:400;font-size:16px;margin-left:0.35em}
+  .metric .delta{font-size:11px;color:var(--accent);margin-top:4px}
+
+  section{padding:96px 64px;border-bottom:1px solid var(--line);position:relative}
+  .section-mark{
+    position:absolute;top:24px;left:24px;
+    font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg-3);
+    letter-spacing:0.1em;
+  }
+  .section-head{
+    display:grid;grid-template-columns:200px 1fr;gap:48px;
+    margin-bottom:64px;padding-bottom:32px;border-bottom:1px dashed var(--line);
+  }
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;padding-top:8px}
+  h2{
+    font-size:clamp(32px,4vw,52px);line-height:1.02;letter-spacing:-0.035em;
+    font-weight:700;max-width:800px;
+  }
+  h2 .accent{color:var(--accent)}
+
+  /* MANIFESTO — numbered beliefs, editorial */
+  .beliefs{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .belief{
+    border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:48px 40px;background:var(--bg);
+    transition:background .15s;position:relative;
+  }
+  .belief:hover{background:var(--bg-2)}
+  .belief .idx{
+    font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;
+    color:var(--accent);opacity:0.25;line-height:1;
+    position:absolute;top:28px;right:28px;z-index:0;
+  }
+  .belief h3{font-size:24px;font-weight:700;letter-spacing:-0.02em;margin-bottom:16px;line-height:1.1;max-width:80%;position:relative;z-index:1}
+  .belief p{color:var(--fg-2);font-size:15px;line-height:1.6;max-width:90%;position:relative;z-index:1}
+  .belief p b{color:var(--fg);font-weight:600}
+
+  /* PORTFOLIO */
+  .product{
+    display:grid;grid-template-columns:1fr 1.2fr;
+    border:1px solid var(--line);background:var(--bg-2);
+  }
+  .product-left{padding:48px 40px;border-right:1px solid var(--line)}
+  .product-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);
+    border:1px solid var(--accent);padding:3px 10px;margin-bottom:24px;
+  }
+  .product-tag::before{content:"●";font-size:8px}
+  .product h3{font-size:36px;font-weight:700;letter-spacing:-0.03em;margin-bottom:14px;line-height:1.05}
+  .product p{color:var(--fg-2);font-size:15px;line-height:1.6;margin-bottom:24px;max-width:480px}
+  .product-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-bottom:28px}
+  .product-stats > div{background:var(--bg-2);padding:14px 16px}
+  .product-stats .k{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}
+  .product-stats .v{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--fg);white-space:nowrap}
+  .product-right{
+    background:linear-gradient(135deg,var(--bg) 0%,var(--bg-3) 100%);
+    padding:32px;display:flex;flex-direction:column;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .product-right::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:24px 24px;opacity:0.3;
+  }
+  .product-shot{
+    position:relative;border:1px solid var(--line);
+    background:var(--bg);
+    box-shadow:0 20px 50px -20px rgba(0,0,0,0.4);
+  }
+  .product-shot .sh{
+    padding:8px 12px;border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg-3);
+    background:var(--bg-3);
+  }
+  .product-shot img{width:100%;display:block}
+  .product-shot .caption{
+    padding:8px 12px;border-top:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg-3);
+  }
+
+  .explore{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px;
+  }
+  .explore .slot{
+    border:1px dashed var(--line);padding:24px 28px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .explore .slot .name{font-size:14px;color:var(--fg-2);font-weight:500}
+  .explore .slot .st{font-size:10px;color:var(--fg-3);text-transform:uppercase;letter-spacing:0.08em}
+
+  /* METHOD terminal */
+  .terminal{
+    background:var(--bg-2);border:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    margin-top:24px;
+  }
+  .term-head{
+    padding:10px 16px;border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--bg-3);
+    font-size:11px;color:var(--fg-3);
+  }
+  .term-head .dots{display:flex;gap:6px}
+  .term-head .dots span{width:10px;height:10px;border-radius:50%;background:var(--line)}
+  .term-body{padding:24px 20px;line-height:1.8}
+  .term-line{display:flex;gap:12px;align-items:baseline}
+  .term-line .ts{color:var(--fg-3);font-size:11px;flex-shrink:0;width:60px}
+  .term-line .lvl{flex-shrink:0;font-size:10px;font-weight:700;padding:1px 6px;border:1px solid;border-radius:2px;text-transform:uppercase}
+  .lvl.info{color:var(--accent);border-color:var(--accent);background:var(--accent-dim)}
+  .lvl.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,transparent);background:color-mix(in srgb,var(--warn) 12%,transparent)}
+  .lvl.ok{color:var(--accent);border-color:var(--accent);background:transparent}
+  .term-line .msg{color:var(--fg-2);font-size:12px}
+  .term-line .msg b{color:var(--fg);font-weight:600}
+  .term-line .msg .arg{color:var(--accent)}
+
+  /* TEAM — richer */
+  .team{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border:1px solid var(--line);
+  }
+  .member{
+    padding:32px 28px;border-right:1px solid var(--line);
+    background:var(--bg);transition:background .15s;
+  }
+  .member:last-child{border-right:none}
+  .member:hover{background:var(--bg-2)}
+  .member .ascii{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--accent);font-size:10px;line-height:1.1;margin-bottom:24px;
+    white-space:pre;
+  }
+  .member h3{font-size:18px;font-weight:600;letter-spacing:-0.01em;margin-bottom:4px}
+  .member .role{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg-2);margin-bottom:12px}
+  .member .role::before{content:"// "}
+  .member .bio{font-size:12px;color:var(--fg-2);line-height:1.55}
+
+  /* JOIN — dual CTA */
+  .join{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .join-card{
+    border:1px solid var(--line);padding:48px 40px;background:var(--bg-2);
+    transition:border-color .15s;
+  }
+  .join-card:hover{border-color:var(--accent)}
+  .join-card .jk{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);
+    text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px;
+  }
+  .join-card h3{font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-bottom:14px;line-height:1.1}
+  .join-card p{color:var(--fg-2);font-size:14px;line-height:1.6;margin-bottom:28px}
+
+  footer{padding:48px 64px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--fg-3)}
+  footer .wrap-f{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+  footer .brand{font-size:13px}
+  footer a{display:inline-block;padding:10px 0}
+  footer a:hover{color:var(--accent)}
+  footer .links{display:flex;gap:24px}
+
+  @media(max-width:880px){
+    body::before{background-size:32px 32px}
+    .hero{padding:70px 24px 40px}
+    section{padding:60px 24px}
+    .metrics{margin:0 -24px;grid-template-columns:repeat(2,1fr)}
+    .metric{border-bottom:1px solid var(--line)}
+    .section-head{grid-template-columns:1fr;gap:16px}
+    .beliefs,.team,.join,.explore{grid-template-columns:1fr}
+    .belief,.member{border-right:none}
+    .belief h3{max-width:100%;padding-right:64px}
+    .belief p{max-width:100%}
+    .belief .idx{top:20px;right:20px;font-size:40px}
+    .product{grid-template-columns:1fr}
+    .product-left{border-right:none;border-bottom:1px solid var(--line);padding:32px 24px}
+    .product-right{padding:24px}
+    .product-stats .v{font-size:15px}
+    nav ul{display:none}
+    .statusbar{padding:6px 16px;font-size:10px}
+    .statusbar .left{gap:12px}
+    footer .wrap-f{flex-direction:column}
+  }
+  @media(max-width:560px){
+    .statusbar .left .mono:nth-child(2),
+    .statusbar .right .mono:last-child{display:none}
+    .btn{padding:12px 14px}
+    .icon-btn{padding:12px 13px}
+    .btn .long{display:none}
+    .btn .short{display:inline}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- STATUS BAR -->
+  <div class="statusbar">
+    <div class="left">
+      <span class="mono">nextmove.studio</span>
+      <span class="mono" data-i18n="status.tag">studio_applied_ai</span>
+    </div>
+    <div class="right">
+      <span class="mono live" data-i18n="status.live">KLARIS LIVE · BÊTA</span>
+      <span class="mono">Montréal, QC</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="brand">
+      <span class="glyph" aria-hidden="true"></span>
+      <span>NEXTMOVE</span>
+    </a>
+    <ul>
+      <li><a href="#manifesto" data-i18n="nav.manifesto">manifeste</a></li>
+      <li><a href="#portfolio" data-i18n="nav.portfolio">produits</a></li>
+      <li><a href="#method" data-i18n="nav.method">méthode</a></li>
+      <li><a href="#team" data-i18n="nav.team">équipe</a></li>
+      <li><a href="#join" data-i18n="nav.join">collaborer</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="btn icon-btn lang-toggle" id="lang-toggle" aria-label="Switch language" title="Switch language">
+        <span id="lang-label">EN</span>
+      </button>
+      <button class="btn icon-btn theme-toggle" id="theme-toggle" data-i18n-aria="a11y.theme" aria-label="Basculer le thème" title="Basculer le thème">
+        <svg class="ico-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="ico-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a href="index-v2.html" class="btn btn-accent" data-i18n-html="nav.cta"><span class="long">besoin_dun_copilote?</span><span class="short">copilote?</span> <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="pre" data-i18n="hero.pre">cat ./manifeste.md</div>
+    <h1 data-i18n-html="hero.h1">On bâtit des produits IA qui <span class="accent">paient leur loyer</span>. <span class="cursor"></span></h1>
+    <p class="lede" data-i18n-html="hero.lede">NextMove est un <strong>studio applied AI indépendant</strong> à Montréal. Pas de levée, pas de hype : des SaaS verticaux qui génèrent du revenu dès le premier mois — ou qu'on tue sans état d'âme.</p>
+    <div class="hero-actions">
+      <a href="#portfolio" class="btn btn-accent btn-lg" data-i18n-html="hero.cta1">voir_les_produits <span class="arrow" aria-hidden="true">→</span></a>
+      <a href="#manifesto" class="btn btn-lg" data-i18n="hero.cta2">lire_le_manifeste</a>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="k" data-i18n="metric.1.k">// Fondé</div>
+        <div class="v">2026</div>
+        <div class="delta" data-i18n="metric.1.delta">Montréal · bootstrappé</div>
+      </div>
+      <div class="metric">
+        <div class="k" data-i18n="metric.2.k">// Produit</div>
+        <div class="v"><span data-i18n="metric.2.v">1</span><span class="unit" data-i18n="metric.2.unit">live</span></div>
+        <div class="delta" data-i18n="metric.2.delta">Klaris · en bêta</div>
+      </div>
+      <div class="metric">
+        <div class="k" data-i18n="metric.3.k">// Cycle MVP</div>
+        <div class="v"><span data-i18n="metric.3.v">14</span><span class="unit" data-i18n="metric.3.unit">jours</span></div>
+        <div class="delta" data-i18n="metric.3.delta">idée → production</div>
+      </div>
+      <div class="metric">
+        <div class="k" data-i18n="metric.4.k">// Équipe</div>
+        <div class="v"><span data-i18n="metric.4.v">4</span><span class="unit" data-i18n="metric.4.unit">cofondateurs</span></div>
+        <div class="delta" data-i18n="metric.4.delta">zéro titre C-suite</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MANIFESTO -->
+  <section id="manifesto">
+    <span class="section-mark" data-i18n="man.mark">[ 01 / MANIFESTE ]</span>
+    <div class="section-head">
+      <span class="kicker" data-i18n="man.kicker">ce_quon_croit</span>
+      <h2 data-i18n-html="man.h2">Quatre croyances. <span class="accent">Non négociables.</span></h2>
+    </div>
+    <div class="beliefs">
+      <div class="belief">
+        <span class="idx" aria-hidden="true">01</span>
+        <h3 data-i18n="b1.title">Le loyer d'abord</h3>
+        <p data-i18n-html="b1.body">Un produit doit <b>générer du revenu dès le premier mois</b>. Pas de « croissance d'abord, revenu plus tard ». Si personne ne paie, l'hypothèse est fausse — on tue et on passe au suivant.</p>
+      </div>
+      <div class="belief">
+        <span class="idx" aria-hidden="true">02</span>
+        <h3 data-i18n="b2.title">14 jours, pas 14 mois</h3>
+        <p data-i18n-html="b2.body">La vitesse n'est pas un exploit, c'est un <b>choix structurel</b> : stack figée, périmètre gelé, échéance gelée. Ce qu'on perd en options, on le gagne en apprentissage réel.</p>
+      </div>
+      <div class="belief">
+        <span class="idx" aria-hidden="true">03</span>
+        <h3 data-i18n="b3.title">Une verticale à la fois</h3>
+        <p data-i18n-html="b3.body">La profondeur bat la plateforme. On apprend un métier — courtier, clinicien, restaurateur — <b>jusqu'à parler sa langue</b>. On finit avant de commencer autre chose.</p>
+      </div>
+      <div class="belief">
+        <span class="idx" aria-hidden="true">04</span>
+        <h3 data-i18n="b4.title">Le terrain avant le code</h3>
+        <p data-i18n-html="b4.body">Aucune ligne de code avant d'avoir <b>observé un vrai opérateur</b> pendant des jours. Le problème qu'on résout est celui qu'on a vu saigner — pas celui qu'on a imaginé en réunion.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <span class="section-mark" data-i18n="port.mark">[ 02 / PRODUITS ]</span>
+    <div class="section-head">
+      <span class="kicker" data-i18n="port.kicker">portfolio</span>
+      <h2 data-i18n-html="port.h2">Un produit live. <span class="accent">Par choix, pas par manque.</span></h2>
+    </div>
+
+    <div class="product">
+      <div class="product-left">
+        <span class="product-tag mono" data-i18n="product.tag">LIVE_EN_BÊTA</span>
+        <h3>Klaris</h3>
+        <p data-i18n-html="product.body"><strong style="color:var(--fg)">Le copilote des courtiers immobiliers.</strong> Qualification de prospects par SMS en français québécois, fiches acheteur/vendeur, relances programmées. En bêta avec 2 courtiers du Grand Montréal — réponse typique aux prospects en moins de 60 secondes, 24/7.</p>
+        <div class="product-stats">
+          <div><div class="k" data-i18n="product.stat1.k">réponse typ.</div><div class="v" data-i18n="product.stat1.v">&lt; 60 s</div></div>
+          <div><div class="k" data-i18n="product.stat2.k">dispo</div><div class="v">24/7</div></div>
+          <div><div class="k" data-i18n="product.stat3.k">langue</div><div class="v">FR-QC</div></div>
+        </div>
+        <a href="https://klaris.app" class="btn btn-accent">klaris.app <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+      <div class="product-right">
+        <div class="product-shot">
+          <div class="sh">
+            <span>app.klaris.app</span>
+            <span>● live</span>
+          </div>
+          <img src="klaris-dashboard.png" data-i18n-alt="shot.alt" alt="Tableau de bord Klaris : prospects scorés, valeur pipeline, relances planifiées" loading="lazy">
+          <div class="caption" data-i18n="shot.caption">// données de démonstration · interface réelle du produit</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="explore">
+      <div class="slot">
+        <span class="name" data-i18n="ex1.name">santé — intake patients</span>
+        <span class="st" data-i18n="ex1.st">en exploration</span>
+      </div>
+      <div class="slot">
+        <span class="name" data-i18n="ex2.name">restauration — réservations</span>
+        <span class="st" data-i18n="ex2.st">en exploration</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHOD -->
+  <section id="method">
+    <span class="section-mark" data-i18n="method.mark">[ 03 / MÉTHODE ]</span>
+    <div class="section-head">
+      <span class="kicker" data-i18n="method.kicker">le_playbook</span>
+      <h2 data-i18n-html="method.h2">Lean Startup × kernel Rumelt. <span class="accent">En boucle de 30 jours.</span></h2>
+    </div>
+
+    <div class="terminal">
+      <div class="term-head">
+        <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="mono">~/nextmove/playbook.log</div>
+        <div class="mono" data-i18n="term.live">↻ live</div>
+      </div>
+      <div class="term-body">
+        <div class="term-line"><span class="ts mono">J+00</span><span class="lvl info">DIAG</span><span class="msg mono" data-i18n-html="term.l1"><b>Observation terrain</b> · 2-3 jours à shadower un vrai opérateur. Output : <span class="arg">la contrainte unique</span> qui coûte le plus cher.</span></div>
+        <div class="term-line"><span class="ts mono">J+02</span><span class="lvl info">CAP</span><span class="msg mono" data-i18n-html="term.l2"><b>Politique directrice</b> — une phrase. ex Klaris : <span class="arg">« remplacer l'adjointe humaine pour courtiers solo, par SMS, en FR-QC »</span>.</span></div>
+        <div class="term-line"><span class="ts mono">J+03</span><span class="lvl warn">BUILD</span><span class="msg mono" data-i18n-html="term.l3"><b>MVP en 14 jours</b> · stack figée : <span class="arg">Claude · n8n · Supabase · Next.js</span>. Pas de feature creep.</span></div>
+        <div class="term-line"><span class="ts mono">J+14</span><span class="lvl ok">SHIP</span><span class="msg mono" data-i18n-html="term.l4"><b>Vrais usagers, vraies métriques.</b> Instrumenté dès le premier jour du build : <span class="arg">lead → qualifié, temps de réponse, coût par lead chaud</span>.</span></div>
+        <div class="term-line"><span class="ts mono">J+30</span><span class="lvl info">LEARN</span><span class="msg mono" data-i18n-html="term.l5"><b>Décision binaire :</b> <span class="arg">PERSÉVÈRE</span> · <span class="arg">PIVOT</span> · <span class="arg">TUE</span>. Pas de projet zombie.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team">
+    <span class="section-mark" data-i18n="team.mark">[ 04 / ÉQUIPE ]</span>
+    <div class="section-head">
+      <span class="kicker" data-i18n="team.kicker">les_fondateurs</span>
+      <h2 data-i18n-html="team.h2">Quatre cofondateurs. <span class="accent">Tout le monde construit.</span></h2>
+    </div>
+    <div class="team">
+      <div class="member">
+<div class="ascii" aria-hidden="true">┌──────┐
+│  D   │
+└──────┘</div>
+        <h3>Dennis</h3>
+        <div class="role" data-i18n="team.r1">tech_lead</div>
+        <p class="bio" data-i18n="team.b1">Architecture des agents IA. n8n, Claude API, Supabase. Celui qui fait tourner Klaris à 3 h du matin.</p>
+      </div>
+      <div class="member">
+<div class="ascii" aria-hidden="true">┌──────┐
+│  E   │
+└──────┘</div>
+        <h3>Eliot</h3>
+        <div class="role" data-i18n="team.r2">opérations</div>
+        <p class="bio" data-i18n="team.b2">Structure, finances, partenariats. Garde le studio frugal et les cycles sur les rails.</p>
+      </div>
+      <div class="member">
+<div class="ascii" aria-hidden="true">┌──────┐
+│  W   │
+└──────┘</div>
+        <h3>Walkens</h3>
+        <div class="role" data-i18n="team.r3">croissance</div>
+        <p class="bio" data-i18n="team.b3">Terrain et distribution. Celui qui parle aux courtiers, cliniques et restos avant qu'on code.</p>
+      </div>
+      <div class="member">
+<div class="ascii" aria-hidden="true">┌──────┐
+│  S   │
+└──────┘</div>
+        <h3>Seydou</h3>
+        <div class="role" data-i18n="team.r4">design</div>
+        <p class="bio" data-i18n="team.b4">Produit et interface. Des outils que les opérateurs adoptent sans formation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN -->
+  <section id="join">
+    <span class="section-mark" data-i18n="join.mark">[ 05 / COLLABORER ]</span>
+    <div class="section-head">
+      <span class="kicker" data-i18n="join.kicker">travailler_ensemble</span>
+      <h2 data-i18n-html="join.h2">Deux façons d'entrer <span class="accent">dans la boucle.</span></h2>
+    </div>
+    <div class="join">
+      <div class="join-card">
+        <div class="jk" data-i18n="j1.k">// PME & clients pilotes</div>
+        <h3 data-i18n="j1.title">Un workflow à automatiser?</h3>
+        <p data-i18n="j1.body">Diagnostic gratuit de 30 minutes. On regarde vos opérations, on identifie la fuite de temps la plus coûteuse, on vous dit franchement si on peut aider.</p>
+        <a href="index-v2.html" class="btn btn-accent" data-i18n-html="j1.cta">voir_notre_offre <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+      <div class="join-card">
+        <div class="jk" data-i18n="j2.k">// Talents & partenaires</div>
+        <h3 data-i18n="j2.title">Envie de bâtir avec nous?</h3>
+        <p data-i18n="j2.body">On cherche des gens qui shippent : dev, design, vente terrain. Pas de poste ouvert formel — écrivez-nous avec ce que vous avez construit, on répond à tout le monde.</p>
+        <a href="mailto:hello@nextmove.studio" class="btn" data-i18n-html="j2.cta">hello@nextmove.studio <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap-f">
+      <div>
+        <div class="brand" style="margin-bottom:8px">
+          <span class="glyph" aria-hidden="true"></span>
+          <span>NEXTMOVE</span>
+        </div>
+        <div data-i18n="footer.tag">© 2026 NextMove Studio · Montréal, QC</div>
+      </div>
+      <div class="links">
+        <a href="https://klaris.app">klaris</a>
+        <a href="index-v2.html" data-i18n="footer.l2">notre offre</a>
+        <a href="#join">contact</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  (function(){
+    const root = document.documentElement;
+    const store = {
+      get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+      set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} },
+    };
+
+    // ─── THEME ─── (état initial déjà posé par le script inline du <head>)
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const isDark = root.classList.toggle('dark');
+      store.set('nm-theme', isDark ? 'dark' : 'light');
+    });
+
+    // ─── i18n ───
+    const dict = {
+      fr: {
+        'status.tag':'studio_applied_ai','status.live':'KLARIS LIVE · BÊTA',
+        'nav.manifesto':'manifeste','nav.portfolio':'produits','nav.method':'méthode','nav.team':'équipe','nav.join':'collaborer',
+        'nav.cta':'<span class="long">besoin_dun_copilote?</span><span class="short">copilote?</span> <span class="arrow" aria-hidden="true">→</span>',
+        'hero.pre':'cat ./manifeste.md',
+        'hero.h1':'On bâtit des produits IA qui <span class="accent">paient leur loyer</span>. <span class="cursor"></span>',
+        'hero.lede':'NextMove est un <strong>studio applied AI indépendant</strong> à Montréal. Pas de levée, pas de hype : des SaaS verticaux qui génèrent du revenu dès le premier mois — ou qu\'on tue sans état d\'âme.',
+        'hero.cta1':'voir_les_produits <span class="arrow" aria-hidden="true">→</span>','hero.cta2':'lire_le_manifeste',
+        'metric.1.k':'// Fondé','metric.1.delta':'Montréal · bootstrappé',
+        'metric.2.k':'// Produit','metric.2.v':'1','metric.2.unit':'live','metric.2.delta':'Klaris · en bêta',
+        'metric.3.k':'// Cycle MVP','metric.3.v':'14','metric.3.unit':'jours','metric.3.delta':'idée → production',
+        'metric.4.k':'// Équipe','metric.4.v':'4','metric.4.unit':'cofondateurs','metric.4.delta':'zéro titre C-suite',
+        'man.mark':'[ 01 / MANIFESTE ]','man.kicker':'ce_quon_croit',
+        'man.h2':'Quatre croyances. <span class="accent">Non négociables.</span>',
+        'b1.title':'Le loyer d\'abord',
+        'b1.body':'Un produit doit <b>générer du revenu dès le premier mois</b>. Pas de « croissance d\'abord, revenu plus tard ». Si personne ne paie, l\'hypothèse est fausse — on tue et on passe au suivant.',
+        'b2.title':'14 jours, pas 14 mois',
+        'b2.body':'La vitesse n\'est pas un exploit, c\'est un <b>choix structurel</b> : stack figée, périmètre gelé, échéance gelée. Ce qu\'on perd en options, on le gagne en apprentissage réel.',
+        'b3.title':'Une verticale à la fois',
+        'b3.body':'La profondeur bat la plateforme. On apprend un métier — courtier, clinicien, restaurateur — <b>jusqu\'à parler sa langue</b>. On finit avant de commencer autre chose.',
+        'b4.title':'Le terrain avant le code',
+        'b4.body':'Aucune ligne de code avant d\'avoir <b>observé un vrai opérateur</b> pendant des jours. Le problème qu\'on résout est celui qu\'on a vu saigner — pas celui qu\'on a imaginé en réunion.',
+        'port.mark':'[ 02 / PRODUITS ]','port.kicker':'portfolio',
+        'port.h2':'Un produit live. <span class="accent">Par choix, pas par manque.</span>',
+        'product.tag':'LIVE_EN_BÊTA',
+        'product.body':'<strong style="color:var(--fg)">Le copilote des courtiers immobiliers.</strong> Qualification de prospects par SMS en français québécois, fiches acheteur/vendeur, relances programmées. En bêta avec 2 courtiers du Grand Montréal — réponse typique aux prospects en moins de 60 secondes, 24/7.',
+        'product.stat1.k':'réponse typ.','product.stat1.v':'< 60 s','product.stat2.k':'dispo','product.stat3.k':'langue',
+        'shot.alt':'Tableau de bord Klaris : prospects scorés, valeur pipeline, relances planifiées',
+        'shot.caption':'// données de démonstration · interface réelle du produit',
+        'ex1.name':'santé — intake patients','ex1.st':'en exploration',
+        'ex2.name':'restauration — réservations','ex2.st':'en exploration',
+        'method.mark':'[ 03 / MÉTHODE ]','method.kicker':'le_playbook',
+        'method.h2':'Lean Startup × kernel Rumelt. <span class="accent">En boucle de 30 jours.</span>',
+        'term.live':'↻ live',
+        'term.l1':'<b>Observation terrain</b> · 2-3 jours à shadower un vrai opérateur. Output : <span class="arg">la contrainte unique</span> qui coûte le plus cher.',
+        'term.l2':'<b>Politique directrice</b> — une phrase. ex Klaris : <span class="arg">« remplacer l\'adjointe humaine pour courtiers solo, par SMS, en FR-QC »</span>.',
+        'term.l3':'<b>MVP en 14 jours</b> · stack figée : <span class="arg">Claude · n8n · Supabase · Next.js</span>. Pas de feature creep.',
+        'term.l4':'<b>Vrais usagers, vraies métriques.</b> Instrumenté dès le premier jour du build : <span class="arg">lead → qualifié, temps de réponse, coût par lead chaud</span>.',
+        'term.l5':'<b>Décision binaire :</b> <span class="arg">PERSÉVÈRE</span> · <span class="arg">PIVOT</span> · <span class="arg">TUE</span>. Pas de projet zombie.',
+        'team.mark':'[ 04 / ÉQUIPE ]','team.kicker':'les_fondateurs',
+        'team.h2':'Quatre cofondateurs. <span class="accent">Tout le monde construit.</span>',
+        'team.r1':'tech_lead','team.r2':'opérations','team.r3':'croissance','team.r4':'design',
+        'team.b1':'Architecture des agents IA. n8n, Claude API, Supabase. Celui qui fait tourner Klaris à 3 h du matin.',
+        'team.b2':'Structure, finances, partenariats. Garde le studio frugal et les cycles sur les rails.',
+        'team.b3':'Terrain et distribution. Celui qui parle aux courtiers, cliniques et restos avant qu\'on code.',
+        'team.b4':'Produit et interface. Des outils que les opérateurs adoptent sans formation.',
+        'join.mark':'[ 05 / COLLABORER ]','join.kicker':'travailler_ensemble',
+        'join.h2':'Deux façons d\'entrer <span class="accent">dans la boucle.</span>',
+        'j1.k':'// PME & clients pilotes','j1.title':'Un workflow à automatiser?',
+        'j1.body':'Diagnostic gratuit de 30 minutes. On regarde vos opérations, on identifie la fuite de temps la plus coûteuse, on vous dit franchement si on peut aider.',
+        'j1.cta':'voir_notre_offre <span class="arrow" aria-hidden="true">→</span>',
+        'j2.k':'// Talents & partenaires','j2.title':'Envie de bâtir avec nous?',
+        'j2.body':'On cherche des gens qui shippent : dev, design, vente terrain. Pas de poste ouvert formel — écrivez-nous avec ce que vous avez construit, on répond à tout le monde.',
+        'j2.cta':'hello@nextmove.studio <span class="arrow" aria-hidden="true">→</span>',
+        'footer.tag':'© 2026 NextMove Studio · Montréal, QC','footer.l2':'notre offre',
+        'a11y.theme':'Basculer le thème',
+        'meta.desc':'NextMove est un studio applied AI indépendant à Montréal. On conçoit, bâtit et opère des SaaS IA verticaux. Klaris, notre premier produit, est live en bêta.',
+        'doc.title':'NextMove Studio — On bâtit des produits IA qui paient leur loyer',
+      },
+      en: {
+        'status.tag':'applied_ai_studio','status.live':'KLARIS LIVE · BETA',
+        'nav.manifesto':'manifesto','nav.portfolio':'products','nav.method':'method','nav.team':'team','nav.join':'work_with_us',
+        'nav.cta':'<span class="long">need_a_copilot?</span><span class="short">copilot?</span> <span class="arrow" aria-hidden="true">→</span>',
+        'hero.pre':'cat ./manifesto.md',
+        'hero.h1':'We build AI products that <span class="accent">pay their rent</span>. <span class="cursor"></span>',
+        'hero.lede':'NextMove is an <strong>independent applied AI studio</strong> in Montréal. No fundraising, no hype: vertical SaaS that generate revenue from month one — or get killed without remorse.',
+        'hero.cta1':'see_the_products <span class="arrow" aria-hidden="true">→</span>','hero.cta2':'read_the_manifesto',
+        'metric.1.k':'// Founded','metric.1.delta':'Montréal · bootstrapped',
+        'metric.2.k':'// Product','metric.2.v':'1','metric.2.unit':'live','metric.2.delta':'Klaris · in beta',
+        'metric.3.k':'// MVP cycle','metric.3.v':'14','metric.3.unit':'days','metric.3.delta':'idea → production',
+        'metric.4.k':'// Team','metric.4.v':'4','metric.4.unit':'co-founders','metric.4.delta':'zero C-suite titles',
+        'man.mark':'[ 01 / MANIFESTO ]','man.kicker':'what_we_believe',
+        'man.h2':'Four beliefs. <span class="accent">Non-negotiable.</span>',
+        'b1.title':'Rent comes first',
+        'b1.body':'A product must <b>generate revenue from month one</b>. No "growth first, revenue later". If nobody pays, the hypothesis is wrong — we kill it and move on.',
+        'b2.title':'14 days, not 14 months',
+        'b2.body':'Speed isn\'t a feat, it\'s a <b>structural choice</b>: frozen stack, frozen scope, frozen deadline. What we lose in options, we gain in real learning.',
+        'b3.title':'One vertical at a time',
+        'b3.body':'Depth beats platforms. We learn a trade — broker, clinician, restaurateur — <b>until we speak its language</b>. We finish before starting the next.',
+        'b4.title':'Field before code',
+        'b4.body':'Not a single line of code before <b>observing a real operator</b> for days. The problem we solve is the one we watched bleed — not one imagined in a meeting.',
+        'port.mark':'[ 02 / PRODUCTS ]','port.kicker':'portfolio',
+        'port.h2':'One product live. <span class="accent">By design, not by default.</span>',
+        'product.tag':'LIVE_IN_BETA',
+        'product.body':'<strong style="color:var(--fg)">The real estate broker\'s copilot.</strong> SMS lead qualification in Québec French, buyer/seller profiles, scheduled follow-ups. In beta with 2 brokers in Greater Montréal — typical prospect response in under 60 seconds, 24/7.',
+        'product.stat1.k':'typ. response','product.stat1.v':'< 60 s','product.stat2.k':'availability','product.stat3.k':'language',
+        'shot.alt':'Klaris dashboard: scored prospects, pipeline value, scheduled follow-ups',
+        'shot.caption':'// demo data · actual product interface',
+        'ex1.name':'healthcare — patient intake','ex1.st':'exploring',
+        'ex2.name':'restaurants — reservations','ex2.st':'exploring',
+        'method.mark':'[ 03 / METHOD ]','method.kicker':'the_playbook',
+        'method.h2':'Lean Startup × Rumelt\'s kernel. <span class="accent">On a 30-day loop.</span>',
+        'term.live':'↻ live',
+        'term.l1':'<b>Field observation</b> · 2-3 days shadowing a real operator. Output: <span class="arg">the single constraint</span> that costs the most.',
+        'term.l2':'<b>Guiding policy</b> — one sentence. e.g. Klaris: <span class="arg">"replace the human assistant for solo brokers, via SMS, in QC French"</span>.',
+        'term.l3':'<b>MVP in 14 days</b> · frozen stack: <span class="arg">Claude · n8n · Supabase · Next.js</span>. No feature creep.',
+        'term.l4':'<b>Real users, real metrics.</b> Instrumented from day one of the build: <span class="arg">lead → qualified, response time, cost per hot lead</span>.',
+        'term.l5':'<b>Binary decision:</b> <span class="arg">PERSEVERE</span> · <span class="arg">PIVOT</span> · <span class="arg">KILL</span>. No zombie projects.',
+        'team.mark':'[ 04 / TEAM ]','team.kicker':'the_founders',
+        'team.h2':'Four co-founders. <span class="accent">Everyone builds.</span>',
+        'team.r1':'tech_lead','team.r2':'operations','team.r3':'growth','team.r4':'design',
+        'team.b1':'AI agent architecture. n8n, Claude API, Supabase. The one keeping Klaris running at 3am.',
+        'team.b2':'Structure, finance, partnerships. Keeps the studio lean and the cycles on track.',
+        'team.b3':'Field and distribution. The one talking to brokers, clinics and restaurants before we code.',
+        'team.b4':'Product and interface. Tools operators adopt without training.',
+        'join.mark':'[ 05 / WORK WITH US ]','join.kicker':'two_ways_in',
+        'join.h2':'Two ways into <span class="accent">the loop.</span>',
+        'j1.k':'// SMBs & pilot clients','j1.title':'A workflow to automate?',
+        'j1.body':'Free 30-minute diagnostic. We look at your operations, find the costliest time leak, and tell you straight whether we can help.',
+        'j1.cta':'see_our_offer <span class="arrow" aria-hidden="true">→</span>',
+        'j2.k':'// Talent & partners','j2.title':'Want to build with us?',
+        'j2.body':'We look for people who ship: dev, design, field sales. No formal openings — write to us with what you\'ve built, we answer everyone.',
+        'j2.cta':'hello@nextmove.studio <span class="arrow" aria-hidden="true">→</span>',
+        'footer.tag':'© 2026 NextMove Studio · Montréal, QC','footer.l2':'our offer',
+        'a11y.theme':'Toggle theme',
+        'meta.desc':'NextMove is an independent applied AI studio in Montréal. We design, build and operate vertical AI SaaS. Klaris, our first product, is live in beta.',
+        'doc.title':'NextMove Studio — We build AI products that pay their rent',
+      }
+    };
+
+    function applyLang(lang){
+      root.setAttribute('lang', lang);
+      const d = dict[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(d[key] !== undefined) el.textContent = d[key];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if(d[key] !== undefined) el.innerHTML = d[key];
+      });
+      document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+        const key = el.getAttribute('data-i18n-alt');
+        if(d[key] !== undefined) el.setAttribute('alt', d[key]);
+      });
+      document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const key = el.getAttribute('data-i18n-aria');
+        if(d[key] !== undefined){
+          el.setAttribute('aria-label', d[key]);
+          el.setAttribute('title', d[key]);
+        }
+      });
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if(metaDesc && d['meta.desc']) metaDesc.setAttribute('content', d['meta.desc']);
+      document.getElementById('lang-label').textContent = lang === 'fr' ? 'EN' : 'FR';
+      document.title = d['doc.title'];
+    }
+
+    // FR par défaut, toujours — EN = choix explicite.
+    const initLang = store.get('nm-lang') === 'en' ? 'en' : 'fr';
+    applyLang(initLang);
+
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      const current = root.getAttribute('lang') || 'fr';
+      const next = current === 'fr' ? 'en' : 'fr';
+      store.set('nm-lang', next);
+      applyLang(next);
+    });
+  })();
+</script>
+
+</body>
+</html>

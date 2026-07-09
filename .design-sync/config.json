@@ -1,0 +1,8 @@
+{
+  "pkg": "@nextmove/ui",
+  "globalName": "NextMoveUI",
+  "shape": "package",
+  "buildCmd": "npm run build",
+  "srcDir": "packages/nextmove-ui/src",
+  "cssEntry": "dist/index.css"
+}

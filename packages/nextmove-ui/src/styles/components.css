@@ -1,0 +1,85 @@
+/* NextMove UI — component styles. All classes are `nm-` prefixed and read
+ * tokens from tokens.css. Import order (index.ts): tokens.css then this. */
+
+/* ── primitives ─────────────────────────────────────────────── */
+.nm-mono { font-family: var(--nm-font-mono); font-feature-settings: "calt", "liga"; }
+
+/* ── BrandMark ──────────────────────────────────────────────── */
+.nm-brand { display: inline-flex; align-items: center; gap: 12px; font-family: var(--nm-font-mono); font-size: 14px; font-weight: 700; color: var(--nm-fg); }
+.nm-brand__glyph { width: 24px; height: 24px; border: 1px solid var(--nm-fg); display: grid; place-items: center; font-family: var(--nm-font-mono); font-size: 13px; font-weight: 700; }
+.nm-brand__glyph::before { content: "▲"; }
+
+/* ── Button ─────────────────────────────────────────────────── */
+.nm-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; font-family: var(--nm-font-mono); font-size: 12px; font-weight: 500; border: 1px solid var(--nm-line); background: var(--nm-bg); color: var(--nm-fg); cursor: pointer; transition: all .12s; text-decoration: none; }
+.nm-btn:hover { border-color: var(--nm-fg-2); }
+.nm-btn--accent { background: var(--nm-accent-bg); color: var(--nm-accent-ink); border-color: var(--nm-accent-bg); font-weight: 700; }
+.nm-btn--accent:hover { background: transparent; color: var(--nm-accent); }
+.nm-btn--lg { padding: 14px 22px; font-size: 13px; }
+.nm-btn--icon { padding: 9px 11px; color: var(--nm-fg-2); }
+.nm-btn--icon:hover { color: var(--nm-accent); }
+.nm-btn__arrow { font-size: 14px; line-height: 1; }
+
+/* ── Tag / Badge ────────────────────────────────────────────── */
+.nm-tag { display: inline-flex; align-items: center; gap: 8px; font-family: var(--nm-font-mono); font-size: 11px; color: var(--nm-accent); border: 1px solid var(--nm-accent); padding: 3px 10px; }
+.nm-tag--dot::before { content: "●"; font-size: 8px; }
+.nm-badge { display: inline-flex; align-items: center; font-family: var(--nm-font-mono); font-size: 11px; color: var(--nm-fg-3); }
+.nm-badge--live::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--nm-accent); box-shadow: 0 0 8px var(--nm-accent); margin-right: 6px; vertical-align: middle; animation: nm-pulse 2s infinite; }
+@keyframes nm-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+@media (prefers-reduced-motion: reduce) { .nm-badge--live::before { animation: none; } }
+
+/* ── StatusBar ──────────────────────────────────────────────── */
+.nm-statusbar { border-bottom: 1px solid var(--nm-line); padding: 8px 24px; display: flex; justify-content: space-between; align-items: center; font-family: var(--nm-font-mono); font-size: 11px; color: var(--nm-fg-3); background: var(--nm-bg-2); }
+.nm-statusbar__group { display: flex; gap: 24px; align-items: center; }
+.nm-statusbar span { white-space: nowrap; }
+
+/* ── Metric ─────────────────────────────────────────────────── */
+.nm-metric { padding: 24px 32px; font-family: var(--nm-font-mono); border-right: 1px solid var(--nm-line); }
+.nm-metric:last-child { border-right: none; }
+.nm-metric__k { font-size: 11px; color: var(--nm-fg-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.nm-metric__v { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; color: var(--nm-fg); white-space: nowrap; }
+.nm-metric__unit { color: var(--nm-fg-3); font-weight: 400; font-size: 16px; margin-left: 0.35em; }
+.nm-metric__delta { font-size: 11px; color: var(--nm-accent); margin-top: 4px; }
+.nm-metric-row { display: grid; grid-template-columns: repeat(var(--nm-cols, 4), 1fr); border-top: 1px solid var(--nm-line); border-bottom: 1px solid var(--nm-line); }
+
+/* ── Card ───────────────────────────────────────────────────── */
+.nm-card { border: 1px solid var(--nm-line); background: var(--nm-bg); padding: 40px 32px; transition: border-color .15s, background .15s; }
+.nm-card--hover:hover { background: var(--nm-bg-2); }
+.nm-card--accent:hover { border-color: var(--nm-accent); }
+
+/* ── SectionHead ────────────────────────────────────────────── */
+.nm-section-head { display: grid; grid-template-columns: 200px 1fr; gap: 48px; padding-bottom: 32px; border-bottom: 1px dashed var(--nm-line); }
+.nm-section-head__kicker { font-family: var(--nm-font-mono); font-size: 11px; color: var(--nm-accent); text-transform: uppercase; letter-spacing: 0.1em; padding-top: 8px; }
+.nm-section-head__title { font-family: var(--nm-font-sans); font-size: clamp(28px, 4vw, 48px); line-height: 1.04; letter-spacing: -0.035em; font-weight: 700; margin: 0; max-width: 800px; color: var(--nm-fg); }
+.nm-accent { color: var(--nm-accent); }
+@media (max-width: 880px) { .nm-section-head { grid-template-columns: 1fr; gap: 16px; } }
+
+/* ── BeliefCard ─────────────────────────────────────────────── */
+.nm-belief { border: 1px solid var(--nm-line); padding: 48px 40px; background: var(--nm-bg); position: relative; transition: background .15s; }
+.nm-belief:hover { background: var(--nm-bg-2); }
+.nm-belief__idx { font-family: var(--nm-font-mono); font-size: 56px; font-weight: 700; color: var(--nm-accent); opacity: 0.25; line-height: 1; position: absolute; top: 28px; right: 28px; z-index: 0; }
+.nm-belief__title { font-family: var(--nm-font-sans); font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 16px; line-height: 1.1; max-width: 80%; position: relative; z-index: 1; color: var(--nm-fg); }
+.nm-belief__body { color: var(--nm-fg-2); font-family: var(--nm-font-sans); font-size: 15px; line-height: 1.6; max-width: 90%; position: relative; z-index: 1; }
+.nm-belief__body b { color: var(--nm-fg); font-weight: 600; }
+@media (max-width: 880px) { .nm-belief__title { max-width: 100%; padding-right: 64px; } .nm-belief__body { max-width: 100%; } .nm-belief__idx { top: 20px; right: 20px; font-size: 40px; } }
+
+/* ── Terminal ───────────────────────────────────────────────── */
+.nm-terminal { background: var(--nm-bg-2); border: 1px solid var(--nm-line); font-family: var(--nm-font-mono); font-size: 13px; }
+.nm-terminal__head { padding: 10px 16px; border-bottom: 1px solid var(--nm-line); display: flex; justify-content: space-between; align-items: center; background: var(--nm-bg-3); font-size: 11px; color: var(--nm-fg-3); }
+.nm-terminal__dots { display: flex; gap: 6px; }
+.nm-terminal__dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--nm-line); }
+.nm-terminal__body { padding: 24px 20px; line-height: 1.8; }
+.nm-termline { display: flex; gap: 12px; align-items: baseline; }
+.nm-termline__ts { color: var(--nm-fg-3); font-size: 11px; flex-shrink: 0; width: 60px; }
+.nm-termline__lvl { flex-shrink: 0; font-size: 10px; font-weight: 700; padding: 1px 6px; border: 1px solid; border-radius: 2px; text-transform: uppercase; }
+.nm-termline__lvl--info { color: var(--nm-accent); border-color: var(--nm-accent); background: var(--nm-accent-dim); }
+.nm-termline__lvl--warn { color: var(--nm-warn); border-color: color-mix(in srgb, var(--nm-warn) 40%, transparent); background: color-mix(in srgb, var(--nm-warn) 12%, transparent); }
+.nm-termline__lvl--ok { color: var(--nm-accent); border-color: var(--nm-accent); background: transparent; }
+.nm-termline__msg { color: var(--nm-fg-2); font-size: 12px; }
+.nm-termline__msg b { color: var(--nm-fg); font-weight: 600; }
+.nm-termline__msg .nm-arg { color: var(--nm-accent); }
+
+/* ── ProductShot (browser-window frame) ─────────────────────── */
+.nm-shot { position: relative; border: 1px solid var(--nm-line); background: var(--nm-bg); box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.4); }
+.nm-shot__head { padding: 8px 12px; border-bottom: 1px solid var(--nm-line); display: flex; justify-content: space-between; font-family: var(--nm-font-mono); font-size: 10px; color: var(--nm-fg-3); background: var(--nm-bg-3); }
+.nm-shot img { width: 100%; display: block; }
+.nm-shot__caption { padding: 8px 12px; border-top: 1px solid var(--nm-line); font-family: var(--nm-font-mono); font-size: 10px; color: var(--nm-fg-3); }
