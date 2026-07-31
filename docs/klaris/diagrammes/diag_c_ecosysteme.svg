@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+<defs>
+<marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#7A6E68" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<marker id="arv" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#4F9D5C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<marker id="aro" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#B08A3E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<rect x="30" y="40" width="530" height="640" rx="14" fill="#FFFFFF" stroke="#E5E0D9" stroke-width="2.5"/>
+<text x="295" y="84" text-anchor="middle" font-size="24" font-weight="600" fill="#2A211D">Univers Centris / Cotality</text>
+<text x="295" y="112" text-anchor="middle" font-size="18" fill="#C03A2E">hors périmètre Klaris (DA-01)</text>
+
+<g>
+<rect x="60" y="140" width="470" height="100" rx="10" fill="#FAF9F7" stroke="#C03A2E" stroke-width="2.5"/>
+<text x="295" y="182" text-anchor="middle" font-size="24" font-weight="600" fill="#C03A2E">Matrix</text>
+<text x="295" y="212" text-anchor="middle" font-size="19" fill="#7A6E68">saisie MLS par le courtier</text>
+</g>
+<g>
+<rect x="60" y="270" width="470" height="100" rx="10" fill="#FAF9F7" stroke="#C03A2E" stroke-width="2.5"/>
+<text x="295" y="312" text-anchor="middle" font-size="24" font-weight="600" fill="#C03A2E">Centris.ca</text>
+<text x="295" y="342" text-anchor="middle" font-size="19" fill="#7A6E68">diffusion des inscriptions</text>
+</g>
+<g>
+<rect x="60" y="470" width="470" height="130" rx="10" fill="#FAF9F7" stroke="#D4A24E" stroke-width="2.5"/>
+<text x="295" y="512" text-anchor="middle" font-size="23" font-weight="600" fill="#9C7420">Trestle · Direct Web API</text>
+<text x="295" y="544" text-anchor="middle" font-size="19" fill="#7A6E68">RESO — robinet contrôlé par Centris</text>
+<text x="295" y="572" text-anchor="middle" font-size="19" fill="#7A6E68">module optionnel (DA-06)</text>
+</g>
+
+<rect x="1060" y="40" width="510" height="430" rx="14" fill="#FFFFFF" stroke="#E5E0D9" stroke-width="2.5"/>
+<text x="1315" y="84" text-anchor="middle" font-size="24" font-weight="600" fill="#2A211D">Lone Wolf</text>
+<text x="1315" y="112" text-anchor="middle" font-size="18" fill="#3A7A45">canal API principal (DA-03)</text>
+
+<g>
+<rect x="1090" y="140" width="450" height="100" rx="10" fill="#FAF9F7" stroke="#4F9D5C" stroke-width="2.5"/>
+<text x="1315" y="182" text-anchor="middle" font-size="24" font-weight="600" fill="#3A7A45">TransactionDesk</text>
+<text x="1315" y="212" text-anchor="middle" font-size="19" fill="#7A6E68">dossier · jalons structurés</text>
+</g>
+<g>
+<rect x="1090" y="270" width="450" height="100" rx="10" fill="#FAF9F7" stroke="#4F9D5C" stroke-width="2.5"/>
+<text x="1315" y="312" text-anchor="middle" font-size="24" font-weight="600" fill="#3A7A45">DocBox</text>
+<text x="1315" y="342" text-anchor="middle" font-size="19" fill="#7A6E68">documents — propriété du courtier</text>
+</g>
+
+<g>
+<rect x="690" y="60" width="240" height="110" rx="10" fill="#FFFFFF" stroke="#D4A24E" stroke-width="3"/>
+<text x="810" y="106" text-anchor="middle" font-size="24" font-weight="600" fill="#9C7420">Le courtier</text>
+<text x="810" y="138" text-anchor="middle" font-size="18" fill="#7A6E68">humain dans la boucle</text>
+</g>
+
+<g>
+<rect x="650" y="340" width="320" height="160" rx="10" fill="#FAF9F7" stroke="#C25A3A" stroke-width="3"/>
+<text x="810" y="392" text-anchor="middle" font-size="28" font-weight="600" fill="#C25A3A">Klaris</text>
+<text x="810" y="428" text-anchor="middle" font-size="18" fill="#7A6E68">coffre · classement · échéances</text>
+<text x="810" y="456" text-anchor="middle" font-size="18" fill="#7A6E68">boucle N3 · Supabase ca-central-1</text>
+</g>
+
+<g>
+<rect x="650" y="580" width="320" height="90" rx="10" fill="#FFFFFF" stroke="#E5E0D9" stroke-width="2.5"/>
+<text x="810" y="618" text-anchor="middle" font-size="22" font-weight="600" fill="#2A211D">Courriel + portail client</text>
+<text x="810" y="646" text-anchor="middle" font-size="18" fill="#7A6E68">entrée universelle (DA-04)</text>
+</g>
+<line x1="810" y1="580" x2="810" y2="506" stroke="#7A6E68" stroke-width="2" marker-end="url(#ar)"/>
+
+<text x="612" y="88" text-anchor="middle" font-size="17" fill="#7A6E68">saisie manuelle</text>
+<line x1="690" y1="115" x2="538" y2="178" stroke="#7A6E68" stroke-width="2" marker-end="url(#ar)"/>
+
+<line x1="810" y1="170" x2="810" y2="334" stroke="#B08A3E" stroke-width="2" marker-end="url(#aro)"/>
+<text x="828" y="256" font-size="17" fill="#7A6E68">approuve chaque sortie (N3)</text>
+
+<line x1="1082" y1="385" x2="978" y2="385" stroke="#4F9D5C" stroke-width="2" marker-end="url(#arv)"/>
+<text x="1015" y="368" text-anchor="middle" font-size="16" fill="#3A7A45">lecture</text>
+<line x1="970" y1="430" x2="1052" y2="430" stroke="#4F9D5C" stroke-width="2" marker-end="url(#arv)"/>
+<text x="1015" y="458" text-anchor="middle" font-size="16" fill="#3A7A45">dépôt N3</text>
+
+<line x1="530" y1="530" x2="642" y2="472" stroke="#B08A3E" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#aro)"/>
+
+<line x1="530" y1="320" x2="642" y2="398" stroke="#C03A2E" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="586" y="368" text-anchor="middle" font-size="36" font-weight="600" fill="#C03A2E" stroke="#FAF9F7" stroke-width="10" paint-order="stroke">✕</text>
+
+<text x="30" y="708" font-size="18" fill="#7A6E68">vert = canal retenu&#160;&#160;·&#160;&#160;or = humain / conditionnel&#160;&#160;·&#160;&#160;rouge = interdit&#160;&#160;·&#160;&#160;terracotta = Klaris</text>
+</svg>

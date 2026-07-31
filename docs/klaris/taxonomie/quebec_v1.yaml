@@ -1,0 +1,95 @@
+# Taxonomie documentaire québécoise — v1 (squelette de départ)
+# Chaque type : détection (indices pour le classificateur), champs à extraire,
+# péremption éventuelle, obligation par type de dossier et par étape.
+# Étapes : preparation_inscription | promesse_acceptee | conditions | avant_signature
+
+version: 1
+seuil_confiance_defaut: 0.85
+
+types:
+  certificat_localisation:
+    libelle: Certificat de localisation
+    detection: [arpenteur-géomètre, certificat de localisation, minute]
+    champs: [adresse, lot, arpenteur, date_minute]
+    peremption:
+      regle: "date_minute > 10 ans OU modification cadastrale depuis"
+    obligatoire:
+      vendeur: [preparation_inscription]
+
+  declaration_vendeur:
+    libelle: Déclarations du vendeur (DV — formulaire OACIQ)
+    detection: [déclarations du vendeur, DV-, OACIQ]
+    champs: [adresse, date_signature, signatures]
+    obligatoire:
+      vendeur: [preparation_inscription]
+
+  promesse_achat:
+    libelle: Promesse d'achat (PA/CA — formulaire OACIQ)
+    detection: [promesse d'achat, PA-, contre-proposition]
+    champs: [prix, date_acceptation, conditions, delais, signatures]
+    obligatoire:
+      acheteur: [promesse_acceptee]
+
+  compte_taxes_municipales:
+    libelle: Compte de taxes municipales
+    detection: [compte de taxes, municipalité, matricule]
+    champs: [annee, montant, adresse]
+    peremption:
+      regle: "annee < annee_courante"
+    obligatoire:
+      vendeur: [preparation_inscription]
+
+  compte_taxes_scolaires:
+    libelle: Compte de taxes scolaires
+    detection: [taxe scolaire, centre de services scolaire]
+    champs: [annee, montant, adresse]
+    peremption:
+      regle: "annee < annee_courante"
+    obligatoire:
+      vendeur: [preparation_inscription]
+
+  bail:
+    libelle: Bail (immeuble à revenus)
+    detection: [bail, locataire, loyer mensuel, TAL]
+    champs: [logement, loyer, echeance, locataire]
+    obligatoire:
+      vendeur: [preparation_inscription]   # si immeuble à revenus
+
+  rapport_inspection:
+    libelle: Rapport d'inspection préachat
+    detection: [rapport d'inspection, inspecteur en bâtiment]
+    champs: [date_inspection, inspecteur, conclusions_majeures]
+    obligatoire:
+      acheteur: [conditions]
+
+  preuve_financement:
+    libelle: Lettre d'approbation hypothécaire
+    detection: [approbation hypothécaire, prêteur, financement approuvé]
+    champs: [preteur, montant, date_approbation, conditions]
+    obligatoire:
+      acheteur: [conditions]
+
+  acte_vente_anterieur:
+    libelle: Acte de vente antérieur / titre
+    detection: [acte de vente, registre foncier, circonscription foncière]
+    champs: [date_acte, numero_inscription]
+    obligatoire:
+      vendeur: [avant_signature]
+
+  facture_travaux:
+    libelle: Factures et garanties de travaux
+    detection: [facture, entrepreneur, RBQ, garantie]
+    champs: [date, montant, nature_travaux, licence_rbq]
+
+  piece_identite:
+    libelle: Pièce d'identité (vérification d'identité OACIQ)
+    detection: [permis de conduire, passeport]
+    champs: [type_piece, expiration]
+    sensible: true          # ne jamais exposer au portail de l'autre partie
+
+  releve_hypothecaire:
+    libelle: Relevé hypothécaire / solde
+    detection: [solde hypothécaire, quittance, mainlevée]
+    champs: [preteur, solde, date_releve]
+    obligatoire:
+      vendeur: [avant_signature]

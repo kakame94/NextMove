@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="640" viewBox="0 0 1600 640" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+<defs>
+<marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#7A6E68" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<marker id="arg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#B08A3E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<g>
+<rect x="20" y="70" width="280" height="95" rx="10" fill="#FFFFFF" stroke="#E5E0D9" stroke-width="2.5"/>
+<text x="160" y="110" text-anchor="middle" font-size="25" font-weight="600" fill="#2A211D">Courriel courtier</text>
+<text x="160" y="140" text-anchor="middle" font-size="19" fill="#7A6E68">Postmark → webhook</text>
+</g>
+<g>
+<rect x="20" y="240" width="280" height="95" rx="10" fill="#FFFFFF" stroke="#E5E0D9" stroke-width="2.5"/>
+<text x="160" y="280" text-anchor="middle" font-size="25" font-weight="600" fill="#2A211D">Portail client</text>
+<text x="160" y="310" text-anchor="middle" font-size="19" fill="#7A6E68">lien signé, sans compte</text>
+</g>
+<g>
+<rect x="20" y="410" width="280" height="95" rx="10" fill="#FFFFFF" stroke="#E5E0D9" stroke-width="2.5"/>
+<text x="160" y="450" text-anchor="middle" font-size="25" font-weight="600" fill="#2A211D">Lone Wolf API</text>
+<text x="160" y="480" text-anchor="middle" font-size="19" fill="#7A6E68">OAuth · polling 30 min</text>
+</g>
+
+<line x1="300" y1="117" x2="352" y2="117" stroke="#7A6E68" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="300" y1="287" x2="352" y2="287" stroke="#7A6E68" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="300" y1="457" x2="352" y2="457" stroke="#7A6E68" stroke-width="2" marker-end="url(#ar)"/>
+
+<rect x="360" y="30" width="650" height="500" rx="14" fill="#FFFFFF" stroke="#E5E0D9" stroke-width="2.5"/>
+<text x="685" y="72" text-anchor="middle" font-size="24" font-weight="600" fill="#2A211D">Cœur Klaris — Supabase ca-central-1</text>
+
+<g>
+<rect x="390" y="100" width="290" height="110" rx="10" fill="#FAF9F7" stroke="#C25A3A" stroke-width="2.5"/>
+<text x="535" y="146" text-anchor="middle" font-size="24" font-weight="600" fill="#C25A3A">Coffre documentaire</text>
+<text x="535" y="178" text-anchor="middle" font-size="19" fill="#7A6E68">Storage chiffré · RLS</text>
+</g>
+<g>
+<rect x="700" y="100" width="290" height="110" rx="10" fill="#FAF9F7" stroke="#C25A3A" stroke-width="2.5"/>
+<text x="845" y="146" text-anchor="middle" font-size="24" font-weight="600" fill="#C25A3A">Classification IA</text>
+<text x="845" y="178" text-anchor="middle" font-size="19" fill="#7A6E68">PDF natif · taxonomie QC</text>
+</g>
+<g>
+<rect x="390" y="240" width="290" height="110" rx="10" fill="#FAF9F7" stroke="#C25A3A" stroke-width="2.5"/>
+<text x="535" y="286" text-anchor="middle" font-size="24" font-weight="600" fill="#C25A3A">Moteur d'échéances</text>
+<text x="535" y="318" text-anchor="middle" font-size="19" fill="#7A6E68">pg_cron · jalons · relances</text>
+</g>
+<g>
+<rect x="700" y="240" width="290" height="110" rx="10" fill="#FAF9F7" stroke="#C25A3A" stroke-width="2.5"/>
+<text x="845" y="286" text-anchor="middle" font-size="24" font-weight="600" fill="#C25A3A">Actions pendantes (N3)</text>
+<text x="845" y="318" text-anchor="middle" font-size="19" fill="#7A6E68">toute sortie passe ici</text>
+</g>
+<g>
+<rect x="390" y="390" width="600" height="70" rx="10" fill="#FAF9F7" stroke="#E5E0D9" stroke-width="2.5"/>
+<text x="690" y="433" text-anchor="middle" font-size="22" font-weight="600" fill="#2A211D">Journal d'accès — append-only · Loi 25</text>
+</g>
+
+<line x1="1010" y1="280" x2="1052" y2="280" stroke="#7A6E68" stroke-width="2" marker-end="url(#ar)"/>
+
+<g>
+<rect x="1060" y="225" width="290" height="110" rx="10" fill="#FFFFFF" stroke="#D4A24E" stroke-width="3"/>
+<text x="1205" y="271" text-anchor="middle" font-size="24" font-weight="600" fill="#9C7420">Approbation courtier</text>
+<text x="1205" y="303" text-anchor="middle" font-size="19" fill="#7A6E68">Netlify · un seul chemin</text>
+</g>
+
+<line x1="1350" y1="255" x2="1376" y2="110" stroke="#7A6E68" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="1350" y1="280" x2="1376" y2="245" stroke="#7A6E68" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="1350" y1="305" x2="1376" y2="378" stroke="#7A6E68" stroke-width="2" marker-end="url(#ar)"/>
+
+<g>
+<rect x="1380" y="60" width="200" height="90" rx="10" fill="#FFFFFF" stroke="#4F9D5C" stroke-width="2.5"/>
+<text x="1480" y="99" text-anchor="middle" font-size="22" font-weight="600" fill="#3A7A45">Dépôt DocBox</text>
+<text x="1480" y="127" text-anchor="middle" font-size="17" fill="#7A6E68">Lone Wolf</text>
+</g>
+<g>
+<rect x="1380" y="195" width="200" height="90" rx="10" fill="#FFFFFF" stroke="#4F9D5C" stroke-width="2.5"/>
+<text x="1480" y="234" text-anchor="middle" font-size="22" font-weight="600" fill="#3A7A45">Envoi client</text>
+<text x="1480" y="262" text-anchor="middle" font-size="17" fill="#7A6E68">portail</text>
+</g>
+<g>
+<rect x="1380" y="330" width="200" height="90" rx="10" fill="#FFFFFF" stroke="#4F9D5C" stroke-width="2.5"/>
+<text x="1480" y="369" text-anchor="middle" font-size="22" font-weight="600" fill="#3A7A45">Relances</text>
+<text x="1480" y="397" text-anchor="middle" font-size="17" fill="#7A6E68">inspecteur, notaire</text>
+</g>
+
+<line x1="1205" y1="335" x2="1205" y2="462" stroke="#B08A3E" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#arg)"/>
+<text x="1190" y="405" text-anchor="end" font-size="18" fill="#7A6E68">saisie manuelle</text>
+
+<g>
+<rect x="1080" y="468" width="270" height="110" rx="10" fill="#FFFFFF" stroke="#C03A2E" stroke-width="2.5"/>
+<text x="1215" y="514" text-anchor="middle" font-size="24" font-weight="600" fill="#C03A2E">Centris / Matrix</text>
+<text x="1215" y="546" text-anchor="middle" font-size="18" fill="#7A6E68">aucun lien Klaris (DA-01)</text>
+</g>
+
+<text x="20" y="618" font-size="18" fill="#7A6E68">terracotta = cœur Klaris&#160;&#160;·&#160;&#160;or = approbation humaine&#160;&#160;·&#160;&#160;vert = sorties approuvées&#160;&#160;·&#160;&#160;rouge = hors périmètre</text>
+</svg>
