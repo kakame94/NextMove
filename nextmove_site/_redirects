@@ -1,0 +1,8 @@
+# URL canonique de l'offre : /offre (l'URL technique redirige)
+/index-v2       /offre   301!
+/index-v2.html  /offre   301!
+
+# Jolies URLs
+/offre     /index-v2.html   200
+/offer     /index-v2.html   200
+/studio    /index.html      200
