@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Maxime Belma — Votre projet immobilier</title>
+<meta name="description" content="Maxime Belma, courtier immobilier résidentiel et commercial chez RE/MAX Alliance. Parlez-nous de votre projet : achat, vente ou investissement.">
+<meta property="og:title" content="Maxime Belma — Courtier immobilier">
+<meta property="og:description" content="Achat, vente ou investissement : parlez-nous de votre projet en 30 secondes.">
+<meta property="og:image" content="maxime-belma.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f6f4f0;
+  --card:#ffffff;
+  --ink:#16213a;
+  --muted:#5d6577;
+  --line:#e3dfd7;
+  --brand:#1f3a7a;
+  --brand-ink:#ffffff;
+  --brand-soft:#e8edf8;
+  --ok:#1f7a4d;
+  --err:#b42318;
+  --radius:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Geist',system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:480px;margin:0 auto;padding:20px 16px calc(32px + env(safe-area-inset-bottom))}
+
+.top{display:flex;justify-content:flex-end;margin-bottom:8px}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.lang button{border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:600;padding:6px 12px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink)}
+
+.profile{display:flex;align-items:center;gap:16px;margin:8px 0 20px}
+.photo{width:76px;height:76px;border-radius:50%;object-fit:cover;object-position:center 20%;border:3px solid var(--card);box-shadow:0 2px 10px rgba(22,33,58,.15);flex-shrink:0}
+.who h1{font-size:21px;font-weight:700;letter-spacing:-.3px;line-height:1.2}
+.who p{font-size:14px;color:var(--muted);line-height:1.35;margin-top:2px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 18px}
+.card h2{font-size:22px;font-weight:700;letter-spacing:-.4px;line-height:1.25}
+.lead{color:var(--muted);font-size:15px;margin:8px 0 20px}
+
+.field{margin-bottom:16px}
+label.lbl,.lbl{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.opt{font-weight:400;color:var(--muted)}
+input[type=text],input[type=tel],input[type=email],select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;outline:none;transition:border-color .15s;appearance:none}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%235d6577' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+input:focus,select:focus{border-color:var(--brand)}
+.invalid input,.invalid .choices{border-color:var(--err)!important}
+
+.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border:1.5px solid transparent;border-radius:12px}
+.choices input{position:absolute;opacity:0;pointer-events:none}
+.choices label{display:flex;align-items:center;justify-content:center;text-align:center;min-height:48px;padding:8px 6px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);font-size:15px;font-weight:600;cursor:pointer;transition:all .15s}
+.choices input:checked+label{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
+.choices input:focus-visible+label{outline:2px solid var(--brand);outline-offset:2px}
+
+.consent{display:flex;gap:12px;align-items:flex-start;padding:14px;background:var(--bg);border:1.5px solid var(--line);border-radius:10px;cursor:pointer}
+.consent input{width:22px;height:22px;margin-top:1px;flex-shrink:0;accent-color:var(--brand)}
+.consent span{font-size:13.5px;color:var(--ink);line-height:1.45}
+
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+.btn{width:100%;margin-top:18px;min-height:52px;border:0;border-radius:12px;background:var(--brand);color:var(--brand-ink);font:inherit;font-size:17px;font-weight:700;cursor:pointer;transition:opacity .15s}
+.btn:disabled{opacity:.6;cursor:wait}
+.error{color:var(--err);font-size:14px;margin-top:12px;min-height:1em}
+.reassure{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
+
+.done{text-align:center;padding:12px 4px}
+.done .check{width:56px;height:56px;border-radius:50%;background:var(--ok);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.done h2{margin-bottom:8px}
+.done p{color:var(--muted);font-size:15px}
+.call{display:inline-block;margin-top:18px;color:var(--brand);font-weight:600;text-decoration:none}
+
+footer{margin-top:22px;font-size:12px;color:var(--muted);line-height:1.55;text-align:center}
+footer a{color:inherit}
+details{margin-top:10px}
+summary{cursor:pointer;font-weight:600}
+details p{margin-top:6px;text-align:left}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="lang" role="group" aria-label="Langue / Language">
+      <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+
+  <header class="profile">
+    <img class="photo" src="maxime-belma.jpg" alt="Maxime Belma" width="76" height="76">
+    <div class="who">
+      <h1>Maxime Belma</h1>
+      <p data-i18n="title">Courtier immobilier résidentiel et commercial</p>
+      <p>RE/MAX Alliance inc.</p>
+    </div>
+  </header>
+
+  <main class="card" id="card">
+    <form id="form" novalidate>
+      <h2 data-i18n="h2">Parlons de votre projet</h2>
+      <p class="lead" data-i18n="lead">30 secondes suffisent. Klaris, l’assistante de Maxime, vous texte tout de suite pour la suite.</p>
+
+      <div class="field" id="f-projet">
+        <span class="lbl" data-i18n="projet">Votre projet</span>
+        <div class="choices">
+          <input type="radio" name="projet" id="p-acheter" value="acheter"><label for="p-acheter" data-i18n="acheter">Acheter</label>
+          <input type="radio" name="projet" id="p-vendre" value="vendre"><label for="p-vendre" data-i18n="vendre">Vendre</label>
+          <input type="radio" name="projet" id="p-investir" value="investir"><label for="p-investir" data-i18n="investir">Investir</label>
+        </div>
+      </div>
+
+      <div class="field" id="f-prenom">
+        <label class="lbl" for="prenom" data-i18n="prenom">Prénom</label>
+        <input type="text" id="prenom" name="prenom" autocomplete="given-name" maxlength="60" required>
+      </div>
+
+      <div class="field" id="f-telephone">
+        <label class="lbl" for="telephone" data-i18n="tel">Cellulaire</label>
+        <input type="tel" id="telephone" name="telephone" autocomplete="tel" inputmode="tel" placeholder="514 555-1234" maxlength="20" required>
+      </div>
+
+      <div class="field">
+        <label class="lbl" for="secteur"><span data-i18n="secteur">Secteur</span> <span class="opt" data-i18n="optional">(facultatif)</span></label>
+        <input type="text" id="secteur" name="secteur" maxlength="80" data-i18n-ph="secteurPh" placeholder="Ex. Anjou, Saint-Léonard, Laval">
+      </div>
+
+      <div class="field">
+        <label class="lbl" for="budget"><span id="budget-lbl" data-i18n="budget">Budget approximatif</span> <span class="opt" data-i18n="optional">(facultatif)</span></label>
+        <select id="budget" name="budget">
+          <option value="" data-i18n="choose">Choisir…</option>
+          <option value="&lt;500k" data-i18n="b1">Moins de 500 000 $</option>
+          <option value="500-750k" data-i18n="b2">500 000 $ à 750 000 $</option>
+          <option value="750k-1m" data-i18n="b3">750 000 $ à 1 M$</option>
+          <option value="1m+" data-i18n="b4">Plus de 1 M$</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="lbl" for="email"><span data-i18n="email">Courriel</span> <span class="opt" data-i18n="optional">(facultatif)</span></label>
+        <input type="email" id="email" name="email" autocomplete="email" maxlength="120">
+      </div>
+
+      <div class="hp" aria-hidden="true">
+        <label for="site_web">Site web</label>
+        <input type="text" id="site_web" name="site_web" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="field" id="f-consent">
+        <label class="consent">
+          <input type="checkbox" id="consentement" name="consentement" required>
+          <span data-i18n="consent">J’accepte de recevoir des textos de Klaris, l’assistante de Maxime Belma, au sujet de mon projet immobilier. Je peux me désabonner en tout temps en répondant STOP.</span>
+        </label>
+      </div>
+
+      <button class="btn" type="submit" id="submit" data-i18n="submit">Envoyer</button>
+      <p class="error" id="error" role="alert"></p>
+      <p class="reassure" data-i18n="reassure">Aucun engagement. Vos renseignements restent confidentiels.</p>
+    </form>
+  </main>
+
+  <footer>
+    <div><strong>Maxime Belma</strong>, <span data-i18n="title2">courtier immobilier résidentiel et commercial</span></div>
+    <div>RE/MAX Alliance inc., <span data-i18n="agency">agence immobilière</span></div>
+    <div>4865, rue Jarry Est, Saint-Léonard (Québec) H1R 1Y1</div>
+    <div><span data-i18n="cell">Cellulaire</span> : <a href="tel:+15148303669">514 830-3669</a> · <span data-i18n="office">Bureau</span> : <a href="tel:+15143290000">514 329-0000</a></div>
+    <div data-i18n="franchise">Franchisé indépendant et autonome de RE/MAX Québec</div>
+    <details>
+      <summary data-i18n="privacyT">Confidentialité</summary>
+      <p data-i18n="privacy">Vos renseignements servent uniquement à répondre à votre demande et à vous mettre en contact avec Maxime Belma. Ils ne sont ni vendus ni partagés. Vous pouvez demander leur suppression en tout temps en écrivant à maximebelma@remax-quebec.com ou en répondant STOP par texto.</p>
+    </details>
+  </footer>
+</div>
+
+<script>
+const WEBHOOK = 'https://n8n.srv775529.hstgr.cloud/webhook/klaris-formulaire-maxime';
+
+const T = {
+  fr: {},
+  en: {
+    title:'Residential and commercial real estate broker', h2:'Let’s talk about your project',
+    lead:'It takes 30 seconds. Klaris, Maxime’s assistant, will text you right away.',
+    projet:'Your project', acheter:'Buy', vendre:'Sell', investir:'Invest',
+    prenom:'First name', tel:'Mobile phone', secteur:'Area', optional:'(optional)',
+    secteurPh:'E.g. Anjou, Saint-Léonard, Laval', budget:'Approximate budget', budgetSell:'Estimated value',
+    choose:'Choose…', b1:'Under $500K', b2:'$500K to $750K', b3:'$750K to $1M', b4:'Over $1M',
+    email:'Email',
+    consent:'I agree to receive text messages from Klaris, Maxime Belma’s assistant, about my real estate project. I can opt out at any time by replying STOP.',
+    submit:'Send', reassure:'No commitment. Your information stays confidential.',
+    title2:'residential and commercial real estate broker', agency:'real estate agency',
+    cell:'Mobile', office:'Office', franchise:'Independently owned and operated franchisee of RE/MAX Québec',
+    privacyT:'Privacy',
+    privacy:'Your information is used only to answer your request and put you in touch with Maxime Belma. It is never sold or shared. You can ask for it to be deleted at any time by writing to maximebelma@remax-quebec.com or by replying STOP by text.',
+    errProjet:'Choose your project.', errPrenom:'Enter your first name.', errTel:'Enter a valid mobile number (10 digits).',
+    errConsent:'Please check the box to receive Klaris’s text.', errNet:'Something went wrong. Try again, or call Maxime at 514 830-3669.',
+    doneT:'Thank you, {p}!', doneP:'Klaris will text you in a few moments at {t}.', call:'Prefer to call Maxime? 514 830-3669', sending:'Sending…'
+  }
+};
+const FR_EXTRA = {
+  budget:'Budget approximatif', budgetSell:'Valeur estimée',
+  errProjet:'Choisissez votre projet.', errPrenom:'Entrez votre prénom.', errTel:'Entrez un numéro de cellulaire valide (10 chiffres).',
+  errConsent:'Cochez la case pour recevoir le texto de Klaris.', errNet:'Un problème est survenu. Réessayez, ou appelez Maxime au 514 830-3669.',
+  doneT:'Merci, {p}!', doneP:'Klaris vous écrit par texto dans quelques instants au {t}.', call:'Vous préférez appeler Maxime? 514 830-3669', sending:'Envoi…'
+};
+
+// Capture the French copy from the page itself so FR stays the source of truth.
+document.querySelectorAll('[data-i18n]').forEach(el => { T.fr[el.dataset.i18n] = el.textContent; });
+document.querySelectorAll('[data-i18n-ph]').forEach(el => { T.fr[el.dataset.i18nPh] = el.placeholder; });
+Object.assign(T.fr, FR_EXTRA);
+
+const params = new URLSearchParams(location.search);
+let lang = params.get('lang') === 'en' ? 'en' : 'fr';
+const source = (params.get('src') || params.get('utm_source') || 'direct').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 30) || 'direct';
+const t = k => (T[lang][k] ?? T.fr[k] ?? '');
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  updateBudgetLabel();
+}
+function updateBudgetLabel(){
+  const v = document.querySelector('input[name=projet]:checked')?.value;
+  document.getElementById('budget-lbl').textContent = t(v === 'vendre' ? 'budgetSell' : 'budget');
+}
+document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => { lang = b.dataset.lang; applyLang(); }));
+document.querySelectorAll('input[name=projet]').forEach(r => r.addEventListener('change', () => { updateBudgetLabel(); document.getElementById('f-projet').classList.remove('invalid'); }));
+['prenom','telephone'].forEach(id => document.getElementById(id).addEventListener('input', () => document.getElementById('f-' + id).classList.remove('invalid')));
+document.getElementById('consentement').addEventListener('change', () => document.getElementById('f-consent').classList.remove('invalid'));
+applyLang();
+
+function phoneDigits(v){
+  let d = String(v).replace(/\D/g, '');
+  if (d.length === 10) d = '1' + d;
+  return (d.length === 11 && d[0] === '1' && /^[2-9]\d{2}[2-9]\d{6}$/.test(d.slice(1))) ? d : null;
+}
+function prettyPhone(d){ return d.slice(1,4) + ' ' + d.slice(4,7) + '-' + d.slice(7); }
+const esc = s => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+document.getElementById('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target, err = document.getElementById('error');
+  err.textContent = '';
+  const projet = f.querySelector('input[name=projet]:checked')?.value;
+  const prenom = f.prenom.value.trim();
+  const digits = phoneDigits(f.telephone.value);
+  const checks = [
+    [!projet, 'f-projet', 'errProjet'],
+    [!prenom, 'f-prenom', 'errPrenom'],
+    [!digits, 'f-telephone', 'errTel'],
+    [!f.consentement.checked, 'f-consent', 'errConsent']
+  ];
+  const firstBad = checks.find(([bad]) => bad);
+  checks.forEach(([bad, id]) => document.getElementById(id).classList.toggle('invalid', bad));
+  if (firstBad){ err.textContent = t(firstBad[2]); return; }
+
+  const btn = document.getElementById('submit');
+  btn.disabled = true; btn.textContent = t('sending');
+  const body = new URLSearchParams({
+    prenom, telephone: digits, projet,
+    secteur: f.secteur.value.trim(), budget: f.budget.value, email: f.email.value.trim(),
+    consentement: 'true', langue: lang, source, site_web: f.site_web.value
+  });
+  try {
+    const r = await fetch(WEBHOOK, { method: 'POST', body });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    document.getElementById('card').innerHTML =
+      `<div class="done"><div class="check"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>`
+      + `<h2>${esc(t('doneT').replace('{p}', prenom))}</h2>`
+      + `<p>${esc(t('doneP').replace('{t}', prettyPhone(digits)))}</p>`
+      + `<a class="call" href="tel:+15148303669">${esc(t('call'))}</a></div>`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (_) {
+    err.textContent = t('errNet');
+    btn.disabled = false; btn.textContent = t('submit');
+  }
+});
+</script>
+</body>
+</html>

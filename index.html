@@ -311,6 +311,74 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 .qa-ok{color:var(--success)}
 .qa-warn{color:var(--warning)}
 .qa-bad{color:var(--destructive)}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.conv-back{display:none}
+.logout-btn{width:100%;justify-content:flex-start;margin-top:8px;color:var(--muted-foreground)}
+.logout-btn:hover{color:var(--foreground)}
+.logout-mobile{display:none;flex-shrink:0}
+
+/* ═══════════ MOBILE ═══════════ */
+@media (max-width:768px){
+  .app{display:block;height:auto;min-height:100vh;overflow:visible}
+
+  /* Sidebar → barre d'onglets fixe en bas */
+  .sidebar{position:fixed;left:0;right:0;bottom:0;z-index:50;border-right:none;border-top:1px solid var(--sidebar-border);flex-direction:row;padding-bottom:env(safe-area-inset-bottom)}
+  .sb-header,.sb-sep,.sb-footer,#n-qa{display:none}
+  .sb-nav{display:flex;flex:1;padding:4px;overflow:visible}
+  .nav-item{flex:1;flex-direction:column;justify-content:center;gap:3px;padding:8px 2px;margin:0;font-size:10px;position:relative;min-width:0}
+  .nav-ico{width:20px;height:20px}
+  .nav-badge{position:absolute;top:2px;left:calc(50% + 6px);margin:0;min-width:16px;height:16px;padding:0 4px;font-size:10px}
+
+  .main{overflow:visible;padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+  .view{padding:16px}
+  .page-head{margin-bottom:16px}
+  .page-title{font-size:20px}
+
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+  .stat{padding:14px}
+  .stat-head{margin-bottom:8px}
+  .stat-icn{width:28px;height:28px}
+  .stat-val{font-size:22px}
+  .two-col{grid-template-columns:1fr;gap:12px;margin-bottom:12px}
+  .card-head{padding:14px 16px}
+  .card-body{padding:0 16px 16px}
+  .mini-row{padding:10px}
+  .chart{gap:6px}
+
+  /* Prospects : filtres empilés, colonnes secondaires masquées */
+  .search-wrap{max-width:none;flex:1 1 100%}
+  .select{flex:1 1 calc(50% - 5px);min-width:0}
+  .search-input,.select{font-size:16px}
+  .table{min-width:0}
+  #v-pros .table th:nth-child(2),#v-pros .table td:nth-child(2),
+  #v-pros .table th:nth-child(4),#v-pros .table td:nth-child(4),
+  #v-pros .table th:nth-child(n+8),#v-pros .table td:nth-child(n+8),
+  #v-pros .table th:nth-child(5),#v-pros .table td:nth-child(5){display:none}
+  .table th,.table td{padding:10px 8px}
+  .heat-label{display:none}
+  #v-rel .table{min-width:600px}
+
+  .detail-head{padding:16px}
+  .detail-body{grid-template-columns:1fr;padding:16px;gap:16px}
+  .info-grid{gap:8px}
+  .info-item{padding:10px}
+  .detail-actions{padding:0 16px 16px}
+  .detail-actions .btn{flex:1 1 calc(50% - 4px)}
+
+  /* Conversations : liste OU discussion */
+  #v-conv{padding:16px!important}
+  .conv-grid{grid-template-columns:1fr;height:calc(100vh - 190px)}
+  .conv-list{border-right:none}
+  .conv-grid.chat-open .conv-list{display:none}
+  .conv-grid:not(.chat-open) .conv-chat{display:none}
+  .conv-back{display:inline-flex;margin-right:4px}
+  .conv-chat-body{padding:14px}
+  .msg{max-width:85%}
+
+  #nm-login input{font-size:16px!important}
+  .logout-mobile{display:inline-flex}
+}
 </style>
 </head>
 <body>
@@ -336,14 +404,15 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
   <div class="sb-footer">
     <div class="sb-user">
       <div class="sb-user-info">
-        <div class="avatar" id="sb-avatar">JO</div>
-        <div class="sb-user-text"><div class="sb-user-name" id="sb-name">Joanel</div><div class="sb-user-role">Courtier</div></div>
+        <div class="avatar" id="sb-avatar"></div>
+        <div class="sb-user-text"><div class="sb-user-name" id="sb-name"></div><div class="sb-user-role">Courtier</div></div>
       </div>
       <button class="theme-btn" onclick="tog()" title="Changer thème">
         <svg class="sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
         <svg class="moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       </button>
     </div>
+    <button class="btn btn-ghost btn-sm logout-btn" onclick="logout()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Se déconnecter</button>
   </div>
 </aside>
 
@@ -352,9 +421,12 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 
 <!-- ── DASHBOARD ── -->
 <div id="v-dash" class="view on">
-  <div class="page-head">
-    <h1 class="page-title" id="page-greeting">Bonjour, Joanel</h1>
-    <p class="page-sub" id="dash-date"></p>
+  <div class="page-head" style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+    <div>
+      <h1 class="page-title" id="page-greeting">Bonjour</h1>
+      <p class="page-sub" id="dash-date"></p>
+    </div>
+    <button class="btn btn-outline btn-icon logout-mobile" onclick="logout()" title="Se déconnecter" aria-label="Se déconnecter"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
   </div>
 
   <div class="stats-grid">
@@ -364,7 +436,7 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
     <div class="stat"><div class="stat-head"><span class="stat-title">Relances à venir</span><div class="stat-icn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div></div><div class="stat-val" id="s4v">—</div><div class="stat-meta"><span class="stat-desc" id="s4x">Cette semaine</span></div></div>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+  <div class="two-col">
     <div class="card">
       <div class="card-head"><div><h3>Prospects Chauds</h3><p>Leads les plus prioritaires</p></div><button class="btn btn-ghost btn-sm" onclick="go('pros')">Voir tout →</button></div>
       <div class="card-body"><div id="hot-list"></div></div>
@@ -506,23 +578,16 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 </div>
 
 <script>
-/* ══════════ COURTIER OVERRIDE (URL ?courtier=Maxime%20Tremblay) ══════════ */
-(function(){
-  const qp = new URLSearchParams(location.search).get('courtier');
-  if (!qp) return;
-  const full = qp.trim();
-  if (!full) return;
-  const parts = full.split(/\s+/);
-  const prenom = parts[0];
-  const initials = parts.length >= 2
-    ? (parts[0][0] + parts[1][0]).toUpperCase()
-    : (parts[0][0] + (parts[0][1]||'')).toUpperCase();
-  const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
-  setText('sb-name', full);
-  setText('sb-avatar', initials);
-  setText('page-greeting', `Bonjour, ${prenom}`);
-  document.title = `NextMove — ${full}`;
-})();
+/* ══════════ COURTIER CONNECTÉ (lu depuis `courtiers`, filtré par RLS) ══════════ */
+function applyCourtier(c){
+  const full=[c.prenom,c.nom].filter(Boolean).join(' ');
+  if(!full)return;
+  const setText=(id,txt)=>{const el=document.getElementById(id);if(el)el.textContent=txt;};
+  setText('sb-name',full);
+  setText('sb-avatar',ini(c));
+  setText('page-greeting',`Bonjour, ${c.prenom||full}`);
+  document.title=`NextMove — ${full}`;
+}
 
 /* ══════════ SUPABASE ══════════ */
 const SB='https://fhqybnkxqfvbsjvwrcob.supabase.co';
@@ -606,6 +671,8 @@ async function load(){
   const now=new Date();
   document.getElementById('dash-date').textContent=now.toLocaleDateString('fr-CA',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
+  const me=await q('courtiers','select=prenom,nom&limit=1');
+  if(Array.isArray(me)&&me[0])applyCourtier(me[0]);
   P=await q('prospects','select=*&order=created_at.desc');if(!Array.isArray(P))P=[];
   const c=await q('conversations','select=id,prospect_id,role,contenu,created_at&order=created_at.asc');
   if(Array.isArray(c)){const m={};c.forEach(x=>{const p=P.find(pp=>pp.id===x.prospect_id);if(!p)return;const sid=p.telephone||x.prospect_id;if(!m[sid])m[sid]=[];m[sid].push(x)});S=Object.entries(m).map(([sid,msgs])=>({sid,msgs,p:P.find(p=>p.telephone===sid)||null}))}
@@ -708,7 +775,7 @@ function pSel(id){sel=sel===id?null:id;pV();if(sel){document.getElementById('p-d
 function renderDetail(p){
   const el=document.getElementById('p-detail');
   if(!p){el.innerHTML='';return}
-  el.innerHTML=`<div class="detail"><div class="detail-head"><div class="detail-head-left"><div class="avatar-lg">${ini(p)}</div><div class="detail-head-info"><h2>${nm(p)}</h2><div class="detail-head-meta">${typeBadge(p.type_projet)}${statusBadge(p.statut)}${heatCell(p.score_chaleur)}</div></div></div><button class="btn btn-ghost btn-icon" onclick="sel=null;pV()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div class="detail-body"><div><div class="resume-title">Informations</div><div class="info-grid">${[['Téléphone',p.telephone||'—'],['Email',p.email||'Non renseigné'],['Budget max',fmtB(p.budget_max),'budget'],['Secteur',p.secteur||'Non défini'],['Type de bien',p.type_bien||'Non défini'],['Langue',p.langue_preferee==='en'?'English':'Français'],['Créé le',fdD(p.created_at)],['Dernière maj',ago(p.updated_at||p.created_at)]].map(([l,v,c])=>`<div class="info-item"><div class="info-label">${l}</div><div class="info-value ${c||''}">${v}</div></div>`).join('')}</div></div><div>${p.resume_ia?`<div class="resume-title">Résumé IA</div><div class="resume-box">${esc(p.resume_ia)}</div>`:`<div class="resume-title">Résumé IA</div><div class="resume-box" style="color:var(--muted-foreground);font-style:italic">Aucun résumé disponible pour ce prospect.</div>`}</div></div><div class="detail-actions"><button class="btn btn-primary" onclick="conv='${p.telephone}';go('conv')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Voir la conversation</button><button class="btn btn-outline"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>Appeler</button><button class="btn btn-outline"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>Email</button><button class="btn btn-outline"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Planifier RDV</button></div></div>`;
+  el.innerHTML=`<div class="detail"><div class="detail-head"><div class="detail-head-left"><div class="avatar-lg">${ini(p)}</div><div class="detail-head-info"><h2>${nm(p)}</h2><div class="detail-head-meta">${typeBadge(p.type_projet)}${statusBadge(p.statut)}${heatCell(p.score_chaleur)}</div></div></div><button class="btn btn-ghost btn-icon" onclick="sel=null;pV()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div class="detail-body"><div><div class="resume-title">Informations</div><div class="info-grid">${[['Téléphone',p.telephone||'—'],['Email',p.email||'Non renseigné'],['Budget max',fmtB(p.budget_max),'budget'],['Secteur',p.secteur||'Non défini'],['Type de bien',p.type_bien||'Non défini'],['Langue',p.langue_preferee==='en'?'English':'Français'],['Créé le',fdD(p.created_at)],['Dernière maj',ago(p.updated_at||p.created_at)]].map(([l,v,c])=>`<div class="info-item"><div class="info-label">${l}</div><div class="info-value ${c||''}">${v}</div></div>`).join('')}</div></div><div>${p.resume_ia?`<div class="resume-title">Résumé IA</div><div class="resume-box">${esc(p.resume_ia)}</div>`:`<div class="resume-title">Résumé IA</div><div class="resume-box" style="color:var(--muted-foreground);font-style:italic">Aucun résumé disponible pour ce prospect.</div>`}</div></div><div class="detail-actions"><button class="btn btn-primary" onclick="conv='${p.telephone}';go('conv')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Voir la conversation</button><a class="btn btn-outline" href="tel:${esc(p.telephone||'')}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>Appeler</a><a class="btn btn-outline" href="${p.email?'mailto:'+esc(p.email):'#'}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>Email</a><button class="btn btn-outline"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Planifier RDV</button></div></div>`;
 }
 
 /* ══════════ CONVERSATIONS ══════════ */
@@ -720,9 +787,10 @@ function renderConvList(){
 }
 function renderConvChat(){
   const s=S.find(x=>x.sid===conv);
+  document.querySelector('.conv-grid').classList.toggle('chat-open',!!s);
   if(!s){document.getElementById('conv-head').innerHTML='<span class="page-sub">Sélectionnez une conversation.</span>';document.getElementById('conv-msgs').innerHTML='';return}
   const p=s.p;
-  document.getElementById('conv-head').innerHTML=`<div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3>${p?nm(p):s.sid}</h3>${p?heatCell(p.score_chaleur):''}</div><div class="meta"><span class="mono">${s.sid}</span>${p?'<span>· '+statusBadge(p.statut)+'</span>':''}</div>${p?.resume_ia?`<div class="resume">${esc(p.resume_ia.substring(0,200))}${p.resume_ia.length>200?'...':''}</div>`:''}</div>`;
+  document.getElementById('conv-head').innerHTML=`<div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><button class="btn btn-ghost btn-icon conv-back" onclick="conv=null;renderConvList()" title="Retour"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button><h3>${p?nm(p):s.sid}</h3>${p?heatCell(p.score_chaleur):''}</div><div class="meta"><span class="mono">${s.sid}</span>${p?'<span>· '+statusBadge(p.statut)+'</span>':''}</div>${p?.resume_ia?`<div class="resume">${esc(p.resume_ia.substring(0,200))}${p.resume_ia.length>200?'...':''}</div>`:''}</div>`;
   const el=document.getElementById('conv-msgs');
   el.innerHTML=s.msgs.map(m=>`<div class="msg ${m.role==='prospect'?'msg-in':'msg-out'}">${esc(m.contenu||'')}</div>`).join('');
   el.scrollTop=el.scrollHeight;
@@ -796,9 +864,24 @@ function hideLogin(){const ov=document.getElementById('nm-login');if(ov)ov.style
 
 function setSession(d){
   _token=d.access_token;_refresh=d.refresh_token;
-  try{sessionStorage.setItem('nm-sess',JSON.stringify({access_token:_token,refresh_token:_refresh}));}catch(_){}
+  try{localStorage.setItem('nm-sess',JSON.stringify({access_token:_token,refresh_token:_refresh}));}catch(_){}
 }
-function clearSession(){_token=null;_refresh=null;try{sessionStorage.removeItem('nm-sess');}catch(_){}}
+function clearSession(){_token=null;_refresh=null;try{localStorage.removeItem('nm-sess');}catch(_){}}
+
+async function logout(){
+  if(_loopId){clearInterval(_loopId);_loopId=null;}
+  if(_token){try{await fetch(`${SB}/auth/v1/logout`,{method:'POST',headers:{'apikey':K,'Authorization':`Bearer ${_token}`}});}catch(_){}}
+  clearSession();
+  P=[];S=[];R=[];QA=[];sel=null;conv=null;
+  renderKPIs();renderHotList();renderRelList();renderChart();pV();renderRelTable();renderConvList();updateBadges();
+  ['sb-name','sb-avatar'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
+  document.getElementById('page-greeting').textContent='Bonjour';
+  document.title='NextMove — Dashboard';
+  go('dash');
+  const pw=document.getElementById('nm-pass');if(pw)pw.value='';
+  const er=document.getElementById('nm-login-err');if(er)er.textContent='';
+  showLogin();
+}
 
 async function doLogin(e){
   e.preventDefault();
@@ -826,7 +909,7 @@ async function refreshSession(){
 function startApp(){load();if(_loopId)clearInterval(_loopId);_loopId=setInterval(load,30000);}
 
 async function initAuth(){
-  try{const s=JSON.parse(sessionStorage.getItem('nm-sess')||'null');if(s&&s.access_token){_token=s.access_token;_refresh=s.refresh_token;}}catch(_){}
+  try{const s=JSON.parse(localStorage.getItem('nm-sess')||'null');if(s&&s.access_token){_token=s.access_token;_refresh=s.refresh_token;}}catch(_){}
   if(_token){
     try{
       const r=await fetch(`${SB}/auth/v1/user`,{headers:{'apikey':K,'Authorization':`Bearer ${_token}`}});
