@@ -412,6 +412,7 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
         <svg class="moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       </button>
     </div>
+    <button class="btn btn-ghost btn-sm logout-btn" onclick="showSetPassword(true)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>Changer mon mot de passe</button>
     <button class="btn btn-ghost btn-sm logout-btn" onclick="logout()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Se déconnecter</button>
   </div>
 </aside>
@@ -426,6 +427,7 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
       <h1 class="page-title" id="page-greeting">Bonjour</h1>
       <p class="page-sub" id="dash-date"></p>
     </div>
+    <button class="btn btn-outline btn-icon logout-mobile" onclick="showSetPassword(true)" title="Changer mon mot de passe" aria-label="Changer mon mot de passe"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></button>
     <button class="btn btn-outline btn-icon logout-mobile" onclick="logout()" title="Se déconnecter" aria-label="Se déconnecter"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
   </div>
 
@@ -853,14 +855,87 @@ function showLogin(msg){
       +'<input id="nm-email" type="email" placeholder="Courriel" autocomplete="username" required style="width:100%;padding:10px 12px;margin-bottom:10px;border:1px solid var(--border,#ccc);border-radius:8px;font-size:14px;box-sizing:border-box;background:transparent;color:inherit">'
       +'<input id="nm-pass" type="password" placeholder="Mot de passe" autocomplete="current-password" required style="width:100%;padding:10px 12px;margin-bottom:14px;border:1px solid var(--border,#ccc);border-radius:8px;font-size:14px;box-sizing:border-box;background:transparent;color:inherit">'
       +'<button type="submit" style="width:100%;padding:11px;border:0;border-radius:8px;background:var(--primary,#c2603f);color:#fff;font-weight:600;font-size:14px;cursor:pointer">Se connecter</button>'
+      +'<button type="button" id="nm-forgot" style="background:none;border:0;padding:0;margin-top:12px;color:inherit;opacity:.7;font-size:12px;text-decoration:underline;cursor:pointer;font-family:inherit">Mot de passe oublié ?</button>'
       +'<div id="nm-login-err" style="color:#d9534f;font-size:12px;margin-top:10px;min-height:14px"></div></form>';
     document.body.appendChild(ov);
     document.getElementById('nm-login-form').addEventListener('submit',doLogin);
+    document.getElementById('nm-forgot').addEventListener('click',doForgot);
   }
   ov.style.display='flex';
-  if(msg)document.getElementById('nm-login-err').textContent=msg;
+  const er=document.getElementById('nm-login-err');er.style.color='#d9534f';
+  if(msg)er.textContent=msg;
 }
 function hideLogin(){const ov=document.getElementById('nm-login');if(ov)ov.style.display='none';}
+
+/* Lien « choisir / réinitialiser le mot de passe » envoyé par Supabase :
+   il revient ici avec #access_token=…&type=recovery (ou invite), ou #error=… s'il a expiré. */
+function readAuthRedirect(){
+  const h=new URLSearchParams(location.hash.slice(1)), q=new URLSearchParams(location.search);
+  const p=(h.has('access_token')||h.has('error'))?h:(q.has('error')?q:null);
+  if(!p)return null;
+  history.replaceState(null,'',location.pathname);
+  return p;
+}
+function showSetPassword(canCancel){
+  let ov=document.getElementById('nm-setpw');
+  if(!ov){
+    ov=document.createElement('div');
+    ov.id='nm-setpw';
+    ov.style.cssText='position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:rgba(8,10,18,.88);backdrop-filter:blur(6px)';
+    const inp='width:100%;padding:10px 12px;margin-bottom:10px;border:1px solid var(--border,#ccc);border-radius:8px;font-size:16px;box-sizing:border-box;background:transparent;color:inherit';
+    ov.innerHTML='<form id="nm-setpw-form" style="background:var(--card,#fff);color:var(--card-foreground,#111);padding:32px;border-radius:16px;width:340px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.45);font-family:inherit">'
+      +'<div style="font-size:18px;font-weight:700;margin-bottom:4px">Choisissez votre mot de passe</div>'
+      +'<div style="font-size:13px;opacity:.7;margin-bottom:20px">8 caractères minimum. Vous l’utiliserez pour vous connecter au tableau de bord.</div>'
+      +'<input id="nm-pw1" type="password" placeholder="Nouveau mot de passe" autocomplete="new-password" minlength="8" required style="'+inp+'">'
+      +'<input id="nm-pw2" type="password" placeholder="Confirmez le mot de passe" autocomplete="new-password" minlength="8" required style="'+inp+';margin-bottom:14px">'
+      +'<button type="submit" style="width:100%;padding:11px;border:0;border-radius:8px;background:var(--primary,#c2603f);color:#fff;font-weight:600;font-size:14px;cursor:pointer">Enregistrer et continuer</button>'
+      +'<button type="button" id="nm-setpw-cancel" style="display:none;background:none;border:0;padding:0;margin-top:12px;color:inherit;opacity:.7;font-size:12px;text-decoration:underline;cursor:pointer;font-family:inherit">Annuler</button>'
+      +'<div id="nm-setpw-err" style="color:#d9534f;font-size:12px;margin-top:10px;min-height:14px"></div></form>';
+    document.body.appendChild(ov);
+    document.getElementById('nm-setpw-form').addEventListener('submit',doSetPassword);
+    document.getElementById('nm-setpw-cancel').addEventListener('click',()=>{ov.style.display='none';});
+  }
+  ['nm-pw1','nm-pw2'].forEach(id=>{document.getElementById(id).value='';});
+  document.getElementById('nm-setpw-err').textContent='';
+  document.getElementById('nm-setpw-cancel').style.display=canCancel?'inline':'none';
+  ov.style.display='flex';
+}
+async function doSetPassword(e){
+  e.preventDefault();
+  const p1=document.getElementById('nm-pw1').value, p2=document.getElementById('nm-pw2').value;
+  const errEl=document.getElementById('nm-setpw-err');
+  if(p1.length<8){errEl.textContent='8 caractères minimum.';return;}
+  if(p1!==p2){errEl.textContent='Les deux mots de passe ne correspondent pas.';return;}
+  errEl.textContent='…';
+  try{
+    const r=await fetch(`${SB}/auth/v1/user`,{method:'PUT',headers:{'apikey':K,'Authorization':`Bearer ${_token}`,'Content-Type':'application/json'},body:JSON.stringify({password:p1})});
+    const d=await r.json().catch(()=>({}));
+    if(r.status===401||r.status===403){
+      clearSession();document.getElementById('nm-setpw').style.display='none';
+      showLogin('Ce lien a expiré. Cliquez « Mot de passe oublié ? » pour en recevoir un nouveau.');return;
+    }
+    if(!r.ok){
+      errEl.textContent=d.error_code==='same_password'?'Choisissez un mot de passe différent de l’ancien.'
+        :d.error_code==='weak_password'?'Mot de passe trop faible, choisissez-en un plus long.'
+        :(d.msg||d.error_description||'Erreur, réessayez.');
+      return;
+    }
+    document.getElementById('nm-setpw').style.display='none';
+    hideLogin();startApp();
+  }catch(_){errEl.textContent='Erreur réseau.';}
+}
+async function doForgot(){
+  const email=document.getElementById('nm-email').value.trim();
+  const errEl=document.getElementById('nm-login-err');errEl.style.color='#d9534f';
+  if(!email){errEl.textContent='Entrez votre courriel, puis cliquez à nouveau sur « Mot de passe oublié ? ».';return;}
+  errEl.textContent='…';
+  try{
+    const r=await fetch(`${SB}/auth/v1/recover?redirect_to=${encodeURIComponent(location.origin+location.pathname)}`,{method:'POST',headers:{'apikey':K,'Content-Type':'application/json'},body:JSON.stringify({email})});
+    if(r.status===429){errEl.textContent='Trop de demandes. Réessayez dans quelques minutes.';return;}
+  }catch(_){errEl.textContent='Erreur réseau.';return;}
+  errEl.style.color='inherit';
+  errEl.textContent='Si un compte existe pour ce courriel, un lien vient d’être envoyé. Vérifiez aussi les courriels indésirables.';
+}
 
 function setSession(d){
   _token=d.access_token;_refresh=d.refresh_token;
@@ -909,6 +984,18 @@ async function refreshSession(){
 function startApp(){load();if(_loopId)clearInterval(_loopId);_loopId=setInterval(load,30000);}
 
 async function initAuth(){
+  const ar=readAuthRedirect();
+  if(ar){
+    if(ar.get('error')){
+      showLogin(ar.get('error_code')==='otp_expired'
+        ?'Ce lien a expiré ou a déjà été utilisé. Cliquez « Mot de passe oublié ? » pour en recevoir un nouveau.'
+        :(ar.get('error_description')||'Lien invalide.').replace(/\+/g,' '));
+      return;
+    }
+    setSession({access_token:ar.get('access_token'),refresh_token:ar.get('refresh_token')});
+    const t=ar.get('type');
+    if(t==='recovery'||t==='invite'){showSetPassword();return;}
+  }
   try{const s=JSON.parse(localStorage.getItem('nm-sess')||'null');if(s&&s.access_token){_token=s.access_token;_refresh=s.refresh_token;}}catch(_){}
   if(_token){
     try{
