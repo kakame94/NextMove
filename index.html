@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NextMove — Dashboard</title>
+<title>Klaris — Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -389,8 +389,8 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 <aside class="sidebar">
   <div class="sb-header">
     <a href="#" class="sb-brand" onclick="go('dash')">
-      <div class="sb-logo"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M9 17h1M14 17h1"/></svg></div>
-      <div class="sb-brand-text"><h1>NextMove</h1><p>CRM Immobilier</p></div>
+      <div class="sb-logo"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1.1-4.6A8 8 0 1121 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01" stroke-width="2.6" stroke-linecap="round"/></svg></div>
+      <div class="sb-brand-text"><h1>Klaris</h1><p>Assistante immobilière</p></div>
     </a>
   </div>
   <div class="sb-sep"></div>
@@ -588,7 +588,7 @@ function applyCourtier(c){
   setText('sb-name',full);
   setText('sb-avatar',ini(c));
   setText('page-greeting',`Bonjour, ${c.prenom||full}`);
-  document.title=`NextMove — ${full}`;
+  document.title=`Klaris — ${full}`;
 }
 
 /* ══════════ SUPABASE ══════════ */
@@ -951,7 +951,7 @@ async function logout(){
   renderKPIs();renderHotList();renderRelList();renderChart();pV();renderRelTable();renderConvList();updateBadges();
   ['sb-name','sb-avatar'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
   document.getElementById('page-greeting').textContent='Bonjour';
-  document.title='NextMove — Dashboard';
+  document.title='Klaris — Dashboard';
   go('dash');
   const pw=document.getElementById('nm-pass');if(pw)pw.value='';
   const er=document.getElementById('nm-login-err');if(er)er.textContent='';
