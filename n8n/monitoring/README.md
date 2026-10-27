@@ -19,3 +19,6 @@ Table `public.monitoring_events` (migration `monitoring_events`) : RLS activé, 
 - **Erreurs silencieuses :** dans l'intake, « Send Lead to owner » est en `continueRegularOutput`. Une erreur Twilio à cet endroit ne passe pas par le gestionnaire d'erreurs. Elle reste visible dans la surveillance seulement si Twilio a accepté puis échoué la livraison.
 - **Notification marquée même en cas d'échec :** dans next_move_notify_courtier, « Marquer Notifié » s'exécute même si le courriel a échoué (`continueOnFail`).
 - **Visibilité de la QA :** depuis le 2026-10-27, l'onglet QA est masqué dans le dashboard et `eval_results` n'est plus lisible par les courtiers (policy `eval_results_select_auth` supprimée). Les notes sont consultables dans le rapport du matin et dans Supabase.
+
+## Accès admin au dashboard
+Un compte listé dans `public.admins` voit dans nextmove-dashboard.vercel.app tous les courtiers en lecture seule. Il a un filtre par courtier, l'onglet QA et l'onglet Santé (`monitoring_events`, prospects sans réponse). Les droits viennent de `public.is_admin()` et des policies `*_select_admin` (voir `011_admin_access.sql`). Les courtiers ne voient aucun changement.

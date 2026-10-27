@@ -322,6 +322,8 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 .locked-mini{display:flex;gap:12px;align-items:center;padding:8px 0;color:var(--muted-foreground);line-height:1.5}
 .locked-mini .locked-ico{width:40px;height:40px;margin:0;flex-shrink:0}
 .locked-mini .locked-ico svg{width:18px;height:18px}
+.admin-tag{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;vertical-align:middle;background:var(--primary);color:var(--primary-foreground,#fff)}
+.admin-filter{margin-top:8px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--foreground);font:inherit;font-size:13px}
 .qa-ok{color:var(--success)}
 .qa-warn{color:var(--warning)}
 .qa-bad{color:var(--destructive)}
@@ -338,7 +340,7 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 
   /* Sidebar → barre d'onglets fixe en bas */
   .sidebar{position:fixed;left:0;right:0;bottom:0;z-index:50;border-right:none;border-top:1px solid var(--sidebar-border);flex-direction:row;padding-bottom:env(safe-area-inset-bottom)}
-  .sb-header,.sb-sep,.sb-footer,#n-qa{display:none}
+  .sb-header,.sb-sep,.sb-footer,#n-qa,#n-sante{display:none!important}
   .sb-nav{display:flex;flex:1;padding:4px;overflow:visible}
   .nav-item{flex:1;flex-direction:column;justify-content:center;gap:3px;padding:8px 2px;margin:0;font-size:10px;position:relative;min-width:0}
   .nav-ico{width:20px;height:20px}
@@ -414,12 +416,13 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
     <a href="#" class="nav-item" id="n-conv" onclick="go('conv')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Conversations<span class="nav-badge" id="n-conv-badge" style="display:none">0</span></a>
     <a href="#" class="nav-item" id="n-rel" onclick="go('rel')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>Relances<span class="nav-lock" title="Module à débloquer"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></span></a>
     <a href="#" class="nav-item" id="n-qa" style="display:none" onclick="go('qa')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 16h.01M16 16h.01"/></svg>QA Agent<span class="nav-badge" id="n-qa-badge" style="display:none">—</span></a>
+    <a href="#" class="nav-item" id="n-sante" style="display:none" onclick="go('sante')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Santé<span class="nav-badge" id="n-sante-badge" style="display:none">—</span></a>
   </div>
   <div class="sb-footer">
     <div class="sb-user">
       <div class="sb-user-info">
         <div class="avatar" id="sb-avatar"></div>
-        <div class="sb-user-text"><div class="sb-user-name" id="sb-name"></div><div class="sb-user-role">Courtier</div></div>
+        <div class="sb-user-text"><div class="sb-user-name" id="sb-name"></div><div class="sb-user-role" id="sb-role">Courtier</div></div>
       </div>
       <button class="theme-btn" onclick="tog()" title="Changer thème">
         <svg class="sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -593,6 +596,27 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
   </div>
 </div>
 
+<!-- ── SANTÉ (admin OptiAI) ── -->
+<div id="v-sante" class="view">
+  <div class="page-head">
+    <h1 class="page-title">Santé de Klaris</h1>
+    <p class="page-sub">Erreurs, anomalies et prospects en attente · <a href="https://n8n.srv775529.hstgr.cloud/workflow/nmmmJu6HRwq0nqyI/executions" target="_blank" rel="noopener">Exécutions n8n</a> · <a href="https://supabase.com/dashboard/project/fhqybnkxqfvbsjvwrcob/editor" target="_blank" rel="noopener">Supabase</a></p>
+  </div>
+  <div class="stats-grid" id="sante-kpis"></div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-head"><div><h3>Prospects sans réponse</h3><p>Dernier message du prospect resté sans réponse depuis plus de 5 min (48 h)</p></div></div>
+    <div class="table-scroll">
+      <table class="table" style="min-width:0"><thead><tr><th>Prospect</th><th>Dernier message</th><th>Depuis</th></tr></thead><tbody id="sante-orph"></tbody></table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div><h3>Journal</h3><p>50 derniers événements de la surveillance</p></div></div>
+    <div class="table-scroll">
+      <table class="table" style="min-width:0"><thead><tr><th>Date</th><th>Type</th><th>Source</th><th>Détail</th></tr></thead><tbody id="sante-ev"></tbody></table>
+    </div>
+  </div>
+</div>
+
 </main>
 </div>
 
@@ -629,6 +653,8 @@ async function q(t,p=''){
 
 /* ══════════ STATE ══════════ */
 let P=[],S=[],R=[],QA=[],sel=null,conv=null;
+/* Admin OptiAI : lecture de tous les courtiers (RLS via public.is_admin(), 011_admin_access.sql) */
+let ADMIN=false,CT=[],EV=[],ALL={P:[],S:[],R:[]},fCourt='';
 let sortField='updated_at',sortDir='desc';
 
 /* ══════════ UTILS ══════════ */
@@ -690,16 +716,86 @@ async function load(){
   const now=new Date();
   document.getElementById('dash-date').textContent=now.toLocaleDateString('fr-CA',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
-  const me=await q('courtiers','select=prenom,nom&limit=1');
-  if(Array.isArray(me)&&me[0])applyCourtier(me[0]);
+  const adm=await q('admins','select=user_id');
+  ADMIN=Array.isArray(adm)&&adm.length>0;
+  const me=await q('courtiers',ADMIN?'select=id,prenom,nom&order=prenom.asc':'select=prenom,nom&limit=1');
+  if(ADMIN){CT=Array.isArray(me)?me:[];applyAdmin();}
+  else{applyCourtierMode();if(Array.isArray(me)&&me[0])applyCourtier(me[0]);}
   P=await q('prospects','select=*&order=created_at.desc');if(!Array.isArray(P))P=[];
   const c=await q('conversations','select=id,prospect_id,role,contenu,created_at&order=created_at.asc');
+  S=[];
   if(Array.isArray(c)){const m={};c.forEach(x=>{const p=P.find(pp=>pp.id===x.prospect_id);if(!p)return;const sid=p.telephone||x.prospect_id;if(!m[sid])m[sid]=[];m[sid].push(x)});S=Object.entries(m).map(([sid,msgs])=>({sid,msgs,p:P.find(p=>p.telephone===sid)||null}))}
   R=await q('relances','select=*,prospects(prenom,nom,telephone)&order=date_prevue.asc');if(!Array.isArray(R))R=[];
-  // QA interne OptiAI : plus chargée côté courtier (notes visibles dans le rapport du matin)
-  QA=[];
+  // QA et journal : internes OptiAI, chargés seulement pour un admin
+  if(ADMIN){
+    QA=await q('eval_results','select=*&order=created_at.desc&limit=100');if(!Array.isArray(QA))QA=[];
+    EV=await q('monitoring_events','select=*&order=created_at.desc&limit=50');if(!Array.isArray(EV))EV=[];
+  }else{QA=[];EV=[];}
+  ALL={P,S,R};
+  applyFilter();
+}
 
+/* Filtre courtier (admin) puis rendu de toutes les vues */
+function applyFilter(){
+  if(ADMIN&&fCourt){
+    P=ALL.P.filter(p=>p.courtier_id===fCourt);
+    const ids=new Set(P.map(p=>p.id));
+    S=ALL.S.filter(s=>s.msgs.some(m=>ids.has(m.prospect_id)));
+    R=ALL.R.filter(r=>ids.has(r.prospect_id));
+  }else{P=ALL.P;S=ALL.S;R=ALL.R;}
   renderKPIs();renderHotList();renderRelList();renderChart();pV();renderRelTable();renderConvList();updateBadges();
+  if(ADMIN)renderSante();
+}
+
+const ctName=id=>{const c=CT.find(x=>x.id===id);return c?[c.prenom,c.nom].filter(Boolean).join(' '):'—'};
+
+function applyAdmin(){
+  const setText=(id,txt)=>{const el=document.getElementById(id);if(el)el.textContent=txt;};
+  setText('sb-name','OptiAI · Admin');
+  setText('sb-avatar','OA');
+  setText('sb-role','Accès complet · lecture seule');
+  document.getElementById('page-greeting').innerHTML='Bonjour, Dennis<span class="admin-tag">Admin</span>';
+  document.title='Klaris — Admin';
+  document.getElementById('n-qa').style.display='';
+  document.getElementById('n-sante').style.display='';
+  let f=document.getElementById('admin-filter');
+  if(!f){
+    f=document.createElement('select');f.id='admin-filter';f.className='admin-filter';
+    f.onchange=()=>{fCourt=f.value;sel=null;applyFilter();};
+    document.getElementById('dash-date').after(f);
+  }
+  const opts='<option value="">Tous les courtiers</option>'+CT.map(c=>`<option value="${esc(c.id)}">${esc(ctName(c.id))}</option>`).join('');
+  if(f.dataset.opts!==opts){f.innerHTML=opts;f.dataset.opts=opts;f.value=fCourt;}
+}
+
+function applyCourtierMode(){
+  ['n-qa','n-sante'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  const r=document.getElementById('sb-role');if(r)r.textContent='Courtier';
+  document.getElementById('admin-filter')?.remove();
+  fCourt='';
+}
+
+function renderSante(){
+  const now=Date.now(),H24=864e5;
+  const err=EV.filter(e=>e.kind==='erreur_workflow'&&now-new Date(e.created_at)<H24).length;
+  const ano=EV.filter(e=>e.kind==='anomalie'&&now-new Date(e.created_at)<H24).length;
+  const orph=S.map(s=>{const last=s.msgs[s.msgs.length-1];const p=P.find(x=>x.id===last?.prospect_id);return{last,p}})
+    .filter(o=>o.last&&o.last.role==='prospect'&&o.p&&!o.p.opted_out_at&&now-new Date(o.last.created_at)>3e5&&now-new Date(o.last.created_at)<2*H24);
+  const lastK=S.flatMap(s=>s.msgs).filter(m=>m.role==='assistant').reduce((a,m)=>!a||new Date(m.created_at)>new Date(a)?m.created_at:a,null);
+  const card=(t,v,x,bad)=>`<div class="stat"><div class="stat-head"><span class="stat-title">${t}</span></div><div class="stat-val" style="${bad?'color:var(--destructive)':''}">${v}</div><div class="stat-desc">${x}</div></div>`;
+  document.getElementById('sante-kpis').innerHTML=
+    card('Erreurs 24 h',err,'workflows n8n',err>0)+
+    card('Anomalies 24 h',ano,'signalées par la surveillance',ano>0)+
+    card('Sans réponse',orph.length,'prospects en attente de Klaris',orph.length>0)+
+    card('Dernière réponse de Klaris',lastK?ago(lastK):'—',lastK?fdt(lastK):'aucune',false);
+  document.getElementById('sante-orph').innerHTML=orph.length
+    ?orph.map(o=>`<tr><td class="td-name">${esc(nm(o.p))}</td><td class="td-muted">${esc((o.last.contenu||'').slice(0,120))}</td><td class="td-muted">${ago(o.last.created_at)}</td></tr>`).join('')
+    :'<tr><td colspan="3" class="empty">Aucun prospect en attente.</td></tr>';
+  document.getElementById('sante-ev').innerHTML=EV.length
+    ?EV.map(e=>`<tr><td class="td-muted" style="white-space:nowrap">${fdt(e.created_at)}</td><td>${e.kind==='erreur_workflow'?'<span class="badge badge-lost">Erreur</span>':'<span class="badge badge-contacted">Anomalie</span>'}</td><td class="td-muted">${esc(e.source||'')}</td><td style="font-size:12px">${esc(e.detail||'')}</td></tr>`).join('')
+    :'<tr><td colspan="4" class="empty">Aucun événement.</td></tr>';
+  const b=document.getElementById('n-sante-badge');const n=err+ano+orph.length;
+  if(n){b.textContent=n;b.style.display='flex';b.style.background='var(--destructive)';b.style.color='white'}else b.style.display='none';
 }
 
 function updateBadges(){
@@ -786,7 +882,7 @@ function pV(){
   document.getElementById('p-count').textContent=d.length+' prospect'+(d.length!==1?'s':'')+(d.length!==P.length?' / '+P.length+' total':'');
   const tb=document.getElementById('p-tbody');
   if(!d.length){tb.innerHTML='<tr><td colspan="11" class="empty">Aucun prospect trouvé.</td></tr>';renderDetail(null);return}
-  tb.innerHTML=d.map(p=>`<tr class="${sel===p.id?'sel':''}" onclick="pSel('${p.id}')"><td class="td-name">${nm(p)}</td><td>${typeBadge(p.type_projet)}</td><td class="td-budget">${fmtB(p.budget_max)}</td><td class="td-muted">${p.secteur||'—'}</td><td class="td-muted">${p.type_bien||'—'}</td><td>${heatCell(p.score_chaleur)}</td><td>${statusBadge(p.statut)}</td><td>${langPill(p.langue_preferee)}</td><td class="td-muted mono" style="font-size:12px">${p.telephone||'—'}</td><td class="td-muted" style="font-size:12px">${ago(p.updated_at||p.created_at)}</td><td><button class="btn btn-ghost btn-icon" onclick="event.stopPropagation()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>`).join('');
+  tb.innerHTML=d.map(p=>`<tr class="${sel===p.id?'sel':''}" onclick="pSel('${p.id}')"><td class="td-name">${nm(p)}${ADMIN&&!fCourt&&CT.length>1?`<div class="td-muted" style="font-size:11px;font-weight:400">${esc(ctName(p.courtier_id))}</div>`:''}</td><td>${typeBadge(p.type_projet)}</td><td class="td-budget">${fmtB(p.budget_max)}</td><td class="td-muted">${p.secteur||'—'}</td><td class="td-muted">${p.type_bien||'—'}</td><td>${heatCell(p.score_chaleur)}</td><td>${statusBadge(p.statut)}</td><td>${langPill(p.langue_preferee)}</td><td class="td-muted mono" style="font-size:12px">${p.telephone||'—'}</td><td class="td-muted" style="font-size:12px">${ago(p.updated_at||p.created_at)}</td><td><button class="btn btn-ghost btn-icon" onclick="event.stopPropagation()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>`).join('');
   const p=P.find(x=>x.id===sel);renderDetail(p||null);
 }
 function pSel(id){sel=sel===id?null:id;pV();if(sel){document.getElementById('p-detail').scrollIntoView({behavior:'smooth',block:'nearest'})}}
@@ -852,6 +948,7 @@ function go(v){
   if(v==='conv')renderConvList();
   if(v==='rel')renderRelTable();
   if(v==='qa')renderQA();
+  if(v==='sante')renderSante();
 }
 
 /* ══════════ THEME ══════════ */
@@ -964,6 +1061,7 @@ async function logout(){
   if(_token){try{await fetch(`${SB}/auth/v1/logout`,{method:'POST',headers:{'apikey':K,'Authorization':`Bearer ${_token}`}});}catch(_){}}
   clearSession();
   P=[];S=[];R=[];QA=[];sel=null;conv=null;
+  ADMIN=false;CT=[];EV=[];ALL={P:[],S:[],R:[]};applyCourtierMode();
   renderKPIs();renderHotList();renderRelList();renderChart();pV();renderRelTable();renderConvList();updateBadges();
   ['sb-name','sb-avatar'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
   document.getElementById('page-greeting').textContent='Bonjour';
