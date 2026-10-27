@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NextMove — Dashboard</title>
+<title>Klaris — Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -308,9 +308,93 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 .legend-dot{width:8px;height:8px;border-radius:2px;margin-right:6px;display:inline-block}
 
 /* ═══════════ QA KPI ═══════════ */
+.nav-lock{margin-left:auto;display:flex;color:var(--muted-foreground)}
+.nav-lock svg{width:14px;height:14px}
+.locked{max-width:560px;margin:24px auto;padding:40px 32px;text-align:center}
+.locked-ico{width:56px;height:56px;border-radius:14px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:var(--muted);color:var(--muted-foreground)}
+.locked-ico svg{width:26px;height:26px}
+.locked h2{font-size:20px;font-weight:600;margin:0 0 8px}
+.locked>p{color:var(--muted-foreground);line-height:1.6;margin:0 0 20px}
+.locked ul{text-align:left;margin:0 auto 24px;padding:0;list-style:none;display:grid;gap:10px;max-width:420px}
+.locked li{display:flex;gap:10px;align-items:flex-start;line-height:1.5}
+.locked li:before{content:"";flex-shrink:0;width:6px;height:6px;border-radius:50%;background:var(--primary);margin-top:8px}
+.locked-tag{display:inline-block;font-size:12px;font-weight:500;padding:4px 10px;border-radius:999px;background:var(--muted);color:var(--muted-foreground)}
+.locked-mini{display:flex;gap:12px;align-items:center;padding:8px 0;color:var(--muted-foreground);line-height:1.5}
+.locked-mini .locked-ico{width:40px;height:40px;margin:0;flex-shrink:0}
+.locked-mini .locked-ico svg{width:18px;height:18px}
+.admin-tag{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;vertical-align:middle;background:var(--primary);color:var(--primary-foreground,#fff)}
+.admin-filter{margin-top:8px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--foreground);font:inherit;font-size:13px}
 .qa-ok{color:var(--success)}
 .qa-warn{color:var(--warning)}
 .qa-bad{color:var(--destructive)}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.conv-back{display:none}
+.logout-btn{width:100%;justify-content:flex-start;margin-top:8px;color:var(--muted-foreground)}
+.logout-btn:hover{color:var(--foreground)}
+.logout-mobile{display:none;flex-shrink:0}
+
+/* ═══════════ MOBILE ═══════════ */
+@media (max-width:768px){
+  .app{display:block;height:auto;min-height:100vh;overflow:visible}
+
+  /* Sidebar → barre d'onglets fixe en bas */
+  .sidebar{position:fixed;left:0;right:0;bottom:0;z-index:50;border-right:none;border-top:1px solid var(--sidebar-border);flex-direction:row;padding-bottom:env(safe-area-inset-bottom)}
+  .sb-header,.sb-sep,.sb-footer,#n-qa,#n-sante{display:none!important}
+  .sb-nav{display:flex;flex:1;padding:4px;overflow:visible}
+  .nav-item{flex:1;flex-direction:column;justify-content:center;gap:3px;padding:8px 2px;margin:0;font-size:10px;position:relative;min-width:0}
+  .nav-ico{width:20px;height:20px}
+  .nav-badge{position:absolute;top:2px;left:calc(50% + 6px);margin:0;min-width:16px;height:16px;padding:0 4px;font-size:10px}
+
+  .main{overflow:visible;padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+  .view{padding:16px}
+  .page-head{margin-bottom:16px}
+  .page-title{font-size:20px}
+
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+  .stat{padding:14px}
+  .stat-head{margin-bottom:8px}
+  .stat-icn{width:28px;height:28px}
+  .stat-val{font-size:22px}
+  .two-col{grid-template-columns:1fr;gap:12px;margin-bottom:12px}
+  .card-head{padding:14px 16px}
+  .card-body{padding:0 16px 16px}
+  .mini-row{padding:10px}
+  .chart{gap:6px}
+
+  /* Prospects : filtres empilés, colonnes secondaires masquées */
+  .search-wrap{max-width:none;flex:1 1 100%}
+  .select{flex:1 1 calc(50% - 5px);min-width:0}
+  .search-input,.select{font-size:16px}
+  .table{min-width:0}
+  #v-pros .table th:nth-child(2),#v-pros .table td:nth-child(2),
+  #v-pros .table th:nth-child(4),#v-pros .table td:nth-child(4),
+  #v-pros .table th:nth-child(n+8),#v-pros .table td:nth-child(n+8),
+  #v-pros .table th:nth-child(5),#v-pros .table td:nth-child(5){display:none}
+  .table th,.table td{padding:10px 8px}
+  .heat-label{display:none}
+  #v-rel .table{min-width:600px}
+
+  .detail-head{padding:16px}
+  .detail-body{grid-template-columns:1fr;padding:16px;gap:16px}
+  .info-grid{gap:8px}
+  .info-item{padding:10px}
+  .detail-actions{padding:0 16px 16px}
+  .detail-actions .btn{flex:1 1 calc(50% - 4px)}
+
+  /* Conversations : liste OU discussion */
+  #v-conv{padding:16px!important}
+  .conv-grid{grid-template-columns:1fr;height:calc(100vh - 190px)}
+  .conv-list{border-right:none}
+  .conv-grid.chat-open .conv-list{display:none}
+  .conv-grid:not(.chat-open) .conv-chat{display:none}
+  .conv-back{display:inline-flex;margin-right:4px}
+  .conv-chat-body{padding:14px}
+  .msg{max-width:85%}
+
+  #nm-login input{font-size:16px!important}
+  .logout-mobile{display:inline-flex}
+}
 </style>
 </head>
 <body>
@@ -321,8 +405,8 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 <aside class="sidebar">
   <div class="sb-header">
     <a href="#" class="sb-brand" onclick="go('dash')">
-      <div class="sb-logo"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M9 17h1M14 17h1"/></svg></div>
-      <div class="sb-brand-text"><h1>NextMove</h1><p>CRM Immobilier</p></div>
+      <div class="sb-logo"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1.1-4.6A8 8 0 1121 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01" stroke-width="2.6" stroke-linecap="round"/></svg></div>
+      <div class="sb-brand-text"><h1>Klaris</h1><p>Assistante immobilière</p></div>
     </a>
   </div>
   <div class="sb-sep"></div>
@@ -330,20 +414,23 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
     <a href="#" class="nav-item active" id="n-dash" onclick="go('dash')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
     <a href="#" class="nav-item" id="n-pros" onclick="go('pros')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Prospects<span class="nav-badge" id="n-pros-badge">—</span></a>
     <a href="#" class="nav-item" id="n-conv" onclick="go('conv')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Conversations<span class="nav-badge" id="n-conv-badge" style="display:none">0</span></a>
-    <a href="#" class="nav-item" id="n-rel" onclick="go('rel')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>Relances<span class="nav-badge" id="n-rel-badge" style="display:none">0</span></a>
-    <a href="#" class="nav-item" id="n-qa" onclick="go('qa')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 16h.01M16 16h.01"/></svg>QA Agent<span class="nav-badge" id="n-qa-badge" style="display:none">—</span></a>
+    <a href="#" class="nav-item" id="n-rel" onclick="go('rel')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>Relances<span class="nav-lock" title="Module à débloquer"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></span></a>
+    <a href="#" class="nav-item" id="n-qa" style="display:none" onclick="go('qa')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 16h.01M16 16h.01"/></svg>QA Agent<span class="nav-badge" id="n-qa-badge" style="display:none">—</span></a>
+    <a href="#" class="nav-item" id="n-sante" style="display:none" onclick="go('sante')"><svg class="nav-ico" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Santé<span class="nav-badge" id="n-sante-badge" style="display:none">—</span></a>
   </div>
   <div class="sb-footer">
     <div class="sb-user">
       <div class="sb-user-info">
-        <div class="avatar" id="sb-avatar">JO</div>
-        <div class="sb-user-text"><div class="sb-user-name" id="sb-name">Joanel</div><div class="sb-user-role">Courtier</div></div>
+        <div class="avatar" id="sb-avatar"></div>
+        <div class="sb-user-text"><div class="sb-user-name" id="sb-name"></div><div class="sb-user-role" id="sb-role">Courtier</div></div>
       </div>
       <button class="theme-btn" onclick="tog()" title="Changer thème">
         <svg class="sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
         <svg class="moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       </button>
     </div>
+    <button class="btn btn-ghost btn-sm logout-btn" onclick="showSetPassword(true)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>Changer mon mot de passe</button>
+    <button class="btn btn-ghost btn-sm logout-btn" onclick="logout()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Se déconnecter</button>
   </div>
 </aside>
 
@@ -352,26 +439,30 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 
 <!-- ── DASHBOARD ── -->
 <div id="v-dash" class="view on">
-  <div class="page-head">
-    <h1 class="page-title" id="page-greeting">Bonjour, Joanel</h1>
-    <p class="page-sub" id="dash-date"></p>
+  <div class="page-head" style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+    <div>
+      <h1 class="page-title" id="page-greeting">Bonjour</h1>
+      <p class="page-sub" id="dash-date"></p>
+    </div>
+    <button class="btn btn-outline btn-icon logout-mobile" onclick="showSetPassword(true)" title="Changer mon mot de passe" aria-label="Changer mon mot de passe"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></button>
+    <button class="btn btn-outline btn-icon logout-mobile" onclick="logout()" title="Se déconnecter" aria-label="Se déconnecter"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
   </div>
 
   <div class="stats-grid">
     <div class="stat"><div class="stat-head"><span class="stat-title">Total Prospects</span><div class="stat-icn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg></div></div><div class="stat-val" id="s1v">—</div><div class="stat-meta"><span class="stat-delta up" id="s1d"></span><span class="stat-desc" id="s1x">Actifs dans le pipeline</span></div></div>
     <div class="stat"><div class="stat-head"><span class="stat-title">Leads Chauds</span><div class="stat-icn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg></div></div><div class="stat-val" id="s2v">—</div><div class="stat-meta"><span class="stat-delta up" id="s2d"></span><span class="stat-desc">Score ≥ 7</span></div></div>
     <div class="stat"><div class="stat-head"><span class="stat-title">Valeur Pipeline</span><div class="stat-icn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div></div><div class="stat-val" id="s3v">—</div><div class="stat-meta"><span class="stat-delta up" id="s3d"></span><span class="stat-desc">Total potentiel</span></div></div>
-    <div class="stat"><div class="stat-head"><span class="stat-title">Relances à venir</span><div class="stat-icn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div></div><div class="stat-val" id="s4v">—</div><div class="stat-meta"><span class="stat-desc" id="s4x">Cette semaine</span></div></div>
+    <div class="stat"><div class="stat-head"><span class="stat-title">Relances</span><div class="stat-icn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div></div><div class="stat-val" id="s4v">—</div><div class="stat-meta"><span class="stat-desc" id="s4x">Cette semaine</span></div></div>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+  <div class="two-col">
     <div class="card">
       <div class="card-head"><div><h3>Prospects Chauds</h3><p>Leads les plus prioritaires</p></div><button class="btn btn-ghost btn-sm" onclick="go('pros')">Voir tout →</button></div>
       <div class="card-body"><div id="hot-list"></div></div>
     </div>
     <div class="card">
-      <div class="card-head"><div><h3>Relances à venir</h3><p>Planifiées cette semaine</p></div><button class="btn btn-ghost btn-sm" onclick="go('rel')">Voir tout →</button></div>
-      <div class="card-body"><div id="rel-list"></div></div>
+      <div class="card-head"><div><h3>Relances automatiques</h3><p>Module supplémentaire</p></div><button class="btn btn-ghost btn-sm" onclick="go('rel')">En savoir plus →</button></div>
+      <div class="card-body"><div class="locked-mini"><div class="locked-ico"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div><div>Klaris relance pour vous les prospects qui ne répondent plus. Module à débloquer.</div></div></div>
     </div>
   </div>
 
@@ -469,15 +560,18 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 <div id="v-rel" class="view">
   <div class="page-head">
     <h1 class="page-title">Relances</h1>
-    <p class="page-sub" id="rel-count">—</p>
+    <p class="page-sub">Module supplémentaire</p>
   </div>
-  <div class="table-wrap">
-    <div class="table-scroll">
-      <table class="table">
-        <thead><tr><th>Prospect</th><th>Type</th><th>Date prévue</th><th>Statut</th><th>Contenu</th></tr></thead>
-        <tbody id="rel-tbody"></tbody>
-      </table>
-    </div>
+  <div class="card locked">
+    <div class="locked-ico"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div>
+    <h2>Relances automatiques</h2>
+    <p>Klaris recontacte d'elle-même les prospects qui ont arrêté de répondre, au bon moment et sur le bon ton, pour qu'aucun lead ne refroidisse.</p>
+    <ul>
+      <li>Relance des prospects silencieux après 2 jours, 1 semaine, puis 1 mois.</li>
+      <li>Suivi des prospects tièdes jusqu'à ce qu'ils soient prêts à acheter ou vendre.</li>
+      <li>Calendrier des relances à venir et historique de chaque message envoyé.</li>
+    </ul>
+    <span class="locked-tag">Module à débloquer · Parlez-en à votre conseiller OptiAI</span>
   </div>
 </div>
 
@@ -502,27 +596,41 @@ html.dark .tip{box-shadow:0 10px 40px rgba(0,0,0,0.4)}
   </div>
 </div>
 
+<!-- ── SANTÉ (admin OptiAI) ── -->
+<div id="v-sante" class="view">
+  <div class="page-head">
+    <h1 class="page-title">Santé de Klaris</h1>
+    <p class="page-sub">Erreurs, anomalies et prospects en attente · <a href="https://n8n.srv775529.hstgr.cloud/workflow/nmmmJu6HRwq0nqyI/executions" target="_blank" rel="noopener">Exécutions n8n</a> · <a href="https://supabase.com/dashboard/project/fhqybnkxqfvbsjvwrcob/editor" target="_blank" rel="noopener">Supabase</a></p>
+  </div>
+  <div class="stats-grid" id="sante-kpis"></div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-head"><div><h3>Prospects sans réponse</h3><p>Dernier message du prospect resté sans réponse depuis plus de 5 min (48 h)</p></div></div>
+    <div class="table-scroll">
+      <table class="table" style="min-width:0"><thead><tr><th>Prospect</th><th>Dernier message</th><th>Depuis</th></tr></thead><tbody id="sante-orph"></tbody></table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div><h3>Journal</h3><p>50 derniers événements de la surveillance</p></div></div>
+    <div class="table-scroll">
+      <table class="table" style="min-width:0"><thead><tr><th>Date</th><th>Type</th><th>Source</th><th>Détail</th></tr></thead><tbody id="sante-ev"></tbody></table>
+    </div>
+  </div>
+</div>
+
 </main>
 </div>
 
 <script>
-/* ══════════ COURTIER OVERRIDE (URL ?courtier=Maxime%20Tremblay) ══════════ */
-(function(){
-  const qp = new URLSearchParams(location.search).get('courtier');
-  if (!qp) return;
-  const full = qp.trim();
-  if (!full) return;
-  const parts = full.split(/\s+/);
-  const prenom = parts[0];
-  const initials = parts.length >= 2
-    ? (parts[0][0] + parts[1][0]).toUpperCase()
-    : (parts[0][0] + (parts[0][1]||'')).toUpperCase();
-  const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
-  setText('sb-name', full);
-  setText('sb-avatar', initials);
-  setText('page-greeting', `Bonjour, ${prenom}`);
-  document.title = `NextMove — ${full}`;
-})();
+/* ══════════ COURTIER CONNECTÉ (lu depuis `courtiers`, filtré par RLS) ══════════ */
+function applyCourtier(c){
+  const full=[c.prenom,c.nom].filter(Boolean).join(' ');
+  if(!full)return;
+  const setText=(id,txt)=>{const el=document.getElementById(id);if(el)el.textContent=txt;};
+  setText('sb-name',full);
+  setText('sb-avatar',ini(c));
+  setText('page-greeting',`Bonjour, ${c.prenom||full}`);
+  document.title=`Klaris — ${full}`;
+}
 
 /* ══════════ SUPABASE ══════════ */
 const SB='https://fhqybnkxqfvbsjvwrcob.supabase.co';
@@ -545,6 +653,8 @@ async function q(t,p=''){
 
 /* ══════════ STATE ══════════ */
 let P=[],S=[],R=[],QA=[],sel=null,conv=null;
+/* Admin OptiAI : lecture de tous les courtiers (RLS via public.is_admin(), 011_admin_access.sql) */
+let ADMIN=false,CT=[],EV=[],ALL={P:[],S:[],R:[]},fCourt='';
 let sortField='updated_at',sortDir='desc';
 
 /* ══════════ UTILS ══════════ */
@@ -606,20 +716,91 @@ async function load(){
   const now=new Date();
   document.getElementById('dash-date').textContent=now.toLocaleDateString('fr-CA',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
+  const adm=await q('admins','select=user_id');
+  ADMIN=Array.isArray(adm)&&adm.length>0;
+  const me=await q('courtiers',ADMIN?'select=id,prenom,nom&order=prenom.asc':'select=prenom,nom&limit=1');
+  if(ADMIN){CT=Array.isArray(me)?me:[];applyAdmin();}
+  else{applyCourtierMode();if(Array.isArray(me)&&me[0])applyCourtier(me[0]);}
   P=await q('prospects','select=*&order=created_at.desc');if(!Array.isArray(P))P=[];
   const c=await q('conversations','select=id,prospect_id,role,contenu,created_at&order=created_at.asc');
+  S=[];
   if(Array.isArray(c)){const m={};c.forEach(x=>{const p=P.find(pp=>pp.id===x.prospect_id);if(!p)return;const sid=p.telephone||x.prospect_id;if(!m[sid])m[sid]=[];m[sid].push(x)});S=Object.entries(m).map(([sid,msgs])=>({sid,msgs,p:P.find(p=>p.telephone===sid)||null}))}
   R=await q('relances','select=*,prospects(prenom,nom,telephone)&order=date_prevue.asc');if(!Array.isArray(R))R=[];
-  QA=await q('eval_results','select=*&order=created_at.desc&limit=100');if(!Array.isArray(QA))QA=[];
+  // QA et journal : internes OptiAI, chargés seulement pour un admin
+  if(ADMIN){
+    QA=await q('eval_results','select=*&order=created_at.desc&limit=100');if(!Array.isArray(QA))QA=[];
+    EV=await q('monitoring_events','select=*&order=created_at.desc&limit=50');if(!Array.isArray(EV))EV=[];
+  }else{QA=[];EV=[];}
+  ALL={P,S,R};
+  applyFilter();
+}
 
+/* Filtre courtier (admin) puis rendu de toutes les vues */
+function applyFilter(){
+  if(ADMIN&&fCourt){
+    P=ALL.P.filter(p=>p.courtier_id===fCourt);
+    const ids=new Set(P.map(p=>p.id));
+    S=ALL.S.filter(s=>s.msgs.some(m=>ids.has(m.prospect_id)));
+    R=ALL.R.filter(r=>ids.has(r.prospect_id));
+  }else{P=ALL.P;S=ALL.S;R=ALL.R;}
   renderKPIs();renderHotList();renderRelList();renderChart();pV();renderRelTable();renderConvList();updateBadges();
+  if(ADMIN)renderSante();
+}
+
+const ctName=id=>{const c=CT.find(x=>x.id===id);return c?[c.prenom,c.nom].filter(Boolean).join(' '):'—'};
+
+function applyAdmin(){
+  const setText=(id,txt)=>{const el=document.getElementById(id);if(el)el.textContent=txt;};
+  setText('sb-name','OptiAI · Admin');
+  setText('sb-avatar','OA');
+  setText('sb-role','Accès complet · lecture seule');
+  document.getElementById('page-greeting').innerHTML='Bonjour, Dennis<span class="admin-tag">Admin</span>';
+  document.title='Klaris — Admin';
+  document.getElementById('n-qa').style.display='';
+  document.getElementById('n-sante').style.display='';
+  let f=document.getElementById('admin-filter');
+  if(!f){
+    f=document.createElement('select');f.id='admin-filter';f.className='admin-filter';
+    f.onchange=()=>{fCourt=f.value;sel=null;applyFilter();};
+    document.getElementById('dash-date').after(f);
+  }
+  const opts='<option value="">Tous les courtiers</option>'+CT.map(c=>`<option value="${esc(c.id)}">${esc(ctName(c.id))}</option>`).join('');
+  if(f.dataset.opts!==opts){f.innerHTML=opts;f.dataset.opts=opts;f.value=fCourt;}
+}
+
+function applyCourtierMode(){
+  ['n-qa','n-sante'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  const r=document.getElementById('sb-role');if(r)r.textContent='Courtier';
+  document.getElementById('admin-filter')?.remove();
+  fCourt='';
+}
+
+function renderSante(){
+  const now=Date.now(),H24=864e5;
+  const err=EV.filter(e=>e.kind==='erreur_workflow'&&now-new Date(e.created_at)<H24).length;
+  const ano=EV.filter(e=>e.kind==='anomalie'&&now-new Date(e.created_at)<H24).length;
+  const orph=S.map(s=>{const last=s.msgs[s.msgs.length-1];const p=P.find(x=>x.id===last?.prospect_id);return{last,p}})
+    .filter(o=>o.last&&o.last.role==='prospect'&&o.p&&!o.p.opted_out_at&&now-new Date(o.last.created_at)>3e5&&now-new Date(o.last.created_at)<2*H24);
+  const lastK=S.flatMap(s=>s.msgs).filter(m=>m.role==='assistant').reduce((a,m)=>!a||new Date(m.created_at)>new Date(a)?m.created_at:a,null);
+  const card=(t,v,x,bad)=>`<div class="stat"><div class="stat-head"><span class="stat-title">${t}</span></div><div class="stat-val" style="${bad?'color:var(--destructive)':''}">${v}</div><div class="stat-desc">${x}</div></div>`;
+  document.getElementById('sante-kpis').innerHTML=
+    card('Erreurs 24 h',err,'workflows n8n',err>0)+
+    card('Anomalies 24 h',ano,'signalées par la surveillance',ano>0)+
+    card('Sans réponse',orph.length,'prospects en attente de Klaris',orph.length>0)+
+    card('Dernière réponse de Klaris',lastK?ago(lastK):'—',lastK?fdt(lastK):'aucune',false);
+  document.getElementById('sante-orph').innerHTML=orph.length
+    ?orph.map(o=>`<tr><td class="td-name">${esc(nm(o.p))}</td><td class="td-muted">${esc((o.last.contenu||'').slice(0,120))}</td><td class="td-muted">${ago(o.last.created_at)}</td></tr>`).join('')
+    :'<tr><td colspan="3" class="empty">Aucun prospect en attente.</td></tr>';
+  document.getElementById('sante-ev').innerHTML=EV.length
+    ?EV.map(e=>`<tr><td class="td-muted" style="white-space:nowrap">${fdt(e.created_at)}</td><td>${e.kind==='erreur_workflow'?'<span class="badge badge-lost">Erreur</span>':'<span class="badge badge-contacted">Anomalie</span>'}</td><td class="td-muted">${esc(e.source||'')}</td><td style="font-size:12px">${esc(e.detail||'')}</td></tr>`).join('')
+    :'<tr><td colspan="4" class="empty">Aucun événement.</td></tr>';
+  const b=document.getElementById('n-sante-badge');const n=err+ano+orph.length;
+  if(n){b.textContent=n;b.style.display='flex';b.style.background='var(--destructive)';b.style.color='white'}else b.style.display='none';
 }
 
 function updateBadges(){
   document.getElementById('n-pros-badge').textContent=P.length;
   const urgent=R.filter(r=>r.statut==='planifiee'&&new Date(r.date_prevue)<Date.now()).length;
-  const rlB=document.getElementById('n-rel-badge');
-  if(urgent){rlB.textContent=urgent;rlB.style.display='flex'}else rlB.style.display='none';
   const runs={};QA.forEach(e=>{if(!runs[e.run_id])runs[e.run_id]={results:[],date:e.created_at};runs[e.run_id].results.push(e)});
   const runList=Object.values(runs).sort((a,b)=>new Date(b.date)-new Date(a.date));
   if(runList.length){const last=runList[0];const avg=Math.round(last.results.reduce((s,r)=>s+r.score_global,0)/last.results.length);const b=document.getElementById('n-qa-badge');b.textContent=avg;b.style.display='flex';b.style.background=avg>=90?'var(--success)':avg>=70?'var(--warning)':'var(--destructive)';b.style.color='white'}
@@ -637,9 +818,9 @@ function renderKPIs(){
   document.getElementById('s1x').textContent=P.length+' total dans le pipeline';
   document.getElementById('s2v').textContent=hot;
   document.getElementById('s3v').textContent=pipe?fmtB(pipe):'—';
-  document.getElementById('s4v').textContent=upcomingRel;
+  document.getElementById('s4v').innerHTML='<svg style="width:24px;height:24px;color:var(--muted-foreground)" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>';
   const overdue=R.filter(r=>r.statut==='planifiee'&&new Date(r.date_prevue)<Date.now()).length;
-  document.getElementById('s4x').textContent=overdue?overdue+' en retard':'Cette semaine';
+  document.getElementById('s4x').textContent='Module à débloquer';
 }
 
 /* ══════════ HOT LIST (dashboard) ══════════ */
@@ -651,7 +832,7 @@ function renderHotList(){
 }
 
 /* ══════════ REL LIST (dashboard) ══════════ */
-function renderRelList(){
+function renderRelList(){return;
   const upcoming=[...R].filter(r=>r.statut==='planifiee').sort((a,b)=>new Date(a.date_prevue)-new Date(b.date_prevue)).slice(0,5);
   const el=document.getElementById('rel-list');
   if(!upcoming.length){el.innerHTML='<div class="empty"><p>Aucune relance planifiée.</p></div>';return}
@@ -701,14 +882,14 @@ function pV(){
   document.getElementById('p-count').textContent=d.length+' prospect'+(d.length!==1?'s':'')+(d.length!==P.length?' / '+P.length+' total':'');
   const tb=document.getElementById('p-tbody');
   if(!d.length){tb.innerHTML='<tr><td colspan="11" class="empty">Aucun prospect trouvé.</td></tr>';renderDetail(null);return}
-  tb.innerHTML=d.map(p=>`<tr class="${sel===p.id?'sel':''}" onclick="pSel('${p.id}')"><td class="td-name">${nm(p)}</td><td>${typeBadge(p.type_projet)}</td><td class="td-budget">${fmtB(p.budget_max)}</td><td class="td-muted">${p.secteur||'—'}</td><td class="td-muted">${p.type_bien||'—'}</td><td>${heatCell(p.score_chaleur)}</td><td>${statusBadge(p.statut)}</td><td>${langPill(p.langue_preferee)}</td><td class="td-muted mono" style="font-size:12px">${p.telephone||'—'}</td><td class="td-muted" style="font-size:12px">${ago(p.updated_at||p.created_at)}</td><td><button class="btn btn-ghost btn-icon" onclick="event.stopPropagation()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>`).join('');
+  tb.innerHTML=d.map(p=>`<tr class="${sel===p.id?'sel':''}" onclick="pSel('${p.id}')"><td class="td-name">${nm(p)}${ADMIN&&!fCourt&&CT.length>1?`<div class="td-muted" style="font-size:11px;font-weight:400">${esc(ctName(p.courtier_id))}</div>`:''}</td><td>${typeBadge(p.type_projet)}</td><td class="td-budget">${fmtB(p.budget_max)}</td><td class="td-muted">${p.secteur||'—'}</td><td class="td-muted">${p.type_bien||'—'}</td><td>${heatCell(p.score_chaleur)}</td><td>${statusBadge(p.statut)}</td><td>${langPill(p.langue_preferee)}</td><td class="td-muted mono" style="font-size:12px">${p.telephone||'—'}</td><td class="td-muted" style="font-size:12px">${ago(p.updated_at||p.created_at)}</td><td><button class="btn btn-ghost btn-icon" onclick="event.stopPropagation()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>`).join('');
   const p=P.find(x=>x.id===sel);renderDetail(p||null);
 }
 function pSel(id){sel=sel===id?null:id;pV();if(sel){document.getElementById('p-detail').scrollIntoView({behavior:'smooth',block:'nearest'})}}
 function renderDetail(p){
   const el=document.getElementById('p-detail');
   if(!p){el.innerHTML='';return}
-  el.innerHTML=`<div class="detail"><div class="detail-head"><div class="detail-head-left"><div class="avatar-lg">${ini(p)}</div><div class="detail-head-info"><h2>${nm(p)}</h2><div class="detail-head-meta">${typeBadge(p.type_projet)}${statusBadge(p.statut)}${heatCell(p.score_chaleur)}</div></div></div><button class="btn btn-ghost btn-icon" onclick="sel=null;pV()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div class="detail-body"><div><div class="resume-title">Informations</div><div class="info-grid">${[['Téléphone',p.telephone||'—'],['Email',p.email||'Non renseigné'],['Budget max',fmtB(p.budget_max),'budget'],['Secteur',p.secteur||'Non défini'],['Type de bien',p.type_bien||'Non défini'],['Langue',p.langue_preferee==='en'?'English':'Français'],['Créé le',fdD(p.created_at)],['Dernière maj',ago(p.updated_at||p.created_at)]].map(([l,v,c])=>`<div class="info-item"><div class="info-label">${l}</div><div class="info-value ${c||''}">${v}</div></div>`).join('')}</div></div><div>${p.resume_ia?`<div class="resume-title">Résumé IA</div><div class="resume-box">${esc(p.resume_ia)}</div>`:`<div class="resume-title">Résumé IA</div><div class="resume-box" style="color:var(--muted-foreground);font-style:italic">Aucun résumé disponible pour ce prospect.</div>`}</div></div><div class="detail-actions"><button class="btn btn-primary" onclick="conv='${p.telephone}';go('conv')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Voir la conversation</button><button class="btn btn-outline"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>Appeler</button><button class="btn btn-outline"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>Email</button><button class="btn btn-outline"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Planifier RDV</button></div></div>`;
+  el.innerHTML=`<div class="detail"><div class="detail-head"><div class="detail-head-left"><div class="avatar-lg">${ini(p)}</div><div class="detail-head-info"><h2>${nm(p)}</h2><div class="detail-head-meta">${typeBadge(p.type_projet)}${statusBadge(p.statut)}${heatCell(p.score_chaleur)}</div></div></div><button class="btn btn-ghost btn-icon" onclick="sel=null;pV()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div class="detail-body"><div><div class="resume-title">Informations</div><div class="info-grid">${[['Téléphone',p.telephone||'—'],['Email',p.email||'Non renseigné'],['Budget max',fmtB(p.budget_max),'budget'],['Secteur',p.secteur||'Non défini'],['Type de bien',p.type_bien||'Non défini'],['Langue',p.langue_preferee==='en'?'English':'Français'],['Créé le',fdD(p.created_at)],['Dernière maj',ago(p.updated_at||p.created_at)]].map(([l,v,c])=>`<div class="info-item"><div class="info-label">${l}</div><div class="info-value ${c||''}">${v}</div></div>`).join('')}</div></div><div>${p.resume_ia?`<div class="resume-title">Résumé IA</div><div class="resume-box">${esc(p.resume_ia)}</div>`:`<div class="resume-title">Résumé IA</div><div class="resume-box" style="color:var(--muted-foreground);font-style:italic">Aucun résumé disponible pour ce prospect.</div>`}</div></div><div class="detail-actions"><button class="btn btn-primary" onclick="conv='${p.telephone}';go('conv')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Voir la conversation</button><a class="btn btn-outline" href="tel:${esc(p.telephone||'')}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>Appeler</a><a class="btn btn-outline" href="${p.email?'mailto:'+esc(p.email):'#'}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>Email</a><button class="btn btn-outline"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Planifier RDV</button></div></div>`;
 }
 
 /* ══════════ CONVERSATIONS ══════════ */
@@ -720,16 +901,17 @@ function renderConvList(){
 }
 function renderConvChat(){
   const s=S.find(x=>x.sid===conv);
+  document.querySelector('.conv-grid').classList.toggle('chat-open',!!s);
   if(!s){document.getElementById('conv-head').innerHTML='<span class="page-sub">Sélectionnez une conversation.</span>';document.getElementById('conv-msgs').innerHTML='';return}
   const p=s.p;
-  document.getElementById('conv-head').innerHTML=`<div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3>${p?nm(p):s.sid}</h3>${p?heatCell(p.score_chaleur):''}</div><div class="meta"><span class="mono">${s.sid}</span>${p?'<span>· '+statusBadge(p.statut)+'</span>':''}</div>${p?.resume_ia?`<div class="resume">${esc(p.resume_ia.substring(0,200))}${p.resume_ia.length>200?'...':''}</div>`:''}</div>`;
+  document.getElementById('conv-head').innerHTML=`<div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><button class="btn btn-ghost btn-icon conv-back" onclick="conv=null;renderConvList()" title="Retour"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button><h3>${p?nm(p):s.sid}</h3>${p?heatCell(p.score_chaleur):''}</div><div class="meta"><span class="mono">${s.sid}</span>${p?'<span>· '+statusBadge(p.statut)+'</span>':''}</div>${p?.resume_ia?`<div class="resume">${esc(p.resume_ia.substring(0,200))}${p.resume_ia.length>200?'...':''}</div>`:''}</div>`;
   const el=document.getElementById('conv-msgs');
   el.innerHTML=s.msgs.map(m=>`<div class="msg ${m.role==='prospect'?'msg-in':'msg-out'}">${esc(m.contenu||'')}</div>`).join('');
   el.scrollTop=el.scrollHeight;
 }
 
 /* ══════════ RELANCES TABLE ══════════ */
-function renderRelTable(){
+function renderRelTable(){return;
   document.getElementById('rel-count').textContent=R.length+' relance'+(R.length!==1?'s':'');
   const tb=document.getElementById('rel-tbody');
   if(!R.length){tb.innerHTML='<tr><td colspan="5" class="empty">Aucune relance.</td></tr>';return}
@@ -766,6 +948,7 @@ function go(v){
   if(v==='conv')renderConvList();
   if(v==='rel')renderRelTable();
   if(v==='qa')renderQA();
+  if(v==='sante')renderSante();
 }
 
 /* ══════════ THEME ══════════ */
@@ -785,20 +968,109 @@ function showLogin(msg){
       +'<input id="nm-email" type="email" placeholder="Courriel" autocomplete="username" required style="width:100%;padding:10px 12px;margin-bottom:10px;border:1px solid var(--border,#ccc);border-radius:8px;font-size:14px;box-sizing:border-box;background:transparent;color:inherit">'
       +'<input id="nm-pass" type="password" placeholder="Mot de passe" autocomplete="current-password" required style="width:100%;padding:10px 12px;margin-bottom:14px;border:1px solid var(--border,#ccc);border-radius:8px;font-size:14px;box-sizing:border-box;background:transparent;color:inherit">'
       +'<button type="submit" style="width:100%;padding:11px;border:0;border-radius:8px;background:var(--primary,#c2603f);color:#fff;font-weight:600;font-size:14px;cursor:pointer">Se connecter</button>'
+      +'<button type="button" id="nm-forgot" style="background:none;border:0;padding:0;margin-top:12px;color:inherit;opacity:.7;font-size:12px;text-decoration:underline;cursor:pointer;font-family:inherit">Mot de passe oublié ?</button>'
       +'<div id="nm-login-err" style="color:#d9534f;font-size:12px;margin-top:10px;min-height:14px"></div></form>';
     document.body.appendChild(ov);
     document.getElementById('nm-login-form').addEventListener('submit',doLogin);
+    document.getElementById('nm-forgot').addEventListener('click',doForgot);
   }
   ov.style.display='flex';
-  if(msg)document.getElementById('nm-login-err').textContent=msg;
+  const er=document.getElementById('nm-login-err');er.style.color='#d9534f';
+  if(msg)er.textContent=msg;
 }
 function hideLogin(){const ov=document.getElementById('nm-login');if(ov)ov.style.display='none';}
 
+/* Lien « choisir / réinitialiser le mot de passe » envoyé par Supabase :
+   il revient ici avec #access_token=…&type=recovery (ou invite), ou #error=… s'il a expiré. */
+function readAuthRedirect(){
+  const h=new URLSearchParams(location.hash.slice(1)), q=new URLSearchParams(location.search);
+  const p=(h.has('access_token')||h.has('error'))?h:(q.has('error')?q:null);
+  if(!p)return null;
+  history.replaceState(null,'',location.pathname);
+  return p;
+}
+function showSetPassword(canCancel){
+  let ov=document.getElementById('nm-setpw');
+  if(!ov){
+    ov=document.createElement('div');
+    ov.id='nm-setpw';
+    ov.style.cssText='position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:rgba(8,10,18,.88);backdrop-filter:blur(6px)';
+    const inp='width:100%;padding:10px 12px;margin-bottom:10px;border:1px solid var(--border,#ccc);border-radius:8px;font-size:16px;box-sizing:border-box;background:transparent;color:inherit';
+    ov.innerHTML='<form id="nm-setpw-form" style="background:var(--card,#fff);color:var(--card-foreground,#111);padding:32px;border-radius:16px;width:340px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.45);font-family:inherit">'
+      +'<div style="font-size:18px;font-weight:700;margin-bottom:4px">Choisissez votre mot de passe</div>'
+      +'<div style="font-size:13px;opacity:.7;margin-bottom:20px">8 caractères minimum. Vous l’utiliserez pour vous connecter au tableau de bord.</div>'
+      +'<input id="nm-pw1" type="password" placeholder="Nouveau mot de passe" autocomplete="new-password" minlength="8" required style="'+inp+'">'
+      +'<input id="nm-pw2" type="password" placeholder="Confirmez le mot de passe" autocomplete="new-password" minlength="8" required style="'+inp+';margin-bottom:14px">'
+      +'<button type="submit" style="width:100%;padding:11px;border:0;border-radius:8px;background:var(--primary,#c2603f);color:#fff;font-weight:600;font-size:14px;cursor:pointer">Enregistrer et continuer</button>'
+      +'<button type="button" id="nm-setpw-cancel" style="display:none;background:none;border:0;padding:0;margin-top:12px;color:inherit;opacity:.7;font-size:12px;text-decoration:underline;cursor:pointer;font-family:inherit">Annuler</button>'
+      +'<div id="nm-setpw-err" style="color:#d9534f;font-size:12px;margin-top:10px;min-height:14px"></div></form>';
+    document.body.appendChild(ov);
+    document.getElementById('nm-setpw-form').addEventListener('submit',doSetPassword);
+    document.getElementById('nm-setpw-cancel').addEventListener('click',()=>{ov.style.display='none';});
+  }
+  ['nm-pw1','nm-pw2'].forEach(id=>{document.getElementById(id).value='';});
+  document.getElementById('nm-setpw-err').textContent='';
+  document.getElementById('nm-setpw-cancel').style.display=canCancel?'inline':'none';
+  ov.style.display='flex';
+}
+async function doSetPassword(e){
+  e.preventDefault();
+  const p1=document.getElementById('nm-pw1').value, p2=document.getElementById('nm-pw2').value;
+  const errEl=document.getElementById('nm-setpw-err');
+  if(p1.length<8){errEl.textContent='8 caractères minimum.';return;}
+  if(p1!==p2){errEl.textContent='Les deux mots de passe ne correspondent pas.';return;}
+  errEl.textContent='…';
+  try{
+    const r=await fetch(`${SB}/auth/v1/user`,{method:'PUT',headers:{'apikey':K,'Authorization':`Bearer ${_token}`,'Content-Type':'application/json'},body:JSON.stringify({password:p1})});
+    const d=await r.json().catch(()=>({}));
+    if(r.status===401||r.status===403){
+      clearSession();document.getElementById('nm-setpw').style.display='none';
+      showLogin('Ce lien a expiré. Cliquez « Mot de passe oublié ? » pour en recevoir un nouveau.');return;
+    }
+    if(!r.ok){
+      errEl.textContent=d.error_code==='same_password'?'Choisissez un mot de passe différent de l’ancien.'
+        :d.error_code==='weak_password'?'Mot de passe trop faible, choisissez-en un plus long.'
+        :(d.msg||d.error_description||'Erreur, réessayez.');
+      return;
+    }
+    document.getElementById('nm-setpw').style.display='none';
+    hideLogin();startApp();
+  }catch(_){errEl.textContent='Erreur réseau.';}
+}
+async function doForgot(){
+  const email=document.getElementById('nm-email').value.trim();
+  const errEl=document.getElementById('nm-login-err');errEl.style.color='#d9534f';
+  if(!email){errEl.textContent='Entrez votre courriel, puis cliquez à nouveau sur « Mot de passe oublié ? ».';return;}
+  errEl.textContent='…';
+  try{
+    const r=await fetch(`${SB}/auth/v1/recover?redirect_to=${encodeURIComponent(location.origin+location.pathname)}`,{method:'POST',headers:{'apikey':K,'Content-Type':'application/json'},body:JSON.stringify({email})});
+    if(r.status===429){errEl.textContent='Trop de demandes. Réessayez dans quelques minutes.';return;}
+  }catch(_){errEl.textContent='Erreur réseau.';return;}
+  errEl.style.color='inherit';
+  errEl.textContent='Si un compte existe pour ce courriel, un lien vient d’être envoyé. Vérifiez aussi les courriels indésirables.';
+}
+
 function setSession(d){
   _token=d.access_token;_refresh=d.refresh_token;
-  try{sessionStorage.setItem('nm-sess',JSON.stringify({access_token:_token,refresh_token:_refresh}));}catch(_){}
+  try{localStorage.setItem('nm-sess',JSON.stringify({access_token:_token,refresh_token:_refresh}));}catch(_){}
 }
-function clearSession(){_token=null;_refresh=null;try{sessionStorage.removeItem('nm-sess');}catch(_){}}
+function clearSession(){_token=null;_refresh=null;try{localStorage.removeItem('nm-sess');}catch(_){}}
+
+async function logout(){
+  if(_loopId){clearInterval(_loopId);_loopId=null;}
+  if(_token){try{await fetch(`${SB}/auth/v1/logout`,{method:'POST',headers:{'apikey':K,'Authorization':`Bearer ${_token}`}});}catch(_){}}
+  clearSession();
+  P=[];S=[];R=[];QA=[];sel=null;conv=null;
+  ADMIN=false;CT=[];EV=[];ALL={P:[],S:[],R:[]};applyCourtierMode();
+  renderKPIs();renderHotList();renderRelList();renderChart();pV();renderRelTable();renderConvList();updateBadges();
+  ['sb-name','sb-avatar'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
+  document.getElementById('page-greeting').textContent='Bonjour';
+  document.title='Klaris — Dashboard';
+  go('dash');
+  const pw=document.getElementById('nm-pass');if(pw)pw.value='';
+  const er=document.getElementById('nm-login-err');if(er)er.textContent='';
+  showLogin();
+}
 
 async function doLogin(e){
   e.preventDefault();
@@ -826,7 +1098,19 @@ async function refreshSession(){
 function startApp(){load();if(_loopId)clearInterval(_loopId);_loopId=setInterval(load,30000);}
 
 async function initAuth(){
-  try{const s=JSON.parse(sessionStorage.getItem('nm-sess')||'null');if(s&&s.access_token){_token=s.access_token;_refresh=s.refresh_token;}}catch(_){}
+  const ar=readAuthRedirect();
+  if(ar){
+    if(ar.get('error')){
+      showLogin(ar.get('error_code')==='otp_expired'
+        ?'Ce lien a expiré ou a déjà été utilisé. Cliquez « Mot de passe oublié ? » pour en recevoir un nouveau.'
+        :(ar.get('error_description')||'Lien invalide.').replace(/\+/g,' '));
+      return;
+    }
+    setSession({access_token:ar.get('access_token'),refresh_token:ar.get('refresh_token')});
+    const t=ar.get('type');
+    if(t==='recovery'||t==='invite'){showSetPassword();return;}
+  }
+  try{const s=JSON.parse(localStorage.getItem('nm-sess')||'null');if(s&&s.access_token){_token=s.access_token;_refresh=s.refresh_token;}}catch(_){}
   if(_token){
     try{
       const r=await fetch(`${SB}/auth/v1/user`,{headers:{'apikey':K,'Authorization':`Bearer ${_token}`}});
