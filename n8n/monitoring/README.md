@@ -18,4 +18,4 @@ Table `public.monitoring_events` (migration `monitoring_events`) : RLS activé, 
 - **SMS d'alerte :** ils partent du numéro de Klaris. Une réponse à ces SMS entrerait dans l'intake comme un message de prospect, d'où la mention « Ne pas répondre ».
 - **Erreurs silencieuses :** dans l'intake, « Send Lead to owner » est en `continueRegularOutput`. Une erreur Twilio à cet endroit ne passe pas par le gestionnaire d'erreurs. Elle reste visible dans la surveillance seulement si Twilio a accepté puis échoué la livraison.
 - **Notification marquée même en cas d'échec :** dans next_move_notify_courtier, « Marquer Notifié » s'exécute même si le courriel a échoué (`continueOnFail`).
-- **Visibilité de la QA :** l'onglet QA du dashboard est visible par le courtier. `eval_results` est lisible par tout utilisateur authentifié, ce qui devra être revu avant un 2e courtier.
+- **Visibilité de la QA :** depuis le 2026-10-27, l'onglet QA est masqué dans le dashboard et `eval_results` n'est plus lisible par les courtiers (policy `eval_results_select_auth` supprimée). Les notes sont consultables dans le rapport du matin et dans Supabase.
